@@ -3,7 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\AdminProfileController;
+use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Frontend\IndexController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +42,28 @@ Route::post('/admin/profile/store', [AdminProfileController::class, 'AdminProfil
 Route::get('/admin/change/password', [AdminProfileController::class, 'AdminChangePassword'])->name('admin.change.password');
 Route::post('/update/change/password', [AdminProfileController::class, 'AdminUpdateChangePassword'])->name('update.change.password');
 
+// Admin Category All Routes :
+
+Route::prefix('category')->group(function() {
+    Route::get('/view' , [CategoryController::class,'CategoryView'])->name('all.category');
+    Route::get('/add' , [CategoryController::class,'CategoryAdd'])->name('add.category');
+    Route::post('/store' , [CategoryController::class,'CategoryStore'])->name('category.store');
+    Route::get('/edit/{id}' , [CategoryController::class,'CategoryEdit'])->name('edit.category');
+    Route::post('/update' , [CategoryController::class,'CategoryUpdate'])->name('category.update');
+    Route::get('/delete/{id}' , [CategoryController::class,'CategoryDelete'])->name('delete.category');
+});
+
+// Admin SubCategory All Routes :
+
+Route::prefix('subcategory')->group(function() {
+    Route::get('/view' , [SubCategoryController::class,'SubCategoryView'])->name('all.subcategory');
+    Route::get('/add' , [SubCategoryController::class,'SubCategoryAdd'])->name('add.subcategory');
+    Route::post('/store' , [SubCategoryController::class,'SubCategoryStore'])->name('subcategory.store');
+    Route::get('/edit/{id}' , [SubCategoryController::class,'SubCategoryEdit'])->name('edit.subcategory');
+    Route::post('/update' , [SubCategoryController::class,'SubCategoryUpdate'])->name('subcategory.update');
+    Route::get('/delete/{id}' , [SubCategoryController::class,'SubCategoryDelete'])->name('delete.subcategory');
+});
+
 
 
 Route::middleware(['auth:sanctum,web', 'verified'])->get('/dashboard', function () {
@@ -54,3 +79,4 @@ Route::get('/user/profile', [IndexController::class, 'UserProfile'])->name('user
 Route::post('/user/profile/store', [IndexController::class, 'UserProfileStore'])->name('user.profile.store');
 Route::get('/user/change/password', [IndexController::class, 'UserChangePassword'])->name('change.password');
 Route::post('/user/password/update', [IndexController::class, 'UserUpdatePassword'])->name('user.password.update');
+
