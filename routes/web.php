@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\AdminProfileController;
+use App\Http\Controllers\Backend\BookController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\PublisherController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Frontend\IndexController;
 
@@ -62,6 +64,29 @@ Route::prefix('subcategory')->group(function() {
     Route::get('/edit/{id}' , [SubCategoryController::class,'SubCategoryEdit'])->name('edit.subcategory');
     Route::post('/update' , [SubCategoryController::class,'SubCategoryUpdate'])->name('subcategory.update');
     Route::get('/delete/{id}' , [SubCategoryController::class,'SubCategoryDelete'])->name('delete.subcategory');
+});
+
+// Admin Publisher All Routes :
+
+Route::prefix('publisher')->group(function() {
+    Route::get('/view' , [PublisherController::class,'publisherView'])->name('all.publishers');
+    Route::get('/add' , [PublisherController::class,'publisherAdd'])->name('add.publisher');
+    Route::post('/store' , [PublisherController::class,'publisherStore'])->name('publisher.store');
+    Route::get('/edit/{id}' , [PublisherController::class,'publisherEdit'])->name('edit.publisher');
+    Route::post('/update' , [PublisherController::class,'publisherUpdate'])->name('publisher.update');
+    Route::get('/delete/{id}' , [PublisherController::class,'publisherDelete'])->name('delete.publisher');
+});
+
+
+// Admin Books All Routes :
+
+Route::prefix('book')->group(function() {
+    Route::get('/view' , [BookController::class,'bookView'])->name('all.books');
+    Route::get('/add' , [BookController::class,'bookAdd'])->name('add.book');
+    Route::post('/store' , [BookController::class,'bookStore'])->name('book.store');
+    // Route::get('/edit/{id}' , [SubCategoryController::class,'SubCategoryEdit'])->name('edit.subcategory');
+    // Route::post('/update' , [SubCategoryController::class,'SubCategoryUpdate'])->name('subcategory.update');
+    //Route::get('/delete/{id}' , [SubCategoryController::class,'SubCategoryDelete'])->name('delete.subcategory');
 });
 
 

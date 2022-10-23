@@ -24,7 +24,7 @@ class SubCategoryController extends Controller
        public function SubCategoryStore(Request $request){
     
           $request-> validate([
-        'category_id' =>'required',
+          'category_id' =>'required',
           'name_en' => 'required' ,
           'name_fr' => 'required' ,
           
@@ -39,7 +39,7 @@ class SubCategoryController extends Controller
           ]);
     
           $notification = array(
-             'message' => 'Category Inserted Successfully ',
+             'message' => 'SubCategory Inserted Successfully ',
              'alert-type' => 'success'
           );
     
@@ -58,16 +58,16 @@ class SubCategoryController extends Controller
        public function subCategoryUpdate(Request $request){
     
         
-          $category_id = $request->id;
+          $subcategory_id = $request->id;
        
-             Category::findOrFail($category_id)->update([
+             SubCategory::findOrFail($subcategory_id)->update([
                 'name_en' => strtolower((str_replace(' ','-',$request->name_en))),
                 'name_fr' => str_replace(' ','-',$request->name_fr),
                
              ]);
        
              $notification = array(
-                'message' => 'Category Inserted Successfully ',
+                'message' => 'SubCategory Inserted Successfully ',
                 'alert-type' => 'success'
              );
        
@@ -78,16 +78,13 @@ class SubCategoryController extends Controller
     
        public function subCategoryDelete($id) {
     
-          $category = Category::find($id);
-          
-    
-          Category::findOrFail($id)->delete();
+          SubCategory::findOrFail($id)->delete();
     // OU $category->delete();
              $notification = array(
-             'message' => 'Category Deleted Successfully ',
+             'message' => 'SubCategory Deleted Successfully ',
              'alert-type' => 'success'
           );
-          return redirect()-> route('all.subcategory')->with($notification);
+          return redirect()->back()->with($notification);
     
        }
 }

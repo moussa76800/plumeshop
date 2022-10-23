@@ -15,7 +15,7 @@
 
            <div class="box">
               <div class="box-header with-border">
-                <h3 class="box-title">SubCategory List</h3>
+                <h3 class="box-title">Publisher List</h3>
               </div>
               <!-- /.box-header -->
               <div class="box-body">
@@ -24,24 +24,22 @@
                       <thead>
                           <tr>
                               <th>Number</th>
-                              <th>Category</th>
                               <th>name_en</th>
                               <th>name_fr</th>
                               <th>Action</th>
                           </tr>
                       </thead>
                       <tbody>
-                        @foreach ($subCategory as $item)
+                        @foreach ($publishers as $item)
                             
                         
                           <tr>
                               <td>{{$increment}}</td>
-                              <td>{{ $item['category']['name_en'] }}</td>
                               <td>{{ $item->name_en}}</td>
                               <td>{{ $item->name_fr}}</td>
                               <td>
-                                <a href="{{route('edit.subcategory',$item->id) }}" class="btn btn-warning" title="Edit data"><i class="fa fa-pencil" ></i></a>
-                                <a href="{{route('delete.subcategory',$item->id) }}" class="btn btn-danger" title="Delete data" id="delete"><i class="fa fa-trash "></i></a>
+                                <a href="{{route('edit.publisher',$item->id) }}" class="btn btn-warning" title="Edit data"><i class="fa fa-pencil" ></i></a>
+                                <a href="{{route('delete.publisher',$item->id) }}" class="btn btn-danger" title="Delete data" id="delete"><i class="fa fa-trash "></i></a>
                               </td>
                           </tr>
                                 {{Form::hidden('',$increment = $increment + 1)}}
@@ -49,7 +47,7 @@
                         </tbody>
                       </table><br>
                       <div>
-                    <a class="btn btn-success btn-lg btn-block pull-right" href="{{route('add.subcategory') }}"  title="Add data">Add subCategory</a>
+                    <a class="btn btn-success btn-lg btn-block pull-right" href="{{route('add.publisher') }}"  title="Add data">Add Publisher</a>
                       </div>
                     
                     

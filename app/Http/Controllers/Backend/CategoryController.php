@@ -62,9 +62,8 @@ class CategoryController extends Controller
       $category_id = $request->id;
       $old_img = $request->old_image;
 
-      if ($request->file('image')) { 
-         
-         unlink($old_img);
+      if ($request->file('image') ) {
+         //  unlink($old_img);
          $image = $request->file('image');
          $name_image = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
          Image::make($image)->resize(300,300)->save('upload/category/'.$name_image);
@@ -108,17 +107,26 @@ class CategoryController extends Controller
    public function CategoryDelete($id) {
 
       $category = Category::find($id);
-      $img = $category->image;
-      unlink($img);
+            $img = $category->image;
+            unlink($img);
+            
+        
+     if(Category::findOrFail($id)->delete()) {
+      $notification = array(
+         'message' => 'Category Deleted  Successfully ',
+         'alert-type' => 'success'
+      );
+      return redirect()-> route('all.category')->with($notification);
+     } else {        
+      $category->subCategories()->delete();
 
-      Category::findOrFail($id)->delete();
-// OU $category->delete();
          $notification = array(
-         'message' => 'Category Deleted Successfully ',
+         'message' => 'Category Deleted with subCategory Successfully ',
          'alert-type' => 'success'
       );
       return redirect()-> route('all.category')->with($notification);
 
    }
-   }
+}
 
+}

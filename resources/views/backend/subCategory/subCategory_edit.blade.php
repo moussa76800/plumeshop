@@ -14,7 +14,7 @@
                 <form method="post" action="{{route('subcategory.update', $subCategory->id) }}" >
                     @csrf
 
-                    {{-- <input type="hidden" name="id" value="{{ $subCategory->id }}"> --}}
+                    <input type="hidden" name="id" value="{{ $subCategory->id }}">
                     
 
         <div class="form-group">
