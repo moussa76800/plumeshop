@@ -12,7 +12,10 @@ class Author extends Model
 
     protected $fillable=[
         'name_en' ,
-        'name_fr', 
+        'name_fr',
+        'firstname_en' ,
+        'firstname_fr',
+
     ];
 
 

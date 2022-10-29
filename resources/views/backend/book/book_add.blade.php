@@ -165,33 +165,45 @@
             <div class="controls">
                 <select name="subCategory_id" id="select" required="" class="form-control">
                     <option value="" selected="" disabled="">Select the subCategory</option>
-                     @foreach($subCategories as $subCategory)                
+                     @foreach($subCategories as $subCategory)      
                     <option value="{{$subCategory->id }}">{{ $subCategory->name_en }}</option>
-                    @endforeach
+                     @endforeach
                 </select>
                 @error('subCategory_id')
         <span class="text-danger">{{ $message}} </span>
         @enderror
             </div>
-</div>
-         <div class="form-group">
-            <h5>categoryBook_id<span class="text-danger">*</span></h5>
-            <div class="controls">
-                <input type="text" name="categoryBook_id" class="form-control">
-                    @error('categoryBook_id')
-                    <span class="text-danger">{{ $message}} </span>
-                    @enderror
-            </div>
         </div>
         <div class="form-group">
-            <h5>publisher_id <span class="text-danger">*</span></h5>
+            <h5>Category Select <span class="text-danger">*</span></h5>
             <div class="controls">
-                <input type="text" name="publisher_id" class="form-control">
-                    @error('publisher_id')
-                    <span class="text-danger">{{ $message}} </span>
-                    @enderror
+                <select name="category_id" id="select" required="" class="form-control">
+                    <option value="" selected="" disabled="">Select the Category</option>
+                    @foreach($categories as $category)                
+                    <option value="{{$category->id }}">{{ $category->name_en }}</option>
+                    @endforeach
+                </select>
+                @error('category_id')
+        <span class="text-danger">{{ $message}} </span>
+        @enderror
             </div>
         </div>
+         
+        <div class="form-group">
+            <h5>Publisher Select <span class="text-danger">*</span></h5>
+            <div class="controls">
+                <select name="publisher_id" id="select" required="" class="form-control">
+                    <option value="" selected="" disabled="">Select the Publisher</option>
+                    @foreach($publishers as $publisher)                
+                    <option value="{{$publisher->id }}">{{ $publisher->name_en }}</option>
+                    @endforeach
+                </select>
+                @error('publisher_id')
+        <span class="text-danger">{{ $message}} </span>
+        @enderror
+            </div>
+        </div>
+      
         <div class="form-group">
             <h5> Book Image <span class="text-danger">*</span></h5>
             <div class="controls">

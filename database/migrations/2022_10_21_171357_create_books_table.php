@@ -35,7 +35,13 @@ class CreateBooksTable extends Migration
             $table->integer('status')->default(0);
             $table->integer('subCategory_id'); 
             $table->integer('categoryBook_id'); 
-            $table->integer('publisher_id');
+             $table->integer('publisher_id');
+
+            // $table->foreignId('publisher_id')->constrained()
+            // ->references('id')
+            // ->on('publishers')
+            // ->onDelete('cascade');
+            
 
             // $table->integer('subCategory_id')->unsigned();
             // $table->foreign('subCategory_id')->references('id')->on('sub_categories')->onDelete('cascade');

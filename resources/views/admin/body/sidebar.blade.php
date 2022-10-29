@@ -82,9 +82,35 @@
     <ul class="treeview-menu">
       {{-- <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>All Category</a></li> --}}
       <li class="{{($route == 'all.publishers') ? 'active' :'' }}"><a href="{{ route('all.publishers') }}"><i class="ti-more"></i>All Publishers</a></li>
-     
-    </ul>
+         </ul>
   </li> 
+  <li class="treeview {{ ($prefix=='/author') ? 'active' : '' }}">
+    <a href="#">
+    <i data-feather="message-circle"></i>
+    <span>Author</span>
+    <span class="pull-right-container">
+      <i class="fa fa-angle-right pull-right"></i>
+    </span>
+  </a>
+  <ul class="treeview-menu">
+    {{-- <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>All Category</a></li> --}}
+    <li class="{{($route == 'all.authors') ? 'active' :'' }}"><a href="{{ route('all.authors') }}"><i class="ti-more"></i>All Authors  </a></li>
+     </ul>
+</li> 
+<li class="treeview {{ ($prefix=='/bookAuthor') ? 'active' : '' }}">
+  <a href="#">
+  <i data-feather="message-circle"></i>
+  <span>Pivot Book/Author</span>
+  <span class="pull-right-container">
+    <i class="fa fa-angle-right pull-right"></i>
+  </span>
+</a>
+<ul class="treeview-menu">
+  {{-- <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>All Category</a></li> --}}
+  <li class="{{($route == 'all.bookAuthors') ? 'active' :'' }}"><a href="{{ route('all.booksAuthors') }}"><i class="ti-more"></i>Pivot Book/Author</a></li>
+     </ul>
+</li> 
+  
     
 		  
         <li class="treeview">

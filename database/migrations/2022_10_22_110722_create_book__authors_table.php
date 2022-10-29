@@ -14,10 +14,11 @@ class CreateBookAuthorsTable extends Migration
     public function up()
     {
         Schema::create('book__authors', function (Blueprint $table) {
+           
             $table->id();
-            $table->foreignId('book_id')->constrained('books');
-            $table->foreignId('author_id')->constrained('authors');
-            $table->timestamps();
+            $table->foreignId('book_id')->reference('id')->constrained('books')->onDelete('cascade');
+            $table->foreignId('author_id')->reference('id')->constrained('authors')->onDelete('cascade');
+            
         });
     }
 

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\AdminProfileController;
+use App\Http\Controllers\Backend\AuthorController;
+use App\Http\Controllers\Backend\BookAuthorController;
 use App\Http\Controllers\Backend\BookController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\PublisherController;
@@ -84,9 +86,31 @@ Route::prefix('book')->group(function() {
     Route::get('/view' , [BookController::class,'bookView'])->name('all.books');
     Route::get('/add' , [BookController::class,'bookAdd'])->name('add.book');
     Route::post('/store' , [BookController::class,'bookStore'])->name('book.store');
-    // Route::get('/edit/{id}' , [SubCategoryController::class,'SubCategoryEdit'])->name('edit.subcategory');
-    // Route::post('/update' , [SubCategoryController::class,'SubCategoryUpdate'])->name('subcategory.update');
-    //Route::get('/delete/{id}' , [SubCategoryController::class,'SubCategoryDelete'])->name('delete.subcategory');
+    Route::get('/edit/{id}' , [BookController::class,'bookEdit'])->name('edit.book');
+    Route::post('/update' , [BookController::class,'bookUpdate'])->name('book.update');
+    Route::get('/delete/{id}' , [BookController::class,'bookDelete'])->name('delete.book');
+});
+
+// Admin Author All Routes :
+
+Route::prefix('author')->group(function() {
+    Route::get('/view' , [AuthorController::class,'authorView'])->name('all.authors');
+    Route::get('/add' , [AuthorController::class,'authorAdd'])->name('add.author');
+    Route::post('/store' , [AuthorController::class,'authorStore'])->name('author.store');
+    Route::get('/edit/{id}' , [AuthorController::class,'authorEdit'])->name('edit.author');
+    Route::post('/update' , [AuthorController::class,'authorUpdate'])->name('author.update');
+    Route::get('/delete/{id}' , [AuthorController::class,'authorDelete'])->name('delete.author');
+});
+
+// Admin Book_Author All Routes :
+
+Route::prefix('bookAuthor')->group(function() {
+    Route::get('/view' , [BookAuthorController::class,'bookAuthorView'])->name('all.booksAuthors');
+    Route::get('/add' , [BookAuthorController::class,'bookAuthorAdd'])->name('add.bookAuthor');
+    Route::post('/store' , [BookAuthorController::class,'bookAuthorStore'])->name('bookAuthor.store');
+    Route::get('/edit/{id}' , [BookAuthorController::class,'bookAuthorEdit'])->name('edit.bookAuthor');
+    Route::post('/update' , [BookAuthorController::class,'bookAuthorUpdate'])->name('bookAuthor.update');
+    Route::get('/delete/{id}' , [BookAuthorController::class,'bookAuthorDelete'])->name('delete.bookAuthor');
 });
 
 

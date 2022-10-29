@@ -42,8 +42,8 @@
                               <th>long Descp Fr</th>
                               <th>Status</th>
                               <th>SubCategory</th>
-                              <th>Publisher</th>
                               <th>Category</th>
+                              <th>Publisher</th>
                               <th>Action</th>
                           </tr>
                       </thead>
@@ -60,6 +60,7 @@
                               <td>{{ $item->prix}}</td>
                               <td>{{ $item->langue}}</td>
                               <td>{{ $item->datePublication}}</td>
+                              <td>{{ $item->product_qty}}</td>
                               <td>{{ $item->product_code}}</td>
                               <td>{{ $item->discount_price}}</td>
                               <td>{{ $item->short_descp_en}}</td>
@@ -68,14 +69,14 @@
                               <td>{{ $item->special_offer}}</td>
                               <td>{{ $item->long_descp_en}}</td>
                               <td>{{ $item->long_descp_fr}}</td>
-                              <td>{{ $item->Status}}</td>
+                              <td>{{ $item->status}}</td>
                               <td>{{ $item->subCategory_id}}</td>
+                              <td>{{ $item->categoryBook_id}}</td>
                               <td>{{ $item->publisher_id}}</td>
-                              <td>{{ $item->category_id}}</td>
 
                               <td>
-                                <a href="" class="btn btn-warning" title="Edit data"><i class="fa fa-pencil" ></i></a>
-                                <a href="" class="btn btn-danger" title="Delete data" id="delete"><i class="fa fa-trash "></i></a>
+                                <a href="{{route('edit.book',$item->id) }}" class="btn btn-warning" title="Edit data"><i class="fa fa-pencil" ></i></a>
+                                <a href="{{route('delete.book',$item->id) }}" class="btn btn-danger" title="Delete data" id="delete"><i class="fa fa-trash "></i></a>
                                 {{-- <a href="{{route('edit.book',$item->id) }}" class="btn btn-warning" title="Edit data"><i class="fa fa-pencil" ></i></a>
                                 <a href="{{route('delete.book',$item->id) }}" class="btn btn-danger" title="Delete data" id="delete"><i class="fa fa-trash "></i></a> --}}
                               </td>

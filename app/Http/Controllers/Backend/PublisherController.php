@@ -43,7 +43,7 @@ class PublisherController extends Controller
     
        }
     
-       public function CategoryEdit($id){
+       public function publisherEdit($id){
     
         $publisher = Publisher::find($id);
         return  view('backend.publisher.publisher_edit',compact('publisher'));
@@ -78,21 +78,17 @@ class PublisherController extends Controller
                 
                 
             
-         if(Publisher::findOrFail($id)->delete()) {
+         if(Publisher::findOrFail($id)->delete());
+          
+         $publisher->books()->delete(); 
+
           $notification = array(
-             'message' => 'Category Deleted  Successfully ',
+             'message' => 'Publisher Deleted  Successfully ',
              'alert-type' => 'success'
           );
           return redirect()-> route('all.publishers')->with($notification);
-         } else {        
-          $publisher->books()->delete();
-    
-             $notification = array(
-             'message' => 'Category Deleted with books Successfully ',
-             'alert-type' => 'success'
-          );
-          return redirect()-> route('all.publishers')->with($notification);
+         
     
        }
     }
-}
+
