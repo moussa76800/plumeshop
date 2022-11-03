@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Intervention\Image\Facades\Image;
+use PhpParser\Builder\Function_;
+use PhpParser\Node\Expr\FuncCall;
 
 class SubCategoryController extends Controller
 {
@@ -15,6 +17,13 @@ class SubCategoryController extends Controller
         $subCategory = SubCategory::latest()->get();
         return view('backend.subCategory.subCategory_view' , compact('subCategory'));
        }
+
+       public function GetSubCategory($category_id){
+         $subcat = SubCategory::where('category_id', $category_id)->orderBy('name_en','ASC')->get();
+         return json_encode($subcat);
+       }
+                # code...
+       
     
        public function SubCategoryAdd() {
         $categories = Category::orderBy('name_en','ASC')->get();

@@ -352,7 +352,7 @@
           <!-- ================================== TOP NAVIGATION : END ================================== --> 
           
           <!-- ============================================== HOT DEALS ============================================== -->
-          <div class="sidebar-widget hot-deals wow fadeInUp outer-bottom-xs">
+           {{-- <div class="sidebar-widget hot-deals wow fadeInUp outer-bottom-xs">
             <h3 class="section-title">hot deals</h3>
             <div class="owl-carousel sidebar-carousel custom-carousel owl-theme outer-top-ss">
               <div class="item">
@@ -489,7 +489,7 @@
               </div>
             </div>
             <!-- /.sidebar-widget --> 
-          </div>
+          </div> --}}
           <!-- ============================================== HOT DEALS: END ============================================== --> 
           
           <!-- ============================================== SPECIAL OFFER ============================================== -->
@@ -507,7 +507,7 @@
                             <div class="product-image">
                               <div class="image"> <a href="#"> <img src="{{ asset('frontend/assets/images/products/p30.jpg') }}" alt=""> </a> </div>
                               <!-- /.image --> 
-                              {{ asset('') }}
+                        
                             </div>
                             <!-- /.product-image --> 
                           </div>
@@ -768,19 +768,19 @@
           <!-- /.sidebar-widget --> 
           <!-- ============================================== SPECIAL OFFER : END ============================================== --> 
           <!-- ============================================== PRODUCT TAGS ============================================== -->
-          <div class="sidebar-widget product-tag wow fadeInUp">
+          {{-- <div class="sidebar-widget product-tag wow fadeInUp">
             <h3 class="section-title">Product tags</h3>
             <div class="sidebar-widget-body outer-top-xs">
               <div class="tag-list"> <a class="item" title="Phone" href="category.html">Phone</a> <a class="item active" title="Vest" href="category.html">Vest</a> <a class="item" title="Smartphone" href="category.html">Smartphone</a> <a class="item" title="Furniture" href="category.html">Furniture</a> <a class="item" title="T-shirt" href="category.html">T-shirt</a> <a class="item" title="Sweatpants" href="category.html">Sweatpants</a> <a class="item" title="Sneaker" href="category.html">Sneaker</a> <a class="item" title="Toys" href="category.html">Toys</a> <a class="item" title="Rose" href="category.html">Rose</a> </div>
               <!-- /.tag-list --> 
             </div>
             <!-- /.sidebar-widget-body --> 
-          </div>
+          </div> --}}
           <!-- /.sidebar-widget --> 
           <!-- ============================================== PRODUCT TAGS : END ============================================== --> 
           <!-- ============================================== SPECIAL DEALS ============================================== -->
           
-          <div class="sidebar-widget outer-bottom-small wow fadeInUp">
+          {{-- <div class="sidebar-widget outer-bottom-small wow fadeInUp">
             <h3 class="section-title">Special Deals</h3>
             <div class="sidebar-widget-body outer-top-xs">
               <div class="owl-carousel sidebar-carousel special-offer custom-carousel owl-theme outer-top-xs">
@@ -1054,7 +1054,7 @@
               </div>
             </div>
             <!-- /.sidebar-widget-body --> 
-          </div>
+          </div> --}}
           <!-- /.sidebar-widget --> 
           <!-- ============================================== SPECIAL DEALS : END ============================================== --> 
           <!-- ============================================== NEWSLETTER ============================================== -->
@@ -1076,7 +1076,7 @@
           <!-- ============================================== NEWSLETTER: END ============================================== --> 
           
           <!-- ============================================== Testimonials============================================== -->
-          <div class="sidebar-widget  wow fadeInUp outer-top-vs ">
+          {{-- <div class="sidebar-widget  wow fadeInUp outer-top-vs ">
             <div id="advertisement" class="advertisement">
               <div class="item">
                 <div class="avatar"><img src="{{ asset('frontend/assets/images/testimonials/member1.png') }}" alt="Image"></div>
@@ -1103,12 +1103,12 @@
               
             </div>
             <!-- /.owl-carousel --> 
-          </div>
+          </div> --}} 
           
           <!-- ============================================== Testimonials: END ============================================== -->
           
-          <div class="home-banner"> <img src="{{ asset('frontend/assets/images/banners/LHS-banner.jpg') }}" alt="Image"> </div>
-        </div>
+          {{-- <div class="home-banner"> <img src="{{ asset('frontend/assets/images/banners/LHS-banner.jpg') }}" alt="Image"> </div>--}}
+        </div> 
         <!-- /.sidemenu-holder --> 
         <!-- ============================================== SIDEBAR : END ============================================== --> 
         
@@ -1153,7 +1153,7 @@
           <!-- ========================================= SECTION – HERO : END ========================================= --> 
           
           <!-- ============================================== INFO BOXES ============================================== -->
-          <div class="info-boxes wow fadeInUp">
+          {{-- <div class="info-boxes wow fadeInUp">
             <div class="info-boxes-inner">
               <div class="row">
                 <div class="col-md-6 col-sm-4 col-lg-4">
@@ -1193,10 +1193,9 @@
                 <!-- .col --> 
               </div>
               <!-- /.row --> 
-            </div>
-            <!-- /.info-boxes-inner --> 
-            
-          </div>
+            </div> --}}
+            <!-- /.info-boxes-inner -->           
+          {{-- </div> --}}
           <!-- /.info-boxes --> 
           <!-- ============================================== INFO BOXES : END ============================================== --> 
           <!-- ============================================== SCROLL TABS ============================================== -->
@@ -2262,7 +2261,7 @@
           <!-- /.scroll-tabs --> 
           <!-- ============================================== SCROLL TABS : END ============================================== --> 
           <!-- ============================================== WIDE PRODUCTS ============================================== -->
-          <div class="wide-banners wow fadeInUp outer-bottom-xs">
+          {{-- <div class="wide-banners wow fadeInUp outer-bottom-xs">
             <div class="row">
               <div class="col-md-7 col-sm-7">
                 <div class="wide-banner cnt-strip">
@@ -2280,12 +2279,12 @@
               <!-- /.col --> 
             </div>
             <!-- /.row --> 
-          </div>
+          </div> --}}
           <!-- /.wide-banners --> 
           
           <!-- ============================================== WIDE PRODUCTS : END ============================================== --> 
           <!-- ============================================== FEATURED PRODUCTS ============================================== -->
-          <section class="section featured-product wow fadeInUp">
+          {{-- <section class="section featured-product wow fadeInUp">
             <h3 class="section-title">Featured products</h3>
             <div class="owl-carousel home-owl-carousel custom-carousel owl-theme outer-top-xs">
               <div class="item item-carousel">
@@ -2541,11 +2540,11 @@
               <!-- /.item --> 
             </div>
             <!-- /.home-owl-carousel --> 
-          </section>
+          </section> --}}
           <!-- /.section --> 
           <!-- ============================================== FEATURED PRODUCTS : END ============================================== --> 
           <!-- ============================================== WIDE PRODUCTS ============================================== -->
-          <div class="wide-banners wow fadeInUp outer-bottom-xs">
+          {{-- <div class="wide-banners wow fadeInUp outer-bottom-xs">
             <div class="row">
               <div class="col-md-12">
                 <div class="wide-banner cnt-strip">
@@ -2567,12 +2566,12 @@
               
             </div>
             <!-- /.row --> 
-          </div>
+          </div> --}}
           <!-- /.wide-banners --> 
           <!-- ============================================== WIDE PRODUCTS : END ============================================== --> 
           <!-- ============================================== BEST SELLER ============================================== -->
           
-          <div class="best-deal wow fadeInUp outer-bottom-xs">
+          {{-- <div class="best-deal wow fadeInUp outer-bottom-xs">
             <h3 class="section-title">Best seller</h3>
             <div class="sidebar-widget-body outer-top-xs">
               <div class="owl-carousel best-seller custom-carousel owl-theme outer-top-xs">
@@ -2819,7 +2818,7 @@
               </div>
             </div>
             <!-- /.sidebar-widget-body --> 
-          </div>
+          </div> --}}
           <!-- /.sidebar-widget --> 
           <!-- ============================================== BEST SELLER : END ============================================== --> 
           
@@ -2934,7 +2933,7 @@
           <!-- ============================================== BLOG SLIDER : END ============================================== --> 
           
           <!-- ============================================== FEATURED PRODUCTS ============================================== -->
-          <section class="section wow fadeInUp new-arriavls">
+          {{-- <section class="section wow fadeInUp new-arriavls">
             <h3 class="section-title">New Arrivals</h3>
             <div class="owl-carousel home-owl-carousel custom-carousel owl-theme outer-top-xs">
               <div class="item item-carousel">
@@ -3190,7 +3189,7 @@
               <!-- /.item --> 
             </div>
             <!-- /.home-owl-carousel --> 
-          </section>
+          </section> --}}
           <!-- /.section --> 
           <!-- ============================================== FEATURED PRODUCTS : END ============================================== --> 
           

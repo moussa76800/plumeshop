@@ -30,13 +30,13 @@
                           </tr>
                       </thead>
                       <tbody>
-                        @foreach ( $booksAthors as $item)
+                        @foreach ( $booksAuthors as $item)
                             
                         
                           <tr>
                               <td>{{$increment}}</td>
-                              <td>{{ $item['book']['book_id'] }}</td>
-                              <td>{{$item['author']['author_id']}}</td>
+                              <td> {{$item->book_id}}</td>
+                              <td>{{$item->author_id}}</td>
                             <td>
                                 <a href="{{route('edit.bookAuthor',$item->id) }}" class="btn btn-warning" title="Edit data"><i class="fa fa-pencil" ></i></a>
                                 <a href="{{route('delete.bookAuthor',$item->id) }}" class="btn btn-danger" title="Delete data" id="delete"><i class="fa fa-trash "></i></a>

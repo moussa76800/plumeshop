@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\BookAuthorController;
 use App\Http\Controllers\Backend\BookController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\PublisherController;
+use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Frontend\IndexController;
 
@@ -61,11 +62,13 @@ Route::prefix('category')->group(function() {
 
 Route::prefix('subcategory')->group(function() {
     Route::get('/view' , [SubCategoryController::class,'SubCategoryView'])->name('all.subcategory');
+    Route::get('/ajax/{category_id}' , [SubCategoryController::class,'GetSubCategory']);
     Route::get('/add' , [SubCategoryController::class,'SubCategoryAdd'])->name('add.subcategory');
     Route::post('/store' , [SubCategoryController::class,'SubCategoryStore'])->name('subcategory.store');
     Route::get('/edit/{id}' , [SubCategoryController::class,'SubCategoryEdit'])->name('edit.subcategory');
     Route::post('/update' , [SubCategoryController::class,'SubCategoryUpdate'])->name('subcategory.update');
     Route::get('/delete/{id}' , [SubCategoryController::class,'SubCategoryDelete'])->name('delete.subcategory');
+
 });
 
 // Admin Publisher All Routes :
@@ -83,12 +86,19 @@ Route::prefix('publisher')->group(function() {
 // Admin Books All Routes :
 
 Route::prefix('book')->group(function() {
+   
     Route::get('/view' , [BookController::class,'bookView'])->name('all.books');
     Route::get('/add' , [BookController::class,'bookAdd'])->name('add.book');
     Route::post('/store' , [BookController::class,'bookStore'])->name('book.store');
     Route::get('/edit/{id}' , [BookController::class,'bookEdit'])->name('edit.book');
     Route::post('/update' , [BookController::class,'bookUpdate'])->name('book.update');
+    Route::get('/ajax/{book_id}' , [BookController::class,'GetBook']);
     Route::get('/delete/{id}' , [BookController::class,'bookDelete'])->name('delete.book');
+    Route::get('/multiImg/delete/{id}' , [BookController::class,'bookDeleteMulti'])->name('book.multiImg.delete');
+    Route::post('/image/update' , [BookController::class,'MultiImageUpdate'])->name('update-bookMultiImage');
+    Route::post('/thambnail/update' , [BookController::class,'thambnailUpdate'])->name('update-bookThambnail');
+    Route::get('/inactive/{id}' , [BookController::class,'inactiveBook'])->name('bookInactiveNow');
+    Route::get('/active/{id}' , [BookController::class,'activeBook'])->name('bookActiveNow');
 });
 
 // Admin Author All Routes :
@@ -105,13 +115,27 @@ Route::prefix('author')->group(function() {
 // Admin Book_Author All Routes :
 
 Route::prefix('bookAuthor')->group(function() {
-    Route::get('/view' , [BookAuthorController::class,'bookAuthorView'])->name('all.booksAuthors');
+    Route::get('/view' , [BookAuthorController::class,'bookAuthorView'])->name('all.bookAuthor');
     Route::get('/add' , [BookAuthorController::class,'bookAuthorAdd'])->name('add.bookAuthor');
     Route::post('/store' , [BookAuthorController::class,'bookAuthorStore'])->name('bookAuthor.store');
     Route::get('/edit/{id}' , [BookAuthorController::class,'bookAuthorEdit'])->name('edit.bookAuthor');
     Route::post('/update' , [BookAuthorController::class,'bookAuthorUpdate'])->name('bookAuthor.update');
     Route::get('/delete/{id}' , [BookAuthorController::class,'bookAuthorDelete'])->name('delete.bookAuthor');
 });
+
+// Admin Slider All Routes :
+
+Route::prefix('slider')->group(function() {
+    Route::get('/view' , [SliderController::class,'sliderView'])->name('all.sliders');
+    Route::get('/add' , [SliderController::class,'sliderAdd'])->name('add.slider');
+    Route::post('/store' , [SliderController::class,'sliderStore'])->name('slider.store');
+    Route::get('/edit/{id}' , [SliderController::class,'sliderEdit'])->name('edit.slider');
+    Route::post('/update' , [SliderController::class,'sliderUpdate'])->name('slider.update');
+    Route::get('/delete/{id}' , [SliderController::class,'sliderDelete'])->name('delete.slider');
+    Route::get('/inactive/{id}' , [SliderController::class,'inactiveSlider'])->name('sliderInactiveNow');
+    Route::get('/active/{id}' , [SliderController::class,'activeSlider'])->name('sliderActiveNow');
+});
+
 
 
 

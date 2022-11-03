@@ -15,7 +15,38 @@
                     @csrf
 
 
-        <div class="form-group">
+                    <div class="form-group">
+                        <h5> Select Book <span class="text-danger">*</span></h5>
+                        <div class="controls">
+                            <select name="book_id" id="select" required="" class="form-control">
+                                <option value="" selected="" disabled="">Select the Book</option>
+                                 @foreach($books as $book)                
+                                <option value="{{$book->id }}">{{ $book->name_en }}</option>
+                                @endforeach
+                            </select>
+                            @error('book_id')
+                    <span class="text-danger">{{ $message}} </span>
+                    @enderror
+                        </div>
+                   </div>
+
+                   
+                   <div class="form-group">
+                    <h5> Select Author <span class="text-danger">*</span></h5>
+                    <div class="controls">
+                        <select name="author_id" id="select" required="" class="form-control">
+                            <option value="" selected="" disabled="">Select the Author</option>
+                             @foreach($authors as $author)                
+                            <option value="{{$author->id }}">{{ $author->name_en }}</option>
+                            @endforeach
+                        </select>
+                        @error('author_id')
+                <span class="text-danger">{{ $message}} </span>
+                @enderror
+                    </div>
+               </div>
+
+        {{-- <div class="form-group">
             <h5> Book Id<span class="text-danger">*</span></h5>
             <div class="controls">
                 <input type="text" name="book_id" class="form-control">
@@ -32,7 +63,7 @@
                     <span class="text-danger">{{ $message}} </span>
                     @enderror
             </div>
-        </div>
+        </div> --}}
         
         <div class="text-xs-right">
             <input type="submit" class="btn btn-rounded btn-primary mb-5" value="Insert Data Book/Author">

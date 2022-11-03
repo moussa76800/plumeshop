@@ -24,7 +24,7 @@ class Book extends Model
      }
 
      public Function Authors() {
-      return $this->belongsToMany(Author::class,'book_authors')->using(Book_Author::class);
+      return $this->belongsToMany(Author::class,'book_authors','id')->using(Book_Author::class);
    }
 
 
