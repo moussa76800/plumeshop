@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+
 use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Backend\AuthorController;
 use App\Http\Controllers\Backend\BookAuthorController;
@@ -10,8 +11,9 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\PublisherController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
-use App\Http\Controllers\Frontend\IndexController;
 
+use App\Http\Controllers\Frontend\IndexController;
+use App\Http\Controllers\Frontend\LanguageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +27,7 @@ use App\Http\Controllers\Frontend\IndexController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('frontend.index');
 });
 
 Route::group(['prefix'=> 'admin', 'middleware'=>['admin:admin']], function(){
@@ -33,22 +35,25 @@ Route::group(['prefix'=> 'admin', 'middleware'=>['admin:admin']], function(){
 	Route::post('/login',[AdminController::class, 'store'])->name('admin.login');
 });
 
+Route::middleware(['auth:admin'])->group(function(){
+
 Route::middleware(['auth:sanctum,admin', 'verified'])->get('/admin/dashboard', function () {
     return view('admin.index');
-})->name('dashboard');
+})->name('dashboard')->middleware('auth:admin');
 
+
+///////////////////////////////////////////////////////////////////////////////  BACK_END  ////////////////////////////////////////////////////////////////////////////////////////
 
 // Admin All Routes :
-
 Route::get('/admin/logout', [AdminController::class, 'destroy'])->name('admin.logout');
 Route::get('/admin/profile', [AdminProfileController::class, 'AdminProfile'])->name('admin.profile');
 Route::get('/admin/profile/edit', [AdminProfileController::class, 'AdminProfileEdit'])->name('admin.profile.edit');
 Route::post('/admin/profile/store', [AdminProfileController::class, 'AdminProfileStore'])->name('admin.profile.store');
 Route::get('/admin/change/password', [AdminProfileController::class, 'AdminChangePassword'])->name('admin.change.password');
 Route::post('/update/change/password', [AdminProfileController::class, 'AdminUpdateChangePassword'])->name('update.change.password');
+});
 
 // Admin Category All Routes :
-
 Route::prefix('category')->group(function() {
     Route::get('/view' , [CategoryController::class,'CategoryView'])->name('all.category');
     Route::get('/add' , [CategoryController::class,'CategoryAdd'])->name('add.category');
@@ -59,7 +64,6 @@ Route::prefix('category')->group(function() {
 });
 
 // Admin SubCategory All Routes :
-
 Route::prefix('subcategory')->group(function() {
     Route::get('/view' , [SubCategoryController::class,'SubCategoryView'])->name('all.subcategory');
     Route::get('/ajax/{category_id}' , [SubCategoryController::class,'GetSubCategory']);
@@ -72,7 +76,6 @@ Route::prefix('subcategory')->group(function() {
 });
 
 // Admin Publisher All Routes :
-
 Route::prefix('publisher')->group(function() {
     Route::get('/view' , [PublisherController::class,'publisherView'])->name('all.publishers');
     Route::get('/add' , [PublisherController::class,'publisherAdd'])->name('add.publisher');
@@ -82,11 +85,8 @@ Route::prefix('publisher')->group(function() {
     Route::get('/delete/{id}' , [PublisherController::class,'publisherDelete'])->name('delete.publisher');
 });
 
-
 // Admin Books All Routes :
-
 Route::prefix('book')->group(function() {
-   
     Route::get('/view' , [BookController::class,'bookView'])->name('all.books');
     Route::get('/add' , [BookController::class,'bookAdd'])->name('add.book');
     Route::post('/store' , [BookController::class,'bookStore'])->name('book.store');
@@ -102,7 +102,6 @@ Route::prefix('book')->group(function() {
 });
 
 // Admin Author All Routes :
-
 Route::prefix('author')->group(function() {
     Route::get('/view' , [AuthorController::class,'authorView'])->name('all.authors');
     Route::get('/add' , [AuthorController::class,'authorAdd'])->name('add.author');
@@ -113,7 +112,6 @@ Route::prefix('author')->group(function() {
 });
 
 // Admin Book_Author All Routes :
-
 Route::prefix('bookAuthor')->group(function() {
     Route::get('/view' , [BookAuthorController::class,'bookAuthorView'])->name('all.bookAuthor');
     Route::get('/add' , [BookAuthorController::class,'bookAuthorAdd'])->name('add.bookAuthor');
@@ -124,7 +122,6 @@ Route::prefix('bookAuthor')->group(function() {
 });
 
 // Admin Slider All Routes :
-
 Route::prefix('slider')->group(function() {
     Route::get('/view' , [SliderController::class,'sliderView'])->name('all.sliders');
     Route::get('/add' , [SliderController::class,'sliderAdd'])->name('add.slider');
@@ -143,9 +140,9 @@ Route::middleware(['auth:sanctum,web', 'verified'])->get('/dashboard', function 
     return view('dashboard');
 })->name('dashboard');
 
+////////////////////////////////////////////////////////////////////////////////  FRONT_END  //////////////////////////////////////////////////////////////////////////////////////////
 
-//User All Routes :
-
+// User All Routes :
 Route::get('/', [IndexController::class, 'index']);
 Route::get('/user/logout', [IndexController::class, 'UserLogout'])->name('user.logout');
 Route::get('/user/profile', [IndexController::class, 'UserProfile'])->name('user.profile');
@@ -153,3 +150,9 @@ Route::post('/user/profile/store', [IndexController::class, 'UserProfileStore'])
 Route::get('/user/change/password', [IndexController::class, 'UserChangePassword'])->name('change.password');
 Route::post('/user/password/update', [IndexController::class, 'UserUpdatePassword'])->name('user.password.update');
 
+// Multi Language All Routes :
+Route::get('/language/english' , [LanguageController::class,'languageEnglish'])->name('english');
+Route::get('/language/french' , [LanguageController::class,'languageFrench'])->name('french');
+
+// Book Détail All Routes :
+Route::get('/book/detail/{id}/{slug}' , [IndexController::class,'bookDetail']);

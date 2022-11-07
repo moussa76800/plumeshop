@@ -123,7 +123,7 @@
                         <div class="form-group">
                             <h5>discount_price <span class="text-danger">*</span></h5>
                             <div class="controls">
-                                <input type="text" name="discount_price" class="form-control"required='' value="{{$book->discount_price}}">
+                                <input type="text" name="discount_price" class="form-control" value="{{$book->discount_price}}">
                                     @error('discount_price')
                                     <span class="text-danger">{{ $message}} </span>
                                     @enderror
