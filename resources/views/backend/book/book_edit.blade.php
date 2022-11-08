@@ -158,7 +158,7 @@
                              </div>
                         </div>
                  </div> <!--end col md 4 -->
-                            <div class="col-md-4">  
+                            {{-- <div class="col-md-4">  
                                 <div class="form-group">
                                     <h5>status <span class="text-danger">*</span></h5>
                                     <div class="controls">
@@ -168,7 +168,7 @@
                                             @enderror
                                     </div>
                                 </div>
-                            </div> <!--end col md 4 -->                        
+                            </div> <!--end col md 4 -->                         --}}
     </div><!--end row -->
 
     <div class="row">                 
@@ -264,14 +264,12 @@
                 
                     <div class="controls">
                         <fieldset>
-                            <input type="checkbox" id="checkbox_2"name="special_offer"  value="1"
-                            {{ $book->special_offer == 1 ? 'checked' : ''}}>
-                            <label for="checkbox_2">Special Offer</label>
+                            <input type="checkbox" id="checkbox_2"  name = "featured"  value="1" {{ $book->featured == 1 ? 'checked' : '' }}>
+                            <label for="checkbox_2">Featured</label>
                         </fieldset>
                         <fieldset>
-                            <input type="checkbox" id="checkbox_3" name="featured"  value="1"
-                            {{ $book->featured == 1 ? 'checked' : ''}}>
-                            <label for="checkbox_3">Featured</label>
+                            <input type="checkbox" id="checkbox_3" name= "special_offer" value="1" {{ $book->special_offer == 1 ? 'checked' : '' }}>
+                            <label for="checkbox_3">Special Offer</label>
                         </fieldset>
                        
                     </div>
@@ -420,5 +418,48 @@
        });
     });
    </script>
+
+<script type="text/javascript">
+	function mainThamUrl(input){
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function(e){
+				$('#mainThmb').attr('src',e.target.result).width(80).height(80);
+			};
+			reader.readAsDataURL(input.files[0]);
+		}
+	}	
+</script>
+
+
+<script>
+ 
+  $(document).ready(function(){
+   $('#multiImg').on('change', function(){ //on file input change
+      if (window.File && window.FileReader && window.FileList && window.Blob) //check File API supported browser
+      {
+          var data = $(this)[0].files; //this file data
+           
+          $.each(data, function(index, file){ //loop though each file
+              if(/(\.|\/)(gif|jpe?g|png)$/i.test(file.type)){ //check supported file type
+                  var fRead = new FileReader(); //new filereader
+                  fRead.onload = (function(file){ //trigger function on successful read
+                  return function(e) {
+                      var img = $('<img/>').addClass('thumb').attr('src', e.target.result) .width(80)
+                  .height(80); //create image element 
+                      $('#preview_img').append(img); //append image to output element
+                  };
+                  })(file);
+                  fRead.readAsDataURL(file); //URL representing the file's data.
+              }
+          });
+           
+      }else{
+          alert("Your browser doesn't support File API!"); //if File API is absent
+      }
+   });
+  });
+   
+  </script>
 
 @endsection

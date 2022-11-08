@@ -175,7 +175,7 @@
                                 </div> <!--end col md 4 -->
         
                                 </div> <!--end col md 4 -->
-                                <div class="col-md-4">  
+                                {{-- <div class="col-md-4">  
                                     <div class="form-group">
                                         <h5>status <span class="text-danger">*</span></h5>
                                         <div class="controls">
@@ -187,7 +187,7 @@
                                     </div>
                                 </div> <!--end col md 4 -->
             </div>
-            
+             --}}
             <div class="row">
                 <div class="col-md-6">
                 <div class="form-group">
@@ -277,11 +277,11 @@
                     
                         <div class="controls">
                             <fieldset>
-                                <input type="checkbox" id="checkbox_2" required value="x">
+                                <input type="checkbox" id="checkbox_2"  name = "featured"  value="1">
                                 <label for="checkbox_2">Featured</label>
                             </fieldset>
                             <fieldset>
-                                <input type="checkbox" id="checkbox_3" value="y">
+                                <input type="checkbox" id="checkbox_3" name= "special_offer" value="1">
                                 <label for="checkbox_3">Special Offer</label>
                             </fieldset>
                         </div>

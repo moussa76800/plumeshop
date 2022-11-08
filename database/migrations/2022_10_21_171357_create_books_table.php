@@ -30,6 +30,7 @@ class CreateBooksTable extends Migration
             $table->string('short_descp_fr');
             $table->string('product_thambnail');
             $table->integer('special_offer')->nullable();
+            $table->integer('featured')->nullable();
             $table->string('long_descp_en');
             $table->string('long_descp_fr');
             $table->integer('status')->default(0);

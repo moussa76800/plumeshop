@@ -42,29 +42,30 @@ class BookController extends Controller
 
          // $products=Http::get('https://www.googleapis.com/books/v1/volumes?q='.$request->input('ISBN'))->json();
 
-         $request-> validate([
-         'name_en' ,
-         'name_fr',
-         'ISBN' ,
-         'prix' ,
-         'datePublication' ,
-         'langue' ,
-         'product_code' ,
-         'product_qty' ,
-          'discount_price' ,
-         'short_descp_en' ,
-         'short_descp_fr' ,
-         'product_thambnail' ,
-         'special_offer' ,
-         'long_descp_en',
-         'long_descp_fr',
-         'status' ,
-         'categoryBook_id' ,
-         'subCategory_id'  ,
-         'publisher_id'  ,
-         'created_at',
+         // $request-> validate([
+         // 'name_en' ,
+         // 'name_fr',
+         // 'ISBN' ,
+         // 'prix' ,
+         // 'datePublication' ,
+         // 'langue' ,
+         // 'product_code' ,
+         // 'product_qty' ,
+         //  'discount_price' ,
+         // 'short_descp_en' ,
+         // 'short_descp_fr' ,
+         // 'product_thambnail' ,
+         // 'special_offer' ,
+         // 'featured' ,
+         // 'long_descp_en',
+         // 'long_descp_fr',
+         // 'status' ,
+         // 'categoryBook_id' ,
+         // 'subCategory_id'  ,
+         // 'publisher_id'  ,
+         // 'created_at',
           
-          ]);
+         //  ]);
 
          
                  $image = $request->file('product_thambnail');
@@ -88,6 +89,7 @@ class BookController extends Controller
                    'short_descp_fr' =>$request-> short_descp_fr ,
                    'product_thambnail' => $save_url,
                    'special_offer' => $request->special_offer ,
+                   'featured'  => $request->featured ,
                    'long_descp_en' =>$request->long_descp_en ,
                    'long_descp_fr' => $request->long_descp_fr,
                    'status' => 1 ,
@@ -104,9 +106,9 @@ class BookController extends Controller
                   $make_img = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
                   Image::make($img)->resize(917,1000)->save('upload/book/multi_image/'.$make_img);
                   $uploadPath= 'upload/book/multi_image/'.$make_img;
+
                   MultiImg::insert([
-   
-                     'book_id' => $bookID,
+                      'book_id' => $bookID,
                      'photo_name' => $uploadPath,
                      'created_at' => Carbon::now(),
                   ]);
@@ -123,7 +125,7 @@ class BookController extends Controller
        public function bookEdit($id){
 
         $multiImgs =MultiImg::where('book_id',$id)->get();
-        $book = Book::find($id);
+        $book = Book::findOrFail($id);
         $categories = Category::all();
         $subCategories = SubCategory::all();
         $publishers = Publisher::all();
@@ -149,6 +151,7 @@ class BookController extends Controller
                 'short_descp_en' =>$request-> short_descp_en ,
                 'short_descp_fr' =>$request-> short_descp_fr ,
                 'special_offer' => $request->special_offer ,
+                'featured'  => $request->featured ,
                 'long_descp_en' =>$request->long_descp_en ,
                 'long_descp_fr' => $request->long_descp_fr,
                 'status' => 1 ,
@@ -180,14 +183,15 @@ class BookController extends Controller
                  $imgDel = MultiImg::findOrFail($id);
                   unlink($imgDel->photo_name);
                  
-                 $make_image = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
-                 Image::make($img)->resize(917,1000)->save('upload/book/multi_image/'.$make_image);
-                 $uploadPath = 'upload/book/multi_image/'.$make_image;
+                 $make_imge = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
+                 Image::make($img)->resize(917,1000)->save('upload/book/multi_image/'.$make_imge);
+                 $uploadPath = 'upload/book/multi_image/'.$make_imge;
 
                  MultiImg::where('id' , $id)->update([
                   'photo_name' => $uploadPath ,
                   'updated_at'=> Carbon::now(),
                  ]);
+               }
 
             $notification = array(
                'message' => 'Book Updated  Multi-Image Successfully ',
@@ -203,7 +207,7 @@ class BookController extends Controller
          //       );
          //       return redirect()->back()->with($notification);
          // }
-      }
+      
 
       public function  thambnailUpdate(Request $request){
           

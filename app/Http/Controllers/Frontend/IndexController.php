@@ -23,8 +23,9 @@ class IndexController extends Controller
     $books = Book::where('status' , 1)->orderBy('id' ,'DESC')->limit(6)->get();
     $categories = Category::orderBy('name_en' , 'ASC')->get();
     $sliders = Slider::where('status' , 1)->orderBy('id' ,'DESC')->limit(3)->get();
+    $featured = Book::where('featured' , 1)->orderBy('id' ,'DESC')->limit(6)->get();
 
-        return view('frontend.index',compact('categories','sliders', 'books'));
+        return view('frontend.index',compact('categories','sliders', 'books', 'featured'));
   }
 
   public function UserLogout(){
