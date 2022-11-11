@@ -140,7 +140,9 @@ Route::middleware(['auth:sanctum,web', 'verified'])->get('/dashboard', function 
     return view('dashboard');
 })->name('dashboard');
 
+
 ////////////////////////////////////////////////////////////////////////////////  FRONT_END  //////////////////////////////////////////////////////////////////////////////////////////
+
 
 // User All Routes :
 Route::get('/', [IndexController::class, 'index']);
@@ -156,3 +158,9 @@ Route::get('/language/french' , [LanguageController::class,'languageFrench'])->n
 
 // Book Détail All Routes :
 Route::get('/book/detail/{id}/{slug}' , [IndexController::class,'bookDetail']);
+
+// SubCategory Wise Data All Routes :
+Route::get('/subCategory/book/{subCat_id}/{slug}' , [IndexController::class,'subCatWiseBook']);
+
+// Book View with AJAX All Routes :
+Route::get('/book/view/modal/{id}' , [IndexController::class,'bookViewModalAJAX']);

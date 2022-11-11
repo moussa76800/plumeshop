@@ -182,9 +182,9 @@
                                 @foreach ($subCategories as $sub)                  
                               <div class="col-xs-6 col-sm-6 col-md-2 col-menu">
                               {{-- <h2 class="title"></h2> --}}
-                                  <ul class="links">
-                                      <li><a href="#">@if (session()->get('language') == 'french'){{ $sub->name_fr }} @else {{ $sub->name_en }} @endif</a></li>
-                              </ul>
+                                  
+                                      <a href="{{ url('subCategory/book/'.$sub->id.'/'.$sub->name_en ) }}">@if (session()->get('language') == 'french'){{ $sub->name_fr }} @else {{ $sub->name_en }} @endif</a>
+                              
                             </div> 
                             @endforeach
                             <!-- /.col -->

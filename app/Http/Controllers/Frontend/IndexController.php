@@ -24,8 +24,9 @@ class IndexController extends Controller
     $categories = Category::orderBy('name_en' , 'ASC')->get();
     $sliders = Slider::where('status' , 1)->orderBy('id' ,'DESC')->limit(3)->get();
     $featured = Book::where('featured' , 1)->orderBy('id' ,'DESC')->limit(6)->get();
+    $special_offer = Book::where('special_offer' , 1)->orderBy('id' ,'DESC')->limit(3)->get();
 
-        return view('frontend.index',compact('categories','sliders', 'books', 'featured'));
+        return view('frontend.index',compact('categories','sliders', 'books', 'featured','special_offer'));
   }
 
   public function UserLogout(){
@@ -94,12 +95,30 @@ class IndexController extends Controller
   public function bookDetail( $id, $slug ) {
     $book = Book::findOrFail($id);
     $multiImgs = MultiImg::where('booK_id' , $id )->get();
-    return view('frontend.book.book_detail', compact('book' , 'multiImgs'));
+    $cat_id = $book->categoryBook_id;
+    $relatedBook = Book::where('categoryBook_id' , $cat_id)->where('id', '!=',$id)->orderBy('id' , 'DESC')->get();
+     return view('frontend.book.book_detail', compact('book' , 'multiImgs', 'relatedBook'));
 
 
   }
 
+  // SubCategory Wise Data :
+  public function subCatWiseBook( $subCat_id , $slug  ){
+    $books= Book::where('status',1)->where('subCategory_id',$subCat_id)-> orderBy('id' , 'DESC')->paginate(3);
+    $categories = Category::orderBy('name_en','ASC')->get();
+      return view('frontend.book.subCategory_view', compact('books', 'categories'));
 
+}
+
+  // Book View Modal AJAX
+  public function bookViewModalAJAX($id) {
+    $book = Book::with('category')->findOrFail($id);
+      return response()->json(array(
+        'book' => $book ,
+
+      ));
+
+  }
 
 
 }
