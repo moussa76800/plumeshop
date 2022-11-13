@@ -112,7 +112,7 @@ class IndexController extends Controller
 
   // Book View Modal AJAX
   public function bookViewModalAJAX($id) {
-    $book = Book::with('category')->findOrFail($id);
+    $book = Book::with('categoryBook')->findOrFail($id);
       return response()->json(array(
         'book' => $book ,
 

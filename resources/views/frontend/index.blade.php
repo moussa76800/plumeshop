@@ -879,7 +879,7 @@
                       <div class="action">
                         <ul class="list-unstyled">
                           <li class="add-cart-button btn-group">
-                            <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal" id="{{$book->id }}" onclick="bookView(this.id)"><i class="fa fa-shopping-cart"></i> </button>
+                            <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal" id="{{ $book->id }}" onclick="bookView(this.id)"><i class="fa fa-shopping-cart"></i> </button>
                            
                             {{-- <button data-toggle="tooltip" class="btn btn-primary icon" type="button" title="Add Cart"> <i class="fa fa-shopping-cart"></i> </button> --}}
 

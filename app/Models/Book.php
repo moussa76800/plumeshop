@@ -13,7 +13,7 @@ class Book extends Model
 
     
     public function categoryBook() {
-        return $this->belongsTo(Category::class,'category_id','id');
+        return $this->belongsTo(Category::class,'categoryBook_id','id');
      }
      public function subCategory() {
       return $this->belongsTo(SubCategory::class,'subCategory_id','id');

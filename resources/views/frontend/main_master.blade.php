@@ -64,6 +64,8 @@
 <script src="{{ asset('frontend/assets/js/wow.min.js') }}"></script> 
 <script src="{{ asset('frontend/assets/js/scripts.js') }}"></script>
 
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 	
 	<script>
@@ -104,17 +106,22 @@
         <div class="row">
           <div class="col-md-4">
               <div class="card" style="width: 18rem;">
-                <img src=" " class="card-img-top" alt="" style="height: 160px; width: 170px;" id="pimage">
+                <img src="" class="card-img-top" alt="" style="height: 200px; width: 170px;" id="pimage">
               </div>   
           </div><!-- // end col md -->
 
          <div class="col-md-4">
             <ul class="list-group">
-                <li class="list-group-item">Product Price: <strong class="text-danger">$<span id="pprice"></span></strong>
-                   <del id="oldprice">$</del>
+                <li class="list-group-item">@if(session()->get('language') == 'french') Prix du Livre <strong class="text-danger"> € <span id="pprice"></span></strong>
+                  <del id="oldprice"> € </del>
+                @else Product Price : <strong class="text-danger"> $ <span id="pprice"></span></strong>
+                   <del id="oldprice"> $ </del> @endif
                 </li>
-                <li class="list-group-item">Product Code: <strong id="pcode"></strong></li>
-                <li class="list-group-item">Category: <strong id="pcategory"></strong></li>
+                <li class="list-group-item">@if(session()->get('language') == 'french')Code Article : <strong id="pcode"></strong>
+                @else  Product Code : <strong id="pcode"></strong> @endif
+              </li>
+                <li class="list-group-item">@if(session()->get('language') == 'french') Categorie : <strong id="pcategory"></strong>
+                   @else Category : <strong id="pcategory"></strong> @endif</li>
                 <li class="list-group-item">Stock: <span class="badge badge-pill badge-success" id="aviable" style="background: green; color: white;"></span> 
               <span class="badge badge-pill badge-danger" id="stockout" style="background: red; color: white;"></span> 
               </li>
@@ -124,14 +131,16 @@
         <div class="col-md-4">
 
           <div class="form-group">
-            <label for="qty">Quantity</label>
+            <label for="qty">@if(session()->get('language') == 'french')Quantité @else Quantity @endif</label>
             <input type="number" class="form-control" id="qty" value="1" min="1" >
           </div> <!-- // end form group -->
           <BR>
             <br>
+            <BR>
+              <br>
 <div>
         <input type="hidden" id="book_id">
-        <button type="submit" class="btn btn-primary mb-2" onclick="addToCart()" >Add to Cart</button>
+        <button type="submit" class="btn btn-primary mb-2" onclick="addToCart()" >@if(session()->get('language') == 'french')Ajouter au Panier @else Add to Cart @endif</button>
 </div>
            </div><!-- // end col md -->
               </div> <!-- // end row -->
@@ -150,67 +159,187 @@
     })
    
 function bookView(id){
-   alert(id)
+   //alert(id)
     
-    // $.ajax({
-    //     type: 'GET',
-    //     url: '/book/view/modal/'+ id ,
-    //     dataType:'json',
-    //     success:function(data){
-    //          console.log(data)
-    //         $('#pname').text(data.book.name_en);
-    //         $('#price').text(data.book.prix);
-    //         $('#pcode').text(data.book.product_code);
-    //         $('#pcategory').text(data.book.category.name_en);
-    //         $('#pimage').attr('src','/'+data.book.product_thambnail);
-    //         $('#book_id').val(id);
-    //         $('#qty').val(1);
-    //         // Product Price 
-    //         if (data.book.discount_price == null) {
-    //             $('#pprice').text('');
-    //             $('#oldprice').text('');
-    //             $('#pprice').text(data.book.prix);
-    //         }else{
-    //             $('#pprice').text(data.book.discount_price);
-    //             $('#oldprice').text(data.book.prix);
-    //         } // end prodcut price 
+    $.ajax({
+        type: 'GET',
+        url: '/book/view/modal/'+id ,
+        dataType:'json',
+        success:function(data){
+             //console.log(data)
+             @if(session()->get('language') == 'french')$('#pname').text(data.book.name_fr) @else $('#pname').text(data.book.name_en) @endif;
+            $('#pprice').text(data.book.prix);
+            $('#pcode').text(data.book.product_code);
+            @if(session()->get('language') == 'french')$('#pcategory').text(data.book.category_book.name_fr) @else $('#pcategory').text(data.book.category_book.name_en) @endif ;
+            $('#pimage').attr('src','/'+ data.book.product_thambnail);
+            $('#book_id').val(id);
+            $('#qty').val(1);
 
-    //         // Start Stock opiton
-    //         if (data.book.product_qty > 0) {
-    //             $('#aviable').text('');
-    //             $('#stockout').text('');
-    //             $('#aviable').text('aviable');
-    //         }else{
-    //             $('#aviable').text('');
-    //             $('#stockout').text('');
-    //             $('#stockout').text('stockout');
-    //         } // end Stock Option 
-           
-    //         // Color
-    // // $('select[name="color"]').empty();        
-    // // $.each(data.color,function(key,value){
-    // //     $('select[name="color"]').append('<option value=" '+value+' ">'+value+' </option>')
-    // // }) // end color
-    // //  // Size
-    // // $('select[name="size"]').empty();        
-    // // $.each(data.size,function(key,value){
-    // //     $('select[name="size"]').append('<option value=" '+value+' ">'+value+' </option>')
-    // //     if (data.size == "") {
-    // //         $('#sizeArea').hide();
-    // //     }else{
-    // //         $('#sizeArea').show();
-    // //     }
-    // // }) // end size
- 
-    //     }
-    // })
- 
-  } 
-  
+            // Product Price 
+            if (data.book.discount_price == null) {
+                $('#pprice').text('');
+                 $('#oldprice').text('');
+                $('#pprice').text(data.book.prix);
+            }else{
+                $('#pprice').text(data.book.prix - data.book.discount_price);
+                $('#oldprice').text(data.book.prix);
+            } // end prodcut price 
+
+            // Start Stock opiton
+            if (data.book.product_qty > 0) {
+                $('#aviable').text('');
+                $('#stockout').text('');
+                @if(session()->get('language') == 'french') $('#aviable').text('Disponible') @else $('#aviable').text('Aviable') @endif;
+            }else{
+                $('#aviable').text('');
+                $('#stockout').text('');
+                @if(session()->get('language') == 'french') $('#stockout').text('Epuisée') @else $('#stockout').text('Stockout')@endif;
+            }
+        }
+   })
+   } 
+
+  </script>
   <!--  ==============================================  START  Book View With Modal ====================================================== -->
- 
 
+
+  <!--  ==============================================     START Add To Cart Book   ====================================================== -->
+  <script type="text/javascript">
+    $.ajaxSetup({
+        headers:{
+            'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+        }
+    })
+
+   function addToCart(){
+
+        var book_name =  @if(session()->get('language') == 'french') $('#pname').text() @else (session()->get('language') == 'english') $('#pname').text() @endif ;
+        var id = $('#book_id').val();
+        var quantity = $('#qty').val();
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            data:{
+                 quantity:quantity, book_name:book_name
+            },
+            url: "/book/cart/"+id,
+            success:function(data){
+              miniCart()
+                $('#closeModel').click();
+                // console.log(data)
+
+                // Start Message 
+                const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      icon: 'success',
+                      showConfirmButton: false,
+                      timer: 3000
+                    })
+                if ($.isEmptyObject(data.error)) {
+                    Toast.fire({
+                        type: 'success',
+                        title: data.success
+                    })
+                }else{
+                    Toast.fire({
+                        type: 'error',
+                        title: data.error
+                    })
+                }
+                // End Message 
+                  
+            }
+              })
+    }
+  </script> 
+   <!--  ===============================================           END Add To Cart Book        ====================================================== -->
+
+    <!--  ==============================================     START View and ADD to Mini-Cart   ====================================================== -->
  
+   <script type="text/javascript">
+
+function miniCart() {
+  $.ajax({
+            type: 'GET',
+            url: '/book/mini/cart',
+            dataType:'json',
+            success:function(response){
+            //   <"pre">
+            // console.log(response);
+            //   <"/pre">
+                $('span[id="cartSubTotal"]').text(response.cartTotal);
+                $('#cartQty').text(response.cartQty);
+                var miniCart = ""
+                $.each(response.carts, function(key,value){
+                    miniCart += `<div class="cart-item product-summary">
+          <div class="row">
+            <div class="col-xs-4">
+              <div class="image"><a href="detail.html"><img src="/${value.options.image}"></a></div>
+            </div>
+            <div class="col-xs-7">
+              <h3 class="name"><a href="index.php?page-detail">${value.name}</a></h3>
+              <div class="price"> ${value.price} * ${value.qty} </div>
+            </div>
+            <div class="col-xs-1 action"> 
+            <button type="submit" id="${value.rowId}" onclick="miniCartRemove(this.id)"><i class="fa fa-trash"></i></button> </div>
+          </div>
+        </div>
+        <!-- /.cart-item -->
+        <div class="clearfix"></div>
+        <hr>`
+        });
+                
+                $('#miniCart').html(miniCart);
+            }
+        })
+      }
+  miniCart();
+
+   
+   </script>
+ 
+ <!--  ==============================================     END View and ADD to Mini-Cart   ====================================================== -->
+
+ <!--  ==============================================     START DELETE Book to Mini-Cart   ====================================================== -->
+ <script type="text/javascript">
+
+      function miniCartRemove(rowId){
+        $.ajax({
+            type: 'GET',
+            url: '/minicart/removeBook/'+rowId,
+            dataType:'json',
+            success:function(data){
+            miniCart();
+             // Start Message 
+                const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      icon: 'success',
+                      showConfirmButton: false,
+                      timer: 3000
+                    })
+                if ($.isEmptyObject(data.error)) {
+                    Toast.fire({
+                        type: 'success',
+                        title: data.success
+                    })
+                }else{
+                    Toast.fire({
+                        type: 'error',
+                        title: data.error
+                    })
+                }
+                // End Message 
+            }
+        });
+    }
+
+
+
+</script>
+ <!--  ==============================================     START DELETE Book to Mini-Cart   ====================================================== -->
+
 
 
 </body>

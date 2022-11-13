@@ -14,6 +14,8 @@ use App\Http\Controllers\Backend\SubCategoryController;
 
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\LanguageController;
+use App\Http\Controllers\Frontend\CartController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -164,3 +166,12 @@ Route::get('/subCategory/book/{subCat_id}/{slug}' , [IndexController::class,'sub
 
 // Book View with AJAX All Routes :
 Route::get('/book/view/modal/{id}' , [IndexController::class,'bookViewModalAJAX']);
+
+// Book Add to Cart with AJAX All Routes :
+Route::post('/book/cart/{id}' , [CartController::class,'bookAddCartAJAX']);
+
+// Book Add to Mini-Cart with AJAX All Routes :
+Route::get('/book/mini/cart/' , [CartController::class,'bookAddMiniCartAJAX']);
+
+// Remove Book from Mini-Cart with AJAX All Routes :
+Route::get('/minicart/removeBook/{rowId}' , [CartController::class,'deleteBookMiniCartAJAX']);
