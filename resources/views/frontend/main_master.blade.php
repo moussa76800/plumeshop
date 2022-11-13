@@ -340,7 +340,47 @@ function miniCart() {
 </script>
  <!--  ==============================================     START DELETE Book to Mini-Cart   ====================================================== -->
 
+  <!--  ==============================================     START ADD WISHLIST Book    ====================================================== -->
+<script  type="text/javascript">
 
+function addToWishList(book_id){
+    $.ajax({
+        type: "POST",
+        dataType: 'json',
+        url: "/addToWishList/"+book_id,
+        success:function(data){
+             // Start Message 
+                const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      
+                      showConfirmButton: false,
+                      timer: 3000
+                    })
+                if ($.isEmptyObject(data.error)) {
+                    Toast.fire({
+                        type: 'success',
+                        icon: 'success',
+                        title: data.success
+                    })
+                }else{
+                    Toast.fire({
+                        type: 'error',
+                        icon: 'error',
+                        title: data.error
+                    })
+                }
+                // End Message 
+        }
+    })
+} 
+
+
+
+
+
+</script>
+<!--  ==============================================     END  ADD WISHLIST Book    ====================================================== -->
 
 </body>
 </html>

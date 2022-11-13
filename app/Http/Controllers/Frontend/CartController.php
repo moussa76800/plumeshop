@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Models\Book;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use SebastianBergmann\CodeUnit\FunctionUnit;
 
 class CartController extends Controller
 {
@@ -81,4 +85,28 @@ class CartController extends Controller
             return response()->json(['success' => 'Product(s) Remove from Cart']);
              }
         }
+
+        public Function AddBookToWishListAJAX( Request $request , $book_id){
+                if (Auth::check()) {
+                    $exists = Wishlist::where('user_id' , Auth::id())->where('book_id', $book_id)->first();
+                    if (!$exists) {
+                    Wishlist::insert([
+                        'user_id' => Auth::id(), 
+                        'book_id' => $book_id, 
+                        'created_at' => Carbon::now(), 
+                    ]);
+                    
+                    return response()->json([
+                        'success' => 'Successfully Added On Your Wishlist'
+                    ]); 
+                }else {
+                   return response()->json(['error' => 'This Product has Already on Your Wishlist']);
+                }
+         } else {
+
+            return response()->json(['error' => 'At First Login Your Account']);
+
+        }
+}
+
 }

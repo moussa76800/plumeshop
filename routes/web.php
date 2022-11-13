@@ -15,7 +15,7 @@ use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\Frontend\CartController;
-
+use App\Http\Controllers\User\wishlistController;
 
 /*
 |--------------------------------------------------------------------------
@@ -175,3 +175,9 @@ Route::get('/book/mini/cart/' , [CartController::class,'bookAddMiniCartAJAX']);
 
 // Remove Book from Mini-Cart with AJAX All Routes :
 Route::get('/minicart/removeBook/{rowId}' , [CartController::class,'deleteBookMiniCartAJAX']);
+
+// Add Book to WishList with AJAX All Routes :
+Route::post('/addToWishList/{book_id}' , [CartController::class,'AddBookToWishListAJAX']);
+
+// Page WishList All Routes :
+Route::get('/WishList' , [wishlistController::class,'wishListRead'])->name('wishList');
