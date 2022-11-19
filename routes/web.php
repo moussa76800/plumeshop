@@ -9,13 +9,16 @@ use App\Http\Controllers\Backend\BookAuthorController;
 use App\Http\Controllers\Backend\BookController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\PublisherController;
+use App\Http\Controllers\Backend\ShippingController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\User\CartPageController;
 use App\Http\Controllers\User\wishlistController;
+use App\Models\ShipCommon;
 
 /*
 |--------------------------------------------------------------------------
@@ -135,6 +138,35 @@ Route::prefix('slider')->group(function() {
     Route::get('/active/{id}' , [SliderController::class,'activeSlider'])->name('sliderActiveNow');
 });
 
+// Admin Shipping All Routes :
+Route::prefix('shipping')->group(function() {
+
+    // Common
+    Route::get('/common/view' , [ShippingController::class,'CommonView'])->name('shippingCommon');
+    Route::get('/common/add' , [ShippingController::class,'addCommon'])->name('add.common');
+    Route::post('/common/store' , [ShippingController::class,'commonStore'])->name('common.store');
+     Route::get('/common/edit/{id}' , [ShippingController::class,'commonEdit'])->name('edit.common');
+     Route::post('/common/update' , [ShippingController::class,'commonUpdate'])->name('update.common');
+     Route::get('/common/delete/{id}' , [ShippingController::class,'commonDelete'])->name('delete.common');;
+
+    // Town
+    Route::get('/town/view' , [ShippingController::class,'townView'])->name('shippingTown');
+    Route::get('/town/add' , [ShippingController::class,'addTown'])->name('add.town');
+    Route::post('/town/store' , [ShippingController::class,'townStore'])->name('town.store');
+    Route::get('/town/edit/{id}' , [ShippingController::class,'townEdit'])->name('edit.town');
+    Route::post('/town/update' , [ShippingController::class,'townUpdate'])->name('update.town');
+     Route::get('/town/delete/{id}' , [ShippingController::class,'townDelete'])->name('delete.town');
+
+    // Country
+    Route::get('/country/view' , [ShippingController::class,'CountryView'])->name('shippingCountry');
+    Route::get('/country/add' , [ShippingController::class,'addCountry'])->name('add.country');
+    Route::post('/country/store' , [ShippingController::class,'countryStore'])->name('country.store');
+    // Route::get('/edit/{id}' , [SliderController::class,'sliderEdit'])->name('edit.slider');
+    // Route::post('/update' , [SliderController::class,'sliderUpdate'])->name('slider.update');
+    // Route::get('/delete/{id}' , [SliderController::class,'sliderDelete'])->name('delete.slider');
+   
+});
+
 
 
 
@@ -176,8 +208,21 @@ Route::get('/book/mini/cart/' , [CartController::class,'bookAddMiniCartAJAX']);
 // Remove Book from Mini-Cart with AJAX All Routes :
 Route::get('/minicart/removeBook/{rowId}' , [CartController::class,'deleteBookMiniCartAJAX']);
 
-// Add Book to WishList with AJAX All Routes :
-Route::post('/addToWishList/{book_id}' , [CartController::class,'AddBookToWishListAJAX']);
+Route::post('/addToWishList/{book_id}' , [CartController::class,'AddBookToWishListAJAX']);   // CREATE Book to WishList with AJAX.
 
 // Page WishList All Routes :
-Route::get('/WishList' , [wishlistController::class,'wishListRead'])->name('wishList');
+    Route::group(['prefix'=>'user','middleware' =>['user' , 'auth'],'namespace'=>'User'],function(){
+Route::get('/WishList' , [wishlistController::class,'wishList'])->name('wishList');
+Route::get('/getWishList' , [wishlistController::class,'wishListRead']);  //  READ Book data
+Route::get('/removeWishList/{id}' , [wishlistController::class,'wishListDelete']);
+});
+
+// Cart Page All Routes :
+Route::get('/myCart' , [CartPageController::class,'myCart'])->name('myCart');
+Route::get('/user/getCart' , [CartPageController::class,'cartRead']);  //  READ Book data
+Route::get('/user/removeCart/{rowId}' , [cartPageController::class,'cartDelete']);
+Route::get('/cartIncrement/{rowId}' , [cartPageController::class,'cartIncremente']);
+Route::get('/cartDecrement/{rowId}' , [cartPageController::class,'cartDecremente']);
+
+// Checkout All Routes :
+Route::get('/checkout',[CartController::class, 'checkoutCreate'])->name('checkout');

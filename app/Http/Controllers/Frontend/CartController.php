@@ -18,7 +18,7 @@ class CartController extends Controller
 
         $book = Book::findOrFail($id);
 
-        if ($book->discount_price == NULL &&  (session()->get('language') == 'french') ) {
+        if ($book->discount_price == NULL) {
             Cart::add([
                 'id' => $id, 
                 'name' => $request->book_name, 
@@ -29,41 +29,33 @@ class CartController extends Controller
     				'image' => $book->product_thambnail,
                 ],
                ]);
-                    return response()->json([
-                'success' => 'Le livre a bien été ajouter à votre panier' ]);
-         }else if($book->discount_price == NULL &&  (session()->get('language') == 'english') ) {
-                     return response()->json([
-                'success' =>'succesfully Added on your Cart' ]) ;
-        } else if ($book->discount_price != NULL &&  (session()->get('language') == 'french') ) {
+                        if (session()->get('language') == 'french'){ 
+                            return response()->json([
+                        'success' => 'Le livre a bien été ajouter à votre panier' ]);
+                        }else{
+                            return response()->json([
+                        'success' =>'succesfully Added on your Cart' ]) ;
+                        }
+     } else {
             Cart::add([
                 'id' => $id, 
                 'name' => $request->book_name, 
                 'qty' =>$request->quantity, 
-                'price' => $book->prix ,
+                'price' => $book->prix - $book->discount_price ,
                 'weight' => 1  ,
                 'options' => [
     				'image' => $book->product_thambnail,
-                ],
-                
-               ]);
-                     return response()->json([
-                'success' => 'Le livre a bien été ajouter à votre panier' ]);
-                } else {
-            Cart::add([
-                'id' => $id, 
-                'name' => $request->book_name, 
-                'qty' =>$request->quantity, 
-                'price' => $book->prix ,
-                'weight' => 1  ,
-                'options' => [
-    				'image' => $book->product_thambnail,
-                ],
-                
-            ]);
-                     return response()->json([
-                'success' =>'succesfully Added on your Cart' ]) ;
-             }     
+                    ],
+                ]);
+                        if (session()->get('language') == 'french'){ 
+                            return response()->json([
+                        'success' => 'Le livre a bien été ajouter à votre panier' ]);
+                        }else{
+                            return response()->json([
+                        'success' =>'succesfully Added on your Cart' ]) ;
+                        }
     }
+}
 
     public  function bookAddMiniCartAJAX() {
         $carts = Cart::content();
@@ -96,17 +88,66 @@ class CartController extends Controller
                         'created_at' => Carbon::now(), 
                     ]);
                     
-                    return response()->json([
-                        'success' => 'Successfully Added On Your Wishlist'
-                    ]); 
+                        if (session()->get('language') == 'french') {
+                            return  response()->json([
+                            'success' => 'L\'article(s) a bien été ajoutée de votre liste de souhaits'
+                        ]);
+                     }else{
+                        return  response()->json([
+                            'success' => 'Successfully Added On Your Wishlist'
+                        ]);
+                } 
                 }else {
-                   return response()->json(['error' => 'This Product has Already on Your Wishlist']);
-                }
+                    if (session()->get('language') == 'french') {
+                         return response()->json(['error' => 'L\'article sélectionné est déja dans votre liste de souhaits']);
+                    }
+                    return response()->json(['error' => 'This Product has Already on Your Wishlist']);
+            }
          } else {
-
+            if (session()->get('language') == 'french') {
+                return response()->json(['error' => 'Veuilez vous enregistrer ou vous connectez !!']);
+            }
             return response()->json(['error' => 'At First Login Your Account']);
-
         }
-}
+    }
 
-}
+        public function checkoutCreate(){
+            if (Auth::check()) {
+                if (Cart::total() > 0) {
+    
+            $carts = Cart::content();
+            $cartQty = Cart::count();
+            $cartTotal = Cart::total();
+    
+            // $divisions = ShipDivision::orderBy('division_name','ASC')->get();
+            return view('frontend.checkout.checkout_view',compact('carts','cartQty','cartTotal'));
+                    
+                }else{
+    
+                $notification = array(
+                'message' => 'Shopping At list One Product',
+                'alert-type' => 'error'
+            );
+    
+            return redirect()->to('/')->with($notification);
+    
+                }
+    
+                
+            }else{
+    
+                 $notification = array(
+                'message' => 'You Need to Login First',
+                'alert-type' => 'error'
+            );
+    
+            return redirect()->route('login')->with($notification);
+    
+            }
+    
+        } // end method 
+        }
+
+
+   
+

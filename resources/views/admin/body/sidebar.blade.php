@@ -33,13 +33,14 @@
         <li class="treeview {{ ($prefix=='/category') ? 'active' : '' }}">
             <a href="#">
             <i data-feather="message-circle"></i>
-            <span>Category</span>
+            <span> @if (session()->get('language') == 'english')Category @else Catégorie @endif</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-right pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>Categoris Manages</a></li>
+            <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>
+              @if (session()->get('language') == 'english') Categories Manages @else Gestion des Catégories @endif </a></li>
             {{-- <li class="{{($route == 'all.subcategory') ? 'active' :'' }}"><a href="{{ route('all.subcategory') }}"><i class="ti-more"></i>All SubCategory</a></li> --}}
            
           </ul>
@@ -47,27 +48,29 @@
         <li class="treeview {{ ($prefix=='/subcategory') ? 'active' : '' }}">
           <a href="#">
           <i data-feather="message-circle"></i>
-          <span>SubCategory</span>
+          <span> @if (session()->get('language') == 'english') SubCategory @else Sous-Catégorie @endif </span>
           <span class="pull-right-container">
             <i class="fa fa-angle-right pull-right"></i>
           </span>
         </a>
         <ul class="treeview-menu">
           {{-- <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>All Category</a></li> --}}
-          <li class="{{($route == 'all.subcategory') ? 'active' :'' }}"><a href="{{ route('all.subcategory') }}"><i class="ti-more"></i>SubCategories Manages</a></li>
+          <li class="{{($route == 'all.subcategory') ? 'active' :'' }}"><a href="{{ route('all.subcategory') }}"><i class="ti-more"></i>
+            @if (session()->get('language') == 'english')SubCategories Manages @else Gestion des Sub-Catégories @endif </a></li> </a></li>
         </ul>
       </li> 
       <li class="treeview {{ ($prefix=='/book') ? 'active' : '' }}">
         <a href="#">
         <i data-feather="message-circle"></i>
-        <span>Book</span>
+        <span> @if (session()->get('language') == 'english') Book @else Livre @endif </span>
         <span class="pull-right-container">
           <i class="fa fa-angle-right pull-right"></i>
         </span>
       </a>
       <ul class="treeview-menu">
         {{-- <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>All Category</a></li> --}}
-        <li class="{{($route == 'all.books') ? 'active' :'' }}"><a href="{{ route('all.books') }}"><i class="ti-more"></i>Books Manages</a></li>
+        <li class="{{($route == 'all.books') ? 'active' :'' }}"><a href="{{ route('all.books') }}"><i class="ti-more"></i>
+          @if (session()->get('language') == 'english')Books Manages @else Gestion des Livres @endif </a></li>
        
       </ul>
     </li> 
@@ -75,28 +78,30 @@
     <li class="treeview {{ ($prefix=='/publisher') ? 'active' : '' }}">
       <a href="#">
       <i data-feather="message-circle"></i>
-      <span>Publisher</span>
+      <span> @if (session()->get('language') == 'english')Publisher @else Edition @endif </span>
       <span class="pull-right-container">
         <i class="fa fa-angle-right pull-right"></i>
       </span>
     </a>
     <ul class="treeview-menu">
       {{-- <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>All Category</a></li> --}}
-      <li class="{{($route == 'all.publishers') ? 'active' :'' }}"><a href="{{ route('all.publishers') }}"><i class="ti-more"></i> Publishers Manages</a></li>
+      <li class="{{($route == 'all.publishers') ? 'active' :'' }}"><a href="{{ route('all.publishers') }}"><i class="ti-more"></i>
+        @if (session()->get('language') == 'english')Publishers Manages @else Gestion des Editions @endif </a></li>
          </ul>
   </li> 
 
   <li class="treeview {{ ($prefix=='/author') ? 'active' : '' }}">
     <a href="#">
     <i data-feather="message-circle"></i>
-    <span>Author</span>
+    <span> @if (session()->get('language') == 'english')Author @else Auteur @endif </span>
     <span class="pull-right-container">
       <i class="fa fa-angle-right pull-right"></i>
     </span>
   </a>
   <ul class="treeview-menu">
     {{-- <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>All Category</a></li> --}}
-    <li class="{{($route == 'all.authors') ? 'active' :'' }}"><a href="{{ route('all.authors') }}"><i class="ti-more"></i>Authors Manage  </a></li>
+    <li class="{{($route == 'all.authors') ? 'active' :'' }}"><a href="{{ route('all.authors') }}"><i class="ti-more"></i>
+      @if (session()->get('language') == 'english')Authors Manages @else Gestion des Auteurs @endif    </a></li>
      </ul>
 </li> 
 <li class="treeview {{ ($prefix=='/bookAuthor') ? 'active' : '' }}">
@@ -115,14 +120,33 @@
 <li class="treeview {{ ($prefix=='/slider') ? 'active' : '' }}">
   <a href="#">
   <i data-feather="message-circle"></i>
-  <span>Slider</span>
+  <span> @if (session()->get('language') == 'english') Slider @else Slide @endif </span>
   <span class="pull-right-container">
     <i class="fa fa-angle-right pull-right"></i>
   </span>
 </a>
 <ul class="treeview-menu">
   {{-- <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>All Category</a></li> --}}
-  <li class="{{($route == 'all.sliders') ? 'active' :'' }}"><a href="{{ route('all.sliders') }}"><i class="ti-more"></i> Sliders Manages</a></li>
+  <li class="{{($route == 'all.sliders') ? 'active' :'' }}"><a href="{{ route('all.sliders') }}"><i class="ti-more"></i>
+    @if (session()->get('language') == 'english')Sliders Manages @else Gestion des Slides @endif</a></li>
+     </ul>
+</li> 
+
+<li class="treeview {{ ($prefix=='/shipping') ? 'active' : '' }}">
+  <a href="#">
+  <i data-feather="message-circle"></i>
+  <span> @if (session()->get('language') == 'english')Shipping @else Expédition @endif </span>
+  <span class="pull-right-container">
+    <i class="fa fa-angle-right pull-right"></i>
+  </span>
+</a>
+<ul class="treeview-menu">
+  <li class="{{($route == 'shippingCommon') ? 'active' :'' }}"><a href="{{ route('shippingCommon') }}"><i class="ti-more"></i>
+     @if (session()->get('language') == 'english')Commons Manages @else Gestion des Communes @endif </a></li>
+  <li class="{{($route == 'shippingTown') ? 'active' :'' }}"><a href="{{ route('shippingTown') }}"><i class="ti-more"></i>
+    @if (session()->get('language') == 'english')Town Manages @else Gestion des Villes @endif</a></li>
+  <li class="{{($route == 'shippingCountry') ? 'active' :'' }}"><a href="{{ route('shippingCountry') }}"><i class="ti-more"></i> 
+    @if (session()->get('language') == 'english')States Manages @else Gestion des Pays @endif </a></li>
      </ul>
 </li> 
   

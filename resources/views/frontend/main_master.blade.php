@@ -347,7 +347,7 @@ function addToWishList(book_id){
     $.ajax({
         type: "POST",
         dataType: 'json',
-        url: "/addToWishList/"+book_id,
+        url: '/addToWishList/'+book_id,
         success:function(data){
              // Start Message 
                 const Toast = Swal.mixin({
@@ -374,13 +374,415 @@ function addToWishList(book_id){
         }
     })
 } 
+</script>
+<!--  ==============================================     END  ADD WISHLIST Book    ====================================================== -->
+<!--  ==============================================     lOAD WISHLIST Book    ====================================================== -->
 
+<script type="text/javascript">
 
+  function wishList() {
+    $.ajax({
+              type: 'GET',
+              url: '/user/getWishList',
+              dataType:'json',
+              success:function(response){
+              //   <"pre">
+              // console.log(response);
+              //   <"/pre">
+                
+                  var rows = ""
+                  $.each(response, function(key,value){
+                    rows += `<tr>
+                    <td class="col-md-2"><img src="/${value.book.product_thambnail} " alt="imga"></td>
+                    <td class="col-md-7">
+                        <div class="product-name"><a href="#">${ @if(session()->get('language') == 'french')value.book.name_fr @else value.book.name_en  @endif}</a></div>
+                         
+                        <div class="price">
+                        ${value.book.discount_price == null
+                            ? `${value.book.prix}`
+                            :
+                            `${ value.book.prix - value.book.discount_price} <span>${value.book.prix}</span>`
+                        }
+                            
+                        </div>
+                    </td>
+        <td class="col-md-2">
+            <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal" id="${value.book_id}" onclick="bookView(this.id)"> Add to Cart </button>
+        </td>
+        <td class="col-md-1 close-btn">
+            <button type="submit" class="" id="${value.id}" onclick="wishListRemove(this.id)"><i class="fa fa-times"></i></button>
+        </td>
+                </tr>`
+        });
+                  
+                  $('#wishList').html(rows);
+              }
+          })
+        }
+    wishList();
+     </script>
+   <!--  ==============================================     END  LOAD WISHLIST Book    ====================================================== -->
+<!--  ==============================================     START DELETE Book to WishList   ====================================================== -->
+<script type="text/javascript">
+
+  function wishListRemove(id){
+    $.ajax({
+        type: 'GET',
+        url: '/user/removeWishList/'+id,
+        dataType:'json',
+        success:function(data){
+        wishList();
+         // Start Message 
+            const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000
+                })
+            if ($.isEmptyObject(data.error)) {
+                Toast.fire({
+                    type: 'success',
+                    icon: 'success',
+                    title: data.success
+                })
+            }else{
+                Toast.fire({
+                    type: 'error',
+                    icon: 'error',
+                    title: data.error
+                })
+            }
+            // End Message 
+        }
+    });
+}
+</script>
+<!--  ==============================================     START DELETE Book to WishList   ====================================================== -->
+<script type="text/javascript">
+
+function miniCart() {
+  $.ajax({
+            type: 'GET',
+            url: '/book/mini/cart',
+            dataType:'json',
+            success:function(response){
+            //   <"pre">
+            // console.log(response);
+            //   <"/pre">
+                $('span[id="cartSubTotal"]').text(response.cartTotal);
+                $('#cartQty').text(response.cartQty);
+                var miniCart = ""
+                $.each(response.carts, function(key,value){
+                    miniCart += `<div class="cart-item product-summary">
+          <div class="row">
+            <div class="col-xs-4">
+              <div class="image"><a href="detail.html"><img src="/${value.options.image}"></a></div>
+            </div>
+            <div class="col-xs-7">
+              <h3 class="name"><a href="index.php?page-detail">${value.name}</a></h3>
+              <div class="price"> ${value.price} * ${value.qty} </div>
+            </div>
+            <div class="col-xs-1 action"> 
+            <button type="submit" id="${value.rowId}" onclick="miniCartRemove(this.id)"><i class="fa fa-trash"></i></button> </div>
+          </div>
+        </div>
+        <!-- /.cart-item -->
+        <div class="clearfix"></div>
+        <hr>`
+        });
+                
+                $('#miniCart').html(miniCart);
+            }
+        })
+      }
+  miniCart();
+
+   
+   </script>
+ 
+ <!--  ==============================================     END View and ADD to Mini-Cart   ====================================================== -->
+
+ <!--  ==============================================     START DELETE Book to Mini-Cart   ====================================================== -->
+ <script type="text/javascript">
+
+      function miniCartRemove(rowId){
+        $.ajax({
+            type: 'GET',
+            url: '/minicart/removeBook/'+rowId,
+            dataType:'json',
+            success:function(data){
+            miniCart();
+             // Start Message 
+                const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      icon: 'success',
+                      showConfirmButton: false,
+                      timer: 3000
+                    })
+                if ($.isEmptyObject(data.error)) {
+                    Toast.fire({
+                        type: 'success',
+                        title: data.success
+                    })
+                }else{
+                    Toast.fire({
+                        type: 'error',
+                        title: data.error
+                    })
+                }
+                // End Message 
+            }
+        });
+    }
 
 
 
 </script>
-<!--  ==============================================     END  ADD WISHLIST Book    ====================================================== -->
+ <!--  ==============================================      END DELETE Book to Mini-Cart   ====================================================== -->
 
-</body>
+  <!--  ==============================================     START ADD WISHLIST Book    ====================================================== -->
+<script  type="text/javascript">
+
+function addToWishList(book_id){
+    $.ajax({
+        type: "POST",
+        dataType: 'json',
+        url: '/addToWishList/'+book_id,
+        success:function(data){
+             // Start Message 
+                const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      
+                      showConfirmButton: false,
+                      timer: 3000
+                    })
+                if ($.isEmptyObject(data.error)) {
+                    Toast.fire({
+                        type: 'success',
+                        icon: 'success',
+                        title: data.success
+                    })
+                }else{
+                    Toast.fire({
+                        type: 'error',
+                        icon: 'error',
+                        title: data.error
+                    })
+                }
+                // End Message 
+        }
+    })
+} 
+</script>
+<!--  ==============================================     END  ADD WISHLIST Book    ====================================================== -->
+<!--  ==============================================     lOAD WISHLIST Book    ====================================================== -->
+
+<script type="text/javascript">
+
+  function wishList() {
+    $.ajax({
+              type: 'GET',
+              url: '/user/getWishList',
+              dataType:'json',
+              success:function(response){
+              //   <"pre">
+              // console.log(response);
+              //   <"/pre">
+                
+                  var rows = ""
+                  $.each(response, function(key,value){
+                    rows += `<tr>
+                    <td class="col-md-2"><img src="/${value.book.product_thambnail} " alt="imga"></td>
+                    <td class="col-md-7">
+                        <div class="product-name"><a href="#">${ @if(session()->get('language') == 'french')value.book.name_fr @else value.book.name_en  @endif}</a></div>
+                         
+                        <div class="price">
+                        ${value.book.discount_price == null
+                            ? `${value.book.prix}`
+                            :
+                            `${ value.book.prix - value.book.discount_price} <span>${value.book.prix}</span>`
+                        }
+                            
+                        </div>
+                    </td>
+        <td class="col-md-2">
+            <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal" id="${value.book_id}" onclick="bookView(this.id)"> Add to Cart </button>
+        </td>
+        <td class="col-md-1 close-btn">
+            <button type="submit" class="" id="${value.id}" onclick="wishListRemove(this.id)"><i class="fa fa-times"></i></button>
+        </td>
+                </tr>`
+        });
+                  
+                  $('#wishList').html(rows);
+              }
+          })
+        }
+    wishList();
+     </script>
+   <!--  ==============================================     END  LOAD WISHLIST Book    ====================================================== -->
+<!--  ==============================================     START DELETE Book to WishList   ====================================================== -->
+<script type="text/javascript">
+
+  function wishListRemove(id){
+    $.ajax({
+        type: 'GET',
+        url: '/user/removeWishList/'+id,
+        dataType:'json',
+        success:function(data){
+        wishList();
+         // Start Message 
+            const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000
+                })
+            if ($.isEmptyObject(data.error)) {
+                Toast.fire({
+                    type: 'success',
+                    icon: 'success',
+                    title: data.success
+                })
+            }else{
+                Toast.fire({
+                    type: 'error',
+                    icon: 'error',
+                    title: data.error
+                })
+            }
+            // End Message 
+        }
+    });
+}
+</script>
+<!--  ==============================================     START DELETE  User's Book to WishList   ====================================================== -->
+
+<!--  ==============================================     lOAD User's Book to his Cart    ====================================================== -->
+
+<script type="text/javascript">
+
+  function cart() {
+    $.ajax({
+              type: 'GET',
+              url: '/user/getCart',
+              dataType:'json',
+              success:function(response){
+              //   <"pre">
+              // console.log(response);
+              //   <"/pre">
+                
+                  var rows = ""
+                  $.each(response.carts, function(key,value){
+                    rows += `<tr>
+                  
+                    <td><img src="/${value.options.image} " alt="imga" style="width:70px; height:70px;"></td>
+                    <td>
+                        <div class="product-name"><a href="#">${ @if(session()->get('language') == 'french')value.name @else value.name @endif}</a></div>
+                         
+                        <div class="price">
+                           ${value.price}
+                        </div>
+                    </td>
+
+                    <td>
+                         <button type="submit" class="btn btn-danger btn-sm"id="${value.rowId}" onclick="cartDecrement(this.id)"> - </button>
+                        <input type="text" value="${value.qty}" min="1" max="100" disabled="" style= "width:30px; height:30px;">
+                        <button type="submit" class="btn btn-success btn-sm" id="${value.rowId}" onclick="cartIncrement(this.id)"> + </button>   
+                      </td>
+                      <td>
+                          <strong> $ ${value.subtotal}</strong>
+                      </td>
+
+                    <td>
+                        <button type="submit" class="" id="${value.rowId}" onclick="cartRemove(this.id)"><i class="fa fa-times"></i></button>
+                    </td>
+                </tr>`
+                
+        });
+                  
+                  $('#cartPage').html(rows);
+              }
+          })
+        }
+    cart();
+     </script>
+   <!--  ==============================================     END  lOAD User's Book to his Cart    ====================================================== -->
+
+   <!--  ==============================================     START DELETE User's Book to his Cart   ====================================================== -->
+<script type="text/javascript">
+
+  function cartRemove(id){
+    $.ajax({
+        type: 'GET',
+        url: '/user/removeCart/'+id,
+        dataType:'json',
+        success:function(data){
+        cart();
+        miniCart();
+         // Start Message 
+            const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000
+                })
+            if ($.isEmptyObject(data.error)) {
+                Toast.fire({
+                    type: 'success',
+                    icon: 'success',
+                    title: data.success
+                })
+            }else{
+                Toast.fire({
+                    type: 'error',
+                    icon: 'error',
+                    title: data.error
+                })
+            }
+            // End Message 
+        }
+    });
+}
+</script>
+<!--  ==============================================      DELETE User's Book to his Cart  ====================================================== -->
+
+ <!--  ==============================================     START  Cart Increment   ====================================================== -->
+ <script type="text/javascript">
+
+    function cartIncrement(rowId){
+      $.ajax({
+          type: 'GET',
+          url: '/cartIncrement/'+rowId,
+          dataType:'json',
+          success:function(data){
+                cart();
+                miniCart();        
+          }
+      });
+  }
+  </script>
+  <!--  ==============================================      END Cart Increment  ====================================================== -->
+
+   <!--  ==============================================     START  Cart Decrement   ====================================================== -->
+ <script type="text/javascript">
+
+    function cartDecrement(rowId){
+      $.ajax({
+          type: 'GET',
+          url: '/cartDecrement/'+rowId,
+          dataType:'json',
+          success:function(data){
+                cart();
+                miniCart();        
+          }
+      });
+  }
+  </script>
+  <!--  ==============================================      END Cart Decrement  ====================================================== -->
+
+
+body>
 </html>
