@@ -131,6 +131,20 @@
     @if (session()->get('language') == 'english')Sliders Manages @else Gestion des Slides @endif</a></li>
      </ul>
 </li> 
+<li class="treeview {{ ($prefix=='/coupons') ? 'active' : '' }}">
+  <a href="#">
+  <i data-feather="message-circle"></i>
+  <span> @if (session()->get('language') == 'english') Coupon @else Coupon @endif </span>
+  <span class="pull-right-container">
+    <i class="fa fa-angle-right pull-right"></i>
+  </span>
+</a>
+<ul class="treeview-menu">
+  {{-- <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>All Category</a></li> --}}
+  <li class="{{($route == 'all.coupons') ? 'active' :'' }}"><a href="{{ route('all.coupons') }}"><i class="ti-more"></i>
+    @if (session()->get('language') == 'english')Coupons Manages @else Gestion des Coupons @endif</a></li>
+     </ul>
+</li> 
 
 <li class="treeview {{ ($prefix=='/shipping') ? 'active' : '' }}">
   <a href="#">

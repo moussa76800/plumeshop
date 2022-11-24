@@ -183,7 +183,7 @@ function bookView(id){
             }else{
                 $('#pprice').text(data.book.prix - data.book.discount_price);
                 $('#oldprice').text(data.book.prix);
-            } // end prodcut price 
+            } // end producut price 
 
             // Start Stock opiton
             if (data.book.product_qty > 0) {
@@ -699,7 +699,8 @@ function addToWishList(book_id){
                     <td>
                         <button type="submit" class="" id="${value.rowId}" onclick="cartRemove(this.id)"><i class="fa fa-times"></i></button>
                     </td>
-                </tr>`
+                </tr>
+                `
                 
         });
                   
@@ -758,6 +759,7 @@ function addToWishList(book_id){
           url: '/cartIncrement/'+rowId,
           dataType:'json',
           success:function(data){
+                total();
                 cart();
                 miniCart();        
           }
@@ -775,6 +777,7 @@ function addToWishList(book_id){
           url: '/cartDecrement/'+rowId,
           dataType:'json',
           success:function(data){
+            total();
                 cart();
                 miniCart();        
           }
@@ -783,6 +786,29 @@ function addToWishList(book_id){
   </script>
   <!--  ==============================================      END Cart Decrement  ====================================================== -->
 
+    <!--  ==============================================     START  Cart Total (Page myCart_view)  ====================================================== -->
+ <script type="text/javascript">
+function total(){
+  $.ajax({
+    type:'GET',
+    url:"{{ url('/totalCalculation') }}" ,
+    dataType: 'json',
+    success:function(data){
+      $('#total').html(
+        `<tr>
+                <th>
+                    <div class="cart-grand-total">
+                        Grand Total<span class="inner-left-md">$ ${data.cartTotal}</span>
+                    </div>
+                </th>
+            </tr>`                           
+      )
+    }
+  })
+}
+total();
 
+</script>
+  <!--  ==============================================      END Cart  Cart Total (Page myCart_view)  ====================================================== -->
 body>
 </html>

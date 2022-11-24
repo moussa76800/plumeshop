@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\AuthorController;
 use App\Http\Controllers\Backend\BookAuthorController;
 use App\Http\Controllers\Backend\BookController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\backend\CouponController;
 use App\Http\Controllers\Backend\PublisherController;
 use App\Http\Controllers\Backend\ShippingController;
 use App\Http\Controllers\Backend\SliderController;
@@ -138,6 +139,18 @@ Route::prefix('slider')->group(function() {
     Route::get('/active/{id}' , [SliderController::class,'activeSlider'])->name('sliderActiveNow');
 });
 
+// Admin Coupon All Routes :
+Route::prefix('coupons')->group(function() {
+    Route::get('/view' , [CouponController::class,'CouponView'])->name('all.coupons');
+    Route::get('/add' , [CouponController::class,'couponAdd'])->name('add.coupon');
+     Route::post('/store' , [CouponController::class,'couponStore'])->name('coupon.store');
+    // Route::get('/edit/{id}' , [SliderController::class,'sliderEdit'])->name('edit.slider');
+    // Route::post('/update' , [SliderController::class,'sliderUpdate'])->name('slider.update');
+    // Route::get('/delete/{id}' , [SliderController::class,'sliderDelete'])->name('delete.slider');
+    // Route::get('/inactive/{id}' , [SliderController::class,'inactiveSlider'])->name('sliderInactiveNow');
+    // Route::get('/active/{id}' , [SliderController::class,'activeSlider'])->name('sliderActiveNow');
+});
+
 // Admin Shipping All Routes :
 Route::prefix('shipping')->group(function() {
 
@@ -223,6 +236,10 @@ Route::get('/user/getCart' , [CartPageController::class,'cartRead']);  //  READ 
 Route::get('/user/removeCart/{rowId}' , [cartPageController::class,'cartDelete']);
 Route::get('/cartIncrement/{rowId}' , [cartPageController::class,'cartIncremente']);
 Route::get('/cartDecrement/{rowId}' , [cartPageController::class,'cartDecremente']);
+
+// TotalCalculation All Routes :
+Route::get('/totalCalculation',[CartController::class, 'calculationTotal']);
+
 
 // Checkout All Routes :
 Route::get('/checkout',[CartController::class, 'checkoutCreate'])->name('checkout');

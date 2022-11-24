@@ -43,33 +43,20 @@
                     <div class="col-md-4 col-sm-12 cart-shopping-total">
                     </div>
                     <div class="col-md-4 col-sm-12 cart-shopping-total">
-                    </div>
+                    </div> 
 
              
                        
-                        <tbody>
+                    <tbody>
+                         
 
-                            <div class="col-4 cart-shopping-total">
+                            <div class="col-4 col-sm-12 cart-shopping-total">
                                 <table class="table">
-                                    <div class=" cart-shopping-total">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        <thead>
-                                <tr>
-                                     <th>
-                                      
-                                        <div class="cart-grand-total">
-                                            Subtotal<span class="inner-left-md">$ ${data.total}</span>
-                                        </div>
-                                    </th>
-                                </tr>
-                            </thead>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                        </div><!-- /.cart-shopping-total -->
+                                        <thead id="total">
+                                        </thead>     
+                                           
+                    </tbody>
+                                       
                                         <tr>
                                             <td>
                                                 <div class="cart-checkout-btn pull-right">
@@ -77,13 +64,13 @@
                                                      
                                                 </div>
                                             </td>
-                                        </tr>
-                                           
-                                        </table><!-- /table -->
+                                        </tr>    
+                                </table><!-- /table -->
+                                       
                                   
-                        </tbody><!-- /tbody -->
+                        {{-- </tbody><!-- /tbody -->
                     </table><!-- /table -->
-                </div><!-- /.cart-shopping-total -->
+                </div><!-- /.cart-shopping-total -->  --}}
                 
             
             </div><!-- /.row -->
@@ -93,6 +80,7 @@
 				
 				 
 			</tbody>
+           
 		</table>
 	</div>
 </div>			</div><!-- /.row -->

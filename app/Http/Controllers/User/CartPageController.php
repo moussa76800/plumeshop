@@ -9,8 +9,13 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 class CartPageController extends Controller
 {
     public function myCart(){
+		    	
+		$carts = Cart::content();
+		$cartQty = Cart::count();
+		$cartTotal = Cart::total();
 		
-        return view('frontend.wishList.myCart_view');
+        return view('frontend.wishList.myCart_view', compact('carts','cartQty','cartTotal'));
+    		
     }
 
     public function cartRead(){
@@ -21,7 +26,7 @@ class CartPageController extends Controller
     	return response()->json(array(
     		'carts' => $carts,
     		'cartQty' => $cartQty,
-    		'cartTotal' => round($cartTotal),
+    		'cartTotal' => $cartTotal,
     	));
     }
 
