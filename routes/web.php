@@ -144,11 +144,11 @@ Route::prefix('coupons')->group(function() {
     Route::get('/view' , [CouponController::class,'CouponView'])->name('all.coupons');
     Route::get('/add' , [CouponController::class,'couponAdd'])->name('add.coupon');
      Route::post('/store' , [CouponController::class,'couponStore'])->name('coupon.store');
-    // Route::get('/edit/{id}' , [SliderController::class,'sliderEdit'])->name('edit.slider');
-    // Route::post('/update' , [SliderController::class,'sliderUpdate'])->name('slider.update');
-    // Route::get('/delete/{id}' , [SliderController::class,'sliderDelete'])->name('delete.slider');
-    // Route::get('/inactive/{id}' , [SliderController::class,'inactiveSlider'])->name('sliderInactiveNow');
-    // Route::get('/active/{id}' , [SliderController::class,'activeSlider'])->name('sliderActiveNow');
+     Route::get('/edit/{id}' , [CouponController::class,'couponEdit'])->name('edit.coupon');
+     Route::post('/update' , [CouponController::class,'couponUpdate'])->name('coupon.update');
+     Route::get('/delete/{id}' , [CouponController::class,'couponDelete']);
+     Route::get('/inactive/{id}' , [CouponController::class,'inactiveCoupon'])->name('couponInactiveNow');
+     Route::get('/active/{id}' , [CouponController::class,'activeCoupon'])->name('couponActiveNow');
 });
 
 // Admin Shipping All Routes :
@@ -237,9 +237,10 @@ Route::get('/user/removeCart/{rowId}' , [cartPageController::class,'cartDelete']
 Route::get('/cartIncrement/{rowId}' , [cartPageController::class,'cartIncremente']);
 Route::get('/cartDecrement/{rowId}' , [cartPageController::class,'cartDecremente']);
 
-// TotalCalculation All Routes :
-Route::get('/totalCalculation',[CartController::class, 'calculationTotal']);
-
-
 // Checkout All Routes :
 Route::get('/checkout',[CartController::class, 'checkoutCreate'])->name('checkout');
+
+// Coupon All Routes :
+Route::post('/couponApply' , [CartController::class,'couponApply']);
+Route::get('/couponCalculation',[CartController::class, 'calculationTotal']);
+Route::get('/couponRemove',[CartController::class, 'couponRemove']);

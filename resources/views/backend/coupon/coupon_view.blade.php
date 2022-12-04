@@ -59,12 +59,12 @@
                             @endif
                               </td>
                               <td>
-                                <a href="" class="btn btn-warning" title="Edit data"><i class="fa fa-pencil" ></i></a>
-                                <a href="" class="btn btn-danger" title="Delete data" id="delete"><i class="fa fa-trash "></i></a>
+                                <a href="{{ route('edit.coupon',$item->id) }}" class="btn btn-warning" title="Edit data"><i class="fa fa-pencil" ></i></a>
+                                <a href="{{url('coupons/delete/'.$item->id) }}" class="btn btn-danger" title="Delete data" id="delete"><i class="fa fa-trash "></i></a>
                                 @if ($item->status == 1)
-                                <a href="" class="btn btn-danger" title="Inactive Now"><i class="fa fa-arrow-down" ></i></a>
+                                <a href="{{route('couponInactiveNow',$item->id) }}" class="btn btn-danger" title="Inactive Now"><i class="fa fa-arrow-down" ></i></a>
                                  @else
-                                 <a href="" class="btn btn-success" title="Active Now"><i class="fa fa-arrow-up" ></i></a>
+                                 <a href="{{route('couponActiveNow',$item->id) }}" class="btn btn-success" title="Active Now"><i class="fa fa-arrow-up" ></i></a>
                                  @endif
                               </td>
                           </tr>
@@ -72,6 +72,7 @@
                           @endforeach
                         </tbody>
                       </table><br>
+                      
                       <div>
                     <a class="btn btn-success btn-lg btn-block pull-right" href="{{ route('add.coupon') }}"  title="Add data">@if (session()->get('language') == 'french')Ajouter un Coupon @else Add Coupon @endif</a>
                       </div>

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Coupon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CartPageController extends Controller
@@ -40,12 +42,39 @@ public function cartDelete($rowId){
 public function cartIncremente($rowId){
 	$row = Cart::get($rowId);
 	Cart::update($rowId, $row->qty+1);
+
+	if (Session::has('coupon')) {
+
+		$coupon_name = Session::get('coupon')['coupon_name'];
+		$coupon = Coupon::where('name_fr',$coupon_name)->first();
+
+	  
+		Session::put('coupon',[
+			'coupon_name' => $coupon->name_fr ,
+			'coupon_discount' => $coupon->coupon_discount ,
+			'discount_amount' => round((Cart::total() * $coupon->coupon_discount)/100) ,
+			'total_amount' => round(Cart::total() - (Cart::total() * $coupon->coupon_discount/100)) 
+		]);
+	}
 		return response()->json('increment');
 	}
 
 	public function cartDecremente($rowId){
 		$row = Cart::get($rowId);
 		Cart::update($rowId, $row->qty-1);
+
+		if (Session::has('coupon')) {
+
+			$coupon_name = Session::get('coupon')['coupon_name'];
+			$coupon = Coupon::where('name_fr',$coupon_name)->first();
+	
+		    Session::put('coupon',[
+				'coupon_name' => $coupon->name_fr ,
+				'coupon_discount' => $coupon->coupon_discount ,
+				'discount_amount' => round((Cart::total() * $coupon->coupon_discount)/100) ,
+				'total_amount' => round(Cart::total() - (Cart::total() * $coupon->coupon_discount/100)) 
+			]);
+		}
 			return response()->json('decrement');
 		
 	}

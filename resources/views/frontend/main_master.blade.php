@@ -759,7 +759,7 @@ function addToWishList(book_id){
           url: '/cartIncrement/'+rowId,
           dataType:'json',
           success:function(data){
-                total();
+            couponCalculation()
                 cart();
                 miniCart();        
           }
@@ -777,7 +777,7 @@ function addToWishList(book_id){
           url: '/cartDecrement/'+rowId,
           dataType:'json',
           success:function(data){
-            total();
+            couponCalculation()
                 cart();
                 miniCart();        
           }
@@ -786,29 +786,128 @@ function addToWishList(book_id){
   </script>
   <!--  ==============================================      END Cart Decrement  ====================================================== -->
 
-    <!--  ==============================================     START  Cart Total (Page myCart_view)  ====================================================== -->
- <script type="text/javascript">
-function total(){
-  $.ajax({
+
+    <!--  ==============================================     START  Coupon to the Cart  (Page myCart_view)  ====================================================== -->
+    <script type="text/javascript">
+    var coupon_name = $('#coupon_name').val();
+    function applyCoupon(){
+      $.ajax({
+        type:'POST',
+        url:"{{ url('/couponApply') }}",
+        dataType:'json',
+        data:{coupon_name:coupon_name},
+        success:function(data){
+          couponCalculation();
+          $('#couponField').hide();
+          //Start message
+          const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000
+                })
+            if ($.isEmptyObject(data.error)) {
+                Toast.fire({
+                    type: 'success',
+                    icon: 'success',
+                    title: data.success
+                })
+            }else{
+                Toast.fire({
+                    type: 'error',
+                    icon: 'error',
+                    title: data.error
+                })
+            }
+            // End Message 
+        }
+      })
+    }
+
+    function couponCalculation(){
+      $.ajax({
     type:'GET',
-    url:"{{ url('/totalCalculation') }}" ,
+    url:"{{ url('/couponCalculation') }}" ,
     dataType: 'json',
-    success:function(data){
-      $('#total').html(
-        `<tr>
+    success:function(data){ 
+     if (data.total) {
+                $('#couponCalField').html(
+                    `<tr>
                 <th>
+                    <div class="cart-sub-total">
+                      @if(session()->get('language') == 'french')Sous-Total <span class="inner-left-md">€ ${data.total}</span> @else Subtotal<span class="inner-left-md">$ ${data.total} @endif </span>
+                    </div>
                     <div class="cart-grand-total">
-                        Grand Total<span class="inner-left-md">$ ${data.cartTotal}</span>
+                        Grand Total<span class="inner-left-md">$ ${data.total}</span>
                     </div>
                 </th>
-            </tr>`                           
-      )
+            </tr>`
+            )
+            }else{
+                 $('#couponCalField').html(
+                    `<tr>
+        <th>
+            <div class="cart-sub-total">
+              @if(session()->get('language') == 'french')Sous-Total <span class="inner-left-md">€ ${data.subtotal}</span> @else Subtotal<span class="inner-left-md">$ ${data.subtotal} @endif</span>
+            </div>
+            <div class="cart-sub-total">
+                Coupon<span class="inner-left-md"> ${data.couponName}</span>
+                <button type="submit" onclick="couponRemove()"><i class="fa fa-times"></i>  </button>
+            </div>
+             <div class="cart-sub-total">
+              @if(session()->get('language') == 'french')Ristourne <span class="inner-left-md">€ ${data.discountAmount}</span> @else Discount Amount<span class="inner-left-md">$ $ ${data.discountAmount} @endif</span>
+            </div>
+            <div class="cart-grand-total">
+              @if(session()->get('language') == 'french')Total<span class="inner-left-md">€ ${data.totalAmount}</span> @else Total<span class="inner-left-md">$ ${data.totalAmount} @endif</span>
+            </div>
+        </th>
+            </tr>`
+            )
+            }
+        }
+    });
+  }
+ couponCalculation();
+</script>
+  
+    <!--  ==============================================     START  Coupon Remove to the Cart  (look Html Method CouponCalculation())  ====================================================== -->
+    <script type="text/javascript">
+function couponRemove(){
+  $.ajax({
+    type:'GET',
+    url:"{{ url('/couponRemove') }}",
+    dataType: 'json',
+    success:function(data){
+      couponCalculation();
+      $('#couponField').show();
+      $('#coupon_name').val('');
+      
+      const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000
+                })
+            if ($.isEmptyObject(data.error)) {
+                Toast.fire({
+                    type: 'success',
+                    icon: 'success',
+                    title: data.success
+                })
+            }else{
+                Toast.fire({
+                    type: 'error',
+                    icon: 'error',
+                    title: data.error
+                })
+            }
+            // End Message 
     }
+
   })
 }
-total();
+    </script>
+     <!--  ==============================================     START  Coupon Remove to the Cart  (look Html Method CouponCalculation())  ====================================================== -->
 
-</script>
-  <!--  ==============================================      END Cart  Cart Total (Page myCart_view)  ====================================================== -->
-body>
+</body>
 </html>

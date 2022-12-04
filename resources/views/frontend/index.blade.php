@@ -868,8 +868,8 @@
                       @if ($book->discount_price == NULL)
                   <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->prix }} @else $ {{ $book->prix }} @endif </span> </div>
                           @else
-                  <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->prix - $book->discount_price }} </span> <span class="price-before-discount">  €  {{ $book->prix }}</span> @else
-                    $ {{$book->prix - $book->discount_price  }} </span> <span class="price-before-discount">  $  {{ $book->prix }} @endif </div>
+                  <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $amount }} </span> <span class="price-before-discount">  €  {{ $book->prix }}</span> @else
+                    $ {{$amount  }} </span> <span class="price-before-discount">  $  {{ $book->prix }} @endif </div>
                 @endif
                       <!-- /.product-price --> 
                       
