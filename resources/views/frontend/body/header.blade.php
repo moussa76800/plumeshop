@@ -15,7 +15,7 @@
               <li><a href="{{ route('myCart') }}"><i class="icon fa fa-shopping-cart"></i>
                 @if (session()->get('language') == 'french')Mon panier
                 @else My Cart @endif</a></li>
-              <li><a href="#"><i class="icon fa fa-check"></i>
+              <li><a href="{{ route('checkout') }}"><i class="icon fa fa-check"></i>
                 @if (session()->get('language') == 'french')Verifier 
                 @else Checkout @endif</a></li>
               <li>
@@ -123,9 +123,9 @@
                 <!--  END Mini-Cart With AJAX --> 
 
                     <div class="clearfix cart-total">
-                    <div class="pull-right"> <span class="text">Sub Total :</span><span class='price' id="cartSubTotal"></span> </div>
+                    <div class="pull-right"> @if (session()->get('language') == 'french') <span class="text">Sous-Total :</span>@else <span class="text">Sub Total :</span> @endif<span class='price' id="cartSubTotal"></span> </div>
                     <div class="clearfix"></div>
-                    <a href="checkout.html" class="btn btn-upper btn-primary btn-block m-t-20">Checkout</a> </div>
+                    <a href="checkout.html" class="btn btn-upper btn-primary btn-block m-t-20"> @if (session()->get('language') == 'french')Verification @else Checkout @endif</a> </div>
                   <!-- /.cart-total--> 
                   
                 </li>
@@ -157,7 +157,7 @@
             <div class="navbar-collapse collapse" id="mc-horizontal-menu-collapse">
               <div class="nav-outer">
                 <ul class="nav navbar-nav">
-                  <li class="active dropdown yamm-fw"><a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french')Accueil @else Home @endif</a></li>
+                  <li class="active dropdown yamm-fw"><a href="{{url ('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french')Accueil @else Home @endif</a></li>
                   @php
                       $categories = App\Models\Category::orderBy('name_en' , 'ASC')->get();
                   @endphp
@@ -165,7 +165,7 @@
                   @foreach ($categories as $category)
                       
               
-                  <li class="dropdown yamm mega-menu"> <a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french'){{ $category->name_fr }} @else {{ $category->name_en }} @endif</a>
+                  <li class="dropdown yamm mega-menu"> <a href="" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french'){{ $category->name_fr }} @else {{ $category->name_en }} @endif</a>
                     <ul class="dropdown-menu container">
                       <li>
                         <div class="yamm-content ">

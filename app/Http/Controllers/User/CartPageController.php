@@ -34,6 +34,9 @@ class CartPageController extends Controller
 
 public function cartDelete($rowId){
 		Cart::remove($rowId);
+		if(Session::has('coupon')) {
+			Session::forget('coupon');
+		}
 		if  (session()->get('language') == 'french'){ 
 		return response()->json(['success' => 'Votre article a bien été effacer de votre panier']);
 	}
@@ -52,8 +55,8 @@ public function cartIncremente($rowId){
 		Session::put('coupon',[
 			'coupon_name' => $coupon->name_fr ,
 			'coupon_discount' => $coupon->coupon_discount ,
-			'discount_amount' => round((Cart::total() * $coupon->coupon_discount)/100) ,
-			'total_amount' => round(Cart::total() - (Cart::total() * $coupon->coupon_discount/100)) 
+			'discountAmount' => round(Cart::total() * $coupon->coupon_discount)/100 ,
+			'totalAmount' => round(Cart::total() - Cart::total() * $coupon->coupon_discount/100) 
 		]);
 	}
 		return response()->json('increment');

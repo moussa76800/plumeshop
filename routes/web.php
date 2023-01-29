@@ -18,6 +18,7 @@ use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\User\CartPageController;
+use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\wishlistController;
 use App\Models\ShipCommon;
 
@@ -93,6 +94,7 @@ Route::prefix('publisher')->group(function() {
 
 // Admin Books All Routes :
 Route::prefix('book')->group(function() {
+    Route::get('/books/search', 'BookController@search')->name('books.search');
     Route::get('/view' , [BookController::class,'bookView'])->name('all.books');
     Route::get('/add' , [BookController::class,'bookAdd'])->name('add.book');
     Route::post('/store' , [BookController::class,'bookStore'])->name('book.store');
@@ -239,6 +241,8 @@ Route::get('/cartDecrement/{rowId}' , [cartPageController::class,'cartDecremente
 
 // Checkout All Routes :
 Route::get('/checkout',[CartController::class, 'checkoutCreate'])->name('checkout');
+Route::get('/common/ajax/{town_id}',[CheckoutController::class, 'commonGetAjax']);
+Route::post('/checkout/store',[CheckoutController::class, 'checkoutStore'])->name('checkout.store');
 
 // Coupon All Routes :
 Route::post('/couponApply' , [CartController::class,'couponApply']);

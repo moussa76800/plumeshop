@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
+use App\Models\ShipCommon;
+use App\Models\ShipCountry;
+use App\Models\ShipTown;
 use Illuminate\Support\Facades\Auth;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Session;
@@ -16,6 +19,10 @@ class CartController extends Controller
 {
     
     public function bookAddCartAJAX( Request $request , $id) {
+
+		if(Session::has('coupon')) {
+			Session::forget('coupon');
+		}
 
         $book = Book::findOrFail($id);
 
@@ -42,7 +49,7 @@ class CartController extends Controller
                 'id' => $id, 
                 'name' => $request->book_name, 
                 'qty' =>$request->quantity, 
-                'price' => $book->prix - $book->discount_price ,
+                'price' => ($book->prix - $book->discount_price) ,
                 'weight' => 1  ,
                 'options' => [
     				'image' => $book->product_thambnail,
@@ -149,8 +156,10 @@ class CartController extends Controller
             $cartQty = Cart::count();
             $cartTotal = Cart::total();
     
-            // $divisions = ShipDivision::orderBy('division_name','ASC')->get();
-            return view('frontend.checkout.checkout_view',compact('carts','cartQty','cartTotal'));
+            $common = ShipCommon::orderBy('name','ASC')->get();
+            $town = ShipTown::orderBy('name','ASC')->get();
+            $country = ShipCountry::orderBy('name','ASC')->get();
+            return view('frontend.checkout.checkout_view',compact('carts','cartQty','cartTotal', 'common', 'town' , 'country'));
                     
                 }else{
     

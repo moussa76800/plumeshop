@@ -13,7 +13,20 @@
           <!-- ================================== TOP NAVIGATION ================================== -->
           @include('frontend.common.vertical_menu')
           <!-- ================================== TOP NAVIGATION : END ================================== --> 
-          
+          <div id="menu-lateral">
+        </div>
+        <button id="menu-button" onclick="toggleMenu()">changer de couleur de template</button>
+        <style>
+        function toggleMenu() {
+  var menu = document.getElementById("menu-lateral");
+  if (menu.style.display === "none") {
+    menu.style.display = "block";
+  } else {
+    menu.style.display = "none";
+  }
+}
+ </style>
+        
           <!-- ============================================== HOT DEALS ============================================== -->
            {{-- <div class="sidebar-widget hot-deals wow fadeInUp outer-bottom-xs">
             <h3 class="section-title">hot deals</h3>

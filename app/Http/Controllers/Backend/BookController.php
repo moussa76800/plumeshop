@@ -29,6 +29,42 @@ class BookController extends Controller
         return view('backend.book.book_view' , compact('book'));
        }
 
+
+      public function search(Request $request)
+    {
+        $request->validate([
+            'query' => 'required|string',
+        ]);
+
+        $query = $request->input('query');
+        $books = Book::search($query)->get();
+
+        if (! $books->count()) {
+            return back()->withErrors(['Aucun résultat trouvé']);
+        }
+
+        return view('books.search', ['books' => $books]);
+    }
+// }
+//         $query = $request->input('query');
+//         $type = $request->input('type');
+//         $books = null;
+//         if ($type === 'title') {
+//             $books = Book::where('title', 'like', '%' . $query . '%')->get();
+//         } elseif ($type === 'author') {
+//             $books = Book::whereHas('authors', function ($query) use ($request) {
+//                 $query->where('name', 'like', '%' . $request->input('query') . '%');
+//             })->get();
+//         } elseif ($type === 'publisher') {
+//             $books = Book::where('publisher', 'like', '%' . $query . '%')->get();
+//         } elseif ($type === 'category') {
+//          $books = Book::whereHas('categories', function ($query) use ($request) {
+//             $query->where('name', 'like', '%' . $request->input('query') . '%');
+//         })->get();
+//     }
+//     return view('books.search', ['books' => $books]);
+// }
+
     
        public function bookAdd() { 
 

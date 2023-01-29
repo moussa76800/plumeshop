@@ -721,8 +721,11 @@ function addToWishList(book_id){
         url: '/user/removeCart/'+id,
         dataType:'json',
         success:function(data){
+        couponCalculation();
         cart();
         miniCart();
+        $('#couponField').show();
+        $('#coupon_name').val('');
          // Start Message 
             const Toast = Swal.mixin({
                   toast: true,
@@ -855,7 +858,7 @@ function addToWishList(book_id){
                 <button type="submit" onclick="couponRemove()"><i class="fa fa-times"></i>  </button>
             </div>
              <div class="cart-sub-total">
-              @if(session()->get('language') == 'french')Ristourne <span class="inner-left-md">€ ${data.discountAmount}</span> @else Discount Amount<span class="inner-left-md">$ $ ${data.discountAmount} @endif</span>
+              @if(session()->get('language') == 'french')Ristourne <span class="inner-left-md">€ ${data.discountAmount}</span> @else Discount Amount<span class="inner-left-md"> $ ${data.discountAmount} @endif</span>
             </div>
             <div class="cart-grand-total">
               @if(session()->get('language') == 'french')Total<span class="inner-left-md">€ ${data.totalAmount}</span> @else Total<span class="inner-left-md">$ ${data.totalAmount} @endif</span>

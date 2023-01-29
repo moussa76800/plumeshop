@@ -12,7 +12,14 @@
         <div class="box-body">
             <div class="table_responsive">
 
-                <form method="post" action="{{route('book.store') }}" enctype="multipart/form-data">
+                <form action="{{ route('books.search') }}" method="GET">
+                    <input type="text" name="query" placeholder="Entrez votre recherche">
+                   
+                    <button type="submit">Rechercher</button>
+                </form>
+                
+
+                {{-- <form method="post" action="{{route('book.store') }}" enctype="multipart/form-data">
                         @csrf
 
                         <form novalidate>
@@ -188,7 +195,7 @@
                                 </div> <!--end col md 4 -->
             </div>
              --}}
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-md-6">
                 <div class="form-group">
                     <h5>long_descp_en<span class="text-danger">*</span></h5>
@@ -267,7 +274,7 @@
                     @enderror
                         </div>
                     </div>
-                </div> <!--end col md 4 -->
+                </div> <!--end col md 4 -->  --}}
             
         <BR>
             <div class="row">
@@ -299,7 +306,7 @@
                 </div> --}}
 
                 <div class="text-xs-right">
-                    <input type="submit" class="btn btn-rounded btn-primary mb-5" value="Add New Book">
+                    <input type="submit" class="btn btn-rounded btn-primary mb-5" value="Valider">
                 </div>
                         </form>
 
