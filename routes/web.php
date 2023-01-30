@@ -19,6 +19,7 @@ use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\User\CartPageController;
 use App\Http\Controllers\User\CheckoutController;
+use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\User\wishlistController;
 use App\Models\ShipCommon;
 
@@ -248,3 +249,6 @@ Route::post('/checkout/store',[CheckoutController::class, 'checkoutStore'])->nam
 Route::post('/couponApply' , [CartController::class,'couponApply']);
 Route::get('/couponCalculation',[CartController::class, 'calculationTotal']);
 Route::get('/couponRemove',[CartController::class, 'couponRemove']);
+
+//stripe ALL Routes :
+Route::post('/stripe/order',[StripeController::class, 'stripeOrder'])->name('stripe.order');
