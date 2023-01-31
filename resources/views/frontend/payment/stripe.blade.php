@@ -6,7 +6,7 @@
 @if (session()->get('language') == 'french') Paiement par Stripe @else  Stripe Payment  @endif 
 @endsection
 
-/////////////////////////---------- CSS ------- /////////////////////////////
+<!-- CSS -->
 <style>
     /**
  * The CSS shown here will not be introduced in the Quickstart guide, but shows
@@ -32,7 +32,7 @@
 .StripeElement--webkit-autofill {
   background-color: #fefde5 !important;}
 </style>
-/////////////////////////----------End CSS ------- /////////////////////////////
+<!-- End CSS -->
 
 
 <div class="breadcrumb">
@@ -140,7 +140,15 @@
                 @csrf
             <div class="form-row">
                 <label for="card-element">
-                    @if (session()->get('language') == 'french')Carte de crédit ou carte de débit @else Credit or debit card @endif
+                    {{-- @if (session()->get('language') == 'french')Carte de crédit ou carte de débit @else Credit or debit card @endif --}}
+                    <input type="text" name="name" value="{{ $data['shipping_name'] }}">
+                    <input type="text" name="email" value="{{ $data['shipping_email'] }}">
+                    <input type="text" name="phone" value="{{ $data['shipping_phone'] }}">
+                    <input type="text" name="post_code" value="{{ $data['post_code'] }}">
+                    <input type="text" name="common_id" value="{{ $data['common_id'] }}">
+                    <input type="text" name="town_id" value="{{ $data['town_id'] }}">
+                    <input type="text" name="country_id" value="{{ $data['country_id'] }}">
+                    <input type="text" name="notes" value="{{ $data['notes'] }}"> 
                 </label>
                  
                 <div id="card-element">
@@ -187,7 +195,7 @@
 
 
  
-/////////////////////////----------Start JavaScript  ------- /////////////////////////////
+<!--Start JavaScript  -->
 <script type="text/javascript">
     // Create a Stripe client.
 var stripe = Stripe('pk_test_51LakgQG89EAKe7W6MrjN7NyUxexCy2QQB2WW1K2k1eqYTHww4B9N6EjqruwOwjTzmZEseD8ZJOfrZSU4u2hYS0D70002nYrYBl');
@@ -242,17 +250,17 @@ form.addEventListener('submit', function(event) {
 function stripeTokenHandler(token) {
   // Insert the token ID into the form so it gets submitted to the server
   var form = document.getElementById('payment-form');
-  var hiddenInput = document.createElement('input');
-  hiddenInput.setAttribute('type', 'hidden');
-  hiddenInput.setAttribute('name', 'stripeToken');
-  hiddenInput.setAttribute('value', token.id);
-  form.appendChild(hiddenInput);
+  var textInput = document.createElement('input');
+  textInput.setAttribute('type', 'text');
+  textInput.setAttribute('name', 'stripeToken');
+  textInput.setAttribute('value', token.id);
+  form.appendChild(textInput);
   // Submit the form
   form.submit();
 }
 </script>
 
-/////////////////////////----------End JavaScript ------- /////////////////////////////
+<!---End JavaScript -->
 
 
 

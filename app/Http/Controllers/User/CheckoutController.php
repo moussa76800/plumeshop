@@ -25,7 +25,7 @@ class CheckoutController extends Controller
            $data['post_code'] = $request->post_code;
            $data['common_id'] = $request->common_id;
            $data['town_id'] = $request->town_id;
-           $data['state_id'] = $request->state_id;
+           $data['country_id'] = $request->country_id;
            $data['notes'] = $request->notes;
            $cartTotal = Cart::total();
            $carts = Cart::content();
