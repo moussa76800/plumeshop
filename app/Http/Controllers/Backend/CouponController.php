@@ -45,14 +45,15 @@ class CouponController extends Controller
 
                     return redirect()->back()->with($notification);
 
-                    }
-                    $notification = array(
-                        'message' => 'Coupon Inserted Successfully',
-                        'alert-type' => 'success'
-                    );
+                }else{ 
+                $notification = array(
+                    'message' => 'Coupon Inserted Successfully',
+                    'alert-type' => 'success'
+                );
 
                     return redirect()->back()->with($notification);
                 }
+            }
 
                 public function couponEdit($id){
                     $coupon = Coupon::find($id);

@@ -22,6 +22,8 @@ use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\User\wishlistController;
 use App\Models\ShipCommon;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -187,7 +189,9 @@ Route::prefix('shipping')->group(function() {
 
 
 Route::middleware(['auth:sanctum,web', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
+    $id =Auth::user()->id;
+    $user = User::find($id);
+    return view('dashboard', compact('user'));
 })->name('dashboard');
 
 

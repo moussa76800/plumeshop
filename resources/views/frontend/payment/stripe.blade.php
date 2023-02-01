@@ -141,14 +141,14 @@
             <div class="form-row">
                 <label for="card-element">
                     {{-- @if (session()->get('language') == 'french')Carte de crédit ou carte de débit @else Credit or debit card @endif --}}
-                    <input type="text" name="name" value="{{ $data['shipping_name'] }}">
-                    <input type="text" name="email" value="{{ $data['shipping_email'] }}">
-                    <input type="text" name="phone" value="{{ $data['shipping_phone'] }}">
-                    <input type="text" name="post_code" value="{{ $data['post_code'] }}">
-                    <input type="text" name="common_id" value="{{ $data['common_id'] }}">
-                    <input type="text" name="town_id" value="{{ $data['town_id'] }}">
-                    <input type="text" name="country_id" value="{{ $data['country_id'] }}">
-                    <input type="text" name="notes" value="{{ $data['notes'] }}"> 
+                    <input type="hidden" name="name" value="{{ $data['shipping_name'] }}">
+                    <input type="hidden" name="email" value="{{ $data['shipping_email'] }}">
+                    <input type="hidden" name="phone" value="{{ $data['shipping_phone'] }}">
+                    <input type="hidden" name="post_code" value="{{ $data['post_code'] }}">
+                    <input type="hidden" name="common_id" value="{{ $data['common_id'] }}">
+                    <input type="hidden" name="town_id" value="{{ $data['town_id'] }}">
+                    <input type="hidden" name="country_id" value="{{ $data['country_id'] }}">
+                    <input type="hidden" name="notes" value="{{ $data['notes'] }}"> 
                 </label>
                  
                 <div id="card-element">
@@ -226,9 +226,9 @@ card.mount('#card-element');
 card.on('change', function(event) {
   var displayError = document.getElementById('card-errors');
   if (event.error) {
-    displayError.textContent = event.error.message;
+    displayError.hiddenContent = event.error.message;
   } else {
-    displayError.textContent = '';
+    displayError.hiddenContent = '';
   }
 });
 // Handle form submission.
@@ -239,7 +239,7 @@ form.addEventListener('submit', function(event) {
     if (result.error) {
       // Inform the user if there was an error.
       var errorElement = document.getElementById('card-errors');
-      errorElement.textContent = result.error.message;
+      errorElement.hiddenContent = result.error.message;
     } else {
       // Send the token to your server.
       stripeTokenHandler(result.token);
@@ -250,11 +250,11 @@ form.addEventListener('submit', function(event) {
 function stripeTokenHandler(token) {
   // Insert the token ID into the form so it gets submitted to the server
   var form = document.getElementById('payment-form');
-  var textInput = document.createElement('input');
-  textInput.setAttribute('type', 'text');
-  textInput.setAttribute('name', 'stripeToken');
-  textInput.setAttribute('value', token.id);
-  form.appendChild(textInput);
+  var hiddenInput = document.createElement('input');
+  hiddenInput.setAttribute('type', 'hidden');
+  hiddenInput.setAttribute('name', 'stripeToken');
+  hiddenInput.setAttribute('value', token.id);
+  form.appendChild(hiddenInput);
   // Submit the form
   form.submit();
 }
