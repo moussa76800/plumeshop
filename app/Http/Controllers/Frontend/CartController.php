@@ -208,12 +208,14 @@ class CartController extends Controller
             Session::forget('coupon');
             if (session()->get('language') == 'french'){
             return response()->json([
+                'validity' => true,
                 'success' => 'Le Coupon a bien été supprimé'
             ]);
         }
-        return response()->json([
-        'success' => 'The coupon Remove Successufully'
-    ]);
+            return response()->json([
+                'validity' => true,
+            'success' => 'The coupon Remove Successufully'
+        ]);
     }
         }       
 

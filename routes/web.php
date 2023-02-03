@@ -17,6 +17,7 @@ use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\User\AllUserController;
 use App\Http\Controllers\User\CartPageController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\StripeController;
@@ -199,12 +200,19 @@ Route::middleware(['auth:sanctum,web', 'verified'])->get('/dashboard', function 
 
 
 // User All Routes :
+Route::middleware(['auth:sanctum,web', 'verified'])->get('/dashboard', function () {
+	$id = Auth::user()->id;
+    $user = User::find($id);
+    return view('dashboard',compact('user'));
+})->name('dashboard');
+
 Route::get('/', [IndexController::class, 'index']);
 Route::get('/user/logout', [IndexController::class, 'UserLogout'])->name('user.logout');
 Route::get('/user/profile', [IndexController::class, 'UserProfile'])->name('user.profile');
 Route::post('/user/profile/store', [IndexController::class, 'UserProfileStore'])->name('user.profile.store');
 Route::get('/user/change/password', [IndexController::class, 'UserChangePassword'])->name('change.password');
 Route::post('/user/password/update', [IndexController::class, 'UserUpdatePassword'])->name('user.password.update');
+
 
 // Multi Language All Routes :
 Route::get('/language/english' , [LanguageController::class,'languageEnglish'])->name('english');
@@ -231,10 +239,17 @@ Route::get('/minicart/removeBook/{rowId}' , [CartController::class,'deleteBookMi
 Route::post('/addToWishList/{book_id}' , [CartController::class,'AddBookToWishListAJAX']);   // CREATE Book to WishList with AJAX.
 
 // Page WishList All Routes :
-    Route::group(['prefix'=>'user','middleware' =>['user' , 'auth'],'namespace'=>'User'],function(){
+Route::group(['prefix'=>'user','middleware' =>['user' , 'auth'],'namespace'=>'User'],function(){  
 Route::get('/WishList' , [wishlistController::class,'wishList'])->name('wishList');
 Route::get('/getWishList' , [wishlistController::class,'wishListRead']);  //  READ Book data
 Route::get('/removeWishList/{id}' , [wishlistController::class,'wishListDelete']);
+
+//stripe ALL Routes :
+Route::post('/stripe/order',[StripeController::class, 'stripeOrder'])->name('stripe.order');
+
+//Order All Routes :
+Route::get('/myOrder',[AllUserController::class, 'myOrder'])->name('my_Order');
+Route::get('/order_detail/{order_id}',[AllUserController::class, 'OrderDetail']);
 });
 
 // Cart Page All Routes :
@@ -254,5 +269,3 @@ Route::post('/couponApply' , [CartController::class,'couponApply']);
 Route::get('/couponCalculation',[CartController::class, 'calculationTotal']);
 Route::get('/couponRemove',[CartController::class, 'couponRemove']);
 
-//stripe ALL Routes :
-Route::post('/stripe/order',[StripeController::class, 'stripeOrder'])->name('stripe.order');

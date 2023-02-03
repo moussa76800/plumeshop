@@ -803,8 +803,11 @@ function addToWishList(book_id){
         dataType:'json',
         data:{coupon_name:coupon_name},
         success:function(data){
-          couponCalculation();
-          $('#couponField').hide();
+          if(data.validity == true){
+            couponCalculation();
+          $('#couponField').hide(); 
+          }
+         
           //Start message
           const Toast = Swal.mixin({
                   toast: true,
