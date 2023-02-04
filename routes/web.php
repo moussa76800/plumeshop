@@ -19,6 +19,7 @@ use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\User\AllUserController;
 use App\Http\Controllers\User\CartPageController;
+use App\Http\Controllers\User\CashController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\User\wishlistController;
@@ -187,15 +188,6 @@ Route::prefix('shipping')->group(function() {
 });
 
 
-
-
-Route::middleware(['auth:sanctum,web', 'verified'])->get('/dashboard', function () {
-    $id =Auth::user()->id;
-    $user = User::find($id);
-    return view('dashboard', compact('user'));
-})->name('dashboard');
-
-
 ////////////////////////////////////////////////////////////////////////////////  FRONT_END  //////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -247,10 +239,17 @@ Route::get('/removeWishList/{id}' , [wishlistController::class,'wishListDelete']
 //stripe ALL Routes :
 Route::post('/stripe/order',[StripeController::class, 'stripeOrder'])->name('stripe.order');
 
+// Cash ALL Routes :
+Route::post('/cash/order',[CashController::class, 'cashOrder'])->name('cash.order');
+
 //Order All Routes :
 Route::get('/myOrder',[AllUserController::class, 'myOrder'])->name('my_Order');
 Route::get('/order_detail/{order_id}',[AllUserController::class, 'OrderDetail']);
+Route::get('/invoice_download/{order_id}',[AllUserController::class, 'InvoiceDownload']);
+
 });
+
+
 
 // Cart Page All Routes :
 Route::get('/myCart' , [CartPageController::class,'myCart'])->name('myCart');
@@ -263,6 +262,7 @@ Route::get('/cartDecrement/{rowId}' , [cartPageController::class,'cartDecremente
 Route::get('/checkout',[CartController::class, 'checkoutCreate'])->name('checkout');
 Route::get('/common/ajax/{town_id}',[CheckoutController::class, 'commonGetAjax']);
 Route::post('/checkout/store',[CheckoutController::class, 'checkoutStore'])->name('checkout.store');
+
 
 // Coupon All Routes :
 Route::post('/couponApply' , [CartController::class,'couponApply']);
