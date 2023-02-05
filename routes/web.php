@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\BookAuthorController;
 use App\Http\Controllers\Backend\BookController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\backend\CouponController;
+use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\PublisherController;
 use App\Http\Controllers\Backend\ShippingController;
 use App\Http\Controllers\Backend\SliderController;
@@ -185,6 +186,26 @@ Route::prefix('shipping')->group(function() {
     // Route::post('/update' , [SliderController::class,'sliderUpdate'])->name('slider.update');
     // Route::get('/delete/{id}' , [SliderController::class,'sliderDelete'])->name('delete.slider');
    
+});
+
+// Admin Orders All Routes :
+Route::prefix('orders')->group(function() {
+    Route::get('/pending/order' , [OrderController::class,'PendingOrders'])->name('pending');
+    Route::get('/pending/order/detail/{order_id}' , [OrderController::class,'PendingOrderDetail'])->name('pending.detail');
+    Route::get('/confirmed/order' , [OrderController::class,'confirmedOrders'])->name('confirmed');
+    Route::get('/processing/order' , [OrderController::class,'processingOrders'])->name('processing');
+    Route::get('/picked/order' , [OrderController::class,'pickedOrders'])->name('picked');
+    Route::get('/shipped/order' , [OrderController::class,'shippedOrders'])->name('shipped');
+    Route::get('/delivered/order' , [OrderController::class,'deliveredOrders'])->name('delivered');
+    Route::get('/cancel/order' , [OrderController::class,'cancelOrders'])->name('cancel');
+   
+    // Route::get('/confirmed/order/detail/{order_id}' , [OrderController::class,'confirmedOrderDetail'])->name('confirmed.detail');
+
+    //  Route::get('/edit/{id}' , [CouponController::class,'couponEdit'])->name('edit.coupon');
+    //  Route::post('/update' , [CouponController::class,'couponUpdate'])->name('coupon.update');
+    //  Route::get('/delete/{id}' , [CouponController::class,'couponDelete']);
+    //  Route::get('/inactive/{id}' , [CouponController::class,'inactiveCoupon'])->name('couponInactiveNow');
+    //  Route::get('/active/{id}' , [CouponController::class,'activeCoupon'])->name('couponActiveNow');
 });
 
 

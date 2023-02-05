@@ -197,21 +197,32 @@
           </ul>
         </li> 		  
 		 
-        <li class="header nav-small-cap">User Interface</li>
+        <li class="header nav-small-cap"> @if (session()->get('language') == 'english')User Interface @else Interface Utilisateur @endif</li>
 		  
-        <li class="treeview">
+        <li class="treeview  {{ ($prefix=='/orders') ? 'active' : '' }}">
           <a href="#">
             <i data-feather="grid"></i>
-            <span>Components</span>
+            <span> @if (session()->get('language') == 'english')Orders Area @else Zone de Commandes  @endif </span>
             <span class="pull-right-container">
               <i class="fa fa-angle-right pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="components_alerts.html"><i class="ti-more"></i>Alerts</a></li>
-            <li><a href="components_badges.html"><i class="ti-more"></i>Badge</a></li>
-            <li><a href="components_buttons.html"><i class="ti-more"></i>Buttons</a></li>
-        </ul>
+            <li class="{{($route == 'pending') ? 'active' :'' }}"><a href="{{ route('pending') }}"><i class="ti-more"></i>
+              @if (session()->get('language') == 'english')Pending Orders @else   Commande en Attente @endif </a></li> 
+                 <li class="{{($route == 'confirmed') ? 'active' :'' }}"><a href="{{ route('confirmed') }}"><i class="ti-more"></i>
+              @if (session()->get('language') == 'english')Confirmed Orders @else Commande Confirmée  @endif </a></li> 
+                 <li class="{{($route == 'processing') ? 'active' :'' }}"><a href="{{ route('processing') }}"><i class="ti-more"></i>
+              @if (session()->get('language') == 'english')Processus Orders @else Commande en Taitement  @endif </a></li> 
+                 <li class="{{($route == 'picked') ? 'active' :'' }}"><a href="{{ route('picked') }}"><i class="ti-more"></i>
+              @if (session()->get('language') == 'english')Picked Orders @else Choix de la Commande  @endif </a></li> 
+                 <li class="{{($route == 'shipped') ? 'active' :'' }}"><a href="{{ route('shipped') }}"><i class="ti-more"></i>
+              @if (session()->get('language') == 'english')Shipped Orders @else Commande Expédiée  @endif </a></li> 
+                 <li class="{{($route == 'delivered') ? 'active' :'' }}"><a href="{{ route('delivered') }}"><i class="ti-more"></i>
+              @if (session()->get('language') == 'english')Delivered Orders @else Commande Délivrée  @endif </a></li> 
+               <li class="{{($route == 'cancel') ? 'active' :'' }}"><a href="{{ route('cancel') }}"><i class="ti-more"></i>
+              @if (session()->get('language') == 'english')Cancel Orders @else Commande Supprimée  @endif </a></li> 
+      </ul>
         </li>
 		
 		<li class="treeview">

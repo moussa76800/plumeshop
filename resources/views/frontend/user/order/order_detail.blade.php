@@ -85,7 +85,7 @@
               <th> Payment Type : </th>
                <th> {{ $order->payment_method }} </th>
             </tr>
-            
+
               <tr>
               <th> Invoice  : </th>
                <th class="text-danger"> {{ $order->invoice_no }} </th>
@@ -136,11 +136,6 @@
 
                 <td class="col-md-1">
                   <label for=""> Total </label>
-                </td>
-
-
-                 <td class="col-md-1">
-                  <label for=""> Download </label>
                 </td>
                 
               </tr>
@@ -217,7 +212,7 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
         
       </div> <!-- // END ORDER ITEM ROW -->
 
-      @if($order->status !== "delivered")
+      {{-- @if($order->status !== "delivered")
       
       @else
 
@@ -228,7 +223,7 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
 
       @if($order)
       <form action="{{ route('return.order',$order->id) }}" method="post">
-        @csrf
+        @csrf --}}
 
   <div class="form-group">
     <label for="label"> Order Return Reason:</label>
@@ -238,7 +233,7 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
   <button type="submit" class="btn btn-danger">Order Return</button>
 
 </form>
-   @else
+   {{-- @else
 
    <span class="badge badge-pill badge-warning" style="background: red">You Have send return request for this product</span>
    
@@ -246,7 +241,7 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
 
 
 
-  @endif
+  @endif --}}
 <br><br>
 
 
