@@ -199,13 +199,15 @@ Route::prefix('orders')->group(function() {
     Route::get('/delivered/order' , [OrderController::class,'deliveredOrders'])->name('delivered');
     Route::get('/cancel/order' , [OrderController::class,'cancelOrders'])->name('cancel');
    
-    // Route::get('/confirmed/order/detail/{order_id}' , [OrderController::class,'confirmedOrderDetail'])->name('confirmed.detail');
-
-    //  Route::get('/edit/{id}' , [CouponController::class,'couponEdit'])->name('edit.coupon');
-    //  Route::post('/update' , [CouponController::class,'couponUpdate'])->name('coupon.update');
-    //  Route::get('/delete/{id}' , [CouponController::class,'couponDelete']);
-    //  Route::get('/inactive/{id}' , [CouponController::class,'inactiveCoupon'])->name('couponInactiveNow');
-    //  Route::get('/active/{id}' , [CouponController::class,'activeCoupon'])->name('couponActiveNow');
+   
+    // Admin Update Status Orders
+    Route::get('/pending/confirmed/{order_id}' , [OrderController::class,'pendingToConfirmOrder'])->name('pendingToConfirmed');
+    Route::get('/confirm/processing/{order_id}', [OrderController::class, 'ConfirmToProcessingOrder'])->name('confirmToProcessing');
+    Route::get('/processing/picked/{order_id}', [OrderController::class, 'ProcessingToPickedOrder'])->name('processing.picked');
+    Route::get('/picked/shipped/{order_id}', [OrderController::class, 'PickedToShippedOrder'])->name('picked.shipped');
+    Route::get('/shipped/delivered/{order_id}', [OrderController::class, 'ShippedToDeliveredOrder'])->name('shipped.delivered');
+    // Route::get('/invoice/download/{order_id}', [OrderController::class, 'AdminInvoiceDownload'])->name('invoice.download');
+    
 });
 
 

@@ -11,12 +11,12 @@
 <div class="content-header">
 			<div class="d-flex align-items-center">
 				<div class="mr-auto">
-					<h3 class="page-title">@if (session()->get('language') == 'french')Détails de l'Achat @else Order Details @endif</h3>
+					<h3 class="page-title"> Order Details </h3>
 					<div class="d-inline-block align-items-center">
 						<nav>
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
-								<li class="breadcrumb-item" aria-current="page">@if (session()->get('language') == 'french')Détails de l'Achat @else Order Details @endif</li>
+								<li class="breadcrumb-item" aria-current="page">@ Order Details </li>
 								 
 							</ol>
 						</nav>
@@ -139,9 +139,9 @@
                	{{-- {{ route('pending-confirm',$order->id) }} --}}
                    @if($order->status == 'pending')
                    <a href="" class="btn btn-outline-success btn mb-4" id="confirm">Confirm Order </a>
-               	{{-- @elseif($order->status == 'confirm')
-               	<a href="{{ route('confirm.processing',$order->id) }}" class="btn btn-block btn-success" id="processing">Processing Order</a>
-
+               	 @elseif($order->status == 'confirm')
+               	<a href="" class="btn btn-block btn-success" id="processing">Processing Order</a>
+                   {{-- {{ route('confirm.processing',$order->id) }}
                	@elseif($order->status == 'processing')
                	<a href="{{ route('processing.picked',$order->id) }}" class="btn btn-block btn-success" id="picked">Picked Order</a>
 
@@ -149,7 +149,7 @@
                	<a href="{{ route('picked.shipped',$order->id) }}" class="btn btn-block btn-success" id="shipped">Shipped Order</a>
 
                	@elseif($order->status == 'shipped')
-                <a href="{{ route('shipped.delivered',$order->id) }}" class="btn btn-block btn-success" id="delivered">Delivered Order</a> --}}
+                <a href="{{ route('shipped.delivered',$order->id) }}" class="btn btn-block btn-success" id="delivered">Delivered Order</a> --}} 
 
                	@endif  
 
@@ -385,21 +385,20 @@
         <tr>
           <th>  </th>
            <th> 
-            {{-- {{ route('pending-confirm',$order->id) }} --}}
+           
                 @if($order->status == 'pending')
-               <a href="" class="btn btn-outline-success text-white btn mb-2" id="confirm">Confirmer la Commande</a>
+               <a href="{{ route('pendingToConfirmed',$order->id) }}" class="btn btn-outline-success text-white btn mb-2" id="confirmed">Confirmer la Commande</a>
 
-               {{-- @elseif($order->status == 'confirm')
-               <a href="{{ route('confirm.processing',$order->id) }}" class="btn btn-block btn-success" id="processing">Processing Order</a>
-
-               @elseif($order->status == 'processing')
+                @elseif($order->status == 'confirmed')
+               <a href="{{ route('confirmToProcessing',$order->id) }}"  class="btn btn-outline-success text-white btn mb-2" id="processing">Commande en Traîtement</a>
+              @elseif($order->status == 'processing')
                <a href="{{ route('processing.picked',$order->id) }}" class="btn btn-block btn-success" id="picked">Picked Order</a>
 
                @elseif($order->status == 'picked')
                <a href="{{ route('picked.shipped',$order->id) }}" class="btn btn-block btn-success" id="shipped">Shipped Order</a>
 
                @elseif($order->status == 'shipped')
-            <a href="{{ route('shipped.delivered',$order->id) }}" class="btn btn-block btn-success" id="delivered">Delivered Order</a> --}}
+            <a href="{{ route('shipped.delivered',$order->id) }}" class="btn btn-block btn-success" id="delivered">Delivered Order</a> 
 
                @endif 
 

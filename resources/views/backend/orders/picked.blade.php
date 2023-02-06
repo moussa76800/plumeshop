@@ -46,9 +46,9 @@
 
 		<td> {{ $item->payment_method }}  </td>
 		<td> <span class="badge badge-pill badge-primary">{{ $item->status }} </span>  </td>
-        {{-- {{ route('processing.detail',$item->id) }} --}}
+      
 		<td width="25%">
-           <a href="" class="btn btn-info" title="View Data"><i class="fa fa-eye"></i> </a>
+           <a href="{{ route('pending.detail',$item->id) }}" class="btn btn-info" title="View Data"><i class="fa fa-eye"></i> </a>
  
 		</td>
 							 

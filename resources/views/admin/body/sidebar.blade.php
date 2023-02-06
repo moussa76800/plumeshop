@@ -215,7 +215,7 @@
                  <li class="{{($route == 'processing') ? 'active' :'' }}"><a href="{{ route('processing') }}"><i class="ti-more"></i>
               @if (session()->get('language') == 'english')Processus Orders @else Commande en Taitement  @endif </a></li> 
                  <li class="{{($route == 'picked') ? 'active' :'' }}"><a href="{{ route('picked') }}"><i class="ti-more"></i>
-              @if (session()->get('language') == 'english')Picked Orders @else Choix de la Commande  @endif </a></li> 
+              @if (session()->get('language') == 'english')Picked Orders @else  Commande Preparée @endif </a></li> 
                  <li class="{{($route == 'shipped') ? 'active' :'' }}"><a href="{{ route('shipped') }}"><i class="ti-more"></i>
               @if (session()->get('language') == 'english')Shipped Orders @else Commande Expédiée  @endif </a></li> 
                  <li class="{{($route == 'delivered') ? 'active' :'' }}"><a href="{{ route('delivered') }}"><i class="ti-more"></i>

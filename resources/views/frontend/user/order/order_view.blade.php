@@ -68,7 +68,7 @@
 
     @if($order->status == 'pending')        
         <span class="badge badge-pill badge-warning" style="background: #800080;">@if (session()->get('language') == 'french')En Attente @else Pending @endif </span>
-        @elseif($order->status == 'confirm')
+        @elseif($order->status == 'confirmed')
          <span class="badge badge-pill badge-warning" style="background: #0000FF;">@if (session()->get('language') == 'french')Confirmé @else Confirm @endif </span>
 
           @elseif($order->status == 'processing')
