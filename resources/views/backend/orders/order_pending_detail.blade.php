@@ -136,22 +136,21 @@
             <tr>
               <th>  </th>
                <th> 
-               	{{-- {{ route('pending-confirm',$order->id) }} --}}
-                   @if($order->status == 'pending')
-                   <a href="" class="btn btn-outline-success btn mb-4" id="confirm">Confirm Order </a>
-               	 @elseif($order->status == 'confirm')
-               	<a href="" class="btn btn-block btn-success" id="processing">Processing Order</a>
-                   {{-- {{ route('confirm.processing',$order->id) }}
-               	@elseif($order->status == 'processing')
-               	<a href="{{ route('processing.picked',$order->id) }}" class="btn btn-block btn-success" id="picked">Picked Order</a>
+                @if($order->status == 'pending')
+               <a href="{{ route('pendingToConfirmed',$order->id) }}" class="btn btn-outline-success text-white btn mb-2" id="confirmed">Confirmer la Commande</a>
 
-               	@elseif($order->status == 'picked')
-               	<a href="{{ route('picked.shipped',$order->id) }}" class="btn btn-block btn-success" id="shipped">Shipped Order</a>
+                @elseif($order->status == 'confirmed')
+               <a href="{{ route('confirmToProcessing',$order->id) }}"  class="btn btn-outline-success text-white btn mb-2" id="processing">Commande en Traîtement</a>
+              @elseif($order->status == 'processing')
+               <a href="{{ route('processing.picked',$order->id) }}" class="btn btn-block btn-success" id="picked">Picked Order</a>
 
-               	@elseif($order->status == 'shipped')
-                <a href="{{ route('shipped.delivered',$order->id) }}" class="btn btn-block btn-success" id="delivered">Delivered Order</a> --}} 
+               @elseif($order->status == 'picked')
+               <a href="{{ route('picked.shipped',$order->id) }}" class="btn btn-block btn-success" id="shipped">Shipped Order</a>
 
-               	@endif  
+               @elseif($order->status == 'shipped')
+            <a href="{{ route('shipped.delivered',$order->id) }}" class="btn btn-block btn-success" id="delivered">Delivered Order</a> 
+
+               @endif 
 
                  </th>
             </tr>
@@ -404,27 +403,15 @@
 
              </th>
         </tr>
-
-       
-         
        </table>
-
-
-
             </div>
           </div> <!--  // cod md -6 -->
-
-
-
-
 
 <div class="col-md-12 col-12">
             <div class="box box-bordered border-primary">
               <div class="box-header with-border">
                  
               </div>
-
-
 
 <table class="table">
         <tbody>

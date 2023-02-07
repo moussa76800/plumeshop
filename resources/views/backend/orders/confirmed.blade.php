@@ -50,7 +50,8 @@
 		
 		<td width="25%">
            <a href="{{ route('pending.detail',$item->id) }} " class="btn btn-success" title="View Data"><i class="fa fa-eye"></i> </a>
-		  
+		   <a target="_blank" href="{{ route('invoice.download',$item->id) }}" class="btn btn-danger" title="Invoice Download">
+			<i class="fa fa-download"></i></a>
 		</td>
 							 
 	 </tr>

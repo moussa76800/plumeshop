@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Models\Order;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
 
 class OrderController extends Controller
 {
@@ -142,26 +144,37 @@ public function pendingToConfirmOrder($order_id){
   return redirect()->route('delivered')->with($notification);
   } 
 
-//    //   Delivered To Cancel
-//    public function DeliveredToCancelOrder($order_id){
+   //   Delivered To Cancel
+   public function DeliveredToCancelOrder($order_id){
    
-//     Order::findOrFail($order_id)->update(['status' => 'cancel']);
+    Order::findOrFail($order_id)->update(['status' => 'cancel']);
 
-//     if (session()->get('language') == 'french'){
-//     $notification = array(
-//           'message' => 'La Commande est Supprimée ',
-//           'alert-type' => 'success'
-//       );
-//     return redirect()->route('delivered')->with($notification);
-//     }
-//     $notification = array(
-//         'message' => 'Order Canceled',
-//         'alert-type' => 'success'
-//     );
-//   return redirect()->route('delivered')->with($notification);
-//   } 
+    if (session()->get('language') == 'french'){
+    $notification = array(
+          'message' => 'La Commande est Supprimée ',
+          'alert-type' => 'success'
+      );
+    return redirect()->route('delivered')->with($notification);
+    }
+    $notification = array(
+        'message' => 'Order Canceled',
+        'alert-type' => 'success'
+    );
+  return redirect()->route('delivered')->with($notification);
+  } 
 
+  public function AdminInvoiceDownload($order_id){
 
+    $order = Order::with('common','town','country','user')->where('id',$order_id)->first();
+    $orderItem = OrderItem::with('book')->where('order_id',$order_id)->orderBy('id','DESC')->get();
+     
+    $pdf = PDF::loadView('backend.orders.order_invoice',compact('order','orderItem'))->setPaper('a4')->setOptions([
+            'tempDir' => public_path(),
+            'chroot' => public_path(),
+    ]);
+    return $pdf->download('invoice.pdf');
+
+  }
         
 
 }
