@@ -6,6 +6,7 @@ namespace App\Http\Controllers\User;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -34,9 +35,40 @@ class AllUserController extends Controller
             'chroot' => public_path(),
                 ]);
                 return $pdf->download('invoice.pdf');
-         
- 
- 
- 
-     } // end mehtod 
+     } 
+
+     public function returnOrder(Request $request,$order_id){
+
+        Order::findOrFail($order_id)->update([
+            'return_date' => Carbon::now()->format('d F Y'),
+            'return_reason' => $request->return_reason,
+            
+        ]);
+        if (session()->get('language') == 'french'){
+      $notification = array(
+            'message' => 'Demande de retour envoyée avec succès',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('my_Order')->with($notification);
+    }
+    $notification = array(
+        'message' => 'Return Request Send Successfully',
+        'alert-type' => 'success'
+    );
+    return redirect()->route('my_Order')->with($notification);
+    } 
+
+    public function ReturnOrderList(){
+
+        $orders = Order::where('user_id',Auth::id())->where('return_reason','!=',NULL)->orderBy('id','DESC')->get();
+        return view('frontend.user.order.return_Order_View',compact('orders'));
+    } 
+
+    public function CancelOrders(){
+
+        $orders = Order::where('user_id',Auth::id())->where('status','cancel')->orderBy('id','DESC')->get();
+        return view('frontend.user.order.cancel_order_view',compact('orders'));
+
+    }
+
 }

@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\backend\CouponController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\PublisherController;
+use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\ShippingController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
@@ -24,7 +25,7 @@ use App\Http\Controllers\User\CashController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\User\wishlistController;
-use App\Models\ShipCommon;
+
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -199,17 +200,21 @@ Route::prefix('orders')->group(function() {
     Route::get('/delivered/order' , [OrderController::class,'deliveredOrders'])->name('delivered');
     Route::get('/cancel/order' , [OrderController::class,'cancelOrders'])->name('cancel');
    
-   
-    // Admin Update Status Orders
+// Admin Update Status Orders
     Route::get('/pending/confirmed/{order_id}' , [OrderController::class,'pendingToConfirmOrder'])->name('pendingToConfirmed');
     Route::get('/confirm/processing/{order_id}', [OrderController::class, 'ConfirmToProcessingOrder'])->name('confirmToProcessing');
     Route::get('/processing/picked/{order_id}', [OrderController::class, 'ProcessingToPickedOrder'])->name('processing.picked');
     Route::get('/picked/shipped/{order_id}', [OrderController::class, 'PickedToShippedOrder'])->name('picked.shipped');
     Route::get('/shipped/delivered/{order_id}', [OrderController::class, 'ShippedToDeliveredOrder'])->name('shipped.delivered');
     Route::get('/invoice/download/{order_id}', [OrderController::class, 'AdminInvoiceDownload'])->name('invoice.download');
-    
 });
 
+// Admin Reports Orders All Routes :
+Route::prefix('reports')->group(function() {
+    Route::get('/view' , [ReportController::class,'allReports'])->name('all_Reports');
+    Route::post('/search/date' , [ReportController::class,'reportByDate'])->name('search-by-date');
+    Route::post('/search/month' , [ReportController::class,'reportByMonth'])->name('search-by-month');
+});
 
 ////////////////////////////////////////////////////////////////////////////////  FRONT_END  //////////////////////////////////////////////////////////////////////////////////////////
 
@@ -269,6 +274,9 @@ Route::post('/cash/order',[CashController::class, 'cashOrder'])->name('cash.orde
 Route::get('/myOrder',[AllUserController::class, 'myOrder'])->name('my_Order');
 Route::get('/order_detail/{order_id}',[AllUserController::class, 'OrderDetail']);
 Route::get('/invoice_download/{order_id}',[AllUserController::class, 'InvoiceDownload']);
+Route::post('/return/order/{order_id}',[AllUserController::class, 'returnOrder'])->name('return.order');
+Route::get('/return/order/list/',[AllUserController::class, 'returnOrderList'])->name('return.order.list');
+Route::get('/cancel/orders',[AllUserController::class, 'cancelOrders'])->name('cancel.orders');
 
 });
 

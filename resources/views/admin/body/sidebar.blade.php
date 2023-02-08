@@ -225,22 +225,21 @@
       </ul>
         </li>
 		
-		<li class="treeview">
+        <li class="treeview  {{ ($prefix=='/reports') ? 'active' : '' }}">
           <a href="#">
-            <i data-feather="credit-card"></i>
-            <span>Cards</span>
+            <i data-feather="grid"></i>
+            <span> @if (session()->get('language') == 'english')Reports Area @else Rapports des Commandes  @endif </span>
             <span class="pull-right-container">
               <i class="fa fa-angle-right pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-			<li><a href="card_advanced.html"><i class="ti-more"></i>Advanced Cards</a></li>
-			<li><a href="card_basic.html"><i class="ti-more"></i>Basic Cards</a></li>
-			<li><a href="card_color.html"><i class="ti-more"></i>Cards Color</a></li>
-		  </ul>
-        </li>  
-		  
+            <li class="{{($route == 'all_Reports') ? 'active' :'' }}"><a href="{{ route('all_Reports') }}"><i class="ti-more"></i>
+              @if (session()->get('language') == 'english')Orders Reports @else  Rapports des commandes  @endif </a></li> 
+             
       </ul>
+        </li>
+        
     </section>
 	
 	<div class="sidebar-footer">

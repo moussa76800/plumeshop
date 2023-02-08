@@ -228,13 +228,13 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
   <button type="submit" class="btn btn-danger">Order Return</button>
 
 </form>
-   {{-- @else
+   @else
 
    <span class="badge badge-pill badge-warning" style="background: red">You Have send return request for this product</span>
    
-   @endif 
+   @endif
 
-  @endif --}}
+  @endif 
 <br><br>
 
 		</div> <!-- // end row -->
@@ -448,34 +448,34 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
         
       </div> <!-- // END ORDER ITEM ROW -->
 
-      {{-- @if($order->status !== "delivered")
+      @if($order->status !== "delivered")
       
       @else
 
-      @php 
+       @php 
       $order = App\Models\Order::where('id',$order->id)->where('return_reason','=',NULL)->first();
-      @endphp
+      @endphp 
 
 
       @if($order)
       <form action="{{ route('return.order',$order->id) }}" method="post">
-        @csrf --}}
+        @csrf 
 
   <div class="form-group">
-    <label for="label"> La Raison du retour de la commande : </label>
+    <label for="label"> LA RAISON DU RETOUR DE LA COMMANDE : </label>
     <textarea name="return_reason" id="" class="form-control" cols="30" rows="05">La raison du retour</textarea>    
   </div>
 
   <button type="submit" class="btn btn-danger">Retour de l'achat</button>
 
 </form>
-   {{-- @else
+   @else
 
-   <span class="badge badge-pill badge-warning" style="background: red">You Have send return request for this product</span>
+   <span class="badge badge-pill badge-warning" style="background: red"> Vous avez déja envoyé une demande de retour pour ce produit !!!</span>
    
-   @endif 
+   @endif
 
-  @endif --}}
+  @endif 
 <br><br>
 
 		</div> <!-- // end row -->

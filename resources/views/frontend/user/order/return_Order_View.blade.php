@@ -66,32 +66,15 @@
          <td class="col-md-2">
           <label for=""> 
 
-    @if($orders->status == 'pending')        
-        <span class="badge badge-pill badge-warning" style="background: #800080;">@if (session()->get('language') == 'french')En Attente @else Pending @endif </span>
-        @elseif($orders->status == 'confirmed')
-         <span class="badge badge-pill badge-warning" style="background: #0000FF;">@if (session()->get('language') == 'french')Confirmation @else Confirm @endif </span>
-
-          @elseif($orders->status == 'processing')
-         <span class="badge badge-pill badge-warning" style="background: #FFA500;">@if (session()->get('language') == 'french')Traîtement @else Processing @endif </span>
-
-          @elseif($orders->status == 'picked')
-         <span class="badge badge-pill badge-warning" style="background: #808000;">@if (session()->get('language') == 'french')Préparation @else Picked @endif </span>
-
-          @elseif($orders->status == 'shipped')
-         <span class="badge badge-pill badge-warning" style="background: #808080;">@if (session()->get('language') == 'french')Expédition @else Shipped @endif </span>
-
-          @elseif($orders->status == 'delivered')
-         <span class="badge badge-pill badge-warning" style="background: #008000;">@if (session()->get('language') == 'french')Délivrer @else Delivered @endif </span>
-
-          @if($orders->return_order == 1) 
-           <span class="badge badge-pill badge-warning" style="background:red;">@if (session()->get('language') == 'french')Retour demandé @else Return Requested @endif </span>
-
-          @endif
-
-         @else
-  <span class="badge badge-pill badge-warning" style="background: #FF0000;">@if (session()->get('language') == 'french')Annuler @else Cancel @endif </span>
-
-      @endif
+            @if($order->return_order == 0) 
+            <span class="badge badge-pill badge-warning" style="background: #418DB9;"> No Return Request </span>
+            @elseif($order->return_order == 1)
+            <span class="badge badge-pill badge-warning" style="background: #800000;"> Pedding </span>
+            <span class="badge badge-pill badge-warning" style="background:red;">Return Requested </span>
+           
+            @elseif($order->return_order == 2)
+             <span class="badge badge-pill badge-warning" style="background: #008000;">Success </span>
+             @endif
             </label>
         </td>
 
