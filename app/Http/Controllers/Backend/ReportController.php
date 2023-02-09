@@ -29,9 +29,9 @@ class ReportController extends Controller
  
     } 
      // Search Report By Year
-//    public function ReportByYear(Request $request){
-//       $orders = Order::where('order_year',$request->year)->latest()->get();
-//    return view('backend.report.report_show',compact('orders'));
+   public function ReportByYear(Request $request){
+      $orders = Order::where('order_year',$request->year)->latest()->get();
+   return view('backend.report.report_show',compact('orders'));
  
-    // }
+    }
 }

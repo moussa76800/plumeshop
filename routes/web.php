@@ -214,7 +214,15 @@ Route::prefix('reports')->group(function() {
     Route::get('/view' , [ReportController::class,'allReports'])->name('all_Reports');
     Route::post('/search/date' , [ReportController::class,'reportByDate'])->name('search-by-date');
     Route::post('/search/month' , [ReportController::class,'reportByMonth'])->name('search-by-month');
+    Route::post('/search/year' , [ReportController::class,'reportByYear'])->name('search-by-year');
 });
+
+// All Users All Routes :
+Route::prefix('allUsers')->group(function() {
+    Route::get('/view' , [AdminProfileController::class,'allUsers'])->name('all_Users');
+    
+});
+
 
 ////////////////////////////////////////////////////////////////////////////////  FRONT_END  //////////////////////////////////////////////////////////////////////////////////////////
 

@@ -152,10 +152,9 @@
 					<div class="table-responsive">
 
 
- <form method="post" action="" >
+ <form method="post" action="{{ route('search-by-year') }}" >
 	 	@csrf
-         {{-- {{ route('search-by-year') }}		    --}}
-<div class="form-group">
+        
 		<h5>Select Year  <span class="text-danger">*</span></h5>
 		<div class="controls">
 	

@@ -45,7 +45,40 @@
 
 		<td> {{ $item->payment_method }}  </td>
 		
-		<td> <span class="badge badge-pill badge-primary">{{ $item->status }} </span>  </td>
+		<td>   
+            @if($item->status == 'pending')        
+            <span class="badge badge-pill badge-warning" style="background: #800080;">Pending  </span>
+            @elseif($item->status == 'confirmed')
+             <span class="badge badge-pill badge-warning" style="background: #0000FF;">Confirmed  </span>
+    
+              @elseif($item->status == 'processing')
+             <span class="badge badge-pill badge-warning" style="background: #FFA500;">Processing </span>
+    
+              @elseif($item->status == 'picked')
+             <span class="badge badge-pill badge-warning" style="background: #808000;">Picked  </span>
+    
+              @elseif($item->status == 'shipped')
+             <span class="badge badge-pill badge-warning" style="background: #808080;">Shipped </span>
+    
+              @elseif($item->status == 'delivered')
+             <span class="badge badge-pill badge-warning" style="background: #008000;">Delivered </span>
+    
+              @if($item->return_order == 1) 
+               <span class="badge badge-pill badge-warning" style="background:red;">Return Requested  </span>
+    
+              @endif
+    
+             @else
+      <span class="badge badge-pill badge-warning" style="background: #FF0000;">Cancel  </span>
+    
+          @endif
+    
+        <td width="25%">
+    <a href="{{ route('pending.detail',$item->id) }}" class="btn btn-info" title="Voir Details"><i class="fa fa-eye"></i> </a>
+    
+    <a target="_blank" href="{{ route('invoice.download',$item->id) }}" class="btn btn-danger" title="Télécharger Facture">
+     <i class="fa fa-download"></i></a>
+        </td> </td>
 
 		<td width="25%">
  <a href="{{ route('pending.detail',$item->id) }}" class="btn btn-info" title="Edit Data"><i class="fa fa-eye"></i> </a>
@@ -128,29 +161,29 @@
     
     <td> 
         @if($item->status == 'pending')        
-        <span class="badge badge-pill badge-warning" style="background: #800080;">@if (session()->get('language') == 'french')En Attente @else Pending @endif </span>
+        <span class="badge badge-pill badge-warning" style="background: #800080;">En Attente  </span>
         @elseif($item->status == 'confirmed')
-         <span class="badge badge-pill badge-warning" style="background: #0000FF;">@if (session()->get('language') == 'french')Confirmation @else Confirm @endif </span>
+         <span class="badge badge-pill badge-warning" style="background: #0000FF;">Confirmation  </span>
 
           @elseif($item->status == 'processing')
-         <span class="badge badge-pill badge-warning" style="background: #FFA500;">@if (session()->get('language') == 'french')Traîtement @else Processing @endif </span>
+         <span class="badge badge-pill badge-warning" style="background: #FFA500;">Traîtement  </span>
 
           @elseif($item->status == 'picked')
-         <span class="badge badge-pill badge-warning" style="background: #808000;">@if (session()->get('language') == 'french')Préparation @else Picked @endif </span>
+         <span class="badge badge-pill badge-warning" style="background: #808000;">Préparation  </span>
 
           @elseif($item->status == 'shipped')
-         <span class="badge badge-pill badge-warning" style="background: #808080;">@if (session()->get('language') == 'french')Expédition @else Shipped @endif </span>
+         <span class="badge badge-pill badge-warning" style="background: #808080;">Expédition  </span>
 
           @elseif($item->status == 'delivered')
-         <span class="badge badge-pill badge-warning" style="background: #008000;">@if (session()->get('language') == 'french')Délivrer @else Delivered @endif </span>
+         <span class="badge badge-pill badge-warning" style="background: #008000;">Délivrer</span>
 
           @if($item->return_order == 1) 
-           <span class="badge badge-pill badge-warning" style="background:red;">@if (session()->get('language') == 'french')Retour demandé @else Return Requested @endif </span>
+           <span class="badge badge-pill badge-warning" style="background:red;">Retour demandé  </span>
 
           @endif
 
          @else
-  <span class="badge badge-pill badge-warning" style="background: #FF0000;">@if (session()->get('language') == 'french')Annuler @else Cancel @endif </span>
+  <span class="badge badge-pill badge-warning" style="background: #FF0000;">Annuler  </span>
 
       @endif
 
