@@ -19,7 +19,7 @@
 
 
         <div class="form-group">
-            <h5> Category Name English <span class="text-danger">*</span></h5>
+            <h5> @if (session()->get('language') == 'english')  Name English  @else Nom en Anglais @endif <span class="text-danger">*</span></h5>
             <div class="controls">
                 <input type="text" name="name_en" class="form-control" value="{{ $category->name_en }}">
                     @error('name_en')
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="form-group">
-            <h5> Category Name French <span class="text-danger">*</span></h5>
+            <h5> @if (session()->get('language') == 'english')  Name French  @else Nom en Francais @endif <span class="text-danger">*</span></h5>
             <div class="controls">
                 <input type="text" name="name_fr" class="form-control" value="{{ $category->name_fr }}">
                     @error('name_fr')
@@ -47,7 +47,7 @@
         </div>
 
         <div class="text-xs-right">
-            <input type="submit" class="btn btn-rounded btn-primary mb-5" value="Valider">
+            <input type="submit" class="btn btn-rounded btn-primary mb-5" value="@if (session()->get('language') == 'english') To Validate   @else Valider @endif">
         </div>
                 </form>
 

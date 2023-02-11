@@ -76,7 +76,7 @@ class CategoryController extends Controller
          ]);
    
          $notification = array(
-            'message' => 'Category Inserted Successfully ',
+            'message' => 'Category Updated Successfully ',
             'alert-type' => 'success'
          );
    
@@ -96,14 +96,26 @@ class CategoryController extends Controller
          ]);
    
          $notification = array(
-            'message' => 'Category Inserted Successfully ',
+            'message' => 'Category Updated Successfully ',
             'alert-type' => 'success'
          );
          return redirect()->back()->with($notification);
    
       }
    }
+      public function CategoryDelete($id){
 
-   //
+         Category::findOrFail($id)->delete();
+  
+         $notification = array(
+           'message' => 'Category Deleted Successfully',
+           'alert-type' => 'success'
+        );
+  
+        return redirect()->back()->with($notification);
+  
+      } // end method 
+   }
 
-}
+   
+

@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 
 use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Backend\AuthorController;
+use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\BookAuthorController;
 use App\Http\Controllers\Backend\BookController;
 use App\Http\Controllers\Backend\CategoryController;
@@ -25,7 +26,7 @@ use App\Http\Controllers\User\CashController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\User\wishlistController;
-
+use App\Models\Blog\BlogPostCategory;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -183,10 +184,6 @@ Route::prefix('shipping')->group(function() {
     Route::get('/country/view' , [ShippingController::class,'CountryView'])->name('shippingCountry');
     Route::get('/country/add' , [ShippingController::class,'addCountry'])->name('add.country');
     Route::post('/country/store' , [ShippingController::class,'countryStore'])->name('country.store');
-    // Route::get('/edit/{id}' , [SliderController::class,'sliderEdit'])->name('edit.slider');
-    // Route::post('/update' , [SliderController::class,'sliderUpdate'])->name('slider.update');
-    // Route::get('/delete/{id}' , [SliderController::class,'sliderDelete'])->name('delete.slider');
-   
 });
 
 // Admin Orders All Routes :
@@ -220,9 +217,26 @@ Route::prefix('reports')->group(function() {
 // All Users All Routes :
 Route::prefix('allUsers')->group(function() {
     Route::get('/view' , [AdminProfileController::class,'allUsers'])->name('all_Users');
-    
 });
 
+// Blog All Routes :
+Route::prefix('blog')->group(function() {
+    Route::get('/blog/view' , [BlogController::class,'blogCategory'])->name('blogCategory');
+    Route::get('/blog/add' , [BlogController::class,'addBlogCategory'])->name('add.blogCategory');
+    Route::post('/blog/store' , [BlogController::class,'storeBlogCategory'])->name('store.blogCategory');
+    Route::get('/blog/edit/{id}' , [BlogController::class,'editBlogCategory'])->name('edit.blogCategory');
+    Route::post('/blog/update' , [BlogController::class,'updateBlogCategory'])->name('update.blogCategory');
+    Route::get('/blog/delete/{id}' , [BlogController::class,'deleteBlogCategory'])->name('delete.blogCategory');
+
+// Post All Routes :
+    Route::get('/post/view' , [BlogController::class,'viewBlogPost'])->name('view.Post');
+    Route::get('/post/add' , [BlogController::class,'addBlogPost'])->name('add.Post');
+    Route::post('/blog/store' , [BlogController::class,'storeBlogPost'])->name('store.Post');
+    // Route::get('/blog/edit/{id}' , [BlogController::class,'editBlogCategory'])->name('edit.blogCategory');
+    // Route::post('/blog/update' , [BlogController::class,'updateBlogCategory'])->name('update.blogCategory');
+    // Route::get('/blog/delete/{id}' , [BlogController::class,'deleteBlogCategory'])->name('delete.blogCategory');
+
+});
 
 ////////////////////////////////////////////////////////////////////////////////  FRONT_END  //////////////////////////////////////////////////////////////////////////////////////////
 

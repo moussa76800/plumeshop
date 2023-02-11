@@ -41,8 +41,6 @@
           <ul class="treeview-menu">
             <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>
               @if (session()->get('language') == 'english') Categories Manages @else Gestion des Catégories @endif </a></li>
-            {{-- <li class="{{($route == 'all.subcategory') ? 'active' :'' }}"><a href="{{ route('all.subcategory') }}"><i class="ti-more"></i>All SubCategory</a></li> --}}
-           
           </ul>
         </li> 
         <li class="treeview {{ ($prefix=='/subcategory') ? 'active' : '' }}">
@@ -54,7 +52,6 @@
           </span>
         </a>
         <ul class="treeview-menu">
-          {{-- <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>All Category</a></li> --}}
           <li class="{{($route == 'all.subcategory') ? 'active' :'' }}"><a href="{{ route('all.subcategory') }}"><i class="ti-more"></i>
             @if (session()->get('language') == 'english')SubCategories Manages @else Gestion des Sub-Catégories @endif </a></li> </a></li>
         </ul>
@@ -68,7 +65,6 @@
         </span>
       </a>
       <ul class="treeview-menu">
-        {{-- <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>All Category</a></li> --}}
         <li class="{{($route == 'all.books') ? 'active' :'' }}"><a href="{{ route('all.books') }}"><i class="ti-more"></i>
           @if (session()->get('language') == 'english')Books Manages @else Gestion des Livres @endif </a></li>
        
@@ -84,7 +80,6 @@
       </span>
     </a>
     <ul class="treeview-menu">
-      {{-- <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>All Category</a></li> --}}
       <li class="{{($route == 'all.publishers') ? 'active' :'' }}"><a href="{{ route('all.publishers') }}"><i class="ti-more"></i>
         @if (session()->get('language') == 'english')Publishers Manages @else Gestion des Editions @endif </a></li>
          </ul>
@@ -99,11 +94,11 @@
     </span>
   </a>
   <ul class="treeview-menu">
-    {{-- <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>All Category</a></li> --}}
     <li class="{{($route == 'all.authors') ? 'active' :'' }}"><a href="{{ route('all.authors') }}"><i class="ti-more"></i>
       @if (session()->get('language') == 'english')Authors Manages @else Gestion des Auteurs @endif    </a></li>
      </ul>
 </li> 
+
 <li class="treeview {{ ($prefix=='/bookAuthor') ? 'active' : '' }}">
   <a href="#">
   <i data-feather="message-circle"></i>
@@ -113,10 +108,10 @@
   </span>
 </a>
 <ul class="treeview-menu">
-  {{-- <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>All Category</a></li> --}}
   <li class="{{($route == 'all.bookAuthor') ? 'active' :'' }}"><a href="{{ route('all.bookAuthor') }}"><i class="ti-more"></i>Pivot Book/Authors Manages</a></li>
      </ul>
 </li> 
+
 <li class="treeview {{ ($prefix=='/slider') ? 'active' : '' }}">
   <a href="#">
   <i data-feather="message-circle"></i>
@@ -126,11 +121,11 @@
   </span>
 </a>
 <ul class="treeview-menu">
-  {{-- <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>All Category</a></li> --}}
   <li class="{{($route == 'all.sliders') ? 'active' :'' }}"><a href="{{ route('all.sliders') }}"><i class="ti-more"></i>
     @if (session()->get('language') == 'english')Sliders Manages @else Gestion des Slides @endif</a></li>
      </ul>
 </li> 
+
 <li class="treeview {{ ($prefix=='/coupons') ? 'active' : '' }}">
   <a href="#">
   <i data-feather="message-circle"></i>
@@ -140,7 +135,6 @@
   </span>
 </a>
 <ul class="treeview-menu">
-  {{-- <li class="{{($route == 'all.category') ? 'active' :'' }}"><a href="{{ route('all.category') }}"><i class="ti-more"></i>All Category</a></li> --}}
   <li class="{{($route == 'all.coupons') ? 'active' :'' }}"><a href="{{ route('all.coupons') }}"><i class="ti-more"></i>
     @if (session()->get('language') == 'english')Coupons Manages @else Gestion des Coupons @endif</a></li>
      </ul>
@@ -161,6 +155,24 @@
     @if (session()->get('language') == 'english')Town Manages @else Gestion des Villes @endif</a></li>
   <li class="{{($route == 'shippingCountry') ? 'active' :'' }}"><a href="{{ route('shippingCountry') }}"><i class="ti-more"></i> 
     @if (session()->get('language') == 'english')States Manages @else Gestion des Pays @endif </a></li>
+     </ul>
+</li> 
+
+<li class="treeview {{ ($prefix=='/blog') ? 'active' : '' }}">
+  <a href="#">
+  <i data-feather="message-circle"></i>
+  <span> @if (session()->get('language') == 'english')Manage Blog @else Gestion du Blog @endif </span>
+  <span class="pull-right-container">
+    <i class="fa fa-angle-right pull-right"></i>
+  </span>
+</a>
+<ul class="treeview-menu">
+  <li class="{{($route == 'blogCategory') ? 'active' :'' }}"><a href="{{ route('blogCategory') }}"><i class="ti-more"></i>
+     @if (session()->get('language') == 'english')Categories Manages @else Gestion des Catégories @endif </a></li>
+  <li class="{{($route == 'view.Post') ? 'active' :'' }}"><a href="{{ route('view.Post') }}"><i class="ti-more"></i>
+    @if (session()->get('language') == 'english')Posts Manages @else Gestion de contenu  @endif</a></li>
+  {{-- <li class="{{($route == 'shippingCountry') ? 'active' :'' }}"><a href="{{ route('shippingCountry') }}"><i class="ti-more"></i> 
+    @if (session()->get('language') == 'english')States Manages @else Gestion des Pays @endif </a></li> --}}
      </ul>
 </li> 
   
