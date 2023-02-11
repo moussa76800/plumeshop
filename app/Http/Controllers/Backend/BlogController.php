@@ -69,7 +69,7 @@ class BlogController extends Controller
               'message' => 'Category Updated Successfully ',
               'alert-type' => 'success'
            );
-            return redirect()->back()->with($notification);
+           return redirect()->back()->with($notification);
                 }
   
            $notification = array(
@@ -81,28 +81,36 @@ class BlogController extends Controller
 
         public function deleteBlogCategory($id){
 
-            BlogPostCategory::findOrFail($id)->delete();
+           $blog= BlogPostCategory::findOrFail($id);
+           $blog->delete();
+           $blog->posts()->delete();
+          
     
             if (session()->get('language') == 'english'){ 
             $notification = array(
                 'message' => 'Category Deleted Successfully',
                 'alert-type' => 'success'
             );
-        }
-        $notification = array(
-            'message' => 'La Catégorie a bien été supprimée !!',
-            'alert-type' => 'success'
-            
-        );
             return redirect()->back()->with($notification);
-    
+
+            }else{ 
+            $notification = array(
+                'message' => 'La Catégorie a bien été supprimée !!',
+                'alert-type' => 'success'
+                
+            );
+           return redirect()->back()->with($notification);
+
+        }
+        
+
         } // end method 
 
         ///////////////////////////////////////////////////////       Manage Post Blog       ////////////////////////////////////////////////////////////////////
 
         public function viewBlogPost(){
-            $viewBlogPost = BlogPost::all();
-        return view('backend.blog.post.view', compact('viewBlogPost')); 
+            $viewPost = BlogPost::all();
+        return view('backend.blog.post.view', compact('viewPost')); 
           }
 
         public function addBlogPost(){
@@ -134,24 +142,98 @@ class BlogController extends Controller
                     'post_details_en' =>   $request->post_details_en ,
                     'post_details_fr' =>   $request->post_details_fr ,
                     'created_at' => Carbon::now(),
-                
                     ]);
+
                     if (session()->get('language') == 'english'){ 
                     $notification = array(
                     'message' => 'Content Inserted Successfully ',
                     'alert-type' => 'success'
                     );
-        
                 return redirect()->route('view.Post')->with($notification);
                     }
                     $notification = array(
                         'message' => 'Le Contenu a été insérée avec succès !! ',
                         'alert-type' => 'success'
                         );
-            
                 return redirect()->route('view.Post')->with($notification);
             }
-     }
+
+            public function editBlogPost($id){
+                $editBlogPost = BlogPost::find($id);
+                $blogCategory = BlogPostCategory::orderBy('name_en','ASC')->get();
+              return view('backend.blog.post.edit', compact('editBlogPost', 'blogCategory')); 
+              }
+
+              public function updateBlogPost(Request $request){ 
+
+              $editBlogPost_id = $request->id;
+              $old_img = $request->old_image;
+        
+              if ($request->file('post_image') ) {
+                 unlink($old_img);
+                 $image = $request->file('post_image');
+                 $name_image = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+                 Image::make($image)->resize(300,300)->save('upload/post/'.$name_image);
+                 $save_url = 'upload/post/'.$name_image;
+           
+                 BlogPost::findOrFail( $editBlogPost_id)->update([
+                    'category_id' =>  $request->category_id,
+                    'post_title_en' =>   $request->post_title_en ,
+                    'post_title_fr' =>   $request->post_title_fr ,
+                    'post_image' =>   $save_url ,
+                    'post_details_en' =>   $request->post_details_en ,
+                    'post_details_fr' =>   $request->post_details_fr ,
+                    'created_at' => Carbon::now(),
+                 ]);
+           
+                 $notification = array(
+                    'message' => 'Post Updated Successfully ',
+                    'alert-type' => 'success'
+                 );
+           
+                 return redirect()->back()->with($notification);
+              
+              }else {
+        
+                 BlogPost::findOrFail($editBlogPost_id)->update([
+                    'category_id' =>  $request->category_id,
+                    'post_title_en' =>   $request->post_title_en ,
+                    'post_title_fr' =>   $request->post_title_fr ,
+                    
+                    'post_details_en' =>   $request->post_details_en ,
+                    'post_details_fr' =>   $request->post_details_fr ,
+                    'created_at' => Carbon::now(), 
+                 ]);
+           
+                 $notification = array(
+                        'message' => 'Post Updated Successfully ',
+                    'alert-type' => 'success'
+                 );
+                 return redirect()->back()->with($notification);
+           
+              }
+           }
+
+           public function deleteBlogPost($id){
+
+            BlogPost::findOrFail($id)->delete();
+    
+                if (session()->get('language') == 'english'){ 
+                $notification = array(
+                'message' => 'Post Deleted Successfully ',
+                'alert-type' => 'success'
+            );
+          return redirect()->back()->with($notification);
+        }
+                $notification = array(
+                    'message' => 'Post Deleted Successfully ',
+                    'alert-type' => 'success'
+                );
+          return redirect()->back()->with($notification);
+       }
+
+            }
+     
 
         
 

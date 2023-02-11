@@ -16,17 +16,16 @@ use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\ShippingController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
-
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\HomeBlogController;
 use App\Http\Controllers\User\AllUserController;
 use App\Http\Controllers\User\CartPageController;
 use App\Http\Controllers\User\CashController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\User\wishlistController;
-use App\Models\Blog\BlogPostCategory;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -219,22 +218,22 @@ Route::prefix('allUsers')->group(function() {
     Route::get('/view' , [AdminProfileController::class,'allUsers'])->name('all_Users');
 });
 
-// Blog All Routes :
+// Blog Category All Routes :
 Route::prefix('blog')->group(function() {
-    Route::get('/blog/view' , [BlogController::class,'blogCategory'])->name('blogCategory');
-    Route::get('/blog/add' , [BlogController::class,'addBlogCategory'])->name('add.blogCategory');
-    Route::post('/blog/store' , [BlogController::class,'storeBlogCategory'])->name('store.blogCategory');
-    Route::get('/blog/edit/{id}' , [BlogController::class,'editBlogCategory'])->name('edit.blogCategory');
-    Route::post('/blog/update' , [BlogController::class,'updateBlogCategory'])->name('update.blogCategory');
-    Route::get('/blog/delete/{id}' , [BlogController::class,'deleteBlogCategory'])->name('delete.blogCategory');
+    Route::get('/view' , [BlogController::class,'blogCategory'])->name('blogCategory');
+    Route::get('/add' , [BlogController::class,'addBlogCategory'])->name('add.blogCategory');
+    Route::post('/store' , [BlogController::class,'storeBlogCategory'])->name('store.blogCategory');
+    Route::get('/edit/{id}' , [BlogController::class,'editBlogCategory'])->name('edit.blogCategory');
+    Route::post('/update' , [BlogController::class,'updateBlogCategory'])->name('update.blogCategory');
+    Route::get('/delete/{id}' , [BlogController::class,'deleteBlogCategory'])->name('delete.blogCategory');
 
-// Post All Routes :
+// Blog Post All Routes :
     Route::get('/post/view' , [BlogController::class,'viewBlogPost'])->name('view.Post');
     Route::get('/post/add' , [BlogController::class,'addBlogPost'])->name('add.Post');
-    Route::post('/blog/store' , [BlogController::class,'storeBlogPost'])->name('store.Post');
-    // Route::get('/blog/edit/{id}' , [BlogController::class,'editBlogCategory'])->name('edit.blogCategory');
-    // Route::post('/blog/update' , [BlogController::class,'updateBlogCategory'])->name('update.blogCategory');
-    // Route::get('/blog/delete/{id}' , [BlogController::class,'deleteBlogCategory'])->name('delete.blogCategory');
+    Route::post('/post/store' , [BlogController::class,'storeBlogPost'])->name('store.Post');
+    Route::get('/post/edit/{id}' , [BlogController::class,'editBlogPost'])->name('edit.Post');
+    Route::post('/post/update' , [BlogController::class,'updateBlogPost'])->name('update.Post');
+     Route::get('/post/delete/{id}' , [BlogController::class,'deleteBlogPost'])->name('delete.Post');
 
 });
 
@@ -322,3 +321,5 @@ Route::post('/couponApply' , [CartController::class,'couponApply']);
 Route::get('/couponCalculation',[CartController::class, 'calculationTotal']);
 Route::get('/couponRemove',[CartController::class, 'couponRemove']);
 
+// Blog All Routes :
+ Route::get('/blog' , [HomeBlogController::class,'viewHomeBlog'])->name('view.blog');

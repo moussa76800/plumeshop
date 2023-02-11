@@ -15,7 +15,7 @@
 
            <div class="box">
               <div class="box-header with-border">
-                <h3 class="box-title"> @if (session()->get('language') == 'english')Blog Category List @else Liste des catégories de blogs @endif  <span class="badge badge-pill badge-danger"> {{ count( $blogCategory) }} </span></h3>
+                <h3 class="box-title"> @if (session()->get('language') == 'english')Blog Category List @else Liste des catégories de blogs @endif  <span class="badge badge-pill badge-danger"> {{ count($blogCategory) }} </span></h3>
               </div>
               <!-- /.box-header -->
               <div class="box-body">
@@ -38,7 +38,7 @@
                               <td>{{ $item->name_en}}</td>
                               <td>{{ $item->name_fr}}</td>
                               <td>
-                                <a href="{{route('edit.blogCategory',$item->id) }}" class="btn btn-warning" title="Edit data"><i class="fa fa-pencil" ></i></a>
+                                <a href="{{route('edit.blogCategory',$item->id) }}" class="btn btn-warning" title="Edit data"><i class="fa fa-pencil"></i></a>
                                 <a href="{{route('delete.blogCategory',$item->id) }}" class="btn btn-danger" title="Delete data" id="delete"><i class="fa fa-trash "></i></a> 
                               </td>
                           </tr>

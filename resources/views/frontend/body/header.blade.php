@@ -195,6 +195,7 @@
                   @endforeach
                  
                   <li class="dropdown  navbar-right special-menu"> <a href="#">Todays offer</a> </li>
+                  <li class="dropdown  navbar-right special-menu"> <a href="{{route('view.blog')}}">Blog</a> </li>
                 </ul>
                 <!-- /.navbar-nav -->
                 <div class="clearfix"></div>
