@@ -3,6 +3,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
    
+
+
+
+
 	  <div class="container-full">
 		<!-- Content Header (Page header) -->
 		  
@@ -19,6 +23,7 @@
 			<div class="box-body">
 			  <div class="row"> 
 				<div class="col">
+					
 
   <form method="post" action="{{ route('store.Post') }}" enctype="multipart/form-data" >
 		 	@csrf
@@ -78,7 +83,7 @@
 	    <div class="form-group">
 			<h5> Image  <span class="text-danger">*</span></h5>
 			<div class="controls">
-	 <input type="file" name="post_image" class="form-control" onChange="mainThamUrl(this)" required="" >
+	 <input type="file" name="post_image" class="form-control" onChange="mainThamUrl(this)" >
      @error('post_image') 
 	 <span class="text-danger">{{ $message }}</span>
 	 @enderror

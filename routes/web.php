@@ -322,4 +322,4 @@ Route::get('/couponCalculation',[CartController::class, 'calculationTotal']);
 Route::get('/couponRemove',[CartController::class, 'couponRemove']);
 
 // Blog All Routes :
- Route::get('/blog' , [HomeBlogController::class,'viewHomeBlog'])->name('view.blog');
+ Route::get('/blog' , [HomeBlogController::class,'viewHomeBlog'])->name('view.HomeBlog');

@@ -1,3 +1,12 @@
+<style>
+	.main-footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+ }
+	 </style>
+
 <footer class="main-footer">
     <div class="pull-right d-none d-sm-inline-block">
         <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">

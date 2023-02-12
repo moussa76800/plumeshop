@@ -2,7 +2,12 @@
 @section('admin')
 
 <br>
-<div class="col-10">
+
+
+
+
+
+<div class="col-12">
     <div class="box">
         <div class="box-header with-border">
             <h3 class="box-title"> @if (session()->get('language') == 'english') Add Blog Category @else Ajouter une  Catégory dans le Blog @endif </h3>

@@ -5,15 +5,15 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Models\Blog\BlogPost;
 use Illuminate\Support\Carbon;
-
 use App\Http\Controllers\Controller;
+
 use App\Models\Blog\BlogPostCategory;
 use Intervention\Image\Facades\Image;
 
 class BlogController extends Controller
 {
     public function blogCategory(){
-        $blogCategory = BlogPostCategory::all();
+        $blogCategory =BlogPostCategory::all();
     return view('backend.blog.category.view', compact('blogCategory'));
     }
 
@@ -129,11 +129,10 @@ class BlogController extends Controller
                 'post_details_fr' => 'required' ,
              ]);
 
-                $image = $request->file('post_image');
-                $name_image = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-                Image::make($image)->resize(300,300)->save('upload/post/'.$name_image);
-                $save_url = 'upload/post/'.$name_image;
-
+             $image = $request->file('post_image');
+    	$name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+    	Image::make($image)->resize(780,433)->save('upload/post/'.$name_gen);
+    	$save_url = 'upload/post/'.$name_gen;
                  BlogPost::insert([
                     'category_id' =>  $request->category_id,
                     'post_title_en' =>   $request->post_title_en ,
@@ -149,13 +148,13 @@ class BlogController extends Controller
                     'message' => 'Content Inserted Successfully ',
                     'alert-type' => 'success'
                     );
-                return redirect()->route('view.Post')->with($notification);
+                return redirect()->back()->with($notification);
                     }
                     $notification = array(
                         'message' => 'Le Contenu a été insérée avec succès !! ',
                         'alert-type' => 'success'
                         );
-                return redirect()->route('view.Post')->with($notification);
+                return redirect()->back()->with($notification);
             }
 
             public function editBlogPost($id){
@@ -169,50 +168,68 @@ class BlogController extends Controller
               $editBlogPost_id = $request->id;
               $old_img = $request->old_image;
         
-              if ($request->file('post_image') ) {
-                 unlink($old_img);
-                 $image = $request->file('post_image');
-                 $name_image = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-                 Image::make($image)->resize(300,300)->save('upload/post/'.$name_image);
-                 $save_url = 'upload/post/'.$name_image;
-           
-                 BlogPost::findOrFail( $editBlogPost_id)->update([
-                    'category_id' =>  $request->category_id,
-                    'post_title_en' =>   $request->post_title_en ,
-                    'post_title_fr' =>   $request->post_title_fr ,
-                    'post_image' =>   $save_url ,
-                    'post_details_en' =>   $request->post_details_en ,
-                    'post_details_fr' =>   $request->post_details_fr ,
-                    'created_at' => Carbon::now(),
-                 ]);
-           
-                 $notification = array(
-                    'message' => 'Post Updated Successfully ',
-                    'alert-type' => 'success'
-                 );
-           
-                 return redirect()->back()->with($notification);
-              
-              }else {
+            //   if (file_exists( $old_img )){ 
+                if ($request->file('post_image')  ) {
+                    // unlink($old_img);
+                    $image = $request->file('post_image');
+                    $name_image = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+                    // Image::make($image)->resize(300,300)->save('upload/post/'.$name_image);
+                    Image::make($image)->resize(780,433)->save('upload/post/'.$name_image);
+                    $save_url = 'upload/post/'.$name_image;
+            
+                    BlogPost::findOrFail( $editBlogPost_id)->update([
+                        'category_id' =>  $request->category_id,
+                        'post_title_en' =>   $request->post_title_en ,
+                        'post_title_fr' =>   $request->post_title_fr ,
+                        'post_image' =>   $save_url ,
+                        'post_details_en' =>   $request->post_details_en ,
+                        'post_details_fr' =>   $request->post_details_fr ,
+                        'created_at' => Carbon::now(),
+                    ]);
+                                if (session()->get('language') == 'english'){ 
+                                $notification = array(
+                                    'message' => 'Post Updated Successfully ',
+                                    'alert-type' => 'success'
+                                );
+                                return redirect()->back()->with($notification);
+                                }
+                                $notification = array(
+                                    'message' => 'Le contenu a bien été effacé ',
+                                    'alert-type' => 'success'
+                                );
+                                return redirect()->back()->with($notification);
+                }else {
+            
+                    BlogPost::findOrFail($editBlogPost_id)->update([
+                        'category_id' =>  $request->category_id,
+                        'post_title_en' =>   $request->post_title_en ,
+                        'post_title_fr' =>   $request->post_title_fr ,
+                        'post_details_en' =>   $request->post_details_en ,
+                        'post_details_fr' =>   $request->post_details_fr ,
+                        'created_at' => Carbon::now(), 
+                    ]);
+                                if (session()->get('language') == 'english'){
+                                $notification = array(
+                                        'message' => 'Post Updated Successfully ',
+                                    'alert-type' => 'success'
+                                );
+                                return redirect()->back()->with($notification);
+                            }
+                                $notification = array(
+                                    'message' => 'Le contenu a bien été effacé ',
+                                    'alert-type' => 'success'
+                                );
+                                return redirect()->back()->with($notification);
+            }
+            }
+        //     $notification = array(
+        //         'message' => "Il n\'y a pas d'image ",
+        //         'alert-type' => 'danger'
+        // );
+        // return redirect()->back()->with($notification);
+        //    }
         
-                 BlogPost::findOrFail($editBlogPost_id)->update([
-                    'category_id' =>  $request->category_id,
-                    'post_title_en' =>   $request->post_title_en ,
-                    'post_title_fr' =>   $request->post_title_fr ,
-                    
-                    'post_details_en' =>   $request->post_details_en ,
-                    'post_details_fr' =>   $request->post_details_fr ,
-                    'created_at' => Carbon::now(), 
-                 ]);
-           
-                 $notification = array(
-                        'message' => 'Post Updated Successfully ',
-                    'alert-type' => 'success'
-                 );
-                 return redirect()->back()->with($notification);
-           
-              }
-           }
+    
 
            public function deleteBlogPost($id){
 
@@ -226,7 +243,7 @@ class BlogController extends Controller
           return redirect()->back()->with($notification);
         }
                 $notification = array(
-                    'message' => 'Post Deleted Successfully ',
+                    'message' => 'Le Contenu a été effacée avec succès !! ',
                     'alert-type' => 'success'
                 );
           return redirect()->back()->with($notification);

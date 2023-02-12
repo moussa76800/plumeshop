@@ -24,7 +24,7 @@
                       <thead>
                           <tr>
                               <th> @if (session()->get('language') == 'english')Number @else Numéro @endif </th>
-                              <th>  Image </th>
+                              <th>Image</th>
                               <th> @if (session()->get('language') == 'english') Title in English @else Titre en Anglais @endif </th>
                               <th> @if (session()->get('language') == 'english') Title in French @else Titre en Français @endif </th>
                               <th> @if (session()->get('language') == 'english') Category  @else Categorie @endif </th>
@@ -35,7 +35,7 @@
                         @foreach ($viewPost as $item)
                           <tr>
                               <td>{{$increment}}</td>
-                              <td>{{ $item->post_image}}</td>
+                              <td><img src="{{ asset($item->post_image) }}" style="width: 60px; height: 60px;"></td>
                               <td>{{ $item->post_title_en}}</td>
                               <td>{{ $item->post_title_fr}}</td>
                               <td>{{ $item->category_id}}</td>
@@ -68,4 +68,5 @@
       </section>
       <!-- /.content -->
 
+      
 @endsection
