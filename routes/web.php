@@ -323,3 +323,5 @@ Route::get('/couponRemove',[CartController::class, 'couponRemove']);
 
 // Blog All Routes :
  Route::get('/blog' , [HomeBlogController::class,'viewHomeBlog'])->name('view.HomeBlog');
+ Route::get('/blog/post/detail/{id}' , [HomeBlogController::class,'HomeBlogDetail'])->name('post.details');
+ Route::get('/blog/category/post/{category_id}' , [HomeBlogController::class,'HomeBlogCatPost']);

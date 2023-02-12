@@ -173,6 +173,7 @@
                             @php
                             $subCategories = App\Models\SubCategory::where('category_id' ,$category->id)->orderBy('name_en' , 'ASC')->get();
                         @endphp
+                         <div class="col-xs-8 col-sm-6 col-md-4 col-menu banner-image"> <img class="img-responsive" style=" width:100px; height:100px;"  src="{{ asset($category->image) }}" alt=""> </div>
                                 @foreach ($subCategories as $sub)                  
                               <div class="col-xs-6 col-sm-6 col-md-2 col-menu">
                               {{-- <h2 class="title"></h2> --}}
@@ -185,7 +186,7 @@
                             
                            
                             
-                            <div class="col-xs-8 col-sm-6 col-md-4 col-menu banner-image"> <img class="img-responsive" src="{{ asset($category->image) }}" alt=""> </div>
+                           
                             <!-- /.yamm-content --> 
                           </div>
                         </div>

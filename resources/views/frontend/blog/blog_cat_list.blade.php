@@ -2,7 +2,7 @@
 @section('content')
  
 @section('title')
-@if (session()->get('language') == 'french')Blog Page @else Blog @endif 
+@if (session()->get('language') == 'french')Blog Category Page @else Page des categories du Blog @endif 
 @endsection
 
  <style>
@@ -39,7 +39,7 @@
 
 
 
-				@foreach($blogpost as $blog)
+				@forelse($blogpost as $blog)
 					<div class="blog-post  wow fadeInUp">
 	<a href="blog-details.html"><img class="img-responsive"  style="width:800px; height:500px;"  src="{{ asset($blog->post_image) }}" alt=""></a>
 
@@ -59,7 +59,12 @@
    
 
 </div>
- @endforeach
+
+
+@empty
+<h5 class="text-danger">@if (session()->get('language') == 'french')<b> Pas de contenu de Blog Trouvé dans cette catégorie !! @else No blog content found in this category</b> @endif !!</h5>
+      
+@endforelse
 
 
 <div class="clearfix blog-pagination filters-container  wow fadeInUp" style="padding:0px; background:none; box-shadow:none; margin-top:15px; border:none">
@@ -101,16 +106,12 @@
 	<div class="sidebar-widget-body m-t-10">
 		<div class="accordion">
 			<div class="cat">
- @forelse($blogcategory as $category)
+ @foreach($blogcategory as $category)
 	    	 <ul class="list-group">
   <a href="{{ url('blog/category/post/'.$category->id) }}"><li class="list-group-item">@if(session()->get('language') == 'french') {{ $category->name_fr }} @else {{ $category->name_en }} @endif</li></a>
 
    </ul>
-  
-   @empty
-   <h5 class="text-danger">@if (session()->get('language') == 'french')<b> Pas de contenu de Blog Trouvé dans cette catégorie !! @else No blog content found in this category</b> @endif !!</h5>
-		 
-   @endforelse
+@endforeach 
 			</div> 
  
 
