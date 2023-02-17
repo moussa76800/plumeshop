@@ -171,8 +171,21 @@
      @if (session()->get('language') == 'english')Categories Manages @else Gestion des Catégories @endif </a></li>
   <li class="{{($route == 'view.Post') ? 'active' :'' }}"><a href="{{ route('view.Post') }}"><i class="ti-more"></i>
     @if (session()->get('language') == 'english')Posts Manages @else Gestion de contenu  @endif</a></li>
-  {{-- <li class="{{($route == 'shippingCountry') ? 'active' :'' }}"><a href="{{ route('shippingCountry') }}"><i class="ti-more"></i> 
-    @if (session()->get('language') == 'english')States Manages @else Gestion des Pays @endif </a></li> --}}
+     </ul>
+</li> 
+<li class="treeview {{ ($prefix=='/setting') ? 'active' : '' }}">
+  <a href="#">
+  <i data-feather="message-circle"></i>
+  <span> @if (session()->get('language') == 'english')Manage Setting @else Gérer les Paramètres @endif </span>
+  <span class="pull-right-container">
+    <i class="fa fa-angle-right pull-right"></i>
+  </span>
+</a>
+<ul class="treeview-menu">
+  <li class="{{($route == 'site.setting') ? 'active' :'' }}"><a href="{{ route('site.setting') }}"><i class="ti-more"></i>
+     @if (session()->get('language') == 'english')Site Setting @else Paramètre du site @endif </a></li>
+     <li class="{{($route == 'view_seo') ? 'active' :'' }}"><a href="{{ route('view_seo') }}"><i class="ti-more"></i>
+      @if (session()->get('language') == 'english')SEO Setting @else Paramètre de Référencement  @endif </a></li>
      </ul>
 </li> 
   

@@ -14,6 +14,7 @@ use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\PublisherController;
 use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\ShippingController;
+use App\Http\Controllers\Backend\SiteSettingController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Frontend\IndexController;
@@ -234,7 +235,15 @@ Route::prefix('blog')->group(function() {
     Route::get('/post/edit/{id}' , [BlogController::class,'editBlogPost'])->name('edit.Post');
     Route::post('/post/update' , [BlogController::class,'updateBlogPost'])->name('update.Post');
      Route::get('/post/delete/{id}' , [BlogController::class,'deleteBlogPost'])->name('delete.Post');
+});
 
+// Site Setting  All Routes :
+Route::prefix('setting')->group(function() {
+    Route::get('/site/view' , [SiteSettingController::class,'siteSetting'])->name('site.setting');
+    Route::post('/site/update/{id}' , [SiteSettingController::class,'updateSetting'])->name('update_setting');
+    Route::get('/seo/view' , [SiteSettingController::class,'seoSettingView'])->name('view_seo');
+    Route::post('/seo/update' , [SiteSettingController::class,'seoSettingUpdate'])->name('update_seo');
+    // Route::get('/delete/{id}' , [BlogController::class,'deleteBlogCategory'])->name('delete.blogCategory');
 });
 
 ////////////////////////////////////////////////////////////////////////////////  FRONT_END  //////////////////////////////////////////////////////////////////////////////////////////

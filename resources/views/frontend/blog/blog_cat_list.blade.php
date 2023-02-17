@@ -97,7 +97,7 @@
 </div>		
 
 <div class="home-banner outer-top-n outer-bottom-xs">
-	<img src="{{ asset('frontend/assets/images/banners/banner1.jpg') }}" alt="Image" style=" width: 262px;
+	<img src="{{ asset('frontend/assets/images/banners/banner1.jpg') }}"  style=" width: 262px;
 	height: 270px;">
 </div>
 				<!-- ======== ====CATEGORY======= === -->
