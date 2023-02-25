@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\Seo;
 use App\Models\Book;
 use App\Models\User;
+use App\Models\Review;
 use App\Models\Slider;
 use App\Models\Category;
 use App\Models\MultiImg;
+use App\Models\SiteSetting;
 use App\Models\SubCategory;
 use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use App\Models\Blog\BlogPost;
 use App\Http\Controllers\Controller;
-use App\Models\Seo;
-use App\Models\SiteSetting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
@@ -28,10 +29,8 @@ class IndexController extends Controller
     $sliders = Slider::where('status' , 1)->orderBy('id' ,'DESC')->limit(3)->get();
     $featured = Book::where('featured' , 1)->orderBy('id' ,'DESC')->limit(6)->get();
     $special_offer = Book::where('special_offer' , 1)->orderBy('id' ,'DESC')->limit(3)->get();
-    $setting = SiteSetting::find(1);
-    $seo = Seo::find(1);
-
-        return view('frontend.index',compact('categories','sliders', 'books', 'featured','special_offer','blogpost','setting','seo'));
+    
+        return view('frontend.index',compact('categories','sliders', 'books', 'featured','special_offer','blogpost'));
   }
 
   public function UserLogout(){
@@ -102,7 +101,8 @@ class IndexController extends Controller
     $multiImgs = MultiImg::where('booK_id' , $id )->get();
     $cat_id = $book->categoryBook_id;
     $relatedBook = Book::where('categoryBook_id' , $cat_id)->where('id', '!=',$id)->orderBy('id' , 'DESC')->get();
-     return view('frontend.book.book_detail', compact('book' , 'multiImgs', 'relatedBook'));
+    $review = Review::where('book_id',$book->id)->latest()->limit(5)->get();
+     return view('frontend.book.book_detail', compact('book' , 'multiImgs', 'relatedBook', 'review'));
 
 
   }

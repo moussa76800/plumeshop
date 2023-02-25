@@ -13,6 +13,7 @@ use App\Http\Controllers\backend\CouponController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\PublisherController;
 use App\Http\Controllers\Backend\ReportController;
+use App\Http\Controllers\Backend\ReturnController;
 use App\Http\Controllers\Backend\ShippingController;
 use App\Http\Controllers\Backend\SiteSettingController;
 use App\Http\Controllers\Backend\SliderController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\User\AllUserController;
 use App\Http\Controllers\User\CartPageController;
 use App\Http\Controllers\User\CashController;
 use App\Http\Controllers\User\CheckoutController;
+use App\Http\Controllers\User\ReviewController;
 use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\User\wishlistController;
 use App\Models\User;
@@ -243,8 +245,15 @@ Route::prefix('setting')->group(function() {
     Route::post('/site/update/{id}' , [SiteSettingController::class,'updateSetting'])->name('update_setting');
     Route::get('/seo/view' , [SiteSettingController::class,'seoSettingView'])->name('view_seo');
     Route::post('/seo/update' , [SiteSettingController::class,'seoSettingUpdate'])->name('update_seo');
-    // Route::get('/delete/{id}' , [BlogController::class,'deleteBlogCategory'])->name('delete.blogCategory');
 });
+
+// Request Return Orders  All Routes :
+Route::prefix('return')->group(function() {
+    Route::get('/request/view' , [ReturnController::class,'returnRequest'])->name('return_request');
+    Route::get('/request/approve/{order_id}' , [ReturnController::class,'requestApprove'])->name('return_approve');
+    Route::get('/request/view/all' , [ReturnController::class,'requestViewAll'])->name('all_request');
+});
+
 
 ////////////////////////////////////////////////////////////////////////////////  FRONT_END  //////////////////////////////////////////////////////////////////////////////////////////
 
@@ -334,3 +343,7 @@ Route::get('/couponRemove',[CartController::class, 'couponRemove']);
  Route::get('/blog' , [HomeBlogController::class,'viewHomeBlog'])->name('view.HomeBlog');
  Route::get('/blog/post/detail/{id}' , [HomeBlogController::class,'HomeBlogDetail'])->name('post.details');
  Route::get('/blog/category/post/{category_id}' , [HomeBlogController::class,'HomeBlogCatPost']);
+
+ // Review's Book All Routes :
+ Route::post('/review/store' , [ReviewController::class,'reviewStore'])->name('review_store');
+ 

@@ -48,7 +48,6 @@
           <i data-feather="message-circle"></i>
           <span> @if (session()->get('language') == 'english') SubCategory @else Sous-Catégorie @endif </span>
           <span class="pull-right-container">
-            <i class="fa fa-angle-right pull-right"></i>
           </span>
         </a>
         <ul class="treeview-menu">
@@ -188,6 +187,22 @@
       @if (session()->get('language') == 'english')SEO Setting @else Paramètre de Référencement  @endif </a></li>
      </ul>
 </li> 
+<li class="treeview {{ ($prefix=='/return') ? 'active' : '' }}">
+  <a href="#">
+  <i data-feather="message-circle"></i>
+  <span> @if (session()->get('language') == 'english')Return Orders @else Retour Commandes @endif </span>
+  <span class="pull-right-container">
+    <i class="fa fa-angle-right pull-right"></i>
+  </span>
+</a>
+<ul class="treeview-menu">
+  <li class="{{($route == 'return_request') ? 'active' :'' }}"><a href="{{ route('return_request') }}"><i class="ti-more"></i>
+     @if (session()->get('language') == 'english')Return Request @else Demande de retour @endif </a></li>
+     <li class="{{($route == 'all_request') ? 'active' :'' }}"><a href="{{ route('all_request') }}"><i class="ti-more"></i>
+      @if (session()->get('language') == 'english')All Request @else Toutes les Demandes  @endif </a></li>
+     </ul>
+</li> 
+  
   
     
 		  
@@ -253,7 +268,7 @@
         <li class="treeview  {{ ($prefix=='/reports') ? 'active' : '' }}">
           <a href="#">
             <i data-feather="grid"></i>
-            <span> @if (session()->get('language') == 'english')Reports Area @else Rapports des Commandes  @endif </span>
+            <span> @if (session()->get('language') == 'english')Reports Area @else Rapports Commandes  @endif </span>
             <span class="pull-right-container">
               <i class="fa fa-angle-right pull-right"></i>
             </span>

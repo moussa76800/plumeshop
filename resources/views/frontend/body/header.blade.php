@@ -1,3 +1,7 @@
+@php
+$setting = App\Models\SiteSetting::find(1);
+@endphp
+
 <header class="header-style-1"> 
   
     <!-- ============================================== TOP MENU ============================================== -->

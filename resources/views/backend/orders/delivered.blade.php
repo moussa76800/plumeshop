@@ -29,10 +29,10 @@
 						<thead>
 							<tr>
 								<th>Date </th>
-								<th>Invoice </th>
-								<th>Amount </th>
-								<th>Payment </th>
-								<th>Status </th>
+								<th>@if (session()->get('language') == 'french')Facture @else Invoice @endif </th>
+								<th>@if (session()->get('language') == 'french')Montant @else Amount  @endif </th>
+								<th>@if (session()->get('language') == 'french')Paiement @else Payment @endif</th>
+								<th>@if (session()->get('language') == 'french')Statut @else Status @endif </th>
 								<th>Action</th>
 								 
 							</tr>
@@ -49,7 +49,7 @@
        
 		<td width="25%">
            <a href="{{ route('pending.detail',$item->id) }}" class="btn btn-info" title="View Data"><i class="fa fa-eye"></i> </a>
-		   <a target="_blank" href="{{ route('invoice.download',$item->id) }}" class="btn btn-danger" title="Invoice Download">
+		   <a target="_blank" href="{{ route('invoice.download',$item->id) }}" class="btn btn-danger" title="Invoice Download"><i class="fa fa-download"></i></a>
 		</td>
 							 
 	 </tr>

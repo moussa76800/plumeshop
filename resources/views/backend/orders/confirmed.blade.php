@@ -29,10 +29,10 @@
 						<thead>
 							<tr>
 								<th>Date </th>
-								<th>Invoice </th>
-								<th>Amount </th>
-								<th>Payment </th>
-								<th>Status </th>
+								<th>@if (session()->get('language') == 'french')Facture @else Invoice @endif </th>
+								<th>@if (session()->get('language') == 'french')Montant @else Amount  @endif </th>
+								<th>@if (session()->get('language') == 'french')Paiement @else Payment @endif</th>
+								<th>@if (session()->get('language') == 'french')Statut @else Status @endif </th>
 								<th>Action</th>
 								 
 							</tr>

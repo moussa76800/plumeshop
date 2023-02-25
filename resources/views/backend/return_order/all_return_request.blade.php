@@ -18,8 +18,7 @@
 
 			 <div class="box">
 				<div class="box-header with-border">
-				  <h3 class="box-title">@if (session()->get('language') == 'french')Liste des commandes en Cours @else Picked Orders List @endif 
-
+				  <h3 class="box-title">@if (session()->get('language') == 'english')All Return Orders List @else Liste de toutes les commandes de retour @endif
                   </h3>
 				</div>
 				<!-- /.box-header -->
@@ -29,27 +28,33 @@
 						<thead>
 							<tr>
 								<th>Date </th>
-								<th>Invoice </th>
-								<th>Amount </th>
-								<th>Payment </th>
-								<th>Status </th>
+								<th>@if (session()->get('language') == 'french') Facture @else Invoice @endif  </th>
+								<th>@if (session()->get('language') == 'french') Montant @else Amount @endif </th>
+								<th>@if (session()->get('language') == 'french') Paimement @else Payment @endif </th>
+								<th>@if (session()->get('language') == 'french') Statut @else Status @endif </th>
 								<th>Action</th>
 								 
 							</tr>
 						</thead>
 						<tbody>
-	 @foreach($orders as $item)
+	 @foreach($allRequests as $item)
 	 <tr>
 		<td> {{ $item->order_date }}  </td>
 		<td> {{ $item->invoice_no }}  </td>
 		<td> ${{ $item->amount }}  </td>
 
 		<td> {{ $item->payment_method }}  </td>
-		<td> <span class="badge badge-pill badge-primary">{{ $item->status }} </span>  </td>
-      
+		<td>
+		@if($item->return_order == 1)
+        <span class="badge badge-pill badge-primary">@if (session()->get('language') == 'french')En Attente @else Pending @endif </span>
+       @elseif($item->return_order == 2)
+       <span class="badge badge-pill badge-success">@if (session()->get('language') == 'french')Succès @else Success @endif </span>
+		@endif
+
+		  </td>
+
 		<td width="25%">
-           <a href="{{ route('pending.detail',$item->id) }}" class="btn btn-info" title="View Data"><i class="fa fa-eye"></i> </a>
-		   <a target="_blank" href="{{ route('invoice.download',$item->id) }}" class="btn btn-danger" title="Invoice Download"><i class="fa fa-download"></i></a>
+  <span class="badge badge-success">Return Success </span>
 		</td>
 							 
 	 </tr>

@@ -9,7 +9,7 @@
              <div class="col-md-2">
              </div>
 
-       <div class="col-md-8">
+       <div class="col-md-9">
 
         <div class="table-responsive">
           <table class="table">
@@ -20,11 +20,11 @@
                   <label for=""> Date</label>
                 </td>
 
-                <td class="col-md-3">
+                <td class="col-md-2">
                   <label for=""> Total</label>
                 </td>
 
-                <td class="col-md-3">
+                <td class="col-md-2">
                   <label for="">@if (session()->get('language') == 'french')Paiement @else Payment @endif</label>
                 </td>
 
@@ -33,12 +33,12 @@
                   <label for="">@if (session()->get('language') == 'french')Facture @else Invoice @endif</label>
                 </td>
 
-                 <td class="col-md-2">
-                  <label for="">@if (session()->get('language') == 'french')Achat @else Order @endif</label>
+                 <td class="col-md-4">
+                  <label for="">@if (session()->get('language') == 'french')Raison du Retour @else Return reason @endif</label>
                 </td>
 
                  <td class="col-md-1">
-                  <label for=""> Action </label>
+                  <label for=""> @if (session()->get('language') == 'french')Statut @else Order Status @endif </label>
                 </td>
                 
               </tr>
@@ -50,12 +50,12 @@
                   <label for=""> {{ $order->order_date }}</label>
                 </td>
 
-                <td class="col-md-3">
+                <td class="col-md-2">
                   <label for=""> ${{ $order->amount }}</label>
                 </td>
 
 
-                 <td class="col-md-3">
+                 <td class="col-md-2">
                   <label for=""> {{ $order->payment_method }}</label>
                 </td>
 
@@ -63,13 +63,18 @@
                   <label for=""> {{ $order->invoice_no }}</label>
                 </td>
 
-         <td class="col-md-2">
+                <td class="col-md-4">
+                  <label for=""> {{ $order->return_reason }}</label>
+                </td>
+
+
+         <td class="col-md-1">
           <label for=""> 
 
             @if($order->return_order == 0) 
             <span class="badge badge-pill badge-warning" style="background: #418DB9;"> No Return Request </span>
             @elseif($order->return_order == 1)
-            <span class="badge badge-pill badge-warning" style="background: #800000;"> Pedding </span>
+            <span class="badge badge-pill badge-warning" style="background: #FF6600;"> Pendding </span>
             <span class="badge badge-pill badge-warning" style="background:red;">Return Requested </span>
            
             @elseif($order->return_order == 2)
@@ -78,12 +83,7 @@
             </label>
         </td>
 
-         <td class="col-md-1">
-          <a href="{{ url('user/order_detail/'.$order->id ) }}" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i>@if (session()->get('language') == 'french') Voir @else  View @endif</a>
-
-           <a target="_blank" href=" {{ url('user/invoice_download/'.$order->id ) }} " class="btn btn-sm btn-danger" style="margin-top: 5px;"><i class="fa fa-download" style="color: white;"></i>@if (session()->get('language') == 'french') Facture @else Invoice @endif </a>
-          
-        </td>
+         
                 
               </tr>
               @endforeach

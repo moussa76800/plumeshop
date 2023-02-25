@@ -66,24 +66,24 @@
          <td class="col-md-2">
           <label for=""> 
 
-    @if($orders->status == 'pending')        
+    @if($order->status == 'pending')        
         <span class="badge badge-pill badge-warning" style="background: #800080;">@if (session()->get('language') == 'french')En Attente @else Pending @endif </span>
-        @elseif($orders->status == 'confirmed')
+        @elseif($order->status == 'confirmed')
          <span class="badge badge-pill badge-warning" style="background: #0000FF;">@if (session()->get('language') == 'french')Confirmation @else Confirm @endif </span>
 
-          @elseif($orders->status == 'processing')
+          @elseif($order->status == 'processing')
          <span class="badge badge-pill badge-warning" style="background: #FFA500;">@if (session()->get('language') == 'french')Traîtement @else Processing @endif </span>
 
-          @elseif($orders->status == 'picked')
+          @elseif($order->status == 'picked')
          <span class="badge badge-pill badge-warning" style="background: #808000;">@if (session()->get('language') == 'french')Préparation @else Picked @endif </span>
 
-          @elseif($orders->status == 'shipped')
+          @elseif($order->status == 'shipped')
          <span class="badge badge-pill badge-warning" style="background: #808080;">@if (session()->get('language') == 'french')Expédition @else Shipped @endif </span>
 
-          @elseif($orders->status == 'delivered')
+          @elseif($order->status == 'delivered')
          <span class="badge badge-pill badge-warning" style="background: #008000;">@if (session()->get('language') == 'french')Délivrer @else Delivered @endif </span>
 
-          @if($orders->return_order == 1) 
+          @if($order->return_order == 1) 
            <span class="badge badge-pill badge-warning" style="background:red;">@if (session()->get('language') == 'french')Retour demandé @else Return Requested @endif </span>
 
           @endif
@@ -105,26 +105,15 @@
               </tr>
               @endforeach
 
-
-
-
-
             </tbody>
             
           </table>
           
         </div>
-
-
-
-
-         
+   
        </div> <!-- / end col md 8 -->
 
 		 
-
-		 
-			
 		</div> <!-- // end row -->
 		
 	</div>

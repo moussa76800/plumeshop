@@ -231,7 +231,7 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
    @else
 
    <span class="badge badge-pill badge-warning" style="background: red">You Have send return request for this product</span>
-   
+   <p>For the following reason : {{ $order->return_reason}} .
    @endif
 
   @endif 

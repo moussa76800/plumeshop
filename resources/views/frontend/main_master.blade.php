@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
+@php
+$seo = App\Models\Seo::find(1);
+@endphp
 <head>
 <!-- Meta -->
 <meta charset="utf-8">
