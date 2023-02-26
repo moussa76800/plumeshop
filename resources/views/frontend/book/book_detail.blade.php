@@ -476,8 +476,10 @@
 								
 							</div><!-- /.row -->
 						</div><!-- /.quantity-container -->
-
-						
+<hr>
+						 <!-- Go to www.addthis.com/dashboard to customize your tools -->
+     <div class="addthis_inline_share_toolbox_8tvu"></div>
+            
 
 						
 
@@ -512,37 +514,45 @@
 									<div class="product-reviews">
 										<h4 class="title">@if (session()->get('language') == 'english')Customer Reviews @else Avis des clients @endif</h4>
 										
-										{{-- @php
-										$reviews = App\Models\Review::where('book_id',$book->id)->latest()->limit(5)->get();
-										@endphp	 --}}
-
-										<div class="reviews">
-											@foreach ($review as $item)
-												
-											
-											<div class="review">
-
-												
-													
-													<div class="review-title">
-														<span class="summary">{{ $item->summary }}</span>
-														@if(session()->get('language') == 'english')
-														<span class="date"><i class="fa fa-calendar"></i><span> {{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }} </span></span></div>
-												@else
-													@php
-													Carbon\Carbon::setLocale('fr');
-													@endphp
-													<div class="review-title">
-														<span class="date"><i class="fa fa-calendar"></i><span> {{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }} </span></span></div>
-												@endif
-												<div class="text">{{$item->comment}}</div>
-												
-																									
-																									
-										@endforeach
-										</div><!-- /.reviews -->
 										
-									</div><!-- /.product-reviews --	
+										
+												<div class="reviews">
+													@foreach ($review as $item)
+													@if($item->status == 0)
+
+													@else
+													<div class="review">
+
+														<div class="row">
+															<div class="col-md-3">
+															<img style="border-radius: 50%" src="{{ (!empty($item->user->profile_photo_path)) ?  url('upload/user_images/'.$item->user->profile_photo_path):url('upload/no_image.png') }}" 
+															width="40px;" height="40px;"><b> {{ $item->user->name }}</b>
+															</div>
+															<div class="col-md-3">
+															</div>
+														</div> <!-- EndRow -->
+															<div class="review-title">
+																<span class="summary">{{ $item->summary }}</span>
+																	
+																<span class="date"><i class="fa fa-calendar"></i><span>
+																	@if(session()->get('language') == 'english') 
+																{{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }} 
+																	@else
+																	@php
+																Carbon\Carbon::setLocale('fr');
+																@endphp
+									
+																{{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }} @endif</span></span>
+																</div>
+															
+																
+																	<div class="text">{{$item->comment}}</div>
+													</div>
+													@endif
+													@endforeach
+												</div><!-- /.reviews -->
+										
+									</div><!-- /.product-reviews -->	
 									
 
 									
@@ -557,7 +567,7 @@
 												@guest
 													@if (session()->get('language') == 'english')
 													<p> <b> For Add Product Review. You Need to Login First,  <a href="{{ route('login') }}">Login Here</a>
-													@else <p> <b>Pour ajouter un avis de produit. Tu dois d'abord te connecter,  <a href="{{ route('login') }}">Se connecter içi</a> </b> 
+													@else <p> <b>Pour ajouter un avis de produit, tu dois d'abord te connecter,  <a href="{{ route('login') }}">Se connecter ici</a> </b> 
 													@endif	</p>
 												@else
 
@@ -725,6 +735,10 @@
 		<div class="clearfix"></div>
 	</div><!-- /.row -->
 </div>
+
+
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5e4b85f98de5201f"></script>
 
 @endsection
 

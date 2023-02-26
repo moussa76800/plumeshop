@@ -254,6 +254,13 @@ Route::prefix('return')->group(function() {
     Route::get('/request/view/all' , [ReturnController::class,'requestViewAll'])->name('all_request');
 });
 
+// Manage Review User  All Routes :
+Route::prefix('review')->group(function() {
+    Route::get('/pending' , [ReviewController::class,'pendingReview'])->name('pending_review');
+    Route::get('/approve/{order_id}' , [ReviewController::class,'reviewApprove'])->name('review_approve');
+    Route::get('/publish' , [ReviewController::class,'publishReview'])->name('publish_review');
+    Route::get('/delete/{id}' , [ReviewController::class,'deleteReview'])->name('delete_review');
+});
 
 ////////////////////////////////////////////////////////////////////////////////  FRONT_END  //////////////////////////////////////////////////////////////////////////////////////////
 

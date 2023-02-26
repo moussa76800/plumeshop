@@ -47,8 +47,8 @@
           <a href="#">
           <i data-feather="message-circle"></i>
           <span> @if (session()->get('language') == 'english') SubCategory @else Sous-Catégorie @endif </span>
-          <span class="pull-right-container">
-          </span>
+          <i class="fa fa-angle-right pull-right"></i>
+            </span>
         </a>
         <ul class="treeview-menu">
           <li class="{{($route == 'all.subcategory') ? 'active' :'' }}"><a href="{{ route('all.subcategory') }}"><i class="ti-more"></i>
@@ -201,7 +201,22 @@
      <li class="{{($route == 'all_request') ? 'active' :'' }}"><a href="{{ route('all_request') }}"><i class="ti-more"></i>
       @if (session()->get('language') == 'english')All Request @else Toutes les Demandes  @endif </a></li>
      </ul>
-</li> 
+</li>
+<li class="treeview {{ ($prefix=='/review') ? 'active' : '' }}">
+  <a href="#">
+  <i data-feather="message-circle"></i>
+  <span> @if (session()->get('language') == 'english')Manage Review @else Gestion des Avis @endif </span>
+  <span class="pull-right-container">
+    <i class="fa fa-angle-right pull-right"></i>
+  </span>
+</a>
+<ul class="treeview-menu">
+  <li class="{{($route == 'pending_review') ? 'active' :'' }}"><a href="{{ route('pending_review') }}"><i class="ti-more"></i>
+     @if (session()->get('language') == 'english')Pending Review @else Avis en Attente @endif </a></li>
+      <li class="{{($route == 'publish_review') ? 'active' :'' }}"><a href="{{ route('publish_review') }}"><i class="ti-more"></i>
+      @if (session()->get('language') == 'english')Publish Review @else Avis Publié  @endif </a></li> 
+     </ul>
+</li>  
   
   
     
