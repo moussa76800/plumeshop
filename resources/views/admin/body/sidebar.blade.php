@@ -293,6 +293,19 @@
               @if (session()->get('language') == 'english')Orders Reports @else  Rapports des commandes  @endif </a></li> 
       </ul>
         </li>
+        <li class="treeview  {{ ($prefix=='/stock') ? 'active' : '' }}">
+          <a href="#">
+            <i data-feather="grid"></i>
+            <span> @if (session()->get('language') == 'english')Manage Stock @else Gestion du Stok  @endif </span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-right pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{($route == 'stock') ? 'active' :'' }}"><a href="{{ route('stock') }}"><i class="ti-more"></i>
+              @if (session()->get('language') == 'english')Product Stock @else  Stock des Livres  @endif </a></li> 
+      </ul>
+        </li>
 
         <li class="treeview  {{ ($prefix=='/allUsers') ? 'active' : '' }}">
           <a href="#">

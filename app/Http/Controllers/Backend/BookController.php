@@ -339,6 +339,10 @@ class BookController extends Controller
             return redirect()->back()->with($notification);
             }
 
+            public function stockProduct(){
+               $book = Book::latest()->get();
+               return view('backend.book.book_stock' ,compact('book'));
+           }
 
 
 

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\Book;
 use App\Models\Order;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 class OrderController extends Controller
 {
@@ -127,6 +129,13 @@ public function pendingToConfirmOrder($order_id){
 
    //  Shipped To Delivered
    public function ShippedToDeliveredOrder($order_id){
+
+    $product = OrderItem::where('order_id',$order_id)->get();
+	     foreach ($product as $item) {
+	     	Book::where('id',$item->book_id)
+	 			->update(['product_qty' => DB::raw('product_qty-'.$item->qty)]);
+	 } 
+ 
    
     Order::findOrFail($order_id)->update(['status' => 'delivered']);
 
@@ -175,6 +184,13 @@ public function pendingToConfirmOrder($order_id){
     return $pdf->download('invoice.pdf');
 
   }
+
+  public function getSalesReportAjax(Request $request)
+{
+  $pending = Order::where('status','pending')->get();
+
+    return response()->json($pending);
+}
         
 
 }

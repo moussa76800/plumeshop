@@ -18,6 +18,7 @@ use App\Http\Controllers\Backend\ShippingController;
 use App\Http\Controllers\Backend\SiteSettingController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
+use App\Http\Controllers\BookController as ControllersBookController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\Frontend\CartController;
@@ -198,6 +199,7 @@ Route::prefix('orders')->group(function() {
     Route::get('/shipped/order' , [OrderController::class,'shippedOrders'])->name('shipped');
     Route::get('/delivered/order' , [OrderController::class,'deliveredOrders'])->name('delivered');
     Route::get('/cancel/order' , [OrderController::class,'cancelOrders'])->name('cancel');
+    
    
 // Admin Update Status Orders
     Route::get('/pending/confirmed/{order_id}' , [OrderController::class,'pendingToConfirmOrder'])->name('pendingToConfirmed');
@@ -261,6 +263,14 @@ Route::prefix('review')->group(function() {
     Route::get('/publish' , [ReviewController::class,'publishReview'])->name('publish_review');
     Route::get('/delete/{id}' , [ReviewController::class,'deleteReview'])->name('delete_review');
 });
+
+// Manage Stock User  All Routes :
+Route::prefix('stock')->group(function() {
+    Route::get('/stock' , [BookController::class,'stockProduct'])->name('stock');
+    
+});
+
+
 
 ////////////////////////////////////////////////////////////////////////////////  FRONT_END  //////////////////////////////////////////////////////////////////////////////////////////
 
