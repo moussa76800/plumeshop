@@ -317,10 +317,25 @@
           </a>
           <ul class="treeview-menu">
             <li class="{{($route == 'all_Users') ? 'active' :'' }}"><a href="{{ route('all_Users') }}"><i class="ti-more"></i>
-              @if (session()->get('language') == 'english')All Users @else Utilisateurs  @endif </a></li> 
+              @if (session()->get('language') == 'english')All Users @else Utilisateurs  @endif </a></li>  
+      </ul>
+        </li>
+
+        <li class="treeview  {{ ($prefix=='/adminuserrole') ? 'active' : '' }}">
+          <a href="#">
+            <i data-feather="grid"></i>
+            <span> @if (session()->get('language') == 'english')Admins.Role @else Rôle Administrateurs  @endif </span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-right pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{($route == 'all_admin') ? 'active' :'' }}"><a href="{{ route('all_admin') }}"><i class="ti-more"></i>
+              @if (session()->get('language') == 'english')Administrators @else Administrateurs  @endif </a></li> 
              
       </ul>
         </li>
+        
         
     </section>
 	

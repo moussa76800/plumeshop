@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 
 use App\Http\Controllers\Backend\AdminProfileController;
+use App\Http\Controllers\Backend\AdminUserController;
 use App\Http\Controllers\Backend\AuthorController;
 use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\BookAuthorController;
@@ -266,8 +267,16 @@ Route::prefix('review')->group(function() {
 
 // Manage Stock User  All Routes :
 Route::prefix('stock')->group(function() {
-    Route::get('/stock' , [BookController::class,'stockProduct'])->name('stock');
-    
+    Route::get('/stock' , [BookController::class,'stockProduct'])->name('stock'); 
+});
+
+Route::prefix('adminuserrole')->group(function() {
+    Route::get('/all' , [AdminUserController::class,'allAdminRole'])->name('all_admin');
+    Route::get('/add' , [AdminUserController::class,'addAdminRole'])->name('add_admin');
+    Route::post('/store' , [AdminUserController::class,'storeAdminRole'])->name('admins_roles_store');
+    Route::get('/edit/{id}' , [AdminUserController::class,'editAdminRole'])->name('edit_admins');
+    Route::post('/update' , [AdminUserController::class,'updateAdminRole'])->name('admins_roles_update');
+    Route::get('/delete/{id}' , [AdminUserController::class,'deleteAdminRole'])->name('delete_admins'); 
 });
 
 
