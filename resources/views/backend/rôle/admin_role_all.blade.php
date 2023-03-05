@@ -134,7 +134,7 @@
 			@endif
 
 			@if($item->adminuserrole == 1)
-			<span class="badge btn-primary>@if (session()->get('language') == 'english')Admins.Roles @else Admins.Rôles @endif</span>
+			<span class="badge btn-primary">@if (session()->get('language') == 'english')Admins.Roles @else Admins.Rôles @endif</span>
 			@else
 			@endif
  

@@ -31,6 +31,7 @@ use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\ReviewController;
 use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\User\wishlistController;
+use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,9 +46,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('frontend.index');
-});
+// Route::get('/', function () {
+//     return view('frontend.index');
+// });
 
 Route::group(['prefix'=> 'admin', 'middleware'=>['admin:admin']], function(){
 	Route::get('/login', [AdminController::class, 'loginForm']);
@@ -280,9 +281,9 @@ Route::prefix('adminuserrole')->group(function() {
 });
 
 
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////  FRONT_END  //////////////////////////////////////////////////////////////////////////////////////////
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // User All Routes :
 Route::middleware(['auth:sanctum,web', 'verified'])->get('/dashboard', function () {
@@ -322,6 +323,11 @@ Route::get('/book/mini/cart/' , [CartController::class,'bookAddMiniCartAJAX']);
 Route::get('/minicart/removeBook/{rowId}' , [CartController::class,'deleteBookMiniCartAJAX']);
 
 Route::post('/addToWishList/{book_id}' , [CartController::class,'AddBookToWishListAJAX']);   // CREATE Book to WishList with AJAX.
+
+
+
+
+////////////////////////////////////        User Must Login         /////////////////////////////////////////////
 
 // Page WishList All Routes :
 Route::group(['prefix'=>'user','middleware' =>['user' , 'auth'],'namespace'=>'User'],function(){  
@@ -372,4 +378,7 @@ Route::get('/couponRemove',[CartController::class, 'couponRemove']);
 
  // Review's Book All Routes :
  Route::post('/review/store' , [ReviewController::class,'reviewStore'])->name('review_store');
+ 
+ // Tracking Order All Routes :
+ Route::post('/order/tracking' , [AllUserController::class,'orderTracking'])->name('order_tracking');
  

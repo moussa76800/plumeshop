@@ -176,11 +176,11 @@
 		 
 		<div class="controls">
 			<fieldset>
-				<input type="checkbox" id="checkbox_14" name="orders" value="1" {{ $adminuser->order == 1 ? 'checked' : '' }}>
+				<input type="checkbox" id="checkbox_14" name="orders" value="1" {{ $adminuser->orders == 1 ? 'checked' : '' }}>
 				<label for="checkbox_14">@if (session()->get('language') == 'english')Orders @else Commande @endif</label>
 			</fieldset>
 			<fieldset>
-				<input type="checkbox" id="checkbox_15" name="stock" value="1">
+				<input type="checkbox" id="checkbox_15" name="stock" value="1"{{ $adminuser->stock == 1 ? 'checked' : '' }}>
 				<label for="checkbox_15">Stock</label>
 			</fieldset>
 
@@ -195,7 +195,7 @@
 			</fieldset>
 
 			<fieldset>
-				<input type="checkbox" id="checkbox_18" name="adminuserrole" value="1"{{ $adminuser-> adminuserrole == 1 ? 'checked' : '' }}>
+				<input type="checkbox" id="checkbox_18" name="adminuserrole" value="1"{{ $adminuser->adminuserrole == 1 ? 'checked' : '' }}>
 				<label for="checkbox_18">@if (session()->get('language') == 'english')Admins.Role @else Admins.Rôle @endif </label>
 			</fieldset>
 		</div>
@@ -208,7 +208,7 @@
 	  
 
 			 <div class="text-xs-right">
-	<input type="submit" class="btn btn-rounded btn-primary mb-5" @if (session()->get('language') == 'english')value="Add Admin User" @else value="Valider"  @endif>					 
+	<input type="submit" class="btn btn-rounded btn-primary mb-5 " @if (session()->get('language') == 'english')value="Add Admin User" @else value="Valider"  @endif>					 
 						</div>
 					</form>
 

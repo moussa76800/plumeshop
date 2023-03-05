@@ -123,29 +123,29 @@ class AdminUserController extends Controller
     	}else{
 
     	Admin::findOrFail($admin_id)->update([
-		'name' => $request->name,
-		'email' => $request->email,
-		 
-		'phone' => $request->phone,
-		'brand' => $request->brand,
-		'category' => $request->category,
-		'product' => $request->product,
-		'slider' => $request->slider,
-		'coupons' => $request->coupons,
-
-		'shipping' => $request->shipping,
-		'blog' => $request->blog,
-		'setting' => $request->setting,
-		'returnorder' => $request->returnorder,
-		'review' => $request->review,
-
-		'orders' => $request->orders,
-		'stock' => $request->stock,
-		'reports' => $request->reports,
-		'alluser' => $request->alluser,
-		'adminuserrole' => $request->adminuserrole,
-		'type' => 2,
-		'created_at' => Carbon::now(),
+			'name' => $request->name,
+			'email' => $request->email,
+			'phone' => $request->phone,
+			'category' => $request->category,
+			'subcategory' => $request->subcategory,
+			'book' => $request->product,
+			'publisher' => $request->publisher,
+			'author' => $request->author,
+			'slider' => $request->slider,
+			'coupon' => $request->coupons,
+			'shipping' => $request->shipping,
+			'blog' => $request->blog,
+			'setting' => $request->setting,
+			'returnOrder' => $request->returnorder,
+			'review' => $request->review,
+			'orders' => $request->orders,
+			'stock' => $request->stock,
+			'reports' => $request->reports,
+			'alluser' => $request->alluser,
+			'adminuserrole' => $request->adminuserrole,
+			'type' => 2,
+			'created_at' => Carbon::now(),
+	
     	]);
 
         if (session()->get('language') == 'english'){
@@ -171,18 +171,19 @@ class AdminUserController extends Controller
  		unlink($img);
 
  		Admin::findOrFail($id)->delete();
+
          if (session()->get('language') == 'english'){
- 		 $notification = array(
+ 		 	$notification = array(
 			'message' => 'Admin User Deleted Successfully',
 			'alert-type' => 'succes'
 		);
-    }
-    $notification = array(
-        'message' => 'L\'Administrateur à été supprimé avec succès !!',
-        'alert-type' => 'succes'
+   	 }
+    		$notification = array(
+			'message' => "L\'Administrateur à été supprimé avec succès !!",
+			'alert-type' => 'succes'
     );
-
 		return redirect()->back()->with($notification);
 
  	} // end method 
 }
+

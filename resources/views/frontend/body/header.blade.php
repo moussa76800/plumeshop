@@ -23,6 +23,10 @@ $setting = App\Models\SiteSetting::find(1);
                 @if (session()->get('language') == 'french')Verifier 
                 @else Checkout @endif</a></li>
               <li>
+                <li><a href="" type="button" data-toggle="modal" data-target="#ordertraking"><i class="icon fa fa-check"></i>
+                  @if (session()->get('language') == 'french')Suivi de commande 
+                  @else Order Tracking @endif</a></li>
+                <li>
               @auth
                 <a href="{{ route('login') }}"><i class="icon fa fa-user"></i> @if (session()->get('language') == 'french')Profil de l'utilisateur @else User Profile @endif</a>
                   @else
@@ -111,7 +115,7 @@ $setting = App\Models\SiteSetting::find(1);
             <div class="dropdown dropdown-cart"> <a href="#" class="dropdown-toggle lnk-cart" data-toggle="dropdown">
               <div class="items-cart-inner">
                 <div class="basket"> <i class="glyphicon glyphicon-shopping-cart"></i> </div>
-                <div class="basket-item-count"><span class="count" id="cartQty"</span></div>
+                <div class="basket-item-count"><span class="count" id="cartQty"></span></div>
                 <div class="total-price-basket">
                    @if (session()->get('language') == 'french') <span class="lbl"> panier -  <span class="total-price"> <span class="sign"> €</span>
                    @else cart --</span> <span class="total-price"> <span class="sign">$ @endif</span><span class="value" id="cartSubTotal"></span> </span> </div>
@@ -220,4 +224,35 @@ $setting = App\Models\SiteSetting::find(1);
     <!-- /.header-nav --> 
     <!-- ============================================== NAVBAR : END ============================================== --> 
     
+<!-- Order Traking Modal -->
+<div class="modal fade" id="ordertraking" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">@if (session()->get('language') == 'french')  Suivez Maintenant @endifTrack Votre Commande @else  Track Now @endifTrack Your Order @endif </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         
+        <form method="post" action="{{ route('order_tracking') }}">
+          @csrf
+         <div class="modal-body">
+          <label>@if (session()->get('language') == 'french')Code Facture @else Invoice Code @endif</label>
+          <input type="text" name="code" required="" class="form-control" @if (session()->get('language') == 'french')placeholder="Numéro de facture de votre commande " @else placeholder="Your Order Invoice Number" @endif>           
+         </div>
+
+         <button class="btn btn-danger" type="submit" style="margin-left: 17px;">@if (session()->get('language') == 'french')Suivre maintenant @else Track Now @endif </button>
+          
+        </form> 
+
+
+      </div>
+       
+    </div>
+  </div>
+</div>
+ 
+
   </header>
