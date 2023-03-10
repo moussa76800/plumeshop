@@ -20,13 +20,12 @@
 </style>
 
 
-<div class="breadcrumb">
-	<div class="container">
-		<div class="breadcrumb-inner">
-			<ul class="list-inline list-unstyled">
-				<li><a href="#">@if (session()->get('language') == 'english')Home @else Accueil @endif</a></li>
-				<li class='active'>Blog</li>
-			</ul>
+<div class="container">
+	<div class="breadcrumb-inner">
+		<ul class="list-inline ">
+			<li><a href="{{ '/' }} "style="color: red" ;>@if(session()->get('language') == 'french')Accueil @else Home @endif/</a></li>
+			<li class='active'style="color:  #00008B;">Blog </li>
+		</ul>
 		</div><!-- /.breadcrumb-inner -->
 	</div><!-- /.container -->
 </div><!-- /.breadcrumb -->
@@ -37,7 +36,7 @@
 			<div class="blog-page">
 				<div class="col-md-9">
 
-
+<BR>
 
 				@forelse($blogpost as $blog)
 					<div class="blog-post  wow fadeInUp">

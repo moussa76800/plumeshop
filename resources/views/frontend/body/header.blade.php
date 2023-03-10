@@ -26,7 +26,7 @@ $setting = App\Models\SiteSetting::find(1);
                 <li><a href="" type="button" data-toggle="modal" data-target="#ordertraking"><i class="icon fa fa-check"></i>
                   @if (session()->get('language') == 'french')Suivi de commande 
                   @else Order Tracking @endif</a></li>
-                <li>
+                <li>  
               @auth
                 <a href="{{ route('login') }}"><i class="icon fa fa-user"></i> @if (session()->get('language') == 'french')Profil de l'utilisateur @else User Profile @endif</a>
                   @else
@@ -74,6 +74,12 @@ $setting = App\Models\SiteSetting::find(1);
     </div>
     <!-- /.header-top --> 
     <!-- ============================================== TOP MENU : END ============================================== -->
+    <style>
+      .logo img {
+        width: 90%;
+        height: auto;
+}
+    </style>
     <div class="main-header">
       <div class="container">
         <div class="row">
@@ -88,7 +94,8 @@ $setting = App\Models\SiteSetting::find(1);
             <!-- /.contact-row --> 
             <!-- ============================================================= SEARCH AREA ============================================================= -->
             <div class="search-area">
-              <form>
+              <form method="post" action="{{route('search_book')}}">
+                @csrf
                 <div class="control-group">
                   <ul class="categories-filter animate-dropdown">
                     <li class="dropdown"> <a class="dropdown-toggle"  data-toggle="dropdown" href="category.html">Categories <b class="caret"></b></a>
@@ -101,7 +108,7 @@ $setting = App\Models\SiteSetting::find(1);
                       </ul>
                     </li>
                   </ul>
-                  <input class="search-field" placeholder="Search here..." />
+                  <input class="search-field" name="search" placeholder="Search here..." />
                   <a class="search-button" href="#" ></a> </div>
               </form>
             </div>
@@ -165,7 +172,7 @@ $setting = App\Models\SiteSetting::find(1);
             <div class="navbar-collapse collapse" id="mc-horizontal-menu-collapse">
               <div class="nav-outer">
                 <ul class="nav navbar-nav">
-                  <li class="active dropdown yamm-fw"><a href="{{url ('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french')Accueil @else Home @endif</a></li>
+                  <li class="active dropdown yamm-fw"><a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french')Accueil @else Home @endif</a></li>
                   @php
                       $categories = App\Models\Category::orderBy('name_en' , 'ASC')->get();
                   @endphp
@@ -203,7 +210,7 @@ $setting = App\Models\SiteSetting::find(1);
                   </li>
                   @endforeach
                  
-                  <li class="dropdown  navbar-right special-menu"> <a href="#">Todays offer</a> </li>
+                  <li class="dropdown  navbar-right special-menu"> <a href="{{route('donate_book')}}">@if (session()->get('language') == 'french')Donnez vos Livres @else Donate your Books @endif</a> </li>
                   <li class="dropdown  navbar-right special-menu"> <a href="{{route('view.HomeBlog')}}">Blog</a> </li>
                 </ul>
                 <!-- /.navbar-nav -->

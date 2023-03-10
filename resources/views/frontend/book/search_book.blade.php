@@ -1,24 +1,15 @@
 @extends('frontend.main_master')
 @section('content')
-
 @section('title')
-@if (session()->get('language') == 'french')Catégorie du Livre @else Subcategory Book @endif Subcategory Product 
+@if (session()->get('language') == 'french')Rechercher un Livre @else Search a Book @endif 
 @endsection
 
-
-
-<div class="">
+<div class="breadcrumb">
     <div class="container">
       <div class="breadcrumb-inner">
-        <ul class="list-inline ">
-          <li><a href="{{ '/' }} "style="color: red" ;>@if (session()->get('language') == 'french')Accueil @else Home @endif/</a></li>
-          @foreach($breadSubCat as $item)
-          <li class='active' style="color:  #00008B ;" >@if (session()->get('language') == 'french'){{ $item->category->name_fr }} @else  {{ $item->category->name_en }} @endif /</li>
-          @endforeach
-  
-          @foreach($breadSubCat as $item)
-          <li class='active' style="color:  #00008B;">@if (session()->get('language') == 'french'){{ $item->name_fr }} @else {{ $item->name_en }} @endif</li>
-          @endforeach
+        <ul class="list-inline list-unstyled">
+          <li><a href="#">@if (session()->get('language') == 'french')Accueil @else Home @endif </a></li>
+          <li class='active'>Handbags</li>
         </ul>
       </div>
       <!-- /.breadcrumb-inner --> 
@@ -40,6 +31,8 @@
   
           <div class="sidebar-module-container">
             <div class="sidebar-filter"> 
+           
+
               {{-- <!-- ============================================== SIDEBAR CATEGORY ============================================== -->
               <div class="sidebar-widget wow fadeInUp">
                 <h3 class="section-title">shop by</h3>
@@ -194,7 +187,6 @@
         <div class='col-md-9'> 
   
   
-  
           <!-- == ==== SECTION – HERO === ====== -->
           
           {{-- <div id="category" class="category-carousel hidden-xs">
@@ -214,6 +206,8 @@
           
        
           <div class="clearfix filters-container m-t-10">
+        <h2>Résultats de la recherche pour : "<font color="blue">{{ $item }}</font>"</h2> 
+
             <div class="row">
               <div class="col col-sm-6 col-md-2">
                 <div class="filter-tabs">
@@ -280,16 +274,15 @@
   
   
   <!--    //////////////////// START Product Grid View  ////////////// -->
-  
+ 
           <div class="search-result-container ">
             <div id="myTabContent" class="tab-content category-list">
               <div class="tab-pane active " id="grid-container">
                 <div class="category-product">
                   <div class="row">
   
-  
-  
-  @forelse($books as $product)
+                    
+  @forelse($bookSearch as $product)
     <div class="col-sm-6 col-md-4 wow fadeInUp">
       <div class="products">
         <div class="product">
@@ -381,11 +374,9 @@
   
   
               <div class="tab-pane "  id="list-container">
-                <div class="category-product">
-  
-  
-  
-   @foreach($books as $product)
+                <h1>Résultats de la recherche pour : "{{ $item }}"</h1> 
+                <div class="category-product">               
+   @foreach($bookSearch as $product)
   <div class="category-product-inner wow fadeInUp">
     <div class="products">
       <div class="product-list product">

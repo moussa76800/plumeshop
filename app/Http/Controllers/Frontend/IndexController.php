@@ -111,8 +111,8 @@ class IndexController extends Controller
   public function subCatWiseBook( $subCat_id , $slug  ){
     $books= Book::where('status',1)->where('subCategory_id',$subCat_id)-> orderBy('id' , 'DESC')->paginate(3);
     $categories = Category::orderBy('name_en','ASC')->get();
-      return view('frontend.book.subCategory_view', compact('books', 'categories'));
-
+    $breadSubCat = SubCategory::with(['category'])->where('id', $subCat_id)->get();
+      return view('frontend.book.subCategory_view', compact('books', 'categories', 'breadSubCat'));
 }
 
   // Book View Modal AJAX
@@ -120,13 +120,50 @@ class IndexController extends Controller
     $book = Book::with('categoryBook')->findOrFail($id);
       return response()->json(array(
         'book' => $book ,
-
       ));
-
   }
 
+  public function searchBook(Request $request){
+  $request->validate(["search" => "required"]);
+  $item = $request->search;
+
+  if (session()->get('language') == 'french') {  
+    $categorySearch = Category::orderBy('name_fr', 'ASC')->get();
+    $bookSearch = Book::leftJoin('publishers', 'books.publisher_id', '=', 'publishers.id')
+      ->leftJoin('categories', 'books.categoryBook_id', '=', 'categories.id')
+      ->where(function($query) use ($item) {
+        $query->where('books.name_fr', 'LIKE', "%$item%")
+          ->orWhere('books.ISBN', 'LIKE', "%$item%")
+          ->orWhere('publishers.name_fr', 'LIKE', "%$item%")
+          ->orWhere('categories.name_fr', 'LIKE', "%$item%");
+
+      })
+      ->get();
+  } else if (session()->get('language') == 'english')  {
+    $categorySearch = Category::orderBy('name_en', 'ASC')->get();
+    $bookSearch = Book::leftJoin('publishers', 'books.publisher_id', '=', 'publishers.id')
+      ->leftJoin('categories', 'books.categoryBook_id', '=', 'categories.id')
+      ->where(function($query) use ($item) {
+        $query->where('books.name_en', 'LIKE', "%$item%")
+          ->orWhere('books.ISBN', 'LIKE', "%$item%")
+          ->orWhere('publishers.name_en', 'LIKE', "%$item%")
+          ->orWhere('categories.name_en', 'LIKE', "%$item%");
+
+      })
+      ->get();
+  }
+  
+  return view('frontend.book.search_book', compact('categorySearch', 'bookSearch','item'));
+}
+
+public function donnateBook(){
+  return view('frontend.donnate.donnate_book');
+}
+
+public function aboutSlider(){
+  return view('frontend.slider.slider_1');
+}
 
 }
- 
 
 

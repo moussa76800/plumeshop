@@ -17,17 +17,18 @@
     </style>
  
 
- <div class="breadcrumb">
+ <div class="">
 	<div class="container">
 		<div class="breadcrumb-inner">
-			<ul class="list-inline list-unstyled">
-				<li><a href="#">@if(session()->get('language') == 'french')Accueil @else Home @endif</a></li>
-				<li class='active'>{{ $postDetail->post_title_en }}</li>
+			<ul class="list-inline ">
+				<li><a href="{{ '/' }} "style="color: red" ;>@if(session()->get('language') == 'french')Accueil @else Home @endif/</a></li>
+				<li class='active'style="color:  #00008B;">Blog /</li>
+				<li class='active' style="color:  #00008B;">@if(session()->get('language') == 'french'){{ $postDetail->post_title_en }} @else {{ $postDetail->post_title_en }} @endif</li>
 			</ul>
 		</div><!-- /.breadcrumb-inner -->
 	</div><!-- /.container -->
 </div><!-- /.breadcrumb -->
-
+<br>
 <div class="body-content">
 	<div class="container">
 		<div class="row">

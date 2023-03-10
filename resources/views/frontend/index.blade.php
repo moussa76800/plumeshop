@@ -561,19 +561,47 @@
          
           <div id="hero">
             <div id="owl-main" class="owl-carousel owl-inner-nav owl-ui-sm">
-               @foreach( $sliders as $slider)
+               @foreach( $sliders as $slider) 
+               @if($slider->title =="Plumeshop,la vraie librairie.")
               <div class="item" style="background-image: url({{$slider->slider_img}});">
                 <div class="container-fluid">
-                  <div class="caption bg-color vertical-center text-left">
-                    <div class="big-text fadeInDown-1">{{ $slider->title }} </div>
-                    <div class="excerpt fadeInDown-2 hidden-xs"> <span>{{ $slider->description }}.</span> </div>
-                    <div class="button-holder fadeInDown-3"> <a href="index.php?page=single-product" class="btn-lg btn btn-uppercase btn-primary shop-now-button">Shop Now</a> </div>
+                  <div class="caption bg-color vertical-center text-left" style="text-align: center; color:  black;">
+                    <div class="big-text fadeInDown-1"style="color:black;">{{ $slider->title }} </div>
+                    <div class="excerpt fadeInDown-2 hidden-xs" style="color:black;"> <span><b>{{ $slider->description }}.</b></span> </div>
+                    <div class="button-holder fadeInDown-3"> <a href="{{route('slide_plumeshop')}}" class="btn-lg btn btn-uppercase btn-primary shop-now-button">En Savoir Plus</a> </div>
                   </div>
                   <!-- /.caption --> 
                 </div>
                 <!-- /.container-fluid --> 
               </div>
               <!-- /.item -->
+              @elseif($slider->title =="Blog")
+                <div class="item" style="background-image: url({{$slider->slider_img}});">
+                  <div class="container-fluid">
+                    <div class="caption bg-color vertical-center text-left" style="text-align: center; color: black;">
+                      <div class="big-text fadeInDown-1"style="color: black;">{{ $slider->title }} </div>
+                      <div class="excerpt fadeInDown-2 hidden-xs" style="color:black;"> <span><b>{{ $slider->description }}.</b></span> </div>
+                      <div class="button-holder fadeInDown-3"> <a href="blog" class="btn-lg btn btn-uppercase btn-primary shop-now-button">En Savoir Plus</a> </div>
+                    </div>
+                    <!-- /.caption --> 
+                  </div>
+                  <!-- /.container-fluid --> 
+                </div>
+                <!-- /.item --> 
+              @else
+              <div class="item" style="background-image: url({{$slider->slider_img}});">
+                <div class="container-fluid">
+                  <div class="caption bg-color vertical-center text-left" style="text-align: center; color: black;">
+                    <div class="big-text fadeInDown-1"style="color: black;">{{ $slider->title }} </div>
+                    <div class="excerpt fadeInDown-2 hidden-xs" style="color:black;"> <span><b>{{ $slider->description }}.</b></span> </div>
+                    <div class="button-holder fadeInDown-3"> <a href="{{url('/subCategory/book/12/comics')}}" class="btn-lg btn btn-uppercase btn-primary shop-now-button">En Savoir Plus</a> </div>
+                  </div>
+                  <!-- /.caption --> 
+                </div>
+                <!-- /.container-fluid --> 
+              </div>
+              <!-- /.item --> 
+            @endif
               @endforeach
               
             </div>
@@ -695,10 +723,11 @@
                             <div class="action">
                               <ul class="list-unstyled">
                                 <li class="add-cart-button btn-group">
-                                  <button data-toggle="tooltip" class="btn btn-primary icon" type="button" title="Add Cart"> <i class="fa fa-shopping-cart"></i> </button>
+                                  <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal" id="{{ $book->id }}" onclick="bookView(this.id)"><i class="fa fa-shopping-cart"></i> </button>
                                   <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
                                 </li>
-                                <li class="lnk wishlist"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
+                                 <li>
+                                  <button class="btn btn-primary icon" type="button" title="Wislist" id="{{ $book->id }}" onclick="addToWishList(this.id)"><i class="fa fa-heart"></i> </button>
                                 <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> </li>
                               </ul>
                             </div>
@@ -778,10 +807,11 @@
                               <div class="action">
                                 <ul class="list-unstyled">
                                   <li class="add-cart-button btn-group">
-                                    <button data-toggle="tooltip" class="btn btn-primary icon" type="button" title="Add Cart"> <i class="fa fa-shopping-cart"></i> </button>
+                                    <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal" id="{{ $book->id }}" onclick="bookView(this.id)"><i class="fa fa-shopping-cart"></i> </button>
                                     <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
                                   </li>
-                                  <li class="lnk wishlist"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
+                                   <li>
+                                    <button class="btn btn-primary icon" type="button" title="Wislist" id="{{ $book->id }}" onclick="addToWishList(this.id)"><i class="fa fa-heart"></i> </button>
                                   <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> </li>
                                 </ul>
                               </div>
@@ -839,7 +869,7 @@
           <!-- ============================================== WIDE PRODUCTS : END ============================================== --> 
 
           <!-- ============================================== FEATURED PRODUCTS ============================================== -->
-           <section class="section featured-product wow fadeInUp">
+           {{-- <section class="section featured-product wow fadeInUp">
             <h3 class="section-title">@if (session()->get('language') == 'french') Prochainement @else Featured Books @endif </h3>
             <div class="owl-carousel home-owl-carousel custom-carousel owl-theme outer-top-xs">
 
@@ -915,7 +945,200 @@
            </div>
             <!-- /.home-owl-carousel --> 
           </section> 
-          <!-- /.section -->  
+          <!-- /.section -->   --}}
+
+          <div id="product-tabs-slider" class="scroll-tabs outer-top-vs wow fadeInUp">
+            <div class="more-info-tab clearfix ">
+              <h3 class="new-product-title pull-left"> @if (session()->get('language') == 'french')Prochainement @else Futures Books @endif</h3>
+              <ul class="nav nav-tabs nav-tab-line pull-right" id="">
+                <li class="active"><a data-transition-type="backSlide" href="#allFeatured" data-toggle="tab">All</a></li>
+                @foreach($categories as $category)
+                <li><a data-transition-type="backSlide" href="#categoryFeatured{{$category->id}}" data-toggle="tab">@if (session()->get('language') == 'french'){{ $category->name_fr }}@else {{ $category->name_en }} @endif</a></li>
+                @endforeach
+                {{-- <li><a data-transition-type="backSlide" href="#laptop" data-toggle="tab">Electronics</a></li>
+                <li><a data-transition-type="backSlide" href="#apple" data-toggle="tab">Shoes</a></li> --}}
+              </ul>
+              <!-- /.nav-tabs --> 
+            </div>
+            <div class="tab-content outer-top-xs">
+              <div class="tab-pane in active" id="allFeatured">
+                <div class="product-slider">
+                  <div class="owl-carousel home-owl-carousel custom-carousel owl-theme" data-item="4">
+
+                    @foreach ($featured  as $book)
+                      <div class="item item-carousel">
+                      <div class="products">
+                        <div class="product">
+                          <div class="product-image">
+                            <div class="image"> <a href=" @if(session()->get('language') == 'french') {{ url('book/detail/'.$book->id.'/'.$book->name_fr ) }}" @else {{ url('book/detail/'.$book->id.'/'.$book->name_en ) }}" @endif><img src="{{  asset($book->product_thambnail) }}"></a></div>
+                            <!-- /.image -->
+                            
+                      @php
+                        $amount = $book->prix - $book->discount_price;
+                        $discount = ($amount/$book->prix) * 100;
+                      @endphp 
+                
+                
+                <div>
+                  @if ($book->discount_price == NULL)
+                  <div class="tag new"><span>new</span></div>
+                  @else
+                  <div class="tag hot"><span>{{ round($discount) }}%</span></div>
+                  @endif
+                </div>
+                              
+              </div>
+                          <!-- /.product-image -->
+
+                          
+                          
+                          <div class="product-info text-left">
+                            <h3 class="name"><a href="{{ url('book/detail/'.$book->id.'/'.$book->name_en ) }}">
+                              @if(session()->get('language') == 'french') {{ $book->name_fr }} @else {{ $book->name_en }} @endif
+                                          </a></h3>
+                            <div class="rating rateit-small"></div>
+                            <div class="description"></div>
+
+                            @if ($book->discount_price == NULL)
+                        <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->prix }} @else $ {{ $book->prix }} @endif </span> </div>
+                                @else
+                        <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->prix - $book->discount_price }} </span> <span class="price-before-discount">  €  {{ $book->prix }}</span> @else
+                          $ {{$book->prix - $book->discount_price  }} </span> <span class="price-before-discount">  $  {{ $book->prix }} @endif </div>
+                      @endif
+                            <!-- /.product-price --> 
+                            
+                          </div>
+                          <!-- /.product-info -->
+                          <div class="cart clearfix animate-effect">
+                            <div class="action">
+                              <ul class="list-unstyled">
+                                <li class="add-cart-button btn-group">
+                                  <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal" id="{{ $book->id }}" onclick="bookView(this.id)"><i class="fa fa-shopping-cart"></i> </button>
+                                  <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
+                                </li>
+                                 <li>
+                                  <button class="btn btn-primary icon" type="button" title="Wislist" id="{{ $book->id }}" onclick="addToWishList(this.id)"><i class="fa fa-heart"></i> </button>
+                                <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> </li>
+                              </ul>
+                            </div>
+                            <!-- /.action --> 
+                          </div>
+                          <!-- /.cart --> 
+                        </div>
+                        <!-- /.product --> 
+                     </div>
+                      <!-- /.products --> 
+                    </div>
+                    <!-- /.item -->
+                    @endforeach
+                 </div>
+                  <!-- /.home-owl-carousel --> 
+                </div>
+                <!-- /.product-slider --> 
+              </div>
+              <!-- /.tab-pane -->
+            
+
+            
+             @foreach($categories as $category)
+              
+                <div class="tab-pane " id="categoryFeatured{{ $category->id }}">
+                  <div class="product-slider">
+                    <div class="owl-carousel home-owl-carousel custom-carousel owl-theme" data-item="4">
+                  
+                      @php
+                      $catwiseBook = App\Models\Book::where('categoryBook_id',$category->id)->orderBy('id','DESC')->get(); 
+                    @endphp
+                        
+                      
+                        @forelse ($catwiseBook as $book)
+
+                                               
+                      <div class="item item-carousel">
+                        <div class="products">
+                          <div class="product">
+                            <div class="product-image">
+                              <div class="image"><a href=" @if(session()->get('language') == 'french') {{ url('book/detail/'.$book->id.'/'.$book->name_fr ) }}" @else {{ url('book/detail/'.$book->id.'/'.$book->name_en ) }}" @endif><img src="{{  asset($book->product_thambnail) }}"></a></div>
+                              <!-- /.image -->
+                              
+
+                      @php
+                            $amount = $book->prix - $book->discount_price;
+                            $discount = ($amount/$book->prix) * 100;
+                      @endphp 
+                      
+                      
+                      <div>
+                        @if ($book->discount_price == NULL)
+                        <div class="tag new"><span>new</span></div>
+                        @else
+                        <div class="tag hot"><span>{{ round($discount) }}%</span></div>
+                        @endif
+                      </div>
+                                    
+                    </div>
+                            <!-- /.product-image -->
+                            
+                            <div class="product-info text-left">
+                              <h3 class="name"><a href="detail.html">{{ $book->name_en }}</a></h3>
+                              <div class="rating rateit-small"></div>
+                              <div class="description"></div>
+                              @if ($book->discount_price == NULL)
+                                  <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->prix }}@else ${{ $book->prix }} @endif </span> </div>
+                                      @else
+                              <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->prix - $book->discount_price}} </span> <span class="price-before-discount">  €  {{ $book->prix }}</span> @else
+                                $ {{$book->prix - $book->discount_price  }} </span> <span class="price-before-discount">  $  {{ $book->prix }} @endif </div>
+                            @endif
+                              <!-- /.product-price --> 
+                              
+                            </div>
+                            <!-- /.product-info -->
+                            <div class="cart clearfix animate-effect">
+                              <div class="action">
+                                <ul class="list-unstyled">
+                                  <li class="add-cart-button btn-group">
+                                    <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal" id="{{ $book->id }}" onclick="bookView(this.id)"><i class="fa fa-shopping-cart"></i> </button>
+                                    <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
+                                  </li>
+                                   <li>
+                                    <button class="btn btn-primary icon" type="button" title="Wislist" id="{{ $book->id }}" onclick="addToWishList(this.id)"><i class="fa fa-heart"></i> </button>
+                                  <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> </li>
+                                </ul>
+                              </div>
+                              <!-- /.action --> 
+                            </div>
+                            <!-- /.cart --> 
+                          </div>
+                          <!-- /.product --> 
+                       </div>
+                        <!-- /.products --> 
+                      </div>
+                      <!-- /.item -->
+
+                      @empty
+                      <h5 class="text-danger">@if (session()->get('language') == 'french') Pas de Livre Trouvé dans cette catégorie !! @else No product Found in this Categrory @endif !!</h5>
+                            
+                      @endforelse
+
+                    </div>
+                    <!-- /.home-owl-carousel --> 
+                  </div>
+                  <!-- /.product-slider --> 
+                </div>
+                <!-- /.tab-pane -->
+              @endforeach
+            
+           
+             
+
+              
+              
+             
+              
+            </div>
+            <!-- /.tab-content --> 
+          </div>
+          <!-- /.scroll-tabs --> 
           <!-- ============================================== FEATURED PRODUCTS : END ============================================== --> 
           <!-- ============================================== WIDE PRODUCTS ============================================== -->
           {{-- <div class="wide-banners wow fadeInUp outer-bottom-xs">

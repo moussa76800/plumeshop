@@ -46,9 +46,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// Route::get('/', function () {
-//     return view('frontend.index');
-// });
+Route::get('/', function () {
+    return view('frontend.index');
+});
 
 Route::group(['prefix'=> 'admin', 'middleware'=>['admin:admin']], function(){
 	Route::get('/login', [AdminController::class, 'loginForm']);
@@ -271,6 +271,7 @@ Route::prefix('stock')->group(function() {
     Route::get('/stock' , [BookController::class,'stockProduct'])->name('stock'); 
 });
 
+// Manage Admins Users All Routes :
 Route::prefix('adminuserrole')->group(function() {
     Route::get('/all' , [AdminUserController::class,'allAdminRole'])->name('all_admin');
     Route::get('/add' , [AdminUserController::class,'addAdminRole'])->name('add_admin');
@@ -279,6 +280,12 @@ Route::prefix('adminuserrole')->group(function() {
     Route::post('/update' , [AdminUserController::class,'updateAdminRole'])->name('admins_roles_update');
     Route::get('/delete/{id}' , [AdminUserController::class,'deleteAdminRole'])->name('delete_admins'); 
 });
+
+// Book Search All Routes :
+ Route::post('/search/book' , [IndexController::class,'searchBook'])->name('search_book');
+
+// Book Search All Routes :
+Route::GET('/donnate/book' , [IndexController::class,'donnateBook'])->name('donate_book');
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -324,7 +331,7 @@ Route::get('/minicart/removeBook/{rowId}' , [CartController::class,'deleteBookMi
 
 Route::post('/addToWishList/{book_id}' , [CartController::class,'AddBookToWishListAJAX']);   // CREATE Book to WishList with AJAX.
 
-
+Route::get('/plumeshop/about_us', [IndexController::class,'aboutSlider'])->name('slide_plumeshop');
 
 
 ////////////////////////////////////        User Must Login         /////////////////////////////////////////////

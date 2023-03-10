@@ -63,7 +63,7 @@ class CategoryController extends Controller
       $old_img = $request->old_image;
 
       if ($request->file('image') ) {
-         unlink($old_img);
+         // unlink($old_img);
          $image = $request->file('image');
          $name_image = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
          Image::make($image)->resize(300,300)->save('upload/category/'.$name_image);

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\Seo;
 use App\Models\SiteSetting;
 use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
-use App\Models\Seo;
 use Intervention\Image\Facades\Image;
+
 
 class SiteSettingController extends Controller
 {
@@ -26,7 +28,7 @@ class SiteSettingController extends Controller
             $save_url = 'upload/logo/' . $name_gen;
             $image->move(public_path('upload/logo'), $name_gen);
         } else {
-            Image::load($image)->resize(139, 36)->save('upload/logo/' . $name_gen);
+            Image::make($image)->resize(139, 36)->save('upload/logo/' . $name_gen);
             $save_url = 'upload/logo/' . $name_gen;
         }
         $site_settings->logo = $save_url;

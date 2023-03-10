@@ -62,7 +62,7 @@ public function sliderUpdate(Request $request){
 
     if ($request->file('slider_img')) {
         if($request->file('slider_img') > 0){ 
-        unlink($old_img);
+        // unlink($old_img);
        $image = $request->file('slider_img');
        $name_image = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
        Image::make($image)->resize(300,300)->save('upload/slider/'.$name_image);
@@ -91,14 +91,8 @@ public function sliderUpdate(Request $request){
     }
     }else {
 
-       $image = $request->file('slider_img');
-       $name_image = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-       Image::make($image)->resize(300,300)->save('upload/slider/'.$name_image);
-       $save_url = 'upload/slider/'.$name_image;
- 
       
        Slider::findOrFail($slider_id)->update([
-        'slider_img'  => $save_url,
         'title'       => $request->title ,
         'description' => $request->description ,
         'updated_at' => now(),

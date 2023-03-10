@@ -89,6 +89,7 @@ class AllUserController extends Controller
             'message' => "Le code de facturation n'est pas valide",
             'alert-type' => 'error'
         );
+        return redirect()->back()->with($notification);
     }
             $notification = array(
                 'message' => 'Invoice Code Is Invalid',

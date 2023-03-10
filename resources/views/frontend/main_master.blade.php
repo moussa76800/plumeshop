@@ -40,6 +40,7 @@ $seo = App\Models\Seo::find(1);
 <link href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,700' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,600,600italic,700,700italic,800' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-KyI0+3FU3KA1q3wgxyErSMGga+xE+NKfUbhI9HzcPv+8fsC/FTl2nLGjwuNfLyTt" crossorigin="anonymous">
 
 <!-- Stripe -->
 <script src="https://js.stripe.com/v3/"></script>

@@ -28,9 +28,9 @@
 
 
 		<div class="form-group">
-		    <label class="info-title" for="exampleInputEmail1">Email Address <span>*</span></label>
-		    <input type="email"  id="email"name="email" class="form-control unicase-form-control text-input" >
-            @error('email')
+		    <label class="info-title" for="exampleInputEmail1">User Name <span>*</span></label>
+		    <input type="text"  id="name"name="name" class="form-control unicase-form-control text-input" >
+            @error('name')
             <span class="invalid-feedback" role="alert">
                <strong>{{ $message }}</strong>
            </span>   
