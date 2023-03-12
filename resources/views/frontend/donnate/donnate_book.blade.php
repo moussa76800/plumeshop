@@ -146,7 +146,7 @@ position: absolute;
 left: -25px;
 }
 
-#about-us {
+#about-uss {
   background-image: url('https://i.imgur.com/kDdnrKr.jpg');
   background-size: cover;
   background-position: center;
@@ -214,6 +214,14 @@ color: #2196f3;
   line-height: 1.5;
   color: #4f4f4f;
 }
+.card {
+  height: 400px;
+}
+
+.card img {
+  
+  height: 50px;
+}
 
  </style>
 
@@ -225,7 +233,7 @@ color: #2196f3;
         <ul>
           <li><a href="#why-donate">Pourquoi donner</a></li>
           <li><a href="#how-to-donate">Comment donner</a></li>
-          <li><a href="#about-us">À propos de nous</a></li>
+          <li><a href="#about-uss">À propos de nous</a></li>
           <li><a href="#partners">Nos Partenaires</a></li>
         </ul>
       </nav>
@@ -248,10 +256,10 @@ color: #2196f3;
             <p>En donnant vos livres, vous offrez la possibilité à d'autres personnes de découvrir de nouveaux horizons et de s'enrichir culturellement.</p>
           </div>
           <div class="card">
-            <i class="fa fa-book open"></i>
+            <i class="fa fa-handshake-o"></i>
             <h3>Aider des associations</h3>
             <p>En donnant vos livres,vous pouvez aider des associations caritatives qui les redistribuent à des personnes dans le besoin.</p>
-          </div>
+METTRE LE BOUTON A MEME NIVEAU MALGRE LE container-fluid          </div>
           
         </div>
       </section>
@@ -282,7 +290,7 @@ color: #2196f3;
       
       
 
-      <section id="about-us">
+      <section id="about-uss">
         <div class="about-content">
             <h2>À propos de notre association</h2>
             <p>Notre association a pour but de collecter des livres pour leur offrir une seconde vie.</p>
@@ -295,39 +303,20 @@ color: #2196f3;
             <h2>Nos partenaires associatifs</h2>
             <hr>
           <div class="row">
+            @foreach($partners as $partner)
             <div class="col-sm-4 mb-3 mb-sm-0">
               <div class="card">
                 <div class="card-body">  
-                    <img src="https://noe.org/media/logo-noe-115px.png?1606486237" alt="Noé">
-                  <h5 class="card-title">Noé</h5>
-                  <p class="card-text">Noé a pour mission de sauvegarder la biodiversité en France et à l’international. Pour mener à bien sa mission,l’association déploie des programmes de conservation d’espèces menacées de préservation et de restauration de milieux naturels protégés. </p>
-                  <a href="https://noe.org/" class="btn btn-primary">Explorer le site</a>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="card">
-                <div class="card-body">
-                    <img src="https://environnement.brussels/themes/custom/ocelot_baseline/components/logo/assets/logo.svg" alt="Environnement Brussels">
-                  <h5 class="card-title">Environnement Brussels</h5>
-                  <p class="card-text">À propos de Bruxelles Environnement
-                    Améliorer la qualité de vie au sein de cette magnifique région, verte, créative et multiculturelle qu’est Bruxelles et faciliter sa transition vers une société plus écologique, plus éthique et socialement plus juste : telle est la raison d’être de Bruxelles Environnement depuis plus de 30 ans !
-                    </p>
-                  <a href="https://environnement.brussels/" class="btn btn-primary">Explorer le site</a>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-4 mb-3 mb-sm-0">
-                <div class="card">
-                  <div class="card-body">
-                      <img src="https://www.natagora.be/themes/custom/natagora/img/donation_v2/logo1.png" alt="Natogora">
-                    <h5 class="card-title">Natagora</h5>
-                    <p class="card-text">Présente sur tous les fronts pour défendre la biodiversité, Natagora crée et gère des réserves naturelles et développe de nombreuses autres actions impliquant tous les acteurs de la société.
-                        Le but de Natagora est de protéger la nature près de chez vous, en Wallonie et à Bruxelles. Avec un grand objectif : redéployer la biodiversité.  </p>
-                    <a href="https://www.natagora.be/qui-est-natagora" class="btn btn-primary">Explorer le site</a>
+                  <img src="{{ $partner['image'] }}" alt="{{ $partner['name'] }}">
+                  <h5 class="card-title">{{ $partner['name'] }}</h5>
+                  <p class="card-text">{{ $partner['description'] }}</p>
+                  <div class= "mt-auto">
+                  <a href="{{ $partner['url'] }}" class="btn btn-primary">Explorer le site</a>
                   </div>
                 </div>
               </div>
+            </div>
+              @endforeach
           </div>
       </section>
       
@@ -340,15 +329,13 @@ color: #2196f3;
         <ul>
           <li><a href="#why-donate">Why donate</a></li>
           <li><a href="#how-to-donate">How to donate</a></li>
-          <li><a href="#about-us">About-us</a></li>
+          <li><a href="#about-uss">About-us</a></li>
           <li><a href="#partners">Ours Partners</a></li>
         </ul>
       </nav>
       <h1>Used books</h1>
       <p>Give your books a second life</p>
     </div>
-
-php
 
 <main>
   <section id="why-donate">
@@ -365,7 +352,7 @@ php
         <p>By donating your books, you offer the opportunity for others to discover new horizons and enrich themselves culturally.</p>
       </div>
       <div class="card">
-        <i class="fa fa-charity"></i>
+        <i class="fa fa-hands-helping"></i>
         <h3>Help charities</h3>
         <p>By donating your books, you can help charitable organizations that redistribute them to people in need.</p>
       </div>
@@ -396,7 +383,7 @@ php
     </div>
   </section>
 
-  <section id="about-us">
+  <section id="about-uss">
     <div class="about-content">
         <h2>About us</h2>
         <p>Our association aims to collect books to give them a second life.</p>
@@ -406,41 +393,40 @@ php
   </section>
 
   <section id="partners">
-    <h2>Our associate partners</h2>
-  <div class="row">
-    <div class="col-sm-4 mb-3 mb-sm-0">
-      <div class="card">
-        <div class="card-body">  
-            <img src="https://noe.org/media/logo-noe-115px.png?1606486237" alt="Noé">
-          <h5 class="card-title">Noé</h5>
-          <p class="card-text">Noé's mission is to safeguard biodiversity in France and internationally. To carry out this mission, the association deploys conservation programs for endangered species and restoration of protected natural habitats. </p>
-          <a href="https://noe.org/" class="btn btn-primary">Explore website</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="card">
-        <div class="card-body">
-            <img src="https://environnement.brussels/themes/custom/ocelot_baseline/components/logo/assets/logo.svg" alt="Environnement Brussels">
-          <h5 class="card-title">Environnement Brussels</h5>
-          <p class="card-text">About Brussels Environment
-            Improving the quality of life in this magnificent, green, creative and multicultural region that is Brussels and facilitating its transition to a more ecological, more ethical and socially fairer society: this is the reason for being of Brussels Environment for more than 30 years!
-            </p>
-          <a href="https://environnement.brussels/" class="btn btn-primary">Explore website</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-4 mb-3 mb-sm-0">
-        <div class="card">
+    <h2>Nos partenaires associatifs</h2>
+    @if (session()->get('language') == 'french'){
+    <div class="row">
+      @foreach($partners as $partner)
+      <div class="col-md-4 mb-3 mb-sm-0">
+        <div class="card h-100">
+          <img src="{{ $partner['image'] }}" alt="{{ $partner['name'] }}">
           <div class="card-body">
-              <img src="https://www.natagora.be/themes/custom/natagora/img/donation_v2/logo1.png" alt="Natogora">
-            <h5 class="card-title">Natagora</h5>
-            <p class="card-text">Present on all fronts to defend biodiversity, Natagora creates and manages nature reserves and develops many other actions involving all actors of society. Natagora's goal is to protect nature near you, in Wallonia and Brussels. With a great objective: to redeploy biodiversity. </p>
-            <a href="https://www.natagora.be/qui-est-natagora" class="btn btn-primary">Explore website</a>
+            <h5 class="card-title">{{ $partner['name'] }}</h5>
+            <p class="card-text">{{ $partner['description'] }}</p>
+            <a href="{{ $partner['url'] }}" class="btn btn-primary">Explore the WebSite</a>
           </div>
         </div>
       </div>
+      @endforeach
+    </div>
+  
+  @else
+  <div class="row">
+    @foreach($partners as $partner)
+    <div class="col-md-4 mb-3 mb-sm-0">
+      <div class="card h-100">
+        <img src="{{ $partner['image'] }}" alt="{{ $partner['name'] }}">
+        <div class="card-body ">
+          <h5 class="card-title">{{ $partner['name'] }}</h5>
+          <p class="card-text">{{ $partner['description'] }}</p>
+          <a href="{{ $partner['url'] }}" class="btn btn-primary">Explorer le site web</a>
+        
+        </div>
+      </div>
+    </div>
+    @endforeach
   </div>
+  @endif
 </section>
 </main>
 </body>

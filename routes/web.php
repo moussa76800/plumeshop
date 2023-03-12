@@ -282,9 +282,11 @@ Route::prefix('adminuserrole')->group(function() {
 });
 
 // Book Search All Routes :
- Route::post('/search/book' , [IndexController::class,'searchBook'])->name('search_book');
+Route::match(['get', 'post'], '/search/book', [IndexController::class, 'search'])->name('search_book');
+Route::post('/search_product' , [IndexController::class, 'searchBook']);
 
-// Book Search All Routes :
+
+// Book Donnate Your Book All Routes :
 Route::GET('/donnate/book' , [IndexController::class,'donnateBook'])->name('donate_book');
 
 

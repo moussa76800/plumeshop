@@ -2,6 +2,7 @@
 $setting = App\Models\SiteSetting::find(1);
 @endphp
 
+
 <header class="header-style-1"> 
   
     <!-- ============================================== TOP MENU ============================================== -->
@@ -94,7 +95,7 @@ $setting = App\Models\SiteSetting::find(1);
             <!-- /.contact-row --> 
             <!-- ============================================================= SEARCH AREA ============================================================= -->
             <div class="search-area">
-              <form method="post" action="{{route('search_book')}}">
+              <form method="post" action="{{ route('search_book') }}">
                 @csrf
                 <div class="control-group">
                   <ul class="categories-filter animate-dropdown">
@@ -108,9 +109,11 @@ $setting = App\Models\SiteSetting::find(1);
                       </ul>
                     </li>
                   </ul>
-                  <input class="search-field" name="search" placeholder="Search here..." />
-                  <a class="search-button" href="#" ></a> </div>
+                  <input class="search-field"  id="search" name="search"  
+                  @if (session()->get('language') == 'french')placeholder="Rechercher..." @else placeholder="Search here..." @endif />
+                  <button class="search-button" type="submit"></button>  </div>
               </form>
+              <div id="searchBooks"></div>
             </div>
             <!-- /.search-area --> 
             <!-- ============================================================= SEARCH AREA : END ============================================================= --> </div>
@@ -188,12 +191,12 @@ $setting = App\Models\SiteSetting::find(1);
                             @php
                             $subCategories = App\Models\SubCategory::where('category_id' ,$category->id)->orderBy('name_en' , 'ASC')->get();
                         @endphp
-                         <div class="col-xs-8 col-sm-6 col-md-4 col-menu banner-image"> <img class="img-responsive" style=" width:100px; height:100px;"  src="{{ asset($category->image) }}" alt=""> </div>
+                         <div class="col-xs-8 col-sm-6 col-md-4 col-menu banner-image"> <img class="img-responsive"  src="{{ asset($category->image) }}"alt="" width="100" height="100"> </div>
                                 @foreach ($subCategories as $sub)                  
                               <div class="col-xs-6 col-sm-6 col-md-2 col-menu">
                               {{-- <h2 class="title"></h2> --}}
                                   
-                                      <a href="{{ url('subCategory/book/'.$sub->id.'/'.$sub->name_en ) }}">@if (session()->get('language') == 'french'){{ $sub->name_fr }} @else {{ $sub->name_en }} @endif</a>
+                                      <a href="{{ url('subCategory/book/'.$sub->id.'/'.$sub->name_en ) }}" style="color: #333; font-weight: bold;">@if (session()->get('language') == 'french'){{ $sub->name_fr }} @else {{ $sub->name_en }} @endif</a>
                               
                             </div> 
                             @endforeach

@@ -206,7 +206,7 @@
           
        
           <div class="clearfix filters-container m-t-10">
-        <h2>Résultats de la recherche pour : "<font color="blue">{{ $item }}</font>"</h2> 
+        <h2>Résultats de la recherche pour : <font color="blue">{{ $item }}</font></h2> 
 
             <div class="row">
               <div class="col col-sm-6 col-md-2">
@@ -374,7 +374,7 @@
   
   
               <div class="tab-pane "  id="list-container">
-                <h1>Résultats de la recherche pour : "{{ $item }}"</h1> 
+                <h1>Résultats de la recherche pour : {{ $item }} </h1> 
                 <div class="category-product">               
    @foreach($bookSearch as $product)
   <div class="category-product-inner wow fadeInUp">

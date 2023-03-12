@@ -65,7 +65,7 @@ $setting = App\Models\SiteSetting::find(1);
             
             <div class="module-body">
               <ul class='list-unstyled'>
-                <li class="first"><a title="Your Account" href="#">About us</a></li>
+                <li class="first"><a title="Your Account" href="{{url('/donnate/book#about-uss')}}">About us</a></li>
                 <li><a title="Information" href="#">Customer Service</a></li>
                 <li><a title="Addresses" href="#">Company</a></li>
                 <li><a title="Addresses" href="#">Investor Relations</a></li>
@@ -85,10 +85,10 @@ $setting = App\Models\SiteSetting::find(1);
             <div class="module-body">
               <ul class='list-unstyled'>
                 <li class="first"><a href="#" title="About us">Shopping Guide</a></li>
-                <li><a href="#" title="Blog">Blog</a></li>
+                <li><a href="{{url('blog') }}" title="Blog">Blog</a></li>
                 <li><a href="#" title="Company">Company</a></li>
                 <li><a href="#" title="Investor Relations">Investor Relations</a></li>
-                <li class=" last"><a href="contact-us.html" title="Suppliers">Contact Us</a></li>
+                <li class=" last"><a href="" title="Suppliers">Contact Us</a></li>
               </ul>
             </div>
             <!-- /.module-body --> 

@@ -106,19 +106,19 @@ h1 {
         <h2>Nos chiffres clés</h2>
         <ul>
           <li>
-            <span class="stat-value">X</span>
-            <span class="stat-label">Tonnes de livres collectées chaque année</span>
-          </li>
-          <li>
-            <span class="stat-value">X</span>
-            <span class="stat-label">Livres vendus chaque mois</span>
-          </li>
+            <span class="stat-value">{{ $booksSoldByYear }}</span>
+            <span class="stat-label">Livres vendus cette année-ci</span>
+        </li>
+        <li>
+            <span class="stat-value">{{ $booksSoldByMonth[date('F')] ?? 0 }}</span>
+            <span class="stat-label">Livres vendus ce mois-ci</span>
+        </li>
           <li>
             <span class="stat-value">X</span>
             <span class="stat-label">Clients satisfaits</span>
           </li>
           <li>
-            <span class="stat-value">X</span>
+            <span class="stat-value">{{$num_partners}}</span>
             <span class="stat-label">Organisations partenaires</span>
           </li>
         </ul>
