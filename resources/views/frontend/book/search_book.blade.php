@@ -374,7 +374,7 @@
   
   
               <div class="tab-pane "  id="list-container">
-                <h1>Résultats de la recherche pour : {{ $item }} </h1> 
+                
                 <div class="category-product">               
    @foreach($bookSearch as $product)
   <div class="category-product-inner wow fadeInUp">
