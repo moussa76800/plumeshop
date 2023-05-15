@@ -1,6 +1,9 @@
 {
     "recommendations": [
         "rifi2k.format-html-in-php",
-        "ritwickdey.LiveServer"
+        "ritwickdey.liveserver",
+        "danielsanmedium.dscodegpt",
+        "ms-mssql.sql-database-projects-vscode",
+        "ms-mssql.mssql"
     ]
 }

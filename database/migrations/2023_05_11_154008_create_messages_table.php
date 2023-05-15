@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBookAuthorsTable extends Migration
+class CreateMessagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateBookAuthorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('book_authors', function (Blueprint $table) {
-            
+        Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('book_id')->reference('id')->on('books')->onDelete('cascade');
-            $table->foreignId('author_id')->reference('id')->on('authors')->onDelete('cascade');
+            $table->string('subject');
+            $table->string('content');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateBookAuthorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('book_authors');
+        Schema::dropIfExists('messages');
     }
 }

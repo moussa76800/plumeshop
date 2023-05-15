@@ -31,6 +31,7 @@
 								<th>Comment </th>
 								<th>User </th>
 								<th>Product  </th>
+								<th>Rating </th>
 								<th>Status </th>
 								<th>Action</th>
 								 
@@ -43,6 +44,7 @@
 								<th>Commentaire</th>
 								<th>Utilisateur </th>
 								<th>Produit </th>
+								<th>Notation</th>
 								<th>Status </th>
 								<th>Action</th>
 								 
@@ -51,18 +53,18 @@
                         @endif
 
 						<tbody>
-	 @foreach($review as $item)
+	 @foreach($reviews as $item)
 	 <tr>
-		<td> {{ $item->summary }}  </td>
-		<td> {{ $item->comment }}  </td>
+		<td> {{ $item->message->subject }}  </td>
+		<td> {{ $item->message->content }}  </td>
 		<td>  {{ $item->user->name }}  </td>
-
 		<td> {{ $item->book->name_en }}  </td>
+		<td> {{ $item->rating }}  </td>
 		<td>
 		@if($item->status == 0)
       <span class="badge badge-pill badge-primary">@if (session()->get('language') == 'english')Pending  @else En Suspens @endif</span>
        @elseif($item->status == 1)
-       <span class="badge badge-pill badge-success"@if (session()->get('language') == 'english')Publish  @else Publié @endif> </span>
+       <span class="badge badge-pill badge-success">@if (session()->get('language') == 'english')Publish  @else Publié @endif </span>
 		@endif
 
 		  </td>

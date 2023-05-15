@@ -15,19 +15,14 @@ class CreateReviewsTable extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->unSignedBigInteger('book_id')->unsigned();
-            $table->unSignedBigInteger('user_id')->unsigned();
-            $table->text('comment');
-            $table->string('summary');
-            $table->foreign('book_id')
-                    ->references('id')->on('books')
-                    ->onDelete('cascade');
-
-            $table->foreign('user_id')
-                    ->references('id')->on('users')
-                    ->onDelete('cascade');       
-
             $table->string('status')->default(0);
+            $table->integer('rating')->default(0);
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('message_id');
+            $table->unsignedBigInteger('book_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('message_id')->references('id')->on('messages')->onDelete('cascade');
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
             $table->timestamps();
         });
     }

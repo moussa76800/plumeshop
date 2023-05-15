@@ -28,9 +28,9 @@
 
 
 		<div class="form-group">
-		    <label class="info-title" for="exampleInputEmail1">@if(session()->get('language') == 'french')Nom @else User Name @endif <span>*</span></label>
-		    <input type="text"  id="name"name="name" class="form-control unicase-form-control text-input" >
-            @error('name')
+		    <label class="info-title" for="exampleInputEmail1">@if(session()->get('language') == 'french')Email  @else User Email @endif <span>*</span></label>
+		    <input type="text"  id="email"name="email" class="form-control unicase-form-control text-input" >
+            @error('email')
             <span class="invalid-feedback" role="alert">
                <strong>{{ $message }}</strong>
            </span>   
@@ -73,8 +73,8 @@
 
         <div class="form-group">
 		    <label class="info-title" for="exampleInputEmail1">@if(session()->get('language') == 'french') Nom @else Name @endif <span>*</span></label>
-		    <input type="text" id="name" name="namee" class="form-control unicase-form-control text-input" >
-            @error('namee')
+		    <input type="text" id="name" name="name" class="form-control unicase-form-control text-input" >
+            @error('name')
              <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
             </span>   

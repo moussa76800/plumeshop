@@ -6,17 +6,45 @@
 <div class="col-10">
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title"> Add Book</h3>
+            <h1 class="box-title"> Add Book</h1>
         </div>
         <!--  box.header -->
-        <div class="box-body">
-            <div class="table_responsive">
+        <div class="container">
+         
+            <form method="POST" action="{{ route('book.store') }}">
+                @csrf
+                <div class="form-group">
+                    <label for="titre_ou_isbn">Titre ou ISBN</label>
+                    <input type="text" class="form-control" id="titre_ou_isbn" name="titre_ou_isbn" required>
+                </div>
+              
+            </form>
 
-                <form action="{{ route('books.search') }}" method="GET">
-                    <input type="text" name="query" placeholder="Entrez votre recherche">
-                   
-                    <button type="submit">Rechercher</button>
-                </form>
+            <BR>
+                <div class="row">
+                
+                    <div class="col-md-6">
+                        <div class="form-group">
+                        
+                            <div class="controls">
+                                <fieldset>
+                                    <input type="checkbox" id="checkbox_2"  name = "featured"  value="1">
+                                    <label for="checkbox_2">Featured</label>
+                                </fieldset>
+                                <fieldset>
+                                    <input type="checkbox" id="checkbox_3" name= "special_offer" value="1">
+                                    <label for="checkbox_3">Special Offer</label>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-xs-right">
+                    <input type="submit" class="btn btn-rounded btn-primary mb-5" value="Valider">
+                </div>
+        </div>
+    </div>
+</div>
                 
 
                 {{-- <form method="post" action="{{route('book.store') }}" enctype="multipart/form-data">
@@ -275,7 +303,7 @@
                         </div>
                     </div>
                 </div> <!--end col md 4 -->  --}}
-            
+{{--             
         <BR>
             <div class="row">
             
@@ -294,7 +322,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
                 {{-- <div class="form-group">
                     <h5> Book Image <span class="text-danger">*</span></h5>
                     <div class="controls">
@@ -305,15 +333,13 @@
                     </div>
                 </div> --}}
 
-                <div class="text-xs-right">
-                    <input type="submit" class="btn btn-rounded btn-primary mb-5" value="Valider">
-                </div>
-                        </form>
+               
+                        {{-- </form>
 
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
 
 <script type="text/javascript">

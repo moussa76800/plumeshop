@@ -78,7 +78,7 @@ $setting = App\Models\SiteSetting::find(1);
           
           <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="module-heading">
-              <h4 class="module-title">Why Choose Us</h4>
+              <h4 class="module-title">ADMINISTRATEUR</h4>
             </div>
             <!-- /.module-heading -->
             

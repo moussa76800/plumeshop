@@ -19,7 +19,6 @@ use App\Http\Controllers\Backend\ShippingController;
 use App\Http\Controllers\Backend\SiteSettingController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
-use App\Http\Controllers\BookController as ControllersBookController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\LanguageController;
 use App\Http\Controllers\Frontend\CartController;
@@ -56,7 +55,7 @@ Route::group(['prefix'=> 'admin', 'middleware'=>['admin:admin']], function(){
 });
 
 Route::middleware(['auth:admin'])->group(function(){
-
+   
 Route::middleware(['auth:sanctum,admin', 'verified'])->get('/admin/dashboard', function () {
     return view('admin.index');
 })->name('dashboard')->middleware('auth:admin');
@@ -358,17 +357,6 @@ Route::post('/return/order/{order_id}',[AllUserController::class, 'returnOrder']
 Route::get('/return/order/list/',[AllUserController::class, 'returnOrderList'])->name('return.order.list');
 Route::get('/cancel/orders',[AllUserController::class, 'cancelOrders'])->name('cancel.orders');
 
-});
-
-
-
-// Cart Page All Routes :
-Route::get('/myCart' , [CartPageController::class,'myCart'])->name('myCart');
-Route::get('/user/getCart' , [CartPageController::class,'cartRead']);  //  READ Book data
-Route::get('/user/removeCart/{rowId}' , [cartPageController::class,'cartDelete']);
-Route::get('/cartIncrement/{rowId}' , [cartPageController::class,'cartIncremente']);
-Route::get('/cartDecrement/{rowId}' , [cartPageController::class,'cartDecremente']);
-
 // Checkout All Routes :
 Route::get('/checkout',[CartController::class, 'checkoutCreate'])->name('checkout');
 Route::get('/common/ajax/{town_id}',[CheckoutController::class, 'commonGetAjax']);
@@ -390,4 +378,17 @@ Route::get('/couponRemove',[CartController::class, 'couponRemove']);
  
  // Tracking Order All Routes :
  Route::post('/order/tracking' , [AllUserController::class,'orderTracking'])->name('order_tracking');
+
+});
+
+
+
+// Cart Page All Routes :
+Route::get('/myCart' , [CartPageController::class,'myCart'])->name('myCart');
+Route::get('/user/getCart' , [CartPageController::class,'cartRead']);  //  READ Book data
+Route::get('/user/removeCart/{rowId}' , [cartPageController::class,'cartDelete']);
+Route::get('/cartIncrement/{rowId}' , [cartPageController::class,'cartIncremente']);
+Route::get('/cartDecrement/{rowId}' , [cartPageController::class,'cartDecremente']);
+
+
  

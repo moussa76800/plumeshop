@@ -15,7 +15,7 @@
           <!-- ================================== TOP NAVIGATION : END ================================== --> 
           <div id="menu-lateral">
         </div>
-        <button id="menu-button" onclick="toggleMenu()">changer de couleur de template</button>
+       
         <style>
         function toggleMenu() {
   var menu = document.getElementById("menu-lateral");

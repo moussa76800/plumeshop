@@ -16,7 +16,7 @@ class SliderController extends Controller
 
 
 public function sliderView() {
-    $sliders = Slider::latest()->get();
+    $sliders = Slider::orderBy('id','ASC')->get();
     return view('backend.slider.slider_view',compact('sliders'));
 }
 
@@ -109,7 +109,7 @@ public function SliderDelete($id) {
 
         $slider = Slider::find($id);
         $img = $slider->slider_img;
-        unlink($img);
+        // unlink($img);
         
         Slider::findOrFail($id)->delete();
 

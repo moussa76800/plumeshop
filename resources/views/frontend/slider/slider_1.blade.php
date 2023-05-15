@@ -88,7 +88,7 @@ h1 {
 <body>
     
       
-      <h1>Chez PlumeShop, donnez une seconde vie à vos livres !</h1>
+      <h1>Chez<b> PlumeShop</b>, donnez une seconde vie à vos livres !</h1>
   
     <main>
       <section class="about">

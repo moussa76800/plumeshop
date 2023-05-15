@@ -30,7 +30,7 @@
 			<span>Dashboard</span>
           </a>
         </li> 
-        @php
+        {{-- @php
         
         $category = (auth()->guard('admin')->user()->category == 1);
         $subcategory = (auth()->guard('admin')->user()->subcategory == 1);
@@ -49,10 +49,10 @@
         $reports = (auth()->guard('admin')->user()->reports == 1);
         $alluser = (auth()->guard('admin')->user()->alluser == 1);
         $adminuserrole = (auth()->guard('admin')->user()->adminuserrole == 1);
-        @endphp
+        @endphp --}}
 
         
-  @if($category == true) 
+  {{-- @if($category == true)  --}}
         <li class="treeview {{ ($prefix=='/category') ? 'active' : '' }}">
             <a href="#">
             <i data-feather="message-circle"></i>
@@ -66,10 +66,10 @@
               @if (session()->get('language') == 'english') Categories Manages @else Gestion des Catégories @endif </a></li>
           </ul>
         </li> 
-        @else
-        @endif
+        {{-- @else --}}
+        {{-- @endif --}}
 
-        @if($subcategory == true) 
+        {{-- @if($subcategory == true)  --}}
         <li class="treeview {{ ($prefix=='/subcategory') ? 'active' : '' }}">
           <a href="#">
           <i data-feather="message-circle"></i>
@@ -82,10 +82,10 @@
             @if (session()->get('language') == 'english')SubCategories Manages @else Gestion des Sub-Catégories @endif </a></li> </a></li>
         </ul>
       </li> 
-      @else
-      @endif
+      {{-- @else --}}
+      {{-- @endif --}}
 
-      @if($product == true) 
+      {{-- @if($product == true)  --}}
       <li class="treeview {{ ($prefix=='/book') ? 'active' : '' }}">
         <a href="#">
         <i data-feather="message-circle"></i>
@@ -99,10 +99,10 @@
           @if (session()->get('language') == 'english')Books Manages @else Gestion des Livres @endif </a></li>
       </ul>
     </li> 
-    @else
-    @endif
+    {{-- @else
+    @endif --}}
 
-    @if($publisher == true)
+    {{-- @if($publisher == true) --}}
     <li class="treeview {{ ($prefix=='/publisher') ? 'active' : '' }}">
       <a href="#">
       <i data-feather="message-circle"></i>
@@ -116,10 +116,10 @@
         @if (session()->get('language') == 'english')Publishers Manages @else Gestion des Editions @endif </a></li>
          </ul>
   </li> 
-  @else
-  @endif
+  {{-- @else
+  @endif --}}
 
-  @if($author == true)
+  {{-- @if($author == true) --}}
   <li class="treeview {{ ($prefix=='/author') ? 'active' : '' }}">
     <a href="#">
     <i data-feather="message-circle"></i>
@@ -133,8 +133,8 @@
       @if (session()->get('language') == 'english')Authors Manages @else Gestion des Auteurs @endif    </a></li>
      </ul>
 </li> 
-@else
-@endif
+{{-- @else
+@endif --}}
 
 {{-- <li class="treeview {{ ($prefix=='/bookAuthor') ? 'active' : '' }}">
   <a href="#">
@@ -149,7 +149,7 @@
      </ul>
 </li>  --}}
 
-@if($slider == true)
+{{-- @if($slider == true) --}}
 <li class="treeview {{ ($prefix=='/slider') ? 'active' : '' }}">
   <a href="#">
   <i data-feather="message-circle"></i>
@@ -163,10 +163,10 @@
     @if (session()->get('language') == 'english')Sliders Manages @else Gestion des Slides @endif</a></li>
      </ul>
 </li> 
-@else
-@endif
+{{-- @else
+@endif --}}
 
-@if($coupons == true)
+{{-- @if($coupons == true) --}}
 <li class="treeview {{ ($prefix=='/coupons') ? 'active' : '' }}">
   <a href="#">
   <i data-feather="message-circle"></i>
@@ -180,10 +180,10 @@
     @if (session()->get('language') == 'english')Coupons Manages @else Gestion des Coupons @endif</a></li>
      </ul>
 </li> 
-@else
-@endif
+{{-- @else
+@endif --}}
 
-@if($shipping == true)
+{{-- @if($shipping == true) --}}
 <li class="treeview {{ ($prefix=='/shipping') ? 'active' : '' }}">
   <a href="#">
   <i data-feather="message-circle"></i>
@@ -201,10 +201,10 @@
     @if (session()->get('language') == 'english')States Manages @else Gestion des Pays @endif </a></li>
      </ul>
 </li> 
-@else
-@endif
+{{-- @else
+@endif --}}
 
-@if($blog == true)
+{{-- @if($blog == true) --}}
 <li class="treeview {{ ($prefix=='/blog') ? 'active' : '' }}">
   <a href="#">
   <i data-feather="message-circle"></i>
@@ -220,10 +220,10 @@
     @if (session()->get('language') == 'english')Posts Manages @else Gestion de contenu  @endif</a></li>
      </ul>
 </li>
-@else
+{{-- @else
 @endif 
 
-@if($setting == true)
+@if($setting == true) --}}
 <li class="treeview {{ ($prefix=='/setting') ? 'active' : '' }}">
   <a href="#">
   <i data-feather="message-circle"></i>
@@ -239,10 +239,10 @@
       @if (session()->get('language') == 'english')SEO Setting @else Paramètre de Référencement  @endif </a></li>
      </ul>
 </li> 
-@else
+{{-- @else
 @endif
 
-@if($returnorder == true)
+@if($returnorder == true) --}}
 <li class="treeview {{ ($prefix=='/return') ? 'active' : '' }}">
   <a href="#">
   <i data-feather="message-circle"></i>
@@ -258,10 +258,10 @@
       @if (session()->get('language') == 'english')All Request @else Toutes les Demandes  @endif </a></li>
      </ul>
 </li>
-@else
+{{-- @else
 @endif
 
-@if($review == true)
+@if($review == true) --}}
 <li class="treeview {{ ($prefix=='/review') ? 'active' : '' }}">
   <a href="#">
   <i data-feather="message-circle"></i>
@@ -277,13 +277,13 @@
       @if (session()->get('language') == 'english')Publish Review @else Avis Publié  @endif </a></li> 
      </ul>
 </li>  
-@else
-@endif  
+{{-- @else
+@endif   --}}
 
 		 
         <li class="header nav-small-cap"> @if (session()->get('language') == 'english')User Interface @else Interface Utilisateur @endif</li>
 		  
-        @if($orders == true)
+        {{-- @if($orders == true) --}}
         <li class="treeview  {{ ($prefix=='/orders') ? 'active' : '' }}">
           <a href="#">
             <i data-feather="grid"></i>
@@ -309,10 +309,10 @@
               @if (session()->get('language') == 'english')Cancel Orders @else Commande Supprimée  @endif </a></li> 
       </ul>
         </li>
-        @else
+        {{-- @else
         @endif
 		
-        @if($reports == true)
+        @if($reports == true) --}}
         <li class="treeview  {{ ($prefix=='/reports') ? 'active' : '' }}">
           <a href="#">
             <i data-feather="grid"></i>
@@ -326,10 +326,10 @@
               @if (session()->get('language') == 'english')Orders Reports @else  Rapports des commandes  @endif </a></li> 
       </ul>
         </li>
-        @else
+        {{-- @else
         @endif
 
-        @if($stock == true)
+        @if($stock == true) --}}
         <li class="treeview  {{ ($prefix=='/stock') ? 'active' : '' }}">
           <a href="#">
             <i data-feather="grid"></i>
@@ -343,10 +343,10 @@
               @if (session()->get('language') == 'english')Product Stock @else  Stock des Livres  @endif </a></li> 
       </ul>
         </li>
-        @else
+        {{-- @else
         @endif
 
-        @if($alluser == true)
+        @if($alluser == true) --}}
         <li class="treeview  {{ ($prefix=='/allUsers') ? 'active' : '' }}">
           <a href="#">
             <i data-feather="grid"></i>
@@ -360,10 +360,10 @@
               @if (session()->get('language') == 'english')All Users @else Utilisateurs  @endif </a></li>  
       </ul>
         </li>
-        @else
+        {{-- @else
         @endif
 
-        @if($adminuserrole == true)
+        @if($adminuserrole == true) --}}
         <li class="treeview  {{ ($prefix=='/adminuserrole') ? 'active' : '' }}">
           <a href="#">
             <i data-feather="grid"></i>
@@ -377,9 +377,9 @@
               @if (session()->get('language') == 'english')Administrators @else Administrateurs  @endif </a></li>   
       </ul>
         </li>
-        @else
+        {{-- @else
         @endif
-        
+         --}}
     </section>
 	
 	<div class="sidebar-footer">
