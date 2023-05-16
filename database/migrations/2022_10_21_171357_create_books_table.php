@@ -35,22 +35,13 @@ class CreateBooksTable extends Migration
             $table->string('long_descp_fr');
             $table->integer('status')->default(0);
             $table->integer('subCategory_id'); 
-            $table->integer('categoryBook_id'); 
-             $table->integer('publisher_id');
-
-            // $table->foreignId('publisher_id')->constrained()
-            // ->references('id')
-            // ->on('publishers')
-            // ->onDelete('cascade');
-            
-
-            // $table->integer('subCategory_id')->unsigned();
-            // $table->foreign('subCategory_id')->references('id')->on('sub_categories')->onDelete('cascade');
-            // $table->integer('categoryBook_id')->unsigned();
-            // $table->foreign('categoryBook_id')->references('id')->on('categories')->onDelete('cascade'); 
-            // $table->integer('publisher_id')->unsigned();
-            // $table->foreign('publisher_id')->references('id')->on('publishers')->onDelete('cascade');
-             $table->timestamps();
+            $table->unsignedBigInteger('categoryBook_id'); 
+            $table->integer('publisher_id');
+            $table->integer('multiImg_id')->nullable();
+            $table->foreign('categoryBook_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('publisher_id')->references('id')->on('publishers')->onDelete('cascade');
+            $table->foreign('multiImg_id')->references('id')->on('multi_imgs');
+            $table->timestamps();
             
         });
     }

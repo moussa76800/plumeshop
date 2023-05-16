@@ -2,350 +2,279 @@
 
 namespace App\Http\Controllers\Backend;
 
+use Carbon\Carbon;
 use App\Models\Book;
+use App\Models\Category;
+use App\Models\MultiImg;
+use App\Models\Publisher;
 use Faker\Calculator\Isbn;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\MultiImg;
-use App\Models\Publisher;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use Intervention\Image\Facades\Image;
 use PhpParser\Node\Expr\BinaryOp\Mul;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
 {
 
+//    // Méthode pour afficher tous les livres
+//    public function BookView()
+//    {
+//        // Récupérer tous les livres triés par date de création
+//        $books = Book::latest()->get();
+      
+//        // Passer les livres à la vue "backend.book.book_view"
+//        return view('backend.book.book_view', compact('books'));
+//    }
 
+//    public function bookAdd()
+// {
+//     return view('backend.book.book_add');
+// }
+//    //    public function search(Request $request)
+//    //  {
+//    //      $request->validate([
+//    //          'query' => 'required|string',
+//    //      ]);
 
+//    //      $query = $request->input('query');
+//    //      $books = Book::search($query)->get();
 
+//    //      if (! $books->count()) {
+//    //          return back()->withErrors(['Aucun résultat trouvé']);
+//    //      }
 
-    public function BookView() {
+//    //      return view('books.search', ['books' => $books]);
+    
 
-        $book= Book::latest()->get();
-       
-        return view('backend.book.book_view' , compact('book'));
-       }
+//    //      $query = $request->input('query');
+//    //      $type = $request->input('type');
+//    //      $books = null;
+//    //      if ($type === 'title') {
+//    //          $books = Book::where('title', 'like', '%' . $query . '%')->get();
+//    //      } elseif ($type === 'author') {
+//    //          $books = Book::whereHas('authors', function ($query) use ($request) {
+//    //              $query->where('name', 'like', '%' . $request->input('query') . '%');
+//    //          })->get();
+//    //      } elseif ($type === 'publisher') {
+//    //          $books = Book::where('publisher', 'like', '%' . $query . '%')->get();
+//    //      } elseif ($type === 'category') {
+//    //       $books = Book::whereHas('categories', function ($query) use ($request) {
+//    //          $query->where('name', 'like', '%' . $request->input('query') . '%');
+//    //      })->get();
+//    //  }
+//    //  return view('books.search', ['books' => $books]);
 
+//    // }
 
-      public function search(Request $request)
+//    // Méthode pour rechercher des livres en fonction d'un critère
+//    public function search(Request $request)
+//    {
+//        // Valider que le champ de recherche n'est pas vide
+//        $request->validate([
+//            'query' => 'required|string',
+//        ]);
+
+//        // Récupérer le terme de recherche saisi par l'utilisateur
+//        $query = $request->input('query');
+
+//        // Récupérer le type de recherche choisi (par titre, auteur, éditeur ou catégorie)
+//        $type = $request->input('type');
+
+//        // Initialiser la variable des livres à null
+//        $books = null;
+
+//        // Si le type de recherche est par titre, récupérer les livres dont le titre contient le terme de recherche
+//        if ($type === 'title') {
+//            $books = Book::where('title', 'like', '%' . $query . '%')->get();
+//        } 
+//        // Si le type de recherche est par auteur, récupérer les livres dont l'auteur contient le terme de recherche
+//        elseif ($type === 'author') {
+//            $books = Book::whereHas('authors', function ($query) use ($request) {
+//                $query->where('name', 'like', '%' . $request->input('query') . '%');
+//            })->get();
+//        } 
+//        // Si le type de recherche est par éditeur, récupérer les livres dont l'éditeur contient le terme de recherche
+//        elseif ($type === 'publisher') {
+//            $books = Book::where('publisher', 'like', '%' . $query . '%')->get();
+//        } 
+//        // Si le type de recherche est par catégorie, récupérer les livres dont la catégorie contient le terme de recherche
+//        elseif ($type === 'category') {
+//            $books = Book::whereHas('categories', function ($query) use ($request) {
+//                $query->where('name', 'like', '%' . $request->input('query') . '%');
+//            })->get();
+//        }
+
+//        // Si aucun livre n'a été trouvé pour la recherche, retourner une erreur
+//        if (! $books->count()) {
+//            return back()->withErrors(['Aucun résultat trouvé']);
+//        }
+
+//        // Passer les livres trouvés à la vue "books.search"
+//        return view('books.search', ['books' => $books]);
+//    }
+//       public function bookStore(Request $request)
+// { 
+//     // Récupérer l'identifiant Google Books saisi par l'utilisateur
+//     $googleBooksId = $request->isbn;
+
+//     // Construire l'URL de l'API Google Books pour récupérer les données du livre
+//     $apiUrl = 'https://www.googleapis.com/books/v1/volumes/' . $googleBooksId;
+
+//     // Récupérer les données du livre à partir de l'API Google Books
+//     $bookData = json_decode(file_get_contents($apiUrl), true);
+
+//     // Vérifier si le livre existe déjà en base de données
+//     $existingBook = Book::where('google_books_id', $googleBooksId)->first();
+
+//     if ($existingBook) {
+//         // Le livre existe déjà, renvoyer une erreur
+//         return response()->json(['error' => 'Ce livre existe déjà en base de données.'], 409);
+//     }
+
+//     // Créer un nouveau livre
+//     $book = new Book;
+//     $book->google_books_id = $googleBooksId;
+//     $book->title = $bookData['volumeInfo']['title'] ?? '';
+//     $book->author = $bookData['volumeInfo']['authors'][0] ?? '';
+//     $book->description = $bookData['volumeInfo']['description'] ?? '';
+//     $book->publication_date = $bookData['volumeInfo']['publishedDate'] ?? '';
+//     $book->page_count = $bookData['volumeInfo']['pageCount'] ?? '';
+//     $book->language = $bookData['volumeInfo']['language'] ?? '';
+//     $book->thumbnail_url = $bookData['volumeInfo']['imageLinks']['thumbnail'] ?? '';
+//     $book->save();
+
+//     return response()->json(['success' => 'Le livre a bien été ajouté en base de données.'], 200);
+// }
+
+/**
+     * Afficher la liste de tous les livres.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function bookView()
     {
-        $request->validate([
-            'query' => 'required|string',
+        $book = Book::all();
+
+        return view('backend.book.book_view', ['book' => $book]);
+    }
+
+public function bookAdd()
+    {
+        return view('backend.book.book_add');
+    }
+
+    /**
+     * Rechercher des livres à partir de l'API Google Books.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function searchBooks(Request $request)
+    {
+        // Valider les données de la requête
+        $validator = Validator::make($request->all(), [
+            'search_term' => 'required|string|max:255',
         ]);
 
-        $query = $request->input('query');
-        $books = Book::search($query)->get();
-
-        if (! $books->count()) {
-            return back()->withErrors(['Aucun résultat trouvé']);
+        if ($validator->fails()) {
+            return redirect()->route('books.search')
+                ->withErrors($validator)
+                ->withInput();
         }
 
-        return view('books.search', ['books' => $books]);
+        // Récupérer le terme de recherche
+        $searchTerm = $request->input('isbn');
+
+        // Construire l'URL de l'API Google Books
+        $apiUrl = 'https://www.googleapis.com/books/v1/volumes?q=' . urlencode($searchTerm);
+
+        // Récupérer les données des livres à partir de l'API Google Books
+        $bookData = json_decode(file_get_contents($apiUrl), true);
+
+        // Récupérer les données utiles pour chaque livre
+        $books = [];
+        foreach ($bookData['items'] as $item) {
+            $book = [
+                'google_books_id' => $item['id'],
+                'title' => $item['volumeInfo']['title'] ?? '',
+                'author' => implode(', ', $item['volumeInfo']['authors'] ?? []),
+                'description' => $item['volumeInfo']['description'] ?? '',
+                'publication_date' => $item['volumeInfo']['publishedDate'] ?? '',
+                'page_count' => $item['volumeInfo']['pageCount'] ?? '',
+                'language' => $item['volumeInfo']['language'] ?? '',
+                'thumbnail_url' => $item['volumeInfo']['imageLinks']['thumbnail'] ?? '',
+            ];
+
+            $books[] = $book;
+        }
+
+        return view('backend.book.book_add', ['books' => $books]);
     }
-// }
-//         $query = $request->input('query');
-//         $type = $request->input('type');
-//         $books = null;
-//         if ($type === 'title') {
-//             $books = Book::where('title', 'like', '%' . $query . '%')->get();
-//         } elseif ($type === 'author') {
-//             $books = Book::whereHas('authors', function ($query) use ($request) {
-//                 $query->where('name', 'like', '%' . $request->input('query') . '%');
-//             })->get();
-//         } elseif ($type === 'publisher') {
-//             $books = Book::where('publisher', 'like', '%' . $query . '%')->get();
-//         } elseif ($type === 'category') {
-//          $books = Book::whereHas('categories', function ($query) use ($request) {
-//             $query->where('name', 'like', '%' . $request->input('query') . '%');
-//         })->get();
-//     }
-//     return view('books.search', ['books' => $books]);
-// }
-
-    
-       public function bookAdd() { 
-
-         $categories = Category::latest()->get();
-         $publishers = Publisher::All();
-         $subCategories = SubCategory::latest()->get();
-                return view('backend.book.book_add',compact('subCategories', 'categories' , 'publishers'));
-       }
-    
-       public function bookStore(Request $request){
-
-         // $products=Http::get('https://www.googleapis.com/books/v1/volumes?q='.$request->input('ISBN'))->json();
-
-         // $request-> validate([
-         // 'name_en' ,
-         // 'name_fr',
-         // 'ISBN' ,
-         // 'prix' ,
-         // 'datePublication' ,
-         // 'langue' ,
-         // 'product_code' ,
-         // 'product_qty' ,
-         //  'discount_price' ,
-         // 'short_descp_en' ,
-         // 'short_descp_fr' ,
-         // 'product_thambnail' ,
-         // 'special_offer' ,
-         // 'featured' ,
-         // 'long_descp_en',
-         // 'long_descp_fr',
-         // 'status' ,
-         // 'categoryBook_id' ,
-         // 'subCategory_id'  ,
-         // 'publisher_id'  ,
-         // 'created_at',
-          
-         //  ]);
-
-         
-                 $image = $request->file('product_thambnail');
-                 $name_image = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-                 Image::make($image)->resize(917,1000)->save('upload/book/thambnail/'.$name_image);
-                 $save_url = 'upload/book/thambnail/'.$name_image;
-
-        // $reponse=Http::get('https://www.googleapis.com/books/v1/volumes?q='.$request->ISBN);
-        
-                    $bookID = Book::insertGetId ([
-                   'name_en' => strtolower((str_replace(' ','-',$request->name_en))),
-                   'name_fr' => str_replace(' ','-',$request->name_fr),
-                   'ISBN' => $request->ISBN,
-                   'prix' => $request->prix,
-                   'datePublication' =>$request-> date_Publication ,
-                   'langue' =>$request->langue ,
-                   'product_code' => $request->product_code,
-                   'product_qty' => $request->product_qty,
-                   'discount_price' => $request->discount_price,
-                   'short_descp_en' =>$request-> short_descp_en ,
-                   'short_descp_fr' =>$request-> short_descp_fr ,
-                   'product_thambnail' => $save_url,
-                   'special_offer' => $request->special_offer ,
-                   'featured'  => $request->featured ,
-                   'long_descp_en' =>$request->long_descp_en ,
-                   'long_descp_fr' => $request->long_descp_fr,
-                   'status' => 1 ,
-                   'categoryBook_id' => $request->category_id ,
-                   'subCategory_id' => $request->subCategory_id ,
-                   'publisher_id' => $request->publisher_id ,
-                   'created_at' => Carbon::now(),
-                   
-                ]);
-   
-                $images = $request->file('multi_img');
-                foreach($images as $img) {
-   
-                  $make_img = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
-                  Image::make($img)->resize(917,1000)->save('upload/book/multi_image/'.$make_img);
-                  $uploadPath= 'upload/book/multi_image/'.$make_img;
-
-                  MultiImg::insert([
-                      'book_id' => $bookID,
-                     'photo_name' => $uploadPath,
-                     'created_at' => Carbon::now(),
-                  ]);
-   
-                }
-          
-                $notification = array(
-                   'message' => 'Book Inserted Successfully ',
-                   'alert-type' => 'success'
-                );
-                return redirect()->back()->with($notification);
-               }
-
-       public function bookEdit($id){
-
-        $multiImgs =MultiImg::where('book_id',$id)->get();
-        $book = Book::findOrFail($id);
-        $categories = Category::all();
-        $subCategories = SubCategory::all();
-        $publishers = Publisher::all();
-        return  view('backend.book.book_edit', compact('book','categories', 'subCategories', 'publishers','multiImgs'));
-    
-       }
-    
-       public function bookUpdate(Request $request){
-    
-        
-                $book_id = $request->id;
-           
-                Book::findOrFail($book_id)->update([
-                'name_en' => strtolower((str_replace(' ','-',$request->name_en))),
-                'name_fr' => str_replace(' ','-',$request->name_fr),
-                'ISBN' => $request->ISBN,
-                'prix' => $request->prix,
-                'datePublication' =>$request-> date_Publication ,
-                'langue' =>$request->langue ,
-                'product_code' => $request->product_code,
-                'product_qty' => $request->product_qty,
-                'discount_price' => $request->discount_price,
-                'short_descp_en' =>$request-> short_descp_en ,
-                'short_descp_fr' =>$request-> short_descp_fr ,
-                'special_offer' => $request->special_offer ,
-                'featured'  => $request->featured ,
-                'long_descp_en' =>$request->long_descp_en ,
-                'long_descp_fr' => $request->long_descp_fr,
-                'status' => 1 ,
-                'subCategory_id' => $request->subCategory_id ,
-                'categoryBook_id' => $request->categoryBook_id ,
-                'publisher_id' => $request->publisher_id ,
-                'updated_at' => Carbon::now(),
-                
-
-                
-             ]);
-                  
-             $notification = array(
-                'message' => 'Book Updated without Image Successfully ',
-                'alert-type' => 'success'
-             );
-             return redirect()->route('all.books')->with($notification);
-       
-          }
-
-          public function MultiImageUpdate(Request $request){
-
-            $imgs = $request->multi_img;
-           
-            //  if(!empty($imgs)){
-                foreach ($imgs as $id => $img) {
-                
-
-                 $imgDel = MultiImg::findOrFail($id);
-                  unlink($imgDel->photo_name);
-                 
-                 $make_imge = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
-                 Image::make($img)->resize(917,1000)->save('upload/book/multi_image/'.$make_imge);
-                 $uploadPath = 'upload/book/multi_image/'.$make_imge;
-
-                 MultiImg::where('id' , $id)->update([
-                  'photo_name' => $uploadPath ,
-                  'updated_at'=> Carbon::now(),
-                 ]);
-               }
-
-            $notification = array(
-               'message' => 'Book Updated  Multi-Image Successfully ',
-               'alert-type' => 'success'
-            );
-         
-            return redirect()->back()->with($notification);
-                }
-         // } else { 
-         //       $notification = array(
-         //          'message' => 'Book No Multi-Image !!!! ',
-         //          'alert-type' => 'warning'
-         //       );
-         //       return redirect()->back()->with($notification);
-         // }
-      
-
-      public function  thambnailUpdate(Request $request){
-          
-         $pro_id = $request->id;
-         $old_img = $request->old_img;
-         unlink($old_img);
-
-         $image = $request->file('product_thambnail');
-                 $name_image = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-                 Image::make($image)->resize(917,1000)->save('upload/book/thambnail/'.$name_image);
-                 $save_url = 'upload/book/thambnail/'.$name_image;
-
-                 Book::findOrFail($pro_id)->update([
-                  'product_thambnail' => $save_url ,
-                  'updated_at'=> Carbon::now(),
-                 ]);
-
-            $notification = array(
-               'message' => 'Book Updated Sample Image Successfully ',
-               'alert-type' => 'success'
-            );
-         
-            return redirect()->back()->with($notification);
-                }
 
 
+    /**
+     * Enregistrer un nouveau livre en base de données.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
 
-          public function GetBook($book_id){
-            $book = SubCategory::where('book_id', $book_id)->orderBy('name_en','ASC')->get();
-            return json_encode($book);
-          }
-       
-   
-    
-         public function bookDelete($id) {
-    
-            $book = Book::find($id);
-            unlink($book->product_thambnail);
-              
-            Book::findOrFail($id)->delete();
+     public function bookStore(Request $request)
+{ 
+    // Récupérer l'identifiant Google Books saisi par l'utilisateur
+    $googleBooksId = $request->isbnn;
 
-            $images=MultiImg::where('book_id' , $id)->get();
-               foreach($images as $img){
-                  unlink($img->photo_name);
-                  MultiImg::where('book_id' , $id)->delete();
-               }
-  
-            $notification = array(
-               'message' => 'Book Deleted  Successfully ',
-               'alert-type' => 'success'
-            );
-            return redirect()-> route('all.books')->with($notification);
-           
-     }
+    // Construire l'URL de l'API Google Books pour récupérer les données du livre
+    $apiUrl = 'https://www.googleapis.com/books/v1/volumes/' . $googleBooksId;
 
-            public function bookDeleteMulti($id) {
-            
-               $bookMulti = MultiImg::findOrFail($id);
-               unlink($bookMulti->photo_name);
+    // Récupérer les données du livre à partir de l'API Google Books
+    $bookData = json_decode(file_get_contents($apiUrl), true);
+    dd($bookData);
 
-               MultiImg::findOrFail($id)->delete();
+    // Vérifier si le livre existe déjà en base de données
+    $existingBook = Book::where('google_books_id', $googleBooksId)->first();
 
-            $notification = array(
-               'message' => 'Book Multi Image Deleted  Successfully ',
-               'alert-type' => 'success'
-            );
-            return redirect()->back()->with($notification);
-         }
+    if ($existingBook) {
+        // Le livre existe déjà, renvoyer une erreur
+        return response()->json(['error' => 'Ce livre existe déjà en base de données.'], 409);
+    }
 
-               public function inactiveBook($id){
-                  
-                  Book::findOrFail($id)->update([
-                     'status' => 0 ,
-                  ]);
-               $notification = array(
-                  'message' => 'Book is Inactive ',
-                  'alert-type' => 'warning'
-            );
-               return redirect()->back()->with($notification);
-            }
+    // Créer un nouveau livre
+    $book = new Book;
+    $book->google_books_id = $googleBooksId;
+    $book->title = $bookData['volumeInfo']['title'] ?? '';
+    $book->author = implode(', ', $bookData['volumeInfo']['authors'] ?? []);
+    $book->description = $bookData['volumeInfo']['description'] ?? '';
+    $book->publication_date = $bookData['volumeInfo']['publishedDate'] ?? '';
+    $book->page_count = $bookData['volumeInfo']['pageCount'] ?? '';
+    $book->language = $bookData['volumeInfo']['language'] ?? '';
+    $book->thumbnail_url = $bookData['volumeInfo']['imageLinks']['thumbnail'] ?? '';
+    $book->save();
 
+    return response()->json(['success' => 'Le livre a bien été ajouté en base de données.'], 200);
+}
 
-            public function activeBook($id){
-                     
-               Book::findOrFail($id)->update([
-                  'status' => 1 ,
-               ]);
-               
-            $notification = array(
-            'message' => 'Book is active ',
-            'alert-type' => 'success'
-            );
-            return redirect()->back()->with($notification);
-            }
+public function bookDelete($id)
+{
+    // Récupérer le livre à supprimer
+    $book = Book::findOrFail($id);
 
-            public function stockProduct(){
-               $book = Book::latest()->get();
-               return view('backend.book.book_stock' ,compact('book'));
-           }
+    // Supprimer les images associées au livre
+    $images = $book->images;
+    foreach ($images as $image) {
+        Storage::delete('public/books/' . $image->filename);
+        $image->delete();
+    }
 
+    // Supprimer le livre
+    $book->delete();
 
+    return redirect()->route('all.books')->with('success', 'Le livre a été supprimé avec succès.');
+}
 
-          
 
 }

@@ -15,8 +15,9 @@ class CreateShipCommonsTable extends Migration
     {
         Schema::create('ship_commons', function (Blueprint $table) {
             $table->id();
-            $table->integer('town_id');
+            $table->unsignedBigInteger('town_id');
             $table->string('name');
+            $table->foreign('town_id')->references('id')->on('ship_towns')->onDelete();
             $table->timestamps();
         });
     }

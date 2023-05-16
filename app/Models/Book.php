@@ -27,5 +27,13 @@ class Book extends Model
       return $this->belongsToMany(Author::class,'book_authors');
    }
 
+      public function multiImages()
+   {
+      return $this->hasMany(MultiImg::class);
+   }
+
+     public function wishList(){
+      return $this->belongsToMany(Wishlist::class);
+     }
 
 }

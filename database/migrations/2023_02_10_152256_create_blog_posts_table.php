@@ -15,12 +15,13 @@ class CreateBlogPostsTable extends Migration
     {
         Schema::create('blog_posts', function (Blueprint $table) {
             $table->id();
-            $table->integer('category_id');
+            $table->unsignedBigInteger('category_id');
             $table->string('post_title_en');
             $table->string('post_title_fr');
             $table->string('post_image');
             $table->text('post_details_en');
-            $table->text('post_details_fr'); 
+            $table->text('post_details_fr');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade'); 
             $table->timestamps();
         });
     }

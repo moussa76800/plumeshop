@@ -15,8 +15,9 @@ class CreateShipTownsTable extends Migration
     {
         Schema::create('ship_towns', function (Blueprint $table) {
             $table->id();
-            $table->integer('country_id');
-            $table->string('mane');
+            $table->unsignedBigInteger('country_id');
+            $table->string('name');
+            $table->foreign('country_id')->references('id')->on('ship_countries')->onDelete();
             $table->timestamps();
         });
     }

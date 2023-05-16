@@ -4,6 +4,7 @@
         "ritwickdey.liveserver",
         "danielsanmedium.dscodegpt",
         "ms-mssql.sql-database-projects-vscode",
-        "ms-mssql.mssql"
+        "ms-mssql.mssql",
+        "formulahendry.vscode-mysql"
     ]
 }

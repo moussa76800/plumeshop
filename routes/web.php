@@ -106,14 +106,15 @@ Route::prefix('publisher')->group(function() {
 
 // Admin Books All Routes :
 Route::prefix('book')->group(function() {
-    Route::get('/books/search', 'BookController@search')->name('books.search');
+    // Route::get('/books/search', 'BookController@search')->name('books.search');
     Route::get('/view' , [BookController::class,'bookView'])->name('all.books');
     Route::get('/add' , [BookController::class,'bookAdd'])->name('add.book');
+    Route::post('/search',[BookController::class,'bookSearch']);
     Route::post('/store' , [BookController::class,'bookStore'])->name('book.store');
-    Route::get('/edit/{id}' , [BookController::class,'bookEdit'])->name('edit.book');
-    Route::post('/update' , [BookController::class,'bookUpdate'])->name('book.update');
-    Route::get('/ajax/{book_id}' , [BookController::class,'GetBook']);
-    Route::get('/delete/{id}' , [BookController::class,'bookDelete'])->name('delete.book');
+     Route::get('/edit/{id}' , [BookController::class,'bookEdit'])->name('edit.book');
+     Route::post('/update' , [BookController::class,'bookUpdate'])->name('book.update');
+     Route::get('/ajax/{book_id}' , [BookController::class,'GetBook']);
+     Route::get('/delete/{id}' , [BookController::class,'bookDelete'])->name('delete.book');
     Route::get('/multiImg/delete/{id}' , [BookController::class,'bookDeleteMulti'])->name('book.multiImg.delete');
     Route::post('/image/update' , [BookController::class,'MultiImageUpdate'])->name('update-bookMultiImage');
     Route::post('/thambnail/update' , [BookController::class,'thambnailUpdate'])->name('update-bookThambnail');

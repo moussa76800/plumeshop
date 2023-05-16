@@ -14,11 +14,11 @@
             <form method="POST" action="{{ route('book.store') }}">
                 @csrf
                 <div class="form-group">
-                    <label for="titre_ou_isbn">Titre ou ISBN</label>
-                    <input type="text" class="form-control" id="titre_ou_isbn" name="titre_ou_isbn" required>
+                    <label for="isbn">ISBN</label>
+                    <input type="text" class="form-control" id="isbnn" name="isbnn" required>
                 </div>
               
-            </form>
+            
 
             <BR>
                 <div class="row">
@@ -39,11 +39,24 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="text-xs-right">
-                    <input type="submit" class="btn btn-rounded btn-primary mb-5" value="Valider">
+                    <input type="submit" class="btn btn-rounded btn-primary mb-5" value="Valider" name="submit>
                 </div>
+            </form>
         </div>
     </div>
+    <hr>
+    <div class="book-info">
+        <img src="book_cover.jpg" alt="Book Cover">
+        <h2>Title</h2>
+        <p>Author: Author Name</p>
+        <p>ISBN: 1234567890</p>
+        <p>Publisher: Publisher Name</p>
+        <p>Published Date: 01-01-2022</p>
+        <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec ultricies quam. Praesent vestibulum, sapien vitae blandit congue, lectus ipsum gravida elit, quis tempor est quam at orci. Nam consequat lobortis dolor, in tempor sapien bibendum ac. Sed semper, nibh vitae iaculis viverra, nisi mauris tristique augue, eu accumsan dolor orci vel est.</p>
+      </div>
+      
 </div>
                 
 
