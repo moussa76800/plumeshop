@@ -662,7 +662,7 @@
             <div class="more-info-tab clearfix ">
               <h3 class="new-product-title pull-left"> @if (session()->get('language') == 'french') Nouveaux @else New Books @endif</h3>
               <ul class="nav nav-tabs nav-tab-line pull-right" id="new-products-1">
-                <li class="active"><a data-transition-type="backSlide" href="#all" data-toggle="tab">All</a></li>
+                <li class="active"><a data-transition-type="backSlide" href="#all" data-toggle="tab">@if (session()->get('language') == 'french')Tout @else All @endif</a></li>
                 @foreach($categories as $category)
                 <li><a data-transition-type="backSlide" href="#category{{$category->id}}" data-toggle="tab">@if (session()->get('language') == 'french'){{ $category->name_fr }}@else {{ $category->name_en }} @endif</a></li>
                 @endforeach
@@ -952,7 +952,7 @@
             <div class="more-info-tab clearfix ">
               <h3 class="new-product-title pull-left"> @if (session()->get('language') == 'french')Prochainement @else Futures Books @endif</h3>
               <ul class="nav nav-tabs nav-tab-line pull-right" id="">
-                <li class="active"><a data-transition-type="backSlide" href="#allFeatured" data-toggle="tab">All</a></li>
+                <li class="active"><a data-transition-type="backSlide" href="#allFeatured" data-toggle="tab">@if (session()->get('language') == 'french')Tout @else All @endif</a></li>
                 @foreach($categories as $category)
                 <li><a data-transition-type="backSlide" href="#categoryFeatured{{$category->id}}" data-toggle="tab">@if (session()->get('language') == 'french'){{ $category->name_fr }}@else {{ $category->name_en }} @endif</a></li>
                 @endforeach

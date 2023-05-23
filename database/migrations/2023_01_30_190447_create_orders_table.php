@@ -17,9 +17,9 @@ class CreateOrdersTable extends Migration
 
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('common_id');
-            $table->unsignedBigInteger('town_id');
             $table->unsignedBigInteger('country_id');
+            $table->unsignedBigInteger('town_id');
+            $table->unsignedBigInteger('common_id');
             $table->string('name');
             $table->string('email');
             $table->string('phone');
@@ -44,6 +44,12 @@ class CreateOrdersTable extends Migration
             $table->string('return_date')->nullable();
             $table->string('return_reason')->nullable();
             $table->string('status');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('country_id')->references('id')->on('ship_countries')->onDelete('cascade');
+           
+           
+           
+
             $table->timestamps();
         });
     }

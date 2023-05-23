@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use phpDocumentor\Reflection\Types\Nullable;
 
 class CreateBooksTable extends Migration
 {
@@ -34,16 +33,16 @@ class CreateBooksTable extends Migration
             $table->string('long_descp_en');
             $table->string('long_descp_fr');
             $table->integer('status')->default(0);
-            $table->integer('subCategory_id'); 
+            $table->unsignedBigInteger('subCategory_id'); 
             $table->unsignedBigInteger('categoryBook_id'); 
-            $table->integer('publisher_id');
-            $table->integer('multiImg_id')->nullable();
+            $table->unsignedBigInteger('publisher_id');
             $table->foreign('categoryBook_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('publisher_id')->references('id')->on('publishers')->onDelete('cascade');
-            $table->foreign('multiImg_id')->references('id')->on('multi_imgs');
+            $table->foreign('subCategory_id')->references('id')->on('sub_categories')->onDelete('cascade');
             $table->timestamps();
             
         });
+
     }
 
     /**

@@ -115,11 +115,7 @@ Route::prefix('book')->group(function() {
      Route::post('/update' , [BookController::class,'bookUpdate'])->name('book.update');
      Route::get('/ajax/{book_id}' , [BookController::class,'GetBook']);
      Route::get('/delete/{id}' , [BookController::class,'bookDelete'])->name('delete.book');
-    Route::get('/multiImg/delete/{id}' , [BookController::class,'bookDeleteMulti'])->name('book.multiImg.delete');
-    Route::post('/image/update' , [BookController::class,'MultiImageUpdate'])->name('update-bookMultiImage');
-    Route::post('/thambnail/update' , [BookController::class,'thambnailUpdate'])->name('update-bookThambnail');
-    Route::get('/inactive/{id}' , [BookController::class,'inactiveBook'])->name('bookInactiveNow');
-    Route::get('/active/{id}' , [BookController::class,'activeBook'])->name('bookActiveNow');
+    
 });
 
 // Admin Author All Routes :

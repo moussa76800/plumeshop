@@ -21,7 +21,7 @@ class CreateBlogPostsTable extends Migration
             $table->string('post_image');
             $table->text('post_details_en');
             $table->text('post_details_fr');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade'); 
+            $table->foreign('category_id')->references('id')->on('blog_post_categories')->onDelete('cascade'); 
             $table->timestamps();
         });
     }

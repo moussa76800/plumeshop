@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateShipTownsTable extends Migration
+class CreateShipCommonsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateShipTownsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ship_towns', function (Blueprint $table) {
+        Schema::create('ship_commons', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('country_id');
+            $table->unsignedBigInteger('town_id');
             $table->string('name');
-            $table->foreign('country_id')->references('id')->on('ship_countries')->onDelete();
+            $table->foreign('town_id')->references('id')->on('ship_towns')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateShipTownsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ship_towns');
+        Schema::dropIfExists('ship_commons');
     }
 }

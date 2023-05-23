@@ -11,16 +11,16 @@ class ShipTown extends Model
 
     protected $guarded=[];
 
-
     /**
      * @return void
      */
-  
-    public function common(){
-        return $this->hasMany(ShipCommon::class, 'town_id');
-     }
 
     public function country() {
         return $this->belongsTo(ShipCountry::class,'country_id','id');
      }
+
+     public function common(){
+        return $this->hasMany(ShipCommon::class, 'town_id');
+     }
+
 }

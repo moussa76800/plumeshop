@@ -14,4 +14,5 @@ class ShipCommon extends Model
     public function town() {
         return $this->belongsTo(ShipTown::class,'town_id','id');
      }
+
 }

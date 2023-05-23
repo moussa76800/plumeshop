@@ -29,11 +29,15 @@ class Book extends Model
 
       public function multiImages()
    {
-      return $this->hasMany(MultiImg::class);
+      return $this->hasMany(MultiImg::class,'book_id', 'id');
    }
 
      public function wishList(){
       return $this->belongsToMany(Wishlist::class);
+     }
+
+     public function orderItems(){
+      return $this->hasOne(OrderItem::class,'book_id', 'id');
      }
 
 }

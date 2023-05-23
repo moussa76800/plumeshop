@@ -11,7 +11,9 @@ class MultiImg extends Model
 
     protected $guarded = [];
 
+    
     public function book() {
         return $this->belongsTo(Book::class , 'book_id' , 'id' );
     }
+
 }
