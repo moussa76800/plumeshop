@@ -391,30 +391,27 @@ function addToWishList(book_id){
 <!--  ==============================================     lOAD WISHLIST Book    ====================================================== -->
 
 <script type="text/javascript">
-
   function wishList() {
-    $.ajax({
-              type: 'GET',
-              url: '/user/getWishList',
-              dataType:'json',
-              success:function(response){
-              //   <"pre">
-              // console.log(response);
-              //   <"/pre">
-                
-                  var rows = ""
-                  $.each(response, function(key,value){
+      $.ajax({
+          type: 'GET',
+          url: '/user/getWishList',
+          dataType: 'json',
+          success: function(response) {
+           
+            var rows = "";
+                $.each(response, function(key,value){
                     rows += `<tr>
-                    <td class="col-md-2"><img src="/${value.book.product_thambnail} " alt="imga"></td>
+                    <td class="col-md-2"><img src="/${value.book.product_thambnail} " alt="image"></td>
                     <td class="col-md-7">
-                        <div class="product-name"><a href="#">${ @if(session()->get('language') == 'french')value.book.name_fr @else value.book.name_en  @endif}</a></div>
+                        <div class="product-name"><a href="#">${value.book.name_en}</a></div>
                          
                         <div class="price">
                         ${value.book.discount_price == null
                             ? `${value.book.prix}`
                             :
-                            `${ value.book.prix - value.book.discount_price} <span>${value.book.prix}</span>`
+                            `${value.book.discount_price} <span>${value.book.prix}</span>`
                         }
+
                             
                         </div>
                     </td>
@@ -426,13 +423,16 @@ function addToWishList(book_id){
         </td>
                 </tr>`
         });
-                  
-                  $('#wishList').html(rows);
-              }
-          })
-        }
-    wishList();
-     </script>
+                
+                $('#wishlist').html(rows);
+            }
+        })
+
+     }
+ wishlist();
+
+</script>
+
    <!--  ==============================================     END  LOAD WISHLIST Book    ====================================================== -->
 <!--  ==============================================     START DELETE Book to WishList   ====================================================== -->
 <script type="text/javascript">
@@ -926,6 +926,10 @@ function couponRemove(){
 }
     </script>
      <!--  ==============================================     START  Coupon Remove to the Cart  (look Html Method CouponCalculation())  ====================================================== -->
+
+ 
+
+
 
 </body>
 </html>

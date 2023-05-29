@@ -23,7 +23,7 @@
              <form novalidate>
                         <div class="row">
                     <br>
-                    <div class="col-md-4">
+                    {{-- <div class="col-md-4">
                           <div class="form-group">
                                 <h5> Book Name English <span class="text-danger">*</span></h5>
                                  <div class="controls">
@@ -57,7 +57,7 @@
                                     @enderror
                             </div>
                          </div>
-                   </div> <!--end col md 4 -->
+                   </div> <!--end col md 4 --> --}}
 
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -83,7 +83,7 @@
                           </div>
                       </div> <!--end col md 4 -->
 
-                 <div class="col-md-4">
+                 {{-- <div class="col-md-4">
                                 <div class="form-group">
                             <h5> Publication's Date <span class="text-danger">*</span></h5>
                             <div class="controls">
@@ -93,7 +93,7 @@
                                     @enderror
                             </div>
                         </div>          
-                 </div> <!--end col md 4 -->
+                 </div> <!--end col md 4 --> --}}
                         
                 <div class="col-md-4"> 
                         <div class="form-group">
@@ -132,7 +132,7 @@
                 </div> <!--end col md 4 -->
                         </div>
     
-                <div class="row">
+                {{-- <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                              <h5>short_descp_en <span class="text-danger">*</span></h5>
@@ -156,8 +156,8 @@
                                         <span class="text-danger">{{ $message}} </span>
                                         @enderror
                              </div>
-                        </div>
-                 </div> <!--end col md 4 -->
+                        </div> 
+                 </div> --}}<!--end col md 4 -->
                             {{-- <div class="col-md-4">  
                                 <div class="form-group">
                                     <h5>status <span class="text-danger">*</span></h5>
@@ -173,8 +173,8 @@
 
     <div class="row">                 
         </div>
-        <div class="row">
-            <div class="col-md-6">
+         <div class="row">
+           {{-- <div class="col-md-6">
             <div class="form-group">
                 <h5>long_descp_en<span class="text-danger">*</span></h5>
                 <div class="controls">
@@ -201,7 +201,7 @@
                         @enderror
                 </div>
             </div>
-        </div> <!--end col md 6 -->
+        </div> <!--end col md 6 --> --}}
         
     </div> <!--end ROW-->
     <div class="col-md-4">

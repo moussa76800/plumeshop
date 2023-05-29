@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Cache;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Book;
+use App\Models\Wishlist;
+
 
 class User extends Authenticatable
 {
@@ -66,10 +69,19 @@ class User extends Authenticatable
     public function UserOnline(){
         return Cache::has('user-is-online' . $this->id);
     }
-    
+
+
+    public function book()
+    {
+        return $this->hasMany(Book::class);
+    }
+
     public function wishlist()
     {
-        return $this->hasOne(Wishlist::class);
+        return $this->hasMany(Wishlist::class);
     }
+
+    
+    
     
 }

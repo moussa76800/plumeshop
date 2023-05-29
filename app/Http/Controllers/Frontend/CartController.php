@@ -3,17 +3,18 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Models\Book;
+use App\Models\User;
+use App\Models\Coupon;
+use App\Models\ShipTown;
 use App\Models\Wishlist;
+use App\Models\ShipCommon;
+use App\Models\ShipCountry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
-use App\Models\Coupon;
-use App\Models\ShipCommon;
-use App\Models\ShipCountry;
-use App\Models\ShipTown;
 use Illuminate\Support\Facades\Auth;
-use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Session;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CartController extends Controller
 {
@@ -85,8 +86,12 @@ class CartController extends Controller
             return response()->json(['success' => 'Product(s) Remove from Cart']);
              }
         }
+       
 
-        public Function AddBookToWishListAJAX( Request $request , $book_id){
+       
+
+
+        public Function addToWishList( Request $request , $book_id){
                 if (Auth::check()) {
                     $exists = Wishlist::where('user_id' , Auth::id())->where('book_id', $book_id)->first();
                     if (!$exists) {

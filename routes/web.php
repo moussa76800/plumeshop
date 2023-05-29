@@ -106,14 +106,13 @@ Route::prefix('publisher')->group(function() {
 
 // Admin Books All Routes :
 Route::prefix('book')->group(function() {
-    // Route::get('/books/search', 'BookController@search')->name('books.search');
     Route::get('/view' , [BookController::class,'bookView'])->name('all.books');
     Route::get('/add' , [BookController::class,'bookAdd'])->name('add.book');
     Route::post('/search',[BookController::class,'bookSearch']);
     Route::post('/store' , [BookController::class,'bookStore'])->name('book.store');
      Route::get('/edit/{id}' , [BookController::class,'bookEdit'])->name('edit.book');
      Route::post('/update' , [BookController::class,'bookUpdate'])->name('book.update');
-     Route::get('/ajax/{book_id}' , [BookController::class,'GetBook']);
+    Route::get('/subcategory/ajax/{category_id}' , [BookController::class,'GetBook']);
      Route::get('/delete/{id}' , [BookController::class,'bookDelete'])->name('delete.book');
     
 });
@@ -327,16 +326,18 @@ Route::get('/book/mini/cart/' , [CartController::class,'bookAddMiniCartAJAX']);
 // Remove Book from Mini-Cart with AJAX All Routes :
 Route::get('/minicart/removeBook/{rowId}' , [CartController::class,'deleteBookMiniCartAJAX']);
 
-Route::post('/addToWishList/{book_id}' , [CartController::class,'AddBookToWishListAJAX']);   // CREATE Book to WishList with AJAX.
+Route::post('/addToWishList/{book_id}' , [CartController::class,'AddToWishList']);   // CREATE Book to WishList with AJAX.
 
 Route::get('/plumeshop/about_us', [IndexController::class,'aboutSlider'])->name('slide_plumeshop');
+
+
 
 
 ////////////////////////////////////        User Must Login         /////////////////////////////////////////////
 
 // Page WishList All Routes :
 Route::group(['prefix'=>'user','middleware' =>['user' , 'auth'],'namespace'=>'User'],function(){  
-Route::get('/WishList' , [wishlistController::class,'wishList'])->name('wishList');
+Route::get('/wishList' , [wishlistController::class,'wishList'])->name('wishList');
 Route::get('/getWishList' , [wishlistController::class,'wishListRead']);  //  READ Book data
 Route::get('/removeWishList/{id}' , [wishlistController::class,'wishListDelete']);
 
@@ -368,7 +369,7 @@ Route::get('/couponRemove',[CartController::class, 'couponRemove']);
 // Blog All Routes :
  Route::get('/blog' , [HomeBlogController::class,'viewHomeBlog'])->name('view.HomeBlog');
  Route::get('/blog/post/detail/{id}' , [HomeBlogController::class,'HomeBlogDetail'])->name('post.details');
- Route::get('/blog/category/post/{category_id}' , [HomeBlogController::class,'HomeBlogCatPost']);
+ Route::get('/blog/category/post/{category_id}' , [HomeBlogController::class,'HomeBlogCatPost'])->name('blog.category.post');
 
  // Review's Book All Routes :
  Route::post('/review/store' , [ReviewController::class,'reviewStore'])->name('review_store');

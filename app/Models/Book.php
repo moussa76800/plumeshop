@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\User;
+use App\Models\Wishlist;
 class Book extends Model
 {
     use HasFactory;
@@ -24,7 +25,7 @@ class Book extends Model
      }
 
      public Function authors() {
-      return $this->belongsToMany(Author::class,'book_authors');
+      return $this->belongsToMany(Author::class,'book_author');
    }
 
       public function multiImages()
@@ -32,12 +33,17 @@ class Book extends Model
       return $this->hasMany(MultiImg::class,'book_id', 'id');
    }
 
-     public function wishList(){
-      return $this->belongsToMany(Wishlist::class);
-     }
 
      public function orderItems(){
       return $this->hasOne(OrderItem::class,'book_id', 'id');
      }
+
+
+   public function user()
+   {
+      return $this->belongsTo(User::class);
+   }
+
+
 
 }

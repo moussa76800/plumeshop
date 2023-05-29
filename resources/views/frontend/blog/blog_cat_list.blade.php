@@ -15,8 +15,6 @@
   transform: translateY(3px);
 }
 
-
-	
 </style>
 
 
@@ -24,7 +22,11 @@
 	<div class="breadcrumb-inner">
 		<ul class="list-inline ">
 			<li><a href="{{ '/' }} "style="color: red" ;>@if(session()->get('language') == 'french')Accueil @else Home @endif/</a></li>
-			<li class='active'style="color:  #00008B;">Blog </li>
+			<li class='active'style="color:  #00008B;">Blog /</li>
+		
+			@foreach( $blogcategory as $item)
+			<li class='active' style="color:  #00008B ;" >@if (session()->get('language') == 'french'){{ $item->name_fr }} @else  {{ $item->name_en }} @endif </li>
+			@endforeach
 		</ul>
 		</div><!-- /.breadcrumb-inner -->
 	</div><!-- /.container -->
@@ -100,7 +102,7 @@
 	height: 270px;">
 </div>
 				<!-- ======== ====CATEGORY======= === -->
-<div class="sidebar-widget outer-bottom-xs wow fadeInUp">
+{{-- <div class="sidebar-widget outer-bottom-xs wow fadeInUp">
 	<h3 class="section-title">@if(session()->get('language') == 'french') Categorie @else Blog Category @endif</h3>
 	<div class="sidebar-widget-body m-t-10">
 		<div class="accordion">
@@ -111,7 +113,23 @@
 
    </ul>
 @endforeach 
-			</div> 
+			</div>  --}}
+			<div class="sidebar-widget outer-bottom-xs wow fadeInUp">
+				<h3 class="section-title">@if(session()->get('language') == 'french') Categorie @else Blog Category @endif</h3>
+				<div class="sidebar-widget-body m-t-10">
+					<div class="accordion">
+						<div class="cat">
+			 @forelse($blogcategory as $category)
+						 <ul class="list-group">
+			  <a href="{{  route('blog.category.post',$category->id) }}"><li class="list-group-item">@if(session()->get('language') == 'french') {{ $category->name_fr }} @else {{ $category->name_en }} @endif</li></a>
+			
+			   </ul>
+			  
+			   @empty
+			   <h5 class="text-danger">@if (session()->get('language') == 'french')<b> Pas de contenu de Blog Trouvé dans cette catégorie !! @else No blog content found in this category</b> @endif !!</h5>
+					 
+			   @endforelse
+						</div> 
  
 
 	    </div><!-- /.accordion -->

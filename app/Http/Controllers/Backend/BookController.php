@@ -11,6 +11,8 @@ use Faker\Calculator\Isbn;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Arr;
+use App\Models\Author;
 use Illuminate\Support\Facades\Http;
 use Intervention\Image\Facades\Image;
 use PhpParser\Node\Expr\BinaryOp\Mul;
@@ -20,136 +22,7 @@ use Illuminate\Support\Facades\Validator;
 class BookController extends Controller
 {
 
-//    // Méthode pour afficher tous les livres
-//    public function BookView()
-//    {
-//        // Récupérer tous les livres triés par date de création
-//        $books = Book::latest()->get();
-      
-//        // Passer les livres à la vue "backend.book.book_view"
-//        return view('backend.book.book_view', compact('books'));
-//    }
-
-//    public function bookAdd()
-// {
-//     return view('backend.book.book_add');
-// }
-//    //    public function search(Request $request)
-//    //  {
-//    //      $request->validate([
-//    //          'query' => 'required|string',
-//    //      ]);
-
-//    //      $query = $request->input('query');
-//    //      $books = Book::search($query)->get();
-
-//    //      if (! $books->count()) {
-//    //          return back()->withErrors(['Aucun résultat trouvé']);
-//    //      }
-
-//    //      return view('books.search', ['books' => $books]);
-    
-
-//    //      $query = $request->input('query');
-//    //      $type = $request->input('type');
-//    //      $books = null;
-//    //      if ($type === 'title') {
-//    //          $books = Book::where('title', 'like', '%' . $query . '%')->get();
-//    //      } elseif ($type === 'author') {
-//    //          $books = Book::whereHas('authors', function ($query) use ($request) {
-//    //              $query->where('name', 'like', '%' . $request->input('query') . '%');
-//    //          })->get();
-//    //      } elseif ($type === 'publisher') {
-//    //          $books = Book::where('publisher', 'like', '%' . $query . '%')->get();
-//    //      } elseif ($type === 'category') {
-//    //       $books = Book::whereHas('categories', function ($query) use ($request) {
-//    //          $query->where('name', 'like', '%' . $request->input('query') . '%');
-//    //      })->get();
-//    //  }
-//    //  return view('books.search', ['books' => $books]);
-
-//    // }
-
-//    // Méthode pour rechercher des livres en fonction d'un critère
-//    public function search(Request $request)
-//    {
-//        // Valider que le champ de recherche n'est pas vide
-//        $request->validate([
-//            'query' => 'required|string',
-//        ]);
-
-//        // Récupérer le terme de recherche saisi par l'utilisateur
-//        $query = $request->input('query');
-
-//        // Récupérer le type de recherche choisi (par titre, auteur, éditeur ou catégorie)
-//        $type = $request->input('type');
-
-//        // Initialiser la variable des livres à null
-//        $books = null;
-
-//        // Si le type de recherche est par titre, récupérer les livres dont le titre contient le terme de recherche
-//        if ($type === 'title') {
-//            $books = Book::where('title', 'like', '%' . $query . '%')->get();
-//        } 
-//        // Si le type de recherche est par auteur, récupérer les livres dont l'auteur contient le terme de recherche
-//        elseif ($type === 'author') {
-//            $books = Book::whereHas('authors', function ($query) use ($request) {
-//                $query->where('name', 'like', '%' . $request->input('query') . '%');
-//            })->get();
-//        } 
-//        // Si le type de recherche est par éditeur, récupérer les livres dont l'éditeur contient le terme de recherche
-//        elseif ($type === 'publisher') {
-//            $books = Book::where('publisher', 'like', '%' . $query . '%')->get();
-//        } 
-//        // Si le type de recherche est par catégorie, récupérer les livres dont la catégorie contient le terme de recherche
-//        elseif ($type === 'category') {
-//            $books = Book::whereHas('categories', function ($query) use ($request) {
-//                $query->where('name', 'like', '%' . $request->input('query') . '%');
-//            })->get();
-//        }
-
-//        // Si aucun livre n'a été trouvé pour la recherche, retourner une erreur
-//        if (! $books->count()) {
-//            return back()->withErrors(['Aucun résultat trouvé']);
-//        }
-
-//        // Passer les livres trouvés à la vue "books.search"
-//        return view('books.search', ['books' => $books]);
-//    }
-//       public function bookStore(Request $request)
-// { 
-//     // Récupérer l'identifiant Google Books saisi par l'utilisateur
-//     $googleBooksId = $request->isbn;
-
-//     // Construire l'URL de l'API Google Books pour récupérer les données du livre
-//     $apiUrl = 'https://www.googleapis.com/books/v1/volumes/' . $googleBooksId;
-
-//     // Récupérer les données du livre à partir de l'API Google Books
-//     $bookData = json_decode(file_get_contents($apiUrl), true);
-
-//     // Vérifier si le livre existe déjà en base de données
-//     $existingBook = Book::where('google_books_id', $googleBooksId)->first();
-
-//     if ($existingBook) {
-//         // Le livre existe déjà, renvoyer une erreur
-//         return response()->json(['error' => 'Ce livre existe déjà en base de données.'], 409);
-//     }
-
-//     // Créer un nouveau livre
-//     $book = new Book;
-//     $book->google_books_id = $googleBooksId;
-//     $book->title = $bookData['volumeInfo']['title'] ?? '';
-//     $book->author = $bookData['volumeInfo']['authors'][0] ?? '';
-//     $book->description = $bookData['volumeInfo']['description'] ?? '';
-//     $book->publication_date = $bookData['volumeInfo']['publishedDate'] ?? '';
-//     $book->page_count = $bookData['volumeInfo']['pageCount'] ?? '';
-//     $book->language = $bookData['volumeInfo']['language'] ?? '';
-//     $book->thumbnail_url = $bookData['volumeInfo']['imageLinks']['thumbnail'] ?? '';
-//     $book->save();
-
-//     return response()->json(['success' => 'Le livre a bien été ajouté en base de données.'], 200);
-// }
-
+//AIzaSyDCJ89ClXL5q9m1rX7V5kzTOYWCxgjSn_I
 /**
      * Afficher la liste de tous les livres.
      *
@@ -158,105 +31,354 @@ class BookController extends Controller
     public function bookView()
     {
         $book = Book::all();
-
         return view('backend.book.book_view', ['book' => $book]);
     }
 
 public function bookAdd()
     {
-        return view('backend.book.book_add');
+        $categories =  Category::orderBy('name_en','ASC')->get();
+        $subcategory= SubCategory::orderBy('name_en','ASC')->get();
+        return view('backend.book.book_add', [ 'categories' => $categories, 'subcategory' => $subcategory]);
     }
 
-    /**
-     * Rechercher des livres à partir de l'API Google Books.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function searchBooks(Request $request)
+    public function bookStore(Request $request)
     {
-        // Valider les données de la requête
-        $validator = Validator::make($request->all(), [
-            'search_term' => 'required|string|max:255',
+        // Valider les données du formulaire
+        $validatedData = $request->validate([
+            'isbn' => 'required',
+            'prix' => 'required',
+            'product_qty' => 'required',
+            'discount_price' => 'required',
         ]);
+    
+        $isbn = str_replace([' ', '-'], '', $validatedData['isbn']);
+    
+        // Remplacez 'YOUR_API_KEY' par votre propre clé d'API Google Books
+        $apiKey = 'AIzaSyDCJ89ClXL5q9m1rX7V5kzTOYWCxgjSn_I';
+    
+        // Effectuer une requête à l'API Google Books pour récupérer les informations du livre
+        $url = "https://www.googleapis.com/books/v1/volumes?q=isbn:{$isbn}&key={$apiKey}";
+        $response = file_get_contents($url);
+    
+        $bookData = json_decode($response, true);
+    
+        if (isset($bookData['items'])) {
+            // Récupérer les informations nécessaires du livre depuis $bookData
+            $bookInfo = $bookData['items'][0]['volumeInfo'];
+            $name_en = $bookInfo['title'];
+            $name_fr = ""; // Remplacez cette valeur par le nom français approprié si disponible
+    
+            $publisherDate = Arr::get($bookInfo, 'publisherDate', '');
+    
+            $imageLinks = Arr::get($bookInfo, 'imageLinks.thumbnail', '');
+    
+            $language = $bookInfo['language'];
+            $description = $bookInfo['description'];
+            $shortDescription = substr($description, 0, 255);
+    
+            $authorIds = [];
+            if (isset($bookInfo['authors'])) {
+                $authors = $bookInfo['authors'];
+    
+                // Enregistrer les auteurs dans la base de données et obtenir leurs IDs
+                foreach ($authors as $authorName) {
+                    $author = Author::firstOrCreate(['name_en' => $authorName,
+                    'name_fr' => $authorName,
+                    'firstname_en' => $authorName,
+                    'firstname_fr' => $authorName]);
+                    $authorIds[] = $author->id;
+                }
+            }
+           // ...
+           $publisherId = 0;
+           if (isset($bookInfo['publisher'])) {
+               $publisherName = $bookInfo['publisher'][0];
+   
+               // Rechercher l'éditeur dans la table "publishers" par nom
+               $publisher = Publisher::firstOrCreate(['name_en' => $publisherName,
+               'name_fr' => $publisherName ]);
+   
+               $publisherId = $publisher->id;
+           }
+        
+// ...
 
-        if ($validator->fails()) {
-            return redirect()->route('books.search')
-                ->withErrors($validator)
-                ->withInput();
+        //     $categoryId = 0;
+        //     if (isset($bookInfo['categories'])) {
+        //         $categoryName = $bookInfo['categories'][0];
+    
+        //         // Enregistrer la catégorie dans la base de données et obtenir son ID
+        //         $category = Category::firstOrCreate(['name_en' => $categoryName,
+        //         'name_fr' => $categoryName,
+        //         'image' =>'' ]);
+        //         $categoryId = $category->id;
+        //     }
+
+        //     $subCategoryId = 0;
+        // if (isset($bookInfo['subCategory'])) {
+        //     $subCategoryName = $bookInfo['subCategory'][0];
+
+        //     // Rechercher la sous-catégorie dans la base de données par nom
+        //     $subCategory = SubCategory::where('name_en', $subCategoryName)->orWhere('name_fr', $subCategoryName)->first();
+
+        //     if ($subCategory) {
+        //         $subCategoryId = $subCategory->id;
+        //     } else {
+        //         // Enregistrer la sous-catégorie dans la base de données et obtenir son ID
+        //         $subCategory = SubCategory::create([
+        //             'name_en' => $subCategoryName,
+        //             'name_fr' => $subCategoryName,
+        //             'category_id' => $categoryId
+        //         ]);
+        //         $subCategoryId = $subCategory->id;
+        //     }
+        // }
+    
+            $productCode = $request->product_code ?? 'art' . mt_rand(10000000, 99999999);
+    
+
+            
+            // Enregistrer les informations du livre dans la base de données
+            $book = Book::create([
+                'name_en' => $name_en,
+                'name_fr' => $name_fr,
+                'isbn' => $isbn,
+                'image' => '',
+                'prix' => $validatedData['prix'],
+                'datePublication' => $publisherDate,
+                'langue' => $language,
+                'product_code' => $productCode,
+                'product_qty' => $validatedData['product_qty'],
+                'discount_price' => $validatedData['discount_price'],
+                'short_descp_en' => '',
+                'short_descp_fr' => '',
+                'product_thambnail' => $imageLinks,
+                'special_offer' => $request->has('special_offer') ? 1 : 0,
+                'featured' => $request->has('featured') ? 1 : 0,
+                'long_descp_en' => $shortDescription,
+                'long_descp_fr' => $shortDescription,
+                'categoryBook_id' => $request->category_id,
+                'subCategory_id' => $request->subcategory_id,
+                'publisher_id' => $publisherId,
+            ]);
+    
+            // Associer les auteurs au livre
+            if (!empty($authorIds)) {
+                $book->authors()->attach($authorIds);
+            }
+    
+            return view('backend.book.book_view')->with('success', 'Le livre a été ajouté avec succès.');
+        } else {
+            return view('backend.book.book_view')->with('error', "Aucune information de livre n'a été trouvée pour cet ISBN.");
         }
-
-        // Récupérer le terme de recherche
-        $searchTerm = $request->input('isbn');
-
-        // Construire l'URL de l'API Google Books
-        $apiUrl = 'https://www.googleapis.com/books/v1/volumes?q=' . urlencode($searchTerm);
-
-        // Récupérer les données des livres à partir de l'API Google Books
-        $bookData = json_decode(file_get_contents($apiUrl), true);
-
-        // Récupérer les données utiles pour chaque livre
-        $books = [];
-        foreach ($bookData['items'] as $item) {
-            $book = [
-                'google_books_id' => $item['id'],
-                'title' => $item['volumeInfo']['title'] ?? '',
-                'author' => implode(', ', $item['volumeInfo']['authors'] ?? []),
-                'description' => $item['volumeInfo']['description'] ?? '',
-                'publication_date' => $item['volumeInfo']['publishedDate'] ?? '',
-                'page_count' => $item['volumeInfo']['pageCount'] ?? '',
-                'language' => $item['volumeInfo']['language'] ?? '',
-                'thumbnail_url' => $item['volumeInfo']['imageLinks']['thumbnail'] ?? '',
-            ];
-
-            $books[] = $book;
-        }
-
-        return view('backend.book.book_add', ['books' => $books]);
     }
 
+    public function GetBook($categoryBook_id)
+{
+    $subCategories = SubCategory::where('category_id', $categoryBook_id)->orderBy('name_en','ASC')->get();
 
-    /**
-     * Enregistrer un nouveau livre en base de données.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-
-     public function bookStore(Request $request)
-{ 
-    // Récupérer l'identifiant Google Books saisi par l'utilisateur
-    $googleBooksId = $request->isbnn;
-
-    // Construire l'URL de l'API Google Books pour récupérer les données du livre
-    $apiUrl = 'https://www.googleapis.com/books/v1/volumes/' . $googleBooksId;
-
-    // Récupérer les données du livre à partir de l'API Google Books
-    $bookData = json_decode(file_get_contents($apiUrl), true);
-    dd($bookData);
-
-    // Vérifier si le livre existe déjà en base de données
-    $existingBook = Book::where('google_books_id', $googleBooksId)->first();
-
-    if ($existingBook) {
-        // Le livre existe déjà, renvoyer une erreur
-        return response()->json(['error' => 'Ce livre existe déjà en base de données.'], 409);
-    }
-
-    // Créer un nouveau livre
-    $book = new Book;
-    $book->google_books_id = $googleBooksId;
-    $book->title = $bookData['volumeInfo']['title'] ?? '';
-    $book->author = implode(', ', $bookData['volumeInfo']['authors'] ?? []);
-    $book->description = $bookData['volumeInfo']['description'] ?? '';
-    $book->publication_date = $bookData['volumeInfo']['publishedDate'] ?? '';
-    $book->page_count = $bookData['volumeInfo']['pageCount'] ?? '';
-    $book->language = $bookData['volumeInfo']['language'] ?? '';
-    $book->thumbnail_url = $bookData['volumeInfo']['imageLinks']['thumbnail'] ?? '';
-    $book->save();
-
-    return response()->json(['success' => 'Le livre a bien été ajouté en base de données.'], 200);
+    return json_encode($subCategories);
 }
+
+        
+
+    // public function bookStore(Request $request)
+    // {
+    //     // Valider les données du formulaire
+    //     $validatedData = $request->validate([
+    //         'isbn' => 'required',
+    //         'prix' => 'required',
+    //         'product_qty' => 'required',
+    //         'discount_price' => 'required',
+    //     ]);
+    
+    //     $isbn = $validatedData['isbn'];
+    
+    //     // Supprimer les espaces et les tirets de l'ISBN
+    //     $isbn = str_replace([' ', '-'], '', $isbn);
+    
+    //     // Remplacez 'YOUR_API_KEY' par votre propre clé d'API Google Books
+    //     $apiKey = 'YOUR_API_KEY';
+    
+    //     // Effectuer une requête à l'API Google Books pour récupérer les informations du livre
+    //     $url = "https://www.googleapis.com/books/v1/volumes?q=isbn:{$isbn}&key={$apiKey}";
+    //     $response = file_get_contents($url);
+    
+    //     $bookData = json_decode($response, true);
+    
+    //     if (isset($bookData['items'])) {
+    //         // Récupérer les informations nécessaires du livre depuis $bookData
+    //         $name_en = $bookData['items'][0]['volumeInfo']['title'];
+    //         $name_fr = ""; // Remplacez cette valeur par le nom français approprié si disponible
+    
+    //         // Vérifier si la clé 'publisherDate' existe dans le tableau $bookData['items'][0]['volumeInfo']
+    //         $publisherDate = isset($bookData['items'][0]['volumeInfo']['publisherDate']) ? $bookData['items'][0]['volumeInfo']['publisherDate'] : "";
+    
+    //         // Vérifier si la clé 'imageLinks' existe dans le tableau $bookData['items'][0]['volumeInfo']
+    //         $imageLinks = isset($bookData['items'][0]['volumeInfo']['imageLinks']) ? $bookData['items'][0]['volumeInfo']['imageLinks'] : '';
+    
+    //         $language = $bookData['items'][0]['volumeInfo']['language'];
+    //         $description = $bookData['items'][0]['volumeInfo']['description'];
+    //         $shortDescription = substr($description, 0, 255);
+    
+    //         // Vérifier si des auteurs sont présents dans les informations du livre
+    //         $authorIds = [];
+    //         if (isset($bookData['items'][0]['volumeInfo']['authors'])) {
+    //             $authors = $bookData['items'][0]['volumeInfo']['authors'];
+    
+    //             // Enregistrer les auteurs dans la base de données et obtenir leurs IDs
+    //             foreach ($authors as $authorName) {
+    //                 $author = Author::firstOrCreate(
+    //                     ['name_en' => $authorName],
+    //                     ['name_fr' => '', 'firstname_en' => '', 'firstname_fr' => '']
+    //                 );
+    //                 $authorIds[] = $author->id;
+    //             }
+    //         }
+    
+    //         // Vérifier si un éditeur est présent dans les informations du livre
+    //         $publisherId = 0;
+    //         if (isset($bookData['items'][0]['volumeInfo']['publisher'])) {
+    //             $publisherName = $bookData['items'][0]['volumeInfo']['publisher'];
+    
+    //             // Enregistrer l'éditeur dans la base de données et obtenir son ID
+    //             $publisher = Publisher::firstOrCreate(
+    //                 ['name_en' => $publisherName],
+    //                 ['name_fr' => '']
+    //             );
+    //             $publisherId = $publisher->id;
+    //         }
+    
+    //         // Vérifier si une catégorie est présente dans les informations du livre
+    //         $categoryId = null;
+    // // 
+
+
+
+//     public function bookStore(Request $request)
+//     {
+//         // Valider les données du formulaire
+//         $validatedData = $request->validate([
+//             'isbn' => 'required',
+//             'price' => 'required',
+//             'product_qty' => 'required',
+//             'discount_price' => 'required',
+
+//         ]);
+    
+//         $isbn = $validatedData['isbn'];
+    
+//         // Remplacez 'YOUR_API_KEY' par votre propre clé d'API Google Books
+//         $apiKey = 'AIzaSyDCJ89ClXL5q9m1rX7V5kzTOYWCxgjSn_I';
+    
+//         // Effectuer une requête à l'API Google Books pour récupérer les informations du livre
+//         $url = "https://www.googleapis.com/books/v1/volumes?q=isbn:{$isbn}&key={$apiKey}";
+//         $response = file_get_contents($url);
+    
+//         $bookData = json_decode($response, true);
+    
+//         if (isset($bookData['items'])) {
+//             // Récupérer les informations nécessaires du livre depuis $bookData
+//             $name_en = $bookData['items'][0]['volumeInfo']['title'];
+//             $name_fr = ""; // Remplacez cette valeur par le nom français approprié si disponible
+//             $publisherDate = $bookData['items'][0]['volumeInfo']['publisherDate'];
+//             $imageLinks = $bookData['items'][0]['volumeInfo']['imageLinks'];
+//             $language = $bookData['items'][0]['volumeInfo']['language'];
+//             $description = $bookData['items'][0]['volumeInfo']['description'];
+        
+    
+//             // Vérifier si des auteurs sont présents dans les informations du livre
+//             if (isset($bookData['items'][0]['volumeInfo']['authors'])) {
+//                 $authors = $bookData['items'][0]['volumeInfo']['authors'];
+    
+//                 // Enregistrer les auteurs dans la base de données et obtenir leurs IDs
+//                 $authorIds = [];
+//                 foreach ($authors as $authorName) {
+//                     $author = Author::firstOrCreate(
+//                         ['name_en' => $authorName],
+//                         ['name_fr' => '', 'firstname_en' => '', 'firstname_fr' => '']
+//                     );
+//                     $authorIds[] = $author->id;
+//                 }
+                
+//             }
+    
+//             // Vérifier si un éditeur est présent dans les informations du livre
+//             if (isset($bookData['items'][0]['volumeInfo']['publisher'])) {
+//                 $publisherName = $bookData['items'][0]['volumeInfo']['publisher'];
+    
+//                 // Enregistrer l'éditeur dans la base de données et obtenir son ID
+//                 $publisher = Publisher::firstOrCreate(
+//                     ['name_en' => $publisherName],
+//                     ['name_fr' => '',]);
+//                 $publisherId = $publisher->id;
+//             }
+            
+//             // Vérifier si un éditeur est présent dans les informations du livre
+//             if (isset($bookData['items'][0]['volumeInfo']['categories'])) {
+//                 $categoryName = $bookData['items'][0]['volumeInfo']['categories'];
+    
+//                 // Enregistrer l'éditeur dans la base de données et obtenir son ID
+//                 $categories = Publisher::firstOrCreate(
+//                     ['name_en' => $categoryName],
+//                     ['name_fr' => '',]);
+//                 $categoryId = $categories->id;
+//             }
+
+//             $productCode = 'art' . mt_rand(10000000, 99999999);
+    
+//             // Enregistrer les informations du livre dans la base de données
+//             $book = Book::create([
+                
+//                 'name_en' => $name_en,
+//                 'name_fr' => $name_fr,
+//                 'isbn' => $isbn,
+//                 'image' =>  $imageLinks,
+//                 'prix' => $request->prix,
+//                 'datePublication' => $publisherDate,
+//                 'langue' => $language, 
+//                 'product_code' =>  $productCode,
+//                 'product_qty' => $request->product_qty,
+//                 'discount_price' => $request->discount_price,
+//                 'short_descp_en'=> $description,
+//                 'short_descp_fr'=> '',
+//                 'product_thambnail' =>  $imageLinks,
+//                 'special_offer' => $request->has('special_offer') ? 1 : 0,
+//                  'featured' => $request->has('featured') ? 1 : 0,
+//                 'long_descp_en'=> $description,
+//                 'subCategory_id'=> '',
+//                 'category_id' => $categoryId,
+//                 'publisher_id'=> $publisherId,
+
+//             ]);
+//             // Associer les auteurs au livre
+//             if (isset($authorIds)) {
+//                 $book->authors()->attach($authorIds);
+
+//             }
+    
+//             // Associer l'éditeur au livre
+//             if (isset($publisherId)) {
+//                 $book->publisher()->associate($publisherId);
+//             }
+
+            
+//             // Associer category au livre
+//             if (isset($categoryId)) {
+//                 $book->category()->attach($categoryId);
+//             }
+    
+//             return view('backend.book.book_view')->with('success', 'Le livre a été ajouté avec succès.');
+//         } 
+//     }
+    
+
+// public function bookEdit($id)
+// {
+//     $book = Book::findOrFail($id);
+//     return view('backend.book.book_view', compact('book'));
+// }
+    
 
 public function bookDelete($id)
 {

@@ -89,11 +89,11 @@
                                 <a href="{{route('edit.book',$item->id) }}" class="btn btn-warning" title="Edit data"><i class="fa fa-pencil" ></i></a>
                                 <a href="{{route('delete.book',$item->id) }}" class="btn btn-danger" title="Delete data" id="delete"><i class="fa fa-trash "></i></a>
 
-                               @if ($item->status == 1)
+                               {{-- @if ($item->status == 1)
                                <a href="{{route('bookInactiveNow',$item->id) }}" class="btn btn-danger" title="Inactive Now"><i class="fa fa-arrow-down" ></i></a>
                                 @else
                                 <a href="{{route('bookActiveNow',$item->id) }}" class="btn btn-success" title="Active Now"><i class="fa fa-arrow-up" ></i></a>
-                                @endif
+                                @endif --}}
                             </tr>
                                 {{Form::hidden('',$increment = $increment + 1)}}
                           @endforeach

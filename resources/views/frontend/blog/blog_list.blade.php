@@ -54,7 +54,7 @@
 	@endif
 	<p>@if(session()->get('language') == 'french') {!! Str::limit($blog->post_details_fr, 240 )  !!} @else {!! Str::limit($blog->post_details_en, 240 )  !!} @endif</p>
 
-                        <br>
+      <br>
 	<a href="{{ route('post.details',$blog->id) }}" class="btn btn-upper btn-primary read-more">@if(session()->get('language') == 'french')Lire plus @else read more @endif</a>
    
 
@@ -103,7 +103,7 @@
 			<div class="cat">
  @forelse($blogcategory as $category)
 	    	 <ul class="list-group">
-  <a href="{{ url('blog/category/post/'.$category->id) }}"><li class="list-group-item">@if(session()->get('language') == 'french') {{ $category->name_fr }} @else {{ $category->name_en }} @endif</li></a>
+  <a href="{{ route('blog.category.post',$category->id) }}"><li class="list-group-item">@if(session()->get('language') == 'french') {{ $category->name_fr }} @else {{ $category->name_en }} @endif</li></a>
 
    </ul>
   

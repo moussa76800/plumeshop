@@ -20,10 +20,19 @@
  <div class="">
 	<div class="container">
 		<div class="breadcrumb-inner">
+			
 			<ul class="list-inline ">
-				<li><a href="{{ '/' }} "style="color: red" ;>@if(session()->get('language') == 'french')Accueil @else Home @endif/</a></li>
+				<li><a href="{{ '/' }} "style="color: red" ;>@if (session()->get('language') == 'french')Accueil @else Home @endif/</a></li>
 				<li class='active'style="color:  #00008B;">Blog /</li>
-				<li class='active' style="color:  #00008B;">@if(session()->get('language') == 'french'){{ $postDetail->post_title_en }} @else {{ $postDetail->post_title_en }} @endif</li>
+			@foreach(  $postDetail as $item)
+			<li class='active' style="color:  #00008B ;" >@if (session()->get('language') == 'french'){{ $item->category->name_fr }} @else  {{ $item->category->name_en }} @endif /</li>
+			@endforeach
+	
+			@foreach($postDetail as $item)
+			<li class='active' style="color:  #00008B;">@if(session()->get('language') == 'french'){{ $item->post_title_en }} @else {{ $item->post_title_en }} @endif</li>
+			@endforeach
+
+				
 			</ul>
 		</div><!-- /.breadcrumb-inner -->
 	</div><!-- /.container -->
@@ -144,8 +153,9 @@ height: 270px;">
             <div class="cat">
 @forelse($blogcategory as $category)
 	    	 <ul class="list-group">
-  <a href="{{ url('blog/category/post/'.$category->id) }}"><li class="list-group-item">@if(session()->get('language') == 'french') {{ $category->name_fr }} @else {{ $category->name_en }} @endif</li></a>
+  <a href="{{  route('blog.category.post',$category->id) }}"><li class="list-group-item">@if(session()->get('language') == 'french') {{ $category->name_fr }} @else {{ $category->name_en }} @endif</li></a>
       </ul>
+
       
       @empty
       <h5 class="text-danger">@if (session()->get('language') == 'french')<b> Pas de contenu de Blog Trouvé dans cette catégorie !! @else No blog content found in this category</b> @endif !!</h5>

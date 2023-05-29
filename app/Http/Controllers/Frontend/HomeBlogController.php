@@ -11,7 +11,7 @@ class HomeBlogController extends Controller
 {
     public function viewHomeBlog(){
         $blogcategory = BlogPostCategory::latest()->get();
-    	$blogpost = BlogPost::latest()->get();
+    	$blogpost = BlogPost::with('category')->latest()->get();
     	return view('frontend.blog.blog_list',compact('blogpost','blogcategory'));
     } 
 

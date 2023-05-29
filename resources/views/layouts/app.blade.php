@@ -1,3 +1,6 @@
+@php
+require_once __DIR__ . '/vendor/autoload.php';
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>

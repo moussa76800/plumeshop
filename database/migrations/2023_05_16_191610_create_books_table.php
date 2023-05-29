@@ -22,7 +22,7 @@ class CreateBooksTable extends Migration
             $table->float('prix');
             $table->string('datePublication');
             $table->string('langue');
-            $table->Integer('product_code');
+            $table->string('product_code');
             $table->Integer('product_qty');
             $table->integer('discount_price')->nullable();
             $table->string('short_descp_en');
