@@ -176,7 +176,10 @@ $setting = App\Models\SiteSetting::find(1);
               <div class="nav-outer">
                 <ul class="nav navbar-nav">
                   <li class="active dropdown yamm-fw"><a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french')Accueil @else Home @endif</a></li>
-                  @php
+                  <li class="active dropdown yamm-fw"><a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french')A-propos @else About @endif</a></li>
+                  <li class="active dropdown yamm-fw"><a href="{{ route('donate_book') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french')Donnez vos livres @else Donate your Books @endif</a></li>
+                  <li class="active dropdown yamm-fw"><a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french')Boutique @else Shop @endif</a></li>
+                  {{-- @php
                       $categories = App\Models\Category::orderBy('name_en' , 'ASC')->get();
                   @endphp
 
@@ -194,13 +197,13 @@ $setting = App\Models\SiteSetting::find(1);
                          <div class="col-xs-8 col-sm-6 col-md-4 col-menu banner-image"> <img class="img-responsive"  src="{{ asset($category->image) }}"alt="" width="100" height="100"> </div>
                                 @foreach ($subCategories as $sub)                  
                               <div class="col-xs-6 col-sm-6 col-md-2 col-menu">
-                              {{-- <h2 class="title"></h2> --}}
+                              {{-- <h2 class="title"></h2> 
                                   
                                       <a href="{{ url('subCategory/book/'.$sub->id.'/'.$sub->name_en ) }}" style="color: #333; font-weight: bold;">@if (session()->get('language') == 'french'){{ $sub->name_fr }} @else {{ $sub->name_en }} @endif</a>
                               
                             </div> 
                             @endforeach
-                            <!-- /.col -->
+                            <!-- /.col --> 
                             
                            
                             
@@ -211,7 +214,7 @@ $setting = App\Models\SiteSetting::find(1);
                       </li>
                     </ul>
                   </li>
-                  @endforeach
+                  @endforeach--}}
                  
                   <li class="dropdown  navbar-right special-menu"> <a href="{{route('donate_book')}}">@if (session()->get('language') == 'french')Donnez vos Livres @else Donate your Books @endif</a> </li>
                   <li class="dropdown  navbar-right special-menu"> <a href="{{route('view.HomeBlog')}}">Blog</a> </li>

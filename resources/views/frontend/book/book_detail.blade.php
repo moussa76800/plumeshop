@@ -1,7 +1,7 @@
 @extends('frontend.main_master')
 @section('content')
 @section('title')
-@if (session()->get('language') == 'french'){{ $book->name_fr }} - Détail du Livre @else {{ $book->name_en }} - Book Detail @endif
+@if (session()->get('language') == 'french'){{ $book->name_fr }} - Détail du Livre @else {{ $book->title }} - Book Detail @endif
 @endsection
 
 <div class="breadcrumb">
@@ -378,7 +378,7 @@
 </div><!-- /.gallery-holder -->        			
 <div class='col-sm-6 col-md-7 product-info-block'>
 <div class="product-info">
-<h1 class="name" id="pname">@if (session()->get('language') == 'french'){{ $book->name_fr }} @else {{ $book->name_en }} @endif</h1>
+<h1 class="name" id="pname">{{ $book->title }} </h1>
 
 <div class="rating-reviews m-t-20">
 <div class="row">
@@ -409,7 +409,7 @@
 </div><!-- /.stock-container -->
 
 <div class="description-container m-t-20">
-@if (session()->get('language') == 'french'){{ $book->short_descp_en }}@else {{  $book->short_descp_fr }} @endif
+{{ $book->long_descp }}
 </div><!-- /.description-container -->
 
 <div class="price-container info-container m-t-20">
@@ -419,12 +419,12 @@
 	<div class="col-sm-6">
 		<div class="price-box">
 			@if ($book->discount_price == NULL)
-				<span class="price">@if (session()->get('language') == 'french') € {{ $book->prix }} @else $ {{ $book->prix }} @endif</span>
+				<span class="price">@if (session()->get('language') == 'french') € {{ $book->price }} @else $ {{ $book->price }} @endif</span>
 			@else
 			
-				<span class="price">@if (session()->get('language') == 'french') € {{ $book->prix - $book->discount_price }} @else
-				$ {{$book->prix - $book->discount_price  }} </span> @endif</span>
-				<span class="price-strike">@if (session()->get('language') == 'french') € {{ $book->prix }} @else $ {{ $book->prix }} @endif</span>
+				<span class="price">@if (session()->get('language') == 'french') € {{ $book->price - $book->discount_price }} @else
+				$ {{$book->price - $book->discount_price  }} </span> @endif</span>
+				<span class="price-strike">@if (session()->get('language') == 'french') € {{ $book->price }} @else $ {{ $book->price }} @endif</span>
 			@endif
 		
 			
@@ -504,7 +504,7 @@
 
 <div id="description" class="tab-pane in active">
 	<div class="product-tab">
-		<p class="text">@if (session()->get('language') == 'french'){!! $book->long_descp_en  !!}@else {!!  $book->long_descp_fr !!} @endif</p>
+		<p class="text">{!! $book->long_descp !!}</p>
 	</div>	
 </div><!-- /.tab-pane -->
 
@@ -532,7 +532,7 @@
 								</div>
 							</div> <!-- EndRow -->
 								<div class="review-title">
-									<span class="summary">{{ $item->summary }}</span>
+									<span class="summary">{{ $item->message->summary }}</span>
 										
 									<span class="date"><i class="fa fa-calendar"></i><span>
 										@if(session()->get('language') == 'english') 
@@ -699,7 +699,7 @@
 <div class="product">		
 	<div class="product-image">
 		<div class="image">
-			<a href="{{ url('book/detail/'.$book->id.'/'.$book->name_en ) }}"><img  src="{{ asset($book->product_thambnail) }}" alt=""></a>
+			<a href="{{ url('book/detail/'.$book->id.'/'.$book->title ) }}"><img  src="{{ asset($book->image) }}" alt=""></a>
 		</div><!-- /.image -->			
 
 					<div class="tag sale"><span>sale</span></div>            		   
@@ -707,8 +707,7 @@
 
 
 <div class="product-info text-left">
-<h3 class="name"><a href="{{ url('book/detail/'.$book->id.'/'.$book->name_en ) }}">
-@if(session()->get('language') == 'french') {{ $book->name_fr }} @else {{ $book->name_en }} @endif</a></h3>
+<h3 class="name"><a href="{{ url('book/detail/'.$book->id.'/'.$book->title ) }}"> {{ $book->title }}</a></h3>
 <div class="rating rateit-small"></div>
 <div class="description"></div>
 
@@ -718,7 +717,7 @@
 @if ($book->discount_price == NULL)
 <div class="product-price">	
 <span class="price">
-	@if (session()->get('language') == 'french') € {{ $book->prix }} @else $ {{ $book->prix }} @endif</span> 
+	@if (session()->get('language') == 'french') € {{ $book->price }} @else $ {{ $book->price }} @endif</span> 
 </div>
 <!-- /.product-price -->
 @else
@@ -726,7 +725,7 @@
 <div class="product-price">	
 <span class="price">
 	@if (session()->get('language') == 'french') € {{ $book->discount_price }} @else $ {{ $book->discount_price }} @endif</span>
-<span class="price-before-discount">@if (session()->get('language') == 'french') € {{ $book->prix }} @else $ {{ $book->prix }} @endif</span> 							
+<span class="price-before-discount">@if (session()->get('language') == 'french') € {{ $book->price }} @else $ {{ $book->price }} @endif</span> 							
 </div><!-- /.product-price -->
 @endif
 

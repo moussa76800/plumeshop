@@ -17,6 +17,7 @@
                     <h5> ISBN<span class="text-danger">*</span></h5>
                     <input type="text" class="form-control" id="isbn" name="isbn" required>
                 </div>
+                    
                 <div class="form-group">
                     <h5> Price<span class="text-danger">*</span></h5>
                     <div class="controls">
@@ -48,7 +49,7 @@
                                     <select name="category_id" class="form-control" required="" >
                                         <option value="" selected="" disabled="">Select Category</option>
                                         @foreach($categories as $category)
-                             <option value="{{ $category->id }}">{{ $category->name_en }}</option>	
+                             <option value="{{ $category->id }}">{{ $category->name }}</option>	
                                         @endforeach
                                     </select>
                                     @error('category_id') 
@@ -58,18 +59,20 @@
                                      </div>
                                      </div>
                                      </div>
-                                     <div class="form-group">
-                                        <h5>SubCategory Select <span class="text-danger">*</span></h5>
-                                        <div class="controls">
-                                            <select name="subcategory_id" class="form-control" required="" >
-                                                <option value="" selected="" disabled="">Select SubCategory</option>
-                                                 
-                                            </select>
-                                            @error('subcategory_id') 
-                                         <span class="text-danger">{{ $message }}</span>
-                                         @enderror 
-                                         </div>
-                                             </div>
+                            <div class="form-group">
+                            <h5>SubCategory Select <span class="text-danger">*</span></h5>
+                            <div class="controls">
+                                <select name="subCategory_id" class="form-control" required="" >
+                                    <option value="" selected="" disabled="">Select SubCategory</option>
+                                    @foreach($subcategory as $sub)
+                                    <option value="{{ $sub->id }}">{{ $sub->name }}</option>	
+                                               @endforeach
+                                </select>
+                                @error('subCategory_id') 
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror 
+                                </div>
+                                    </div> 
                             
 
               
@@ -102,15 +105,6 @@
         </div>
     </div>
     <hr>
-    {{-- <div class="book-info">
-        <img src="book_cover.jpg" alt="Book Cover">
-        <h2> Nom :{{ $name_en}}</h2>
-        <p>Author: {{ $authorName}}</p>
-        <p>ISBN: {{ $book->isbn }}</p>
-        <p>Publisher: {{ $book->Publisher->name }}</p>
-        <p>Published Date: 01-01-2022</p>
-        <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec ultricies quam. Praesent vestibulum, sapien vitae blandit congue, lectus ipsum gravida elit, quis tempor est quam at orci. Nam consequat lobortis dolor, in tempor sapien bibendum ac. Sed semper, nibh vitae iaculis viverra, nisi mauris tristique augue, eu accumsan dolor orci vel est.</p>
-      </div> --}}
       
 </div>
                 
@@ -129,7 +123,7 @@
                 success:function(data) {
                     var d= $('select[name="subcategory_id"]').empty();
                     $.each(data, function(key, value){
-                        $('select[name="subcategory_id"]').append('<option value="'+value.id +'">' +value.name_en + '</option>');
+                        $('select[name="subcategory_id"]').append('<option value="'+value.id +'">' +value.name+ '</option>');
                     });
                 },
             });
@@ -156,7 +150,7 @@ function mainThamUrl(input){
 
 
 <!-- ================================= Start Show Multi Image JavaScript Code. ==================== -->
-<script>
+{{-- <script>
  
     $(document).ready(function(){
      $('#multiImg').on('change', function(){ //on file input change
@@ -184,7 +178,7 @@ function mainThamUrl(input){
      });
     });
      
-    </script>
+    </script> --}}
 <!--  ================================= End Show Multi Image JavaScript Code. ==================== -->
 
 @endsection

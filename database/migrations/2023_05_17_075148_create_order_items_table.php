@@ -21,7 +21,6 @@ class CreateOrderItemsTable extends Migration
             $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
             $table->string('qty');
             $table->float('price',8,2);
-
             $table->timestamps();
         });
     }

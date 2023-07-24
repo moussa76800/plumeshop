@@ -6,27 +6,25 @@ use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use Intervention\Image\Facades\Image;
-use PhpParser\Builder\Function_;
-use PhpParser\Node\Expr\FuncCall;
+
 
 class SubCategoryController extends Controller
 {
     public function SubCategoryView() {
 
-        $subCategory = SubCategory::latest()->get();
+        $subCategory = SubCategory::get();
         return view('backend.subCategory.subCategory_view' , compact('subCategory'));
        }
 
        public function GetSubCategory($category_id){
-         $subcat = SubCategory::where('category_id', $category_id)->orderBy('name_en','ASC')->get();
+         $subcat = SubCategory::where('category_id', $category_id)->get('name');
          return json_encode($subcat);
        }
                 # code...
        
     
        public function SubCategoryAdd() {
-        $categories = Category::orderBy('name_en','ASC')->get();
+        $categories = Category::orderBy('name','ASC')->get();
         return view('backend.subcategory.subcategory_add', compact('categories'));
        }
     
@@ -34,16 +32,14 @@ class SubCategoryController extends Controller
     
           $request-> validate([
           'category_id' =>'required',
-          'name_en' => 'required' ,
-          'name_fr' => 'required' ,
+          'name' => 'required' ,
           
           ]);
     
           
           SubCategory::insert([
             'category_id'=> $request->category_id,
-             'name_en' => strtolower((str_replace(' ','-',$request->name_en))),
-             'name_fr' => str_replace(' ','-',$request->name_fr),
+             'name' => strtolower((str_replace(' ','-',$request->name))),
              
           ]);
     
@@ -58,7 +54,7 @@ class SubCategoryController extends Controller
     
        public function subCategoryEdit($id){
 
-        $categorie = Category::orderBy('name_en','ASC')->get();
+        $categorie = Category::orderBy('name','ASC')->get();
         $subCategory = SubCategory::findOrFail($id);
         return  view('backend.subcategory.subcategory_edit',compact('subCategory', 'categorie'));
     
@@ -70,8 +66,7 @@ class SubCategoryController extends Controller
           $subcategory_id = $request->id;
        
              SubCategory::findOrFail($subcategory_id)->update([
-                'name_en' => strtolower((str_replace(' ','-',$request->name_en))),
-                'name_fr' => str_replace(' ','-',$request->name_fr),
+                'name' => strtolower((str_replace(' ','-',$request->name))),
                
              ]);
        

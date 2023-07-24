@@ -19,28 +19,10 @@
 
 
         <div class="form-group">
-            <h5> @if (session()->get('language') == 'english')  Name English  @else Nom en Anglais @endif <span class="text-danger">*</span></h5>
+            <h5> @if (session()->get('language') == 'english')  Name   @else Nom  @endif <span class="text-danger">*</span></h5>
             <div class="controls">
-                <input type="text" name="name_en" class="form-control" value="{{ $category->name_en }}">
+                <input type="text" name="name_en" class="form-control" value="{{ $category->name }}">
                     @error('name_en')
-                    <span class="text-danger">{{ $message}} </span>
-                    @enderror
-            </div>
-        </div>
-        <div class="form-group">
-            <h5> @if (session()->get('language') == 'english')  Name French  @else Nom en Francais @endif <span class="text-danger">*</span></h5>
-            <div class="controls">
-                <input type="text" name="name_fr" class="form-control" value="{{ $category->name_fr }}">
-                    @error('name_fr')
-                    <span class="text-danger">{{ $message}} </span>
-                    @enderror
-            </div>
-        </div>
-        <div class="form-group">
-            <h5> Category Image <span class="text-danger">*</span></h5>
-            <div class="controls">
-                <input type="file" name="image" class="form-control" value="{{('upload/category/'.$category->image)}}">
-                    @error('image')
                     <span class="text-danger">{{ $message}} </span>
                     @enderror
             </div>

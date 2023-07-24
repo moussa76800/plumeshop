@@ -24,8 +24,7 @@
                       <thead>
                           <tr>
                               <th> @if (session()->get('language') == 'english')Number @else Numéro @endif </th>
-                              <th> @if (session()->get('language') == 'english') Blog Category English @else Catégorie en Anglais @endif </th>
-                              <th> @if (session()->get('language') == 'english') Blog Category French @else Catégorie en Francais @endif </th>
+                              <th> @if (session()->get('language') == 'english') Blog Category  @else Catégorie @endif </th>
                               <th>Action</th>
                           </tr>
                       </thead>
@@ -35,8 +34,7 @@
                         
                           <tr>
                               <td>{{$increment}}</td>
-                              <td>{{ $item->name_en}}</td>
-                              <td>{{ $item->name_fr}}</td>
+                              <td>{{ $item->name}}</td>
                               <td>
                                 <a href="{{route('edit.blogCategory',$item->id) }}" class="btn btn-warning" title="Edit data"><i class="fa fa-pencil"></i></a>
                                 <a href="{{route('delete.blogCategory',$item->id) }}" class="btn btn-danger" title="Delete data" id="delete"><i class="fa fa-trash "></i></a> 

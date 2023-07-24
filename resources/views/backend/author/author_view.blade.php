@@ -24,10 +24,7 @@
                       <thead>
                           <tr>
                               <th>Number</th>
-                              <th>name_en</th>
-                              <th>name_fr</th>
-                              <th>firstname_en</th>
-                              <th>firstname_fr</th>
+                              <th>name</th>
                               <th>Action</th>
                           </tr>
                       </thead>
@@ -36,10 +33,7 @@
                                                     
                           <tr>
                               <td>{{$increment}}</td>
-                              <td>{{ $item->name_en}}</td>
-                              <td>{{ $item->name_fr}}</td>
-                              <td>{{ $item->firstname_en}}</td>
-                              <td>{{ $item->firstname_fr}}</td>
+                              <td>{{ $item->name}}</td>
                               <td>
                                 <a href="{{route('edit.author',$item->id) }}" class="btn btn-warning" title="Edit data"><i class="fa fa-pencil" ></i></a>
                                 <a href="{{route('delete.author',$item->id) }}" class="btn btn-danger" title="Delete data" id="delete"><i class="fa fa-trash "></i></a>

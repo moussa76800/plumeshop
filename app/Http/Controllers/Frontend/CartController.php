@@ -32,10 +32,10 @@ class CartController extends Controller
                 'id' => $id, 
                 'name' => $request->book_name, 
                 'qty' =>$request->quantity, 
-                'price' => $book->prix ,
+                'price' => $book->price ,
                 'weight' => 1  ,
                 'options' => [
-    				'image' => $book->product_thambnail,
+    				'image' => $book->image,
                 ],
                ]);
                         if (session()->get('language') == 'french'){ 
@@ -50,10 +50,10 @@ class CartController extends Controller
                 'id' => $id, 
                 'name' => $request->book_name, 
                 'qty' =>$request->quantity, 
-                'price' => ($book->prix - $book->discount_price) ,
+                'price' => ($book->price - $book->discount_price) ,
                 'weight' => 1  ,
                 'options' => [
-    				'image' => $book->product_thambnail,
+    				'image' => $book->image,
                     ],
                 ]);
                         if (session()->get('language') == 'french'){ 
@@ -98,7 +98,6 @@ class CartController extends Controller
                     Wishlist::insert([
                         'user_id' => Auth::id(), 
                         'book_id' => $book_id, 
-                        'created_at' => Carbon::now(), 
                     ]);
                     
                         if (session()->get('language') == 'french') {
@@ -127,9 +126,9 @@ class CartController extends Controller
     public function couponApply(Request $request){
        
         if(session()->get('language') == 'french'  ){
-            $coupon = Coupon::where('name_fr', $request->coupon_name)->where('validity', '>=' , Carbon::now()->format('Y-m-d'))->first();
+            $coupon = Coupon::where('name', $request->coupon_name)->where('validity', '>=' , Carbon::now()->format('Y-m-d'))->first();
                 Session::put('coupon',[
-                   'coupon_name' => $coupon->name_fr ,
+                   'coupon_name' => $coupon->name ,
                    'coupon_discount' => $coupon->coupon_discount ,
                    'discount_amount' => round((Cart::total() * $coupon->coupon_discount)/100) ,
                    'total_amount' => round(Cart::total() - (Cart::total() * $coupon->coupon_discount/100)) 
@@ -137,17 +136,7 @@ class CartController extends Controller
                 return response()->json(array(
                     'success' => 'Le Couponde réduction a bien été appliqué..'
                 ));
-        }else if(session()->get('language') == 'english'  ) { 
-                $coupon = Coupon::where('name_en', $request->coupon_name)->where('validity', '>=' , Carbon::now()->format('Y-m-d'))->first();
-                Session::put('coupon',[
-                    'coupon_name' => $coupon->name_en ,
-                    'coupon_discount' => $coupon->coupon_discount ,
-                    'discount_amount' => round((Cart::total() * $coupon->coupon_discount)/100) ,
-                    'total_amount' => round(Cart::total() - (Cart::total() * $coupon->coupon_discount/100)) 
-                ]);
-                return response()->json(array(
-                    'success' => 'Coupon Applied Successfully'
-                ));
+        
          }else{
                 return response()->json(['error' => 'Invalid Coupon']);
             }
@@ -161,10 +150,10 @@ class CartController extends Controller
             $cartQty = Cart::count();
             $cartTotal = Cart::total();
     
-            $common = ShipCommon::orderBy('name','ASC')->get();
-            $town = ShipTown::orderBy('name','ASC')->get();
-            $country = ShipCountry::orderBy('name','ASC')->get();
-            return view('frontend.checkout.checkout_view',compact('carts','cartQty','cartTotal', 'common', 'town' , 'country'));
+            $user = Auth::user();
+            $address = $user->address;
+            $country = $address->country; // Utilisez la relation pour récupérer le pays associé à l'adresse
+            return view('frontend.checkout.checkout_view',compact('carts','cartQty','cartTotal', 'address' , 'country'));
                     
                 }else{
     

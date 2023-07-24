@@ -1,5 +1,7 @@
+
 @extends('frontend.main_master')
 @section('content')
+
     
 
 <!-- ============================================== login ============================================== -->
@@ -98,6 +100,53 @@
            </span>   
            @enderror
 		</div>
+		<div class="form-group">
+			<label class="info-title" for="street">@if(session()->get('language') == 'french') Rue @else Street @endif <span>*</span></label>
+			<input type="text" id="street" name="street" class="form-control unicase-form-control text-input">
+			@error('street')
+				<span class="invalid-feedback" role="alert">
+					<strong>{{ $message }}</strong>
+				</span>   
+			@enderror
+		</div>
+		
+		<div class="form-group">
+			<label class="info-title" for="number">@if(session()->get('language') == 'french') Numéro @else Number @endif <span>*</span></label>
+			<input type="text" id="number" name="number" class="form-control unicase-form-control text-input">
+			@error('number')
+				<span class="invalid-feedback" role="alert">
+					<strong>{{ $message }}</strong>
+				</span>   
+			@enderror
+		</div>
+		
+		<div class="form-group">
+			<label class="info-title" for="city">@if(session()->get('language') == 'french') Ville @else City @endif <span>*</span></label>
+			<input type="text" id="city" name="city" class="form-control unicase-form-control text-input">
+			@error('city')
+				<span class="invalid-feedback" role="alert">
+					<strong>{{ $message }}</strong>
+				</span>   
+			@enderror
+		</div>
+		@php
+		$countries = App\Models\ShipCountry::all();
+		 @endphp
+		<div class="form-group">
+			<label class="info-title" for="country_id">Country <span>*</span></label>
+			<select id="country_id" name="country_id" class="form-control">
+				@foreach ($countries as $country)
+					<option value="{{ $country->id }}">{{ $country->name }}</option>
+				@endforeach
+			</select>
+			@error('country_id')
+				<span class="invalid-feedback" role="alert">
+					<strong>{{ $message }}</strong>
+				</span>   
+			@enderror
+		</div>
+		
+		
         <div class="form-group">
 		    <label class="info-title" for="exampleInputEmail1">@if(session()->get('language') == 'french')Mot de Passe @else Password @endif <span>*</span></label>
 		    <input type="password" id="password" name="password" class="form-control unicase-form-control text-input"  >

@@ -10,20 +10,20 @@ use App\Models\Blog\BlogPostCategory;
 class HomeBlogController extends Controller
 {
     public function viewHomeBlog(){
-        $blogcategory = BlogPostCategory::latest()->get();
+        $blogcategory = BlogPostCategory::all();
     	$blogpost = BlogPost::with('category')->latest()->get();
     	return view('frontend.blog.blog_list',compact('blogpost','blogcategory'));
     } 
 
     public function HomeBlogDetail($id){
-        $blogcategory = BlogPostCategory::latest()->get();
+        $blogcategory = BlogPostCategory::all();
         $postDetail = BlogPost::findOrFail($id);
         return view('frontend.blog.blog_details',compact('postDetail','blogcategory'));
     }
 
     public function HomeBlogCatPost($category_id){
 
-    	$blogcategory = BlogPostCategory::latest()->get();
+    	$blogcategory = BlogPostCategory::all();
     	$blogpost = BlogPost::where('category_id',$category_id)->orderBy('id','DESC')->get();
     	return view('frontend.blog.blog_cat_list',compact('blogpost','blogcategory'));
 

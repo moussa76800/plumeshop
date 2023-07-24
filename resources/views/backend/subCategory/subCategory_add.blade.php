@@ -22,7 +22,7 @@
                             <select name="category_id" id="select" required="" class="form-control">
                                 <option value="" selected="" disabled="">Select the Category</option>
                                  @foreach($categories as $category)                
-                                <option value="{{$category->id }}">{{ $category->name_en }}</option>
+                                <option value="{{$category->id }}">{{ $category->name }}</option>
                                 @endforeach
                             </select>
                             @error('category_id')
@@ -32,19 +32,10 @@
         </div>
 							
         <div class="form-group">
-            <h5> subCategory Name English <span class="text-danger">*</span></h5>
+            <h5> subCategory Name  <span class="text-danger">*</span></h5>
             <div class="controls">
-                <input type="text" name="name_en" class="form-control">
-                    @error('name_en')
-                    <span class="text-danger">{{ $message}} </span>
-                    @enderror
-            </div>
-        </div>
-        <div class="form-group">
-            <h5> subCategory Name French <span class="text-danger">*</span></h5>
-            <div class="controls">
-                <input type="text" name="name_fr" class="form-control">
-                    @error('name_fr')
+                <input type="text" name="name" class="form-control">
+                    @error('name')
                     <span class="text-danger">{{ $message}} </span>
                     @enderror
             </div>

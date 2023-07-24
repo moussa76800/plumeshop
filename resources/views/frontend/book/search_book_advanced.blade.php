@@ -75,21 +75,12 @@
                     
     
                 @foreach($books as $item)
-                @if (session()->get('language') == 'english')
-       <a href="{{ url('book/detail/'.$item->id.'/'.$item->name_en ) }}">
-                    <div class="list border-bottom">  <img src="{{ asset($item->product_thambnail) }}" style="width: 30px; height: 30px;"> 
+       <a href="{{ url('book/detail/'.$item->id.'/'.$item->title ) }}">
+                    <div class="list border-bottom">  <img src="{{ asset($item->image) }}" style="width: 30px; height: 30px;"> 
                         
-       <div class="d-flex flex-column ml-3" style="margin-left: 10px;"> <span>{{ $item->name_en }} </span> <small> ${{ $item->prix }}</small> </div>
+       <div class="d-flex flex-column ml-3" style="margin-left: 10px;"> <span>{{ $item->title }} </span> <small> ${{ $item->price }}</small> </div>
                     </div>
                     </a>
-                @else
-                <a href="{{ url('book/detail/'.$item->id.'/'.$item->name_fr ) }}">
-                    <div class="list border-bottom">  <img src="{{ asset($item->product_thambnail) }}" style="width: 30px; height: 30px;"> 
-                        
-       <div class="d-flex flex-column ml-3" style="margin-left: 10px;"> <span>{{ $item->name_fr }} </span> <small> ${{ $item->prix }}</small> </div>
-                    </div>
-                    </a>
-                @endif
 
                     @endforeach
                     

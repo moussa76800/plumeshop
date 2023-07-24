@@ -18,7 +18,6 @@ class CreateMultiImgsTable extends Migration
             $table->unsignedBigInteger('book_id');
             $table->string('photo_name');
             $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
-            $table->timestamps();
         });
     }
 

@@ -2,7 +2,7 @@
 @section('admin')
  
 
-@php
+{{-- @php
 	$date = date('d-m-y');
 	$today = App\Models\Order::where('order_date',$date)->sum('amount');
 	$month = date('F');
@@ -10,7 +10,31 @@
     $year = date('Y');
 	$year = App\Models\Order::where('order_year',$year)->sum('amount');
     $pending = App\Models\Order::where('status','pending')->get();
-@endphp 
+@endphp  --}}
+
+@php
+	$date = date('d-m-y');
+	$today = App\Models\Order::join('shipping_methods', 'orders.id', '=', 'shipping_methods.order_id')
+				->where('orders.order_date', $date)
+				->sum('shipping_methods.amount');
+
+	$month = date('F');
+	$monthAmount = App\Models\Order::join('shipping_methods', 'orders.id', '=', 'shipping_methods.order_id')
+					->where('orders.order_month', $month)
+					->sum('shipping_methods.amount');
+
+	$year = date('Y');
+	$yearAmount = App\Models\Order::join('shipping_methods', 'orders.id', '=', 'shipping_methods.order_id')
+					->where('orders.order_year', $year)
+					->sum('shipping_methods.amount');
+
+    $pending = App\Models\Order::whereHas('orderStatus', function ($query) {
+   $query->where('pending_date', 'pending');
+})->get();
+
+@endphp
+
+
 
 <div class="container-full">
 
@@ -82,7 +106,9 @@
 </div>
 
 @php
-$orders = App\Models\Order::where('status','pending')->orderBy('id','DESC')->get();
+$orders = App\Models\Order::whereHas('orderStatus', function ($query) {$query->whereNotNull('pending_date');
+})->orderBy('id', 'DESC')->get();
+
 @endphp
 
 
@@ -119,7 +145,7 @@ $orders = App\Models\Order::where('status','pending')->orderBy('id','DESC')->get
 
         <td>
             <span class="text-fade font-weight-600 d-block font-size-16">
-                $ {{ $item->amount }}
+                $ {{ $item->shippingMethod->amount }}
             </span>
              
         </td>
@@ -127,11 +153,35 @@ $orders = App\Models\Order::where('status','pending')->orderBy('id','DESC')->get
         <td>
              
             <span class="text-white font-weight-600 d-block font-size-16">
-                {{ $item->payment_method }}
+                {{ $item->shippingMethod->payment_method }}
             </span>
         </td>
         <td>
-            <span class="badge badge-primary-light badge-lg">{{ $item->status }}</span>
+            <span class="badge badge-primary-light badge-lg"><td>
+                <span class="badge badge-primary-light badge-lg">
+                    @if($item->orderStatus->pending_date)        
+            <span class="badge badge-pill badge-warning" style="background: #800080;">Pending  </span>
+    
+            @elseif($item->orderStatus->processing_date)
+            <span class="badge badge-pill badge-warning" style="background: #FFA500;">Processing </span>
+  
+            @elseif($item->orderStatus->shipped_date)
+            <span class="badge badge-pill badge-warning" style="background: #808080;">Shipped </span>
+  
+            @elseif($item->orderStatus->delivered_date)
+            <span class="badge badge-pill badge-warning" style="background: #008000;">Delivered </span>
+  
+            @elseif($item->orderStatus->return_order == 1) 
+              <span class="badge badge-pill badge-warning" style="background:red;">Return Requested  </span>
+    
+             @else
+      <span class="badge badge-pill badge-warning" style="background: #FF0000;">Cancel  </span>
+    
+          @endif
+    
+                </span>
+            </td>
+            </span>
         </td>
 
         <td class="text-right">

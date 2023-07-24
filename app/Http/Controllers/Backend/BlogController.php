@@ -25,12 +25,9 @@ class BlogController extends Controller
     public function storeBlogCategory(Request $request) {
         $request-> validate([
             'name_en' => 'required' ,
-            'name_fr' => 'required' ,
             ]);
         BlogPostCategory::insert([
-            'name_en' =>$request->name_en,
-            'name_fr' => $request->name_fr,
-            'created_at' => Carbon::now(),
+            'name' =>$request->name_en,
             ]);
             if (session()->get('language') == 'english'){ 
             $notification = array(
@@ -58,10 +55,7 @@ class BlogController extends Controller
 
              $blogCategory_id = $request->id;
              BlogPostCategory::findOrFail($blogCategory_id)->update([
-              'name_en' => $request->name_en,
-              'name_fr' => $request->name_fr,
-              'updated_at' => Carbon::now(),
-              
+              'name' => $request->name_en,    
            ]);
 
           if (session()->get('language') == 'english'){ 
@@ -123,10 +117,9 @@ class BlogController extends Controller
             $request-> validate([
                 'category_id' =>'required',
                 'post_title_en' => 'required' ,
-                'post_title_fr' => 'required' ,
                 'post_image' => 'required' ,
                 'post_details_en' => 'required' ,
-                'post_details_fr' => 'required' ,
+
              ]);
 
              $image = $request->file('post_image');
@@ -135,11 +128,9 @@ class BlogController extends Controller
     	$save_url = 'upload/post/'.$name_gen;
                  BlogPost::insert([
                     'category_id' =>  $request->category_id,
-                    'post_title_en' =>   $request->post_title_en ,
-                    'post_title_fr' =>   $request->post_title_fr ,
+                    'post_title' =>   $request->post_title_en ,
                     'post_image' =>   $save_url ,
-                    'post_details_en' =>   $request->post_details_en ,
-                    'post_details_fr' =>   $request->post_details_fr ,
+                    'post_details' =>   $request->post_details_en ,
                     'created_at' => Carbon::now(),
                     ]);
 
@@ -159,7 +150,7 @@ class BlogController extends Controller
 
             public function editBlogPost($id){
                 $editBlogPost = BlogPost::find($id);
-                $blogCategory = BlogPostCategory::orderBy('name_en','ASC')->get();
+                $blogCategory = BlogPostCategory::orderBy('name','ASC')->get();
               return view('backend.blog.post.edit', compact('editBlogPost', 'blogCategory')); 
               }
 
@@ -179,11 +170,9 @@ class BlogController extends Controller
             
                     BlogPost::findOrFail( $editBlogPost_id)->update([
                         'category_id' =>  $request->category_id,
-                        'post_title_en' =>   $request->post_title_en ,
-                        'post_title_fr' =>   $request->post_title_fr ,
+                        'post_title' =>   $request->post_title_en ,
                         'post_image' =>   $save_url ,
-                        'post_details_en' =>   $request->post_details_en ,
-                        'post_details_fr' =>   $request->post_details_fr ,
+                        'post_details' =>   $request->post_details_en,
                         'created_at' => Carbon::now(),
                     ]);
                                 if (session()->get('language') == 'english'){ 
@@ -202,10 +191,8 @@ class BlogController extends Controller
             
                     BlogPost::findOrFail($editBlogPost_id)->update([
                         'category_id' =>  $request->category_id,
-                        'post_title_en' =>   $request->post_title_en ,
-                        'post_title_fr' =>   $request->post_title_fr ,
-                        'post_details_en' =>   $request->post_details_en ,
-                        'post_details_fr' =>   $request->post_details_fr ,
+                        'post_title' =>   $request->post_title_en ,
+                        'post_details' =>   $request->post_details_en ,
                         'created_at' => Carbon::now(), 
                     ]);
                                 if (session()->get('language') == 'english'){

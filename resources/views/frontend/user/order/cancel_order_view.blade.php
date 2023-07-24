@@ -51,24 +51,41 @@
           </td>
 
           <td class="col-md-3">
-            <label for=""> ${{ $order->amount }}</label>
+            <label for=""> ${{ $order->shippingMethod->amount }}</label>
           </td>
 
 
            <td class="col-md-3">
-            <label for=""> {{ $order->payment_method }}</label>
+            <label for=""> {{ $order->shippingMethod->payment_method }}</label>
           </td>
 
           <td class="col-md-2">
             <label for=""> {{ $order->invoice_no }}</label>
           </td>
 
-          <td class="col-md-2">
-            <label for=""> 
-              <span class="badge badge-pill badge-warning" style="background: #418DB9;">{{ $order->status }} </span>
+          @if ($orders->isEmpty())
+          <p>Aucune commande à annuler pour le moment.</p>
+      @else
+          @foreach ($orders as $order)
+              <tr>
+                  <td class="col-md-2">
+                      <label for=""> 
+                          <span class="badge badge-pill badge-warning" style="background: #418DB9;">
+                              @if ($order->orderStatus)
+                                  {{ $order->orderStatus->cancel_date ? $order->orderStatus : 'Annulée' }}
+                              @else
+                                  Statut non défini
+                              @endif
+                          </span>
+                      </label>
+                  </td>
+                  <!-- Ajoutez d'autres colonnes ici pour afficher d'autres détails de la commande -->
+              </tr>
+          @endforeach
+      @endif
+      
+      
 
-              </label>
-          </td>
 
           <td class="col-md-1">
             <a href="{{ url('user/order_detail/'.$order->id ) }}" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i>@if (session()->get('language') == 'french') Voir @else  View @endif</a>

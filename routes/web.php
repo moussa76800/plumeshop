@@ -1,38 +1,40 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
+use App\Models\Book;
+use App\Models\User;
 
-use App\Http\Controllers\Backend\AdminProfileController;
-use App\Http\Controllers\Backend\AdminUserController;
-use App\Http\Controllers\Backend\AuthorController;
-use App\Http\Controllers\Backend\BlogController;
-use App\Http\Controllers\Backend\BookAuthorController;
-use App\Http\Controllers\Backend\BookController;
-use App\Http\Controllers\Backend\CategoryController;
-use App\Http\Controllers\backend\CouponController;
-use App\Http\Controllers\Backend\OrderController;
-use App\Http\Controllers\Backend\PublisherController;
-use App\Http\Controllers\Backend\ReportController;
-use App\Http\Controllers\Backend\ReturnController;
-use App\Http\Controllers\Backend\ShippingController;
-use App\Http\Controllers\Backend\SiteSettingController;
-use App\Http\Controllers\Backend\SliderController;
-use App\Http\Controllers\Backend\SubCategoryController;
-use App\Http\Controllers\Frontend\IndexController;
-use App\Http\Controllers\Frontend\LanguageController;
-use App\Http\Controllers\Frontend\CartController;
-use App\Http\Controllers\Frontend\HomeBlogController;
-use App\Http\Controllers\User\AllUserController;
-use App\Http\Controllers\User\CartPageController;
+use App\Models\Admin;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\User\CashController;
-use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\ReviewController;
 use App\Http\Controllers\User\StripeController;
+use App\Http\Controllers\Backend\BlogController;
+use App\Http\Controllers\Backend\BookController;
+use App\Http\Controllers\User\AllUserController;
+use App\Http\Controllers\Backend\OrderController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\User\CartPageController;
+use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\wishlistController;
-use App\Models\Admin;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Backend\AuthorController;
+use App\Http\Controllers\backend\CouponController;
+use App\Http\Controllers\Backend\ReportController;
+use App\Http\Controllers\Backend\ReturnController;
+use App\Http\Controllers\Backend\SliderController;
+use App\Http\Controllers\Frontend\IndexController;
+use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\ShippingController;
+use App\Http\Controllers\Backend\AdminUserController;
+use App\Http\Controllers\Backend\PublisherController;
+use App\Http\Controllers\Frontend\HomeBlogController;
+use App\Http\Controllers\Frontend\LanguageController;
+use App\Http\Controllers\Backend\BookAuthorController;
+use App\Http\Controllers\Backend\SiteSettingController;
+use App\Http\Controllers\Backend\SubCategoryController;
+use App\Http\Controllers\Backend\AdminProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,16 +108,26 @@ Route::prefix('publisher')->group(function() {
 
 // Admin Books All Routes :
 Route::prefix('book')->group(function() {
-    Route::get('/view' , [BookController::class,'bookView'])->name('all.books');
-    Route::get('/add' , [BookController::class,'bookAdd'])->name('add.book');
-    Route::post('/search',[BookController::class,'bookSearch']);
-    Route::post('/store' , [BookController::class,'bookStore'])->name('book.store');
-     Route::get('/edit/{id}' , [BookController::class,'bookEdit'])->name('edit.book');
-     Route::post('/update' , [BookController::class,'bookUpdate'])->name('book.update');
-    Route::get('/subcategory/ajax/{category_id}' , [BookController::class,'GetBook']);
-     Route::get('/delete/{id}' , [BookController::class,'bookDelete'])->name('delete.book');
-    
+    Route::get('/view', [BookController::class, 'bookView'])->name('all.books');
+    Route::get('/add-books', function () {
+        Artisan::call('books:add'); // Exécutez la commande artisanale pour ajouter automatiquement les livres
+        return "Les livres ont été ajoutés automatiquement.";
+    });
+    Route::get('/add', [BookController::class, 'bookAdd'])->name('add.book');
+    Route::post('/search', [BookController::class, 'bookSearch']);
+    Route::post('/store', [BookController::class, 'bookStore'])->name('book.store');
+    Route::get('/edit/{id}', [BookController::class, 'bookEdit'])->name('edit.book');
+    Route::post('/update', [BookController::class, 'bookUpdate'])->name('book.update');
+    Route::get('/subcategory/ajax/{category_id}', [BookController::class, 'GetBook']);
+    //  Route::get('/book/active' , [BookController::class,'bookEdit'])->name('edit.book');
+    Route::post('/thambnail/update/{id}', [BookController::class, 'ThambnailImageUpdate'])->name('update-bookThambnail');
+    // Route::post('/image/update', [BookController::class, 'MultiImageUpdate'])->name('update-bookMultiImage');
+    // Route::get('/multiimg/delete/{id}', [BookController::class, 'MultiImageDelete'])->name('book.multiImg.delete');
+    Route::get('/book/inactive/{id}', [BookController::class, 'bookInactiveNow'])->name('bookInactiveNow');
+    Route::get('/book/active/{id}', [BookController::class, 'bookActiveNow'])->name('bookActiveNow');
+    Route::get('/delete/{id}', [BookController::class, 'bookDelete'])->name('delete.book');
 });
+
 
 // Admin Author All Routes :
 Route::prefix('author')->group(function() {
@@ -127,15 +139,6 @@ Route::prefix('author')->group(function() {
     Route::get('/delete/{id}' , [AuthorController::class,'authorDelete'])->name('delete.author');
 });
 
-// Admin Book_Author All Routes :
-Route::prefix('bookAuthor')->group(function() {
-    Route::get('/view' , [BookAuthorController::class,'bookAuthorView'])->name('all.bookAuthor');
-    Route::get('/add' , [BookAuthorController::class,'bookAuthorAdd'])->name('add.bookAuthor');
-    Route::post('/store' , [BookAuthorController::class,'bookAuthorStore'])->name('bookAuthor.store');
-    Route::get('/edit/{id}' , [BookAuthorController::class,'bookAuthorEdit'])->name('edit.bookAuthor');
-    Route::post('/update' , [BookAuthorController::class,'bookAuthorUpdate'])->name('bookAuthor.update');
-    Route::get('/delete/{id}' , [BookAuthorController::class,'bookAuthorDelete'])->name('delete.bookAuthor');
-});
 
 // Admin Slider All Routes :
 Route::prefix('slider')->group(function() {
@@ -164,22 +167,6 @@ Route::prefix('coupons')->group(function() {
 // Admin Shipping All Routes :
 Route::prefix('shipping')->group(function() {
 
-    // Common
-    Route::get('/common/view' , [ShippingController::class,'CommonView'])->name('shippingCommon');
-    Route::get('/common/add' , [ShippingController::class,'addCommon'])->name('add.common');
-    Route::post('/common/store' , [ShippingController::class,'commonStore'])->name('common.store');
-     Route::get('/common/edit/{id}' , [ShippingController::class,'commonEdit'])->name('edit.common');
-     Route::post('/common/update' , [ShippingController::class,'commonUpdate'])->name('update.common');
-     Route::get('/common/delete/{id}' , [ShippingController::class,'commonDelete'])->name('delete.common');;
-
-    // Town
-    Route::get('/town/view' , [ShippingController::class,'townView'])->name('shippingTown');
-    Route::get('/town/add' , [ShippingController::class,'addTown'])->name('add.town');
-    Route::post('/town/store' , [ShippingController::class,'townStore'])->name('town.store');
-    Route::get('/town/edit/{id}' , [ShippingController::class,'townEdit'])->name('edit.town');
-    Route::post('/town/update' , [ShippingController::class,'townUpdate'])->name('update.town');
-     Route::get('/town/delete/{id}' , [ShippingController::class,'townDelete'])->name('delete.town');
-
     // Country
     Route::get('/country/view' , [ShippingController::class,'CountryView'])->name('shippingCountry');
     Route::get('/country/add' , [ShippingController::class,'addCountry'])->name('add.country');
@@ -190,20 +177,18 @@ Route::prefix('shipping')->group(function() {
 Route::prefix('orders')->group(function() {
     Route::get('/pending/order' , [OrderController::class,'PendingOrders'])->name('pending');
     Route::get('/pending/order/detail/{order_id}' , [OrderController::class,'PendingOrderDetail'])->name('pending.detail');
-    Route::get('/confirmed/order' , [OrderController::class,'confirmedOrders'])->name('confirmed');
+    // Route::get('/confirmed/order' , [OrderController::class,'confirmedOrders'])->name('confirmed');
     Route::get('/processing/order' , [OrderController::class,'processingOrders'])->name('processing');
-    Route::get('/picked/order' , [OrderController::class,'pickedOrders'])->name('picked');
+    // Route::get('/picked/order' , [OrderController::class,'pickedOrders'])->name('picked');
     Route::get('/shipped/order' , [OrderController::class,'shippedOrders'])->name('shipped');
     Route::get('/delivered/order' , [OrderController::class,'deliveredOrders'])->name('delivered');
     Route::get('/cancel/order' , [OrderController::class,'cancelOrders'])->name('cancel');
     
    
 // Admin Update Status Orders
-    Route::get('/pending/confirmed/{order_id}' , [OrderController::class,'pendingToConfirmOrder'])->name('pendingToConfirmed');
-    Route::get('/confirm/processing/{order_id}', [OrderController::class, 'ConfirmToProcessingOrder'])->name('confirmToProcessing');
-    Route::get('/processing/picked/{order_id}', [OrderController::class, 'ProcessingToPickedOrder'])->name('processing.picked');
-    Route::get('/picked/shipped/{order_id}', [OrderController::class, 'PickedToShippedOrder'])->name('picked.shipped');
-    Route::get('/shipped/delivered/{order_id}', [OrderController::class, 'ShippedToDeliveredOrder'])->name('shipped.delivered');
+    Route::get('/pending/processing/{order_id}' , [OrderController::class,'pendingToProcessOrder'])->name('pendingToProcessing');
+    Route::get('/processing/shipped/{order_id}', [OrderController::class, 'ProcessingToShippedOrder'])->name('processingToShipped');
+    Route::get('/shipped/delivered/{order_id}', [OrderController::class, 'ShippedToDeliveredOrder'])->name('shippedToDelivered');
     Route::get('/invoice/download/{order_id}', [OrderController::class, 'AdminInvoiceDownload'])->name('invoice.download');
 });
 
@@ -290,11 +275,7 @@ Route::GET('/donnate/book' , [IndexController::class,'donnateBook'])->name('dona
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // User All Routes :
-Route::middleware(['auth:sanctum,web', 'verified'])->get('/dashboard', function () {
-	$id = Auth::user()->id;
-    $user = User::find($id);
-    return view('dashboard',compact('user'));
-})->name('dashboard');
+Route::middleware(['auth:sanctum,web', 'verified'])->get('/dashboard', [indexController::class, 'home'])->name('dashboard');
 
 Route::get('/', [IndexController::class, 'index']);
 Route::get('/user/logout', [IndexController::class, 'UserLogout'])->name('user.logout');
@@ -357,7 +338,7 @@ Route::get('/cancel/orders',[AllUserController::class, 'cancelOrders'])->name('c
 
 // Checkout All Routes :
 Route::get('/checkout',[CartController::class, 'checkoutCreate'])->name('checkout');
-Route::get('/common/ajax/{town_id}',[CheckoutController::class, 'commonGetAjax']);
+// Route::get('/common/ajax/{town_id}',[CheckoutController::class, 'commonGetAjax']);
 Route::post('/checkout/store',[CheckoutController::class, 'checkoutStore'])->name('checkout.store');
 
 

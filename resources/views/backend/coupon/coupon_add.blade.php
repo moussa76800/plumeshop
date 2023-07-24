@@ -18,7 +18,7 @@
                     @csrf
            
         <div class="form-group">
-            <h5>@if (session()->get('language') == 'french')Nom en Anglais  @else Name in English @endif  <span class="text-danger">*</span></h5>
+            <h5>@if (session()->get('language') == 'french')Nom en Anglais  @else Name  @endif  <span class="text-danger">*</span></h5>
             <div class="controls">
                 <input type="text" name="name_en" class="form-control">
                     @error('name_en')
@@ -27,15 +27,6 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <h5>@if (session()->get('language') == 'french')Nom en Francais  @else Name in French  @endif  <span class="text-danger">*</span></h5>
-            <div class="controls">
-                <input type="text" name="name_fr" class="form-control">
-                    @error('name_fr')
-                    <span class="text-danger">{{ $message}} </span>
-                    @enderror
-            </div>
-        </div>
        
         <div class="form-group">
             <h5>@if (session()->get('language') == 'french')Réduction @else Discount @endif<span class="text-danger">*</span></h5>

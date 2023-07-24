@@ -25,7 +25,7 @@
 			<li class='active'style="color:  #00008B;">Blog /</li>
 		
 			@foreach( $blogcategory as $item)
-			<li class='active' style="color:  #00008B ;" >@if (session()->get('language') == 'french'){{ $item->name_fr }} @else  {{ $item->name_en }} @endif </li>
+			<li class='active' style="color:  #00008B ;" >{{ $item->name }}  </li>
 			@endforeach
 		</ul>
 		</div><!-- /.breadcrumb-inner -->
@@ -44,7 +44,7 @@
 					<div class="blog-post  wow fadeInUp">
 	<a href="blog-details.html"><img class="img-responsive"  style="width:800px; height:500px;"  src="{{ asset($blog->post_image) }}" alt=""></a>
 
-	<h1><a href="blog-details.html"> @if(session()->get('language') == 'french') {{ $blog->post_title_fr }} @else {{ $blog->post_title_en }} @endif</a></h1>
+	<h1><a href="blog-details.html"> {{ $blog->post_title }} </a></h1>
     @if(session()->get('language') == 'english')
 	<span class="date-time"> {{ Carbon\Carbon::parse($blog->created_at)->diffForHumans()  }}</span>
     @else
@@ -53,7 +53,7 @@
 	@endphp
     <span class="date-time"> {{ Carbon\Carbon::parse($blog->created_at)->diffForHumans()  }}</span>
 	@endif
-	<p>@if(session()->get('language') == 'french') {!! Str::limit($blog->post_details_fr, 240 )  !!} @else {!! Str::limit($blog->post_details_en, 240 )  !!} @endif</p>
+	<p>@if(session()->get('language') == 'french') {!! Str::limit($blog->post_details, 240 )  !!}</p>
 
                         <br>
 	<a href="{{ route('post.details',$blog->id) }}" class="btn btn-upper btn-primary read-more">@if(session()->get('language') == 'french')Lire plus @else read more @endif</a>
@@ -121,7 +121,7 @@
 						<div class="cat">
 			 @forelse($blogcategory as $category)
 						 <ul class="list-group">
-			  <a href="{{  route('blog.category.post',$category->id) }}"><li class="list-group-item">@if(session()->get('language') == 'french') {{ $category->name_fr }} @else {{ $category->name_en }} @endif</li></a>
+			  <a href="{{  route('blog.category.post',$category->id) }}"><li class="list-group-item"> {{ $category->name }} </li></a>
 			
 			   </ul>
 			  

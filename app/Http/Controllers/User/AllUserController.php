@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\OrderStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -19,15 +20,26 @@ class AllUserController extends Controller
     	return view('frontend.user.order.order_view',compact('orders'));
     }
 
-    public function OrderDetail($order_id){
+    public function OrderDetail($order_id)
+{
+    // Récupérez la commande spécifique avec l'utilisateur et le pays associés
+    $order = Order::with('user', 'address.country')->where('id', $order_id)->where('user_id', Auth::id())->first();
 
-    	$order = Order::with('common','town','country','user')->where('id',$order_id)->where('user_id',Auth::id())->first();
-    	$orderItem = OrderItem::with('book')->where('order_id',$order_id)->orderBy('id','DESC')->get();
-          return view('frontend.user.order.order_detail',compact('order','orderItem'));
-    }
+    // Récupérez l'objet "OrderStatus" associé à la commande
+    $orderStatus = OrderStatus::where('order_id', $order_id)->first();
+
+    $orderItem = OrderItem::with('book')->where('order_id', $order_id)->orderBy('id', 'DESC')->get();
+
+    return view('frontend.user.order.order_detail', compact('order', 'orderItem', 'orderStatus'));
+}
+
     
     public function InvoiceDownload($order_id){
-        $order = Order::with('common','town','country','user')->where('id',$order_id)->where('user_id',Auth::id())->first();
+        $order = Order::with('user', 'address.country')
+                ->where('id', $order_id)
+                ->where('user_id', Auth::id())
+                ->first();
+
          $orderItem = OrderItem::with('book')->where('order_id',$order_id)->orderBy('id','DESC')->get();
     
          $pdf = Pdf::loadView('frontend.user.order.order_invoice',compact('order','orderItem'))->setPaper('a4')->setOptions([
@@ -37,38 +49,43 @@ class AllUserController extends Controller
                 return $pdf->download('invoice.pdf');
      } 
 
-     public function returnOrder(Request $request,$order_id){
+     public function returnOrder(Request $request, $order_id)
+{
+    $order = Order::findOrFail($order_id);
+    $order->orderStatus()->update([
+        'return_date' => Carbon::now()->format('d F Y'),
+        'return_reason' => $request->return_reason,
+        'return_order' => 1,
+    ]);
 
-        Order::findOrFail($order_id)->update([
-            'return_date' => Carbon::now()->format('d F Y'),
-            'return_reason' => $request->return_reason,
-            'return_order' => 1,
-        ]);
-        if (session()->get('language') == 'french'){
-      $notification = array(
-            'message' => 'Demande de retour envoyée avec succès',
-            'alert-type' => 'success'
-        );
-        return redirect()->route('my_Order')->with($notification);
-    }
-    $notification = array(
-        'message' => 'Return Request Send Successfully',
+    $notification = [
+        'message' => 'Demande de retour envoyée avec succès',
         'alert-type' => 'success'
-    );
+    ];
+
     return redirect()->route('my_Order')->with($notification);
-    } 
+}
 
-    public function ReturnOrderList(){
 
-        $orders = Order::where('user_id',Auth::id())->where('return_reason','!=',NULL)->orderBy('id','DESC')->get();
-        return view('frontend.user.order.return_Order_View',compact('orders'));
-    } 
+public function ReturnOrderList()
+{
+    $orders = Order::whereHas('orderStatus', function ($query) {
+        $query->whereNotNull('return_reason');
+    })->where('user_id', Auth::id())->orderBy('id', 'DESC')->get();
 
-    public function CancelOrders(){
+    return view('frontend.user.order.return_Order_View', compact('orders'));
+}
 
-        $orders = Order::where('user_id',Auth::id())->where('status','cancel')->orderBy('id','DESC')->get();
-        return view('frontend.user.order.cancel_order_view',compact('orders'));
-    }
+
+public function CancelOrders()
+{
+    $orders = Order::with('orderStatus')->whereHas('orderStatus', function ($query) {
+        $query->whereNull('cancel_date');
+    })->where('user_id', Auth::id())->orderBy('id', 'DESC')->get();
+
+    return view('frontend.user.order.cancel_order_view', compact('orders'));
+}
+
 
     // ORDER TRACKING
 

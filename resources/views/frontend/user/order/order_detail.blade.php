@@ -2,7 +2,7 @@
 @section('content')
 
 
-@if (session()->get('language') == 'english')
+
 <div class="body-content">
 	<div class="container">
 		<div class="row">
@@ -15,45 +15,35 @@
          <div class="card-body" style="background: #E9EBEC;">
            <table class="table">
             <tr>
-              <th> Shipping Name : </th>
-               <th> {{ $order->name }} </th>
+              <th> Name : </th>
+               <th> {{ $order->user->name }} </th>
             </tr>
 
              <tr>
-              <th>Shipping Phone: </th>
-               <th> {{ $order->phone }} </th>
+              <th> Phone: </th>
+               <th> {{ $order->user->phone }} </th>
             </tr>
 
              <tr>
-              <th> Shipping Email: </th>
-               <th> {{ $order->email }} </th>
+              <th> Email: </th>
+               <th> {{ $order->user->email }} </th>
             </tr>
 
              <tr>
-              <th> Common : </th>
-               <th> {{ $order->common->name }} </th>
+              <th> Address : </th>
+               <th> {{ $order->user->address->street_name }}, {{ $order->user->address->street_number}} </th>
             </tr>
 
              <tr>
-              <th> Town : </th>
-               <th> {{ $order->town->name }} </th>
+              <th> City : </th>
+               <th> {{ $order->user->address->city}} </th>
             </tr>
 
              <tr>
               <th> Country : </th>
-               <th>{{ $order->country->name }} </th>
+               <th>{{ $order->user->address->Country->name}} </th>
             </tr>
 
-            <tr>
-              <th> Post Code : </th>
-               <th> {{ $order->post_code }} </th>
-            </tr>
-
-            <tr>
-              <th> Order Date : </th>
-               <th> {{ $order->order_date }} </th>
-            </tr>
-             
            </table>
 
 
@@ -74,18 +64,12 @@
          <div class="card-body" style="background: #E9EBEC;">
            <table class="table">
             <tr>
-              <th>  Name : </th>
-               <th> {{ $order->user->name }} </th>
+              <th> Order Date : </th>
+               <th> {{ $order->order_date }} </th>
             </tr>
-
-             <tr>
-              <th>  Phone : </th>
-               <th> {{ $order->user->phone }} </th>
-            </tr>
-
              <tr>
               <th> Payment Type : </th>
-               <th> {{ $order->payment_method }} </th>
+               <th> {{ $order->shippingMethod->payment_method }} </th>
             </tr>
 
               <tr>
@@ -94,14 +78,37 @@
             </tr>
 
              <tr>
-              <th> Order Total : </th>
-               <th>{{ $order->amount }} </th>
+              <th> Price Total : </th>
+               <th>{{ $order->shippingMethod->amount }} </th>
             </tr>
 
             <tr>
               <th> Order : </th>
                <th>   
-                <span class="badge badge-pill badge-warning" style="background: #418DB9;">{{ $order->status }} </span> </th>
+                <span class="badge badge-pill badge-warning" style="background: #418DB9;">
+                <!-- Utilisez la variable $orderStatus pour afficher le texte correspondant à l'état -->
+                      @if ($orderStatus)
+                      @if (!is_null($orderStatus->pending_date))
+                          <span class="badge badge-pill badge-warning" style="background: #418DB9;">En Attente</span>
+                      @elseif (!is_null($orderStatus->processing_date))
+                          <span class="badge badge-pill badge-warning" style="background: #418DB9;">Traîtement</span>
+                      @elseif (!is_null($orderStatus->shipped_date))
+                          <span class="badge badge-pill badge-warning" style="background: #418DB9;">Expédition</span>
+                      @elseif (!is_null($orderStatus->delivered_date))
+                          <span class="badge badge-pill badge-warning" style="background: #418DB9;">Délivrer</span>
+                      @elseif (!is_null($orderStatus->cancel_date))
+                          <span class="badge badge-pill badge-warning" style="background: #418DB9;">Annuler</span>
+                      @elseif (!is_null($orderStatus->return_date))
+                          <span class="badge badge-pill badge-warning" style="background: #418DB9;">Retour demandé</span>
+                      @elseif (!is_null($orderStatus->return_reason))
+                          <span class="badge badge-pill badge-warning" style="background: #418DB9;">Retour Raison</span>
+                      @else
+                          <span class="badge badge-pill badge-warning" style="background: #418DB9;">Statut inconnu</span>
+                      @endif
+                      @else
+                      <span class="badge badge-pill badge-warning" style="background: #418DB9;">Aucun statut</span>
+                      @endif
+                      </span> </th>
             </tr>
            </table>
          </div>  
@@ -146,11 +153,11 @@
               @foreach($orderItem as $item)
        <tr>
                 <td class="col-md-1">
-                  <label for=""><img src="{{ asset($item->book->product_thambnail) }}" height="50px;" width="50px;"> </label>
+                  <label for=""><img src="{{ asset($item->book->image) }}" height="50px;" width="50px;"> </label>
                 </td>
 
                 <td class="col-md-3">
-                  <label for=""> {{ $item->book->name_en }}</label>
+                  <label for=""> {{ $item->book->title }}</label>
                 </td>
 
 
@@ -207,13 +214,22 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
         
       </div> <!-- // END ORDER ITEM ROW -->
 
-       @if($order->status !== "delivered")
+       @if($order->orderStatus !== "delivered")
       
       @else
 
-      @php 
-      $order = App\Models\Order::where('id',$order->id)->where('return_reason','=',NULL)->first();
+      @php
+    $order = App\Models\Order::where('id', $order->id)
+        ->whereHas('orderStatus', function ($query) {
+            $query->where('return_reason', '=', NULL);
+        })
+        ->first();
       @endphp
+
+
+      {{-- @php 
+      $order = App\Models\Order::where('id',$order->id)->where('return_reason','=',NULL)->first();
+      @endphp --}}
 
 
       @if($order)
@@ -231,10 +247,10 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
    @else
 
    <span class="badge badge-pill badge-warning" style="background: red">You Have send return request for this product</span>
-   <p>For the following reason : {{ $order->return_reason}} .
+   <p>For the following reason : {{ $order->order_status->return_reason}} .
    @endif
 
-  @endif 
+  
 <br><br>
 
 		</div> <!-- // end row -->
@@ -242,7 +258,7 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
 	</div>
 	
 </div>
- @else
+ {{-- @else
 
  <div class="body-content">
 	<div class="container">
@@ -257,38 +273,33 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
            <table class="table">
             <tr>
               <th>Nom : </th>
-               <th> {{ $order->name }} </th>
+               <th> {{ $order->user->name }} </th>
             </tr>
 
              <tr>
               <th>GSM: </th>
-               <th> {{ $order->phone }} </th>
+               <th> {{ $order->user->phone }} </th>
             </tr>
 
              <tr>
               <th>Email: </th>
-               <th> {{ $order->email }} </th>
+               <th> {{ $order->user->email }} </th>
             </tr>
-
-             <tr>
-              <th> Commune : </th>
-               <th> {{ $order->common->name }} </th>
-            </tr>
-
-             <tr>
-              <th> Ville : </th>
-               <th> {{ $order->town->name }} </th>
-            </tr>
-
-             <tr>
-              <th> Pays : </th>
-               <th>{{ $order->country->name }} </th>
-            </tr>
-
-            <tr>
-              <th>Code Postal : </th>
-               <th> {{ $order->post_code }} </th>
-            </tr>
+            
+              <tr>
+                <th> Adresse : </th>
+                 <th> {{ $order->user->address->street_name }}, {{ $order->user->address->street_number}} </th>
+              </tr>
+  
+               <tr>
+                <th> Ville : </th>
+                 <th> {{ $order->user->address->city}} </th>
+              </tr>
+  
+               <tr>
+                <th> Pays: </th>
+                 <th>{{ $order->user->address->Country->name}} </th>
+              </tr>
 
             <tr>
               <th>Date de l'achat : </th>
@@ -326,7 +337,7 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
 
              <tr>
               <th> Type de paiement : </th>
-               <th> {{ $order->payment_method }} </th>
+               <th> {{ $order->shipping_method->payment_method }} </th>
             </tr>
 
               <tr>
@@ -336,7 +347,7 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
 
              <tr>
               <th> Total  : </th>
-               <th>{{ $order->amount }} </th>
+               <th>{{ $order->order->shipping_methodamount }} </th>
             </tr>
 
             <tr>
@@ -387,11 +398,11 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
               @foreach($orderItem as $item)
        <tr>
                 <td class="col-md-1">
-                  <label for=""><img src="{{ asset($item->book->product_thambnail) }}" height="50px;" width="50px;"> </label>
+                  <label for=""><img src="{{ asset($item->book->image) }}" height="50px;" width="50px;"> </label>
                 </td>
 
                 <td class="col-md-3">
-                  <label for=""> {{ $item->book->name_en }}</label>
+                  <label for=""> {{ $item->book->title }}</label>
                 </td>
 
 
@@ -434,7 +445,7 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
                 </td>--}}
 
 
-              </tr>
+              {{-- </tr>
               @endforeach
 
             </tbody>
@@ -473,7 +484,7 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
 
    <span class="badge badge-pill badge-warning" style="background: red"> Vous avez déja envoyé une demande de retour pour ce produit !!!</span>
    
-   @endif
+   @endif  
 
   @endif 
 <br><br>
@@ -482,7 +493,7 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
 		
 	</div>
 	
-</div>
+</div>--}}
 @endif
 
 @endsection

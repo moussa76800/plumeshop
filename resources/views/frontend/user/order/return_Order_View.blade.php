@@ -51,12 +51,12 @@
                 </td>
 
                 <td class="col-md-2">
-                  <label for=""> ${{ $order->amount }}</label>
+                  <label for=""> ${{ $order->shippingMethod->amount }}</label>
                 </td>
 
 
                  <td class="col-md-2">
-                  <label for=""> {{ $order->payment_method }}</label>
+                  <label for=""> {{ $order->shippingMethod->payment_method }}</label>
                 </td>
 
                 <td class="col-md-2">
@@ -64,20 +64,20 @@
                 </td>
 
                 <td class="col-md-4">
-                  <label for=""> {{ $order->return_reason }}</label>
+                  <label for=""> {{ $order->orderStatus->return_reason }}</label>
                 </td>
 
 
          <td class="col-md-1">
           <label for=""> 
 
-            @if($order->return_order == 0) 
+            @if($order->orderStatus->return_order == 0) 
             <span class="badge badge-pill badge-warning" style="background: #418DB9;"> No Return Request </span>
-            @elseif($order->return_order == 1)
+            @elseif($order->orderStatus->return_order == 1)
             <span class="badge badge-pill badge-warning" style="background: #FF6600;"> Pendding </span>
             <span class="badge badge-pill badge-warning" style="background:red;">Return Requested </span>
            
-            @elseif($order->return_order == 2)
+            @elseif($order->orderStatus->return_order == 2)
              <span class="badge badge-pill badge-warning" style="background: #008000;">Success </span>
              @endif
             </label>

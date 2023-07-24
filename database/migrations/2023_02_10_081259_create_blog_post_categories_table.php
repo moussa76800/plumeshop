@@ -15,9 +15,7 @@ class CreateBlogPostCategoriesTable extends Migration
     {
         Schema::create('blog_post_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name_en');
-            $table->string('name_fr');
-            $table->timestamps();
+            $table->string('name');
         });
     }
 

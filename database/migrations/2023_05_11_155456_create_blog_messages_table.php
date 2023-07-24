@@ -15,14 +15,6 @@ class CreateBlogMessagesTable extends Migration
     {
         Schema::create('blog_messages', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('post_id');
-            $table->unsignedBigInteger('message_id');
-           
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('post_id')->references('id')->on('blog_posts')->onDelete('cascade');
-            $table->foreign('message_id')->references('id')->on('messages')->onDelete('cascade');
-            $table->timestamps();
         });
     }
 

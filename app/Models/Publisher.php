@@ -11,10 +11,12 @@ class Publisher extends Model
 
     protected $fillable = [
         
-        'name_en' ,
-        'name_fr',
+        'name' ,
         
     ];
+
+    public $timestamps = false;
+
 
     /**
      * @return void

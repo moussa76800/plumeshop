@@ -43,6 +43,23 @@
                         <input type="file"  name="profile_photo_path" class="form-control" value="{{ $user->profile_photo_path}}" >
                     </div>
                     <div class="form-group">
+                        <label class="info-title" for="exampleInputEmail1">Street Name<span></span></label>
+                        <input type="text" id="street" name="street" class="form-control" value="{{ $user->address->street_name }}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="info-title" for="exampleInputEmail1">Street Number<span></span></label>
+                        <input type="text" id="number" name="number" class="form-control" value="{{ $user->address->street_number }}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="info-title" for="exampleInputEmail1">City<span></span></label>
+                        <input type="text" id="city" name="city" class="form-control" value="{{ $user->address->city }}" required>
+                    </div>
+                    
+
+
+                    <div class="form-group">
                                 <button type="submit"  class="btn btn-warning">Update</button>
                     </div>
                 </form>

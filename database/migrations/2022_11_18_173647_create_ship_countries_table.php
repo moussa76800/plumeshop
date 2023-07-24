@@ -16,7 +16,6 @@ class CreateShipCountriesTable extends Migration
         Schema::create('ship_countries', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->timestamps();
         });
     }
 

@@ -42,7 +42,7 @@
 </style>
 
 </head>
-@if (session()->get('language') == 'english')
+{{-- @if (session()->get('language') == 'english') --}}
 <body>
 
   <table width="100%" style="background: #F7F7F7; padding:0 20px 0 20px;">
@@ -69,26 +69,28 @@
   <table width="100%" style="background: #F7F7F7; padding:0 5 0 5px;" class="font">
     <tr>
         <td>
-          <p class="font" style="margin-left: 20px;">
-           <strong>Name:</strong> {{ $order->name }}<br>
-           <strong>Email:</strong> {{ $order->email }} <br>
-           <strong>Phone:</strong> {{ $order->phone }} <br>
            @php
-            $common = $order->common->name;
-            $town = $order->town->name;
-            $state = $order->country->name;
-           @endphp
-            
-           <strong>Address:</strong> {{ $common }}, {{ $town }} ({{ $state }}) <br>
-           <strong>Post Code:</strong> {{ $order->post_code }}
-         </p>
+    $address = $order->user->address->street_name . ', ' . $order->user->address->street_number;
+    $city = $order->user->address->city;
+    $state = $order->user->address->country->name;
+          @endphp
+
+          <p class="font" style="margin-left: 20px;">
+            <strong>Name:</strong> {{ $order->user->name }}<br>
+            <strong>Email:</strong> {{ $order->user->email }} <br>
+            <strong>Phone:</strong> {{ $order->user->phone }} <br>
+            <strong>Address:</strong> {!! $address !!}<br>
+            <strong>City:</strong> {!! $city !!}<br>
+            <strong>State:</strong> {!! $state !!}
+        </p>
+
         </td>
         <td>
           <p class="font">
             <h3><span style="color: green;">Invoice:</span> #{{ $order->invoice_no}}</h3>
             Order Date: {{ $order->order_date }} <br>
-             Delivery Date: {{ $order->delivered_date }} <br>
-            Payment Type : {{ $order->payment_method }} </span>
+             Delivery Date: {{ $order->orderStatus->delivered_date }} <br>
+            Payment Type : {{ $order->shippingMethod->payment_method }} </span>
          </p>
         </td>
     </tr>
@@ -110,9 +112,9 @@
      @foreach($orderItem as $item)
       <tr class="font">
         <td align="center">
-            <img src="{{ public_path($item->book->product_thambnail)  }}" height="60px;" width="60px;" alt="">
+            <img src="{{ public_path($item->book->image)  }}" height="60px;" width="60px;" alt="">
         </td>
-        <td align="center"> {{ $item->book->name_en }}</td>
+        <td align="center"> {{ $item->book->title }}</td>
         <td align="center">{{ $item->book->product_code }}</td>
         <td align="center">{{ $item->qty }}</td>
         <td align="center">${{ $item->price }}</td>
@@ -126,8 +128,8 @@
   <table width="100%" style=" padding:0 10px 0 10px;">
     <tr>
         <td align="right" >
-            <h2><span style="color: green;">Subtotal : </span>${{ $order->amount }}</h2>
-            <h2><span style="color: green;">Total : </span> ${{ $order->amount }}</h2>
+            <h2><span style="color: green;">Subtotal : </span>${{ $order->shippingMethod->amount }}</h2>
+            <h2><span style="color: green;">Total : </span> ${{ $order->shippingMethod->amount }}</h2>
             {{-- <h2><span style="color: green;">Full Payment PAID</h2> --}}
         </td>
     </tr>
@@ -145,114 +147,6 @@
     <h1>Thanks For Buying Products..!!</h1>
       </div>
 
-      @else
-
-      <body>
-
-        <table width="100%" style="background: #F7F7F7; padding:0 20px 0 20px;">
-          <tr>
-              <td valign="top">
-                <!-- {{-- <img src="" alt="" width="150"/> --}} -->
-                <h2 style="color: green; font-size: 26px;"><strong>PlumeShop</strong></h2>
-              </td>
-              <td align="right">
-                  <pre class="font" >
-                     Plumeshop Siège Social
-                     Email:support@PlumeShop.be <br>
-                     GSM: 1245454545 <br>
-                     Bruxelles 1000, <br>
-                    
-                  </pre>
-              </td>
-          </tr>
-      
-        </table>
-      
-      
-        <table width="100%" style="background:white; padding:2px;""></table>
-        <table width="100%" style="background: #F7F7F7; padding:0 5 0 5px;" class="font">
-          <tr>
-              <td>
-                <p class="font" style="margin-left: 20px;">
-                 <strong>Nom:</strong> {{ $order->name }}<br>
-                 <strong>Email:</strong> {{ $order->email }} <br>
-                 <strong>Phone:</strong> {{ $order->phone }} <br>
-                 @php
-                  $common = $order->common->name;
-                  $town = $order->town->name;
-                  $state = $order->country->name;
-                 @endphp
-                  
-                 <strong>Addresse:</strong> {{ $common }}, {{ $town }} ({{ $state }}) <br>
-                 <strong>Code Postal:</strong> {{ $order->post_code }}
-               </p>
-              </td>
-              <td>
-                <p class="font">
-                  <h3><span style="color: green;">Invoice:</span> #{{ $order->invoice_no}}</h3>
-                   Date d'Achat: {{ $order->order_date }} <br>
-                   Date de Livraison: {{ $order->delivered_date }} <br>
-                   Type de Paiement : {{ $order->payment_method }} </span>
-               </p>
-              </td>
-          </tr>
-        </table>
-        <br/>
-      <h3>Produits</h3>
-        <table width="100%">
-          <thead style="background-color: green; color:#FFFFFF;">
-            <tr class="font">
-              <th>Image</th>
-              <th>Nom</th>
-              <th>Code</th>
-              <th>Quantité</th>
-              <th>Prix Unitaire </th>
-              <th>Total </th>
-            </tr>
-          </thead>
-          <tbody>
-           @foreach($orderItem as $item)
-            <tr class="font">
-              <td align="center">
-                  <img src="{{ public_path($item->book->product_thambnail)  }}" height="60px;" width="60px;" alt="">
-              </td>
-              <td align="center"> {{ $item->book->name_en }}</td>
-              <td align="center">{{ $item->book->product_code }}</td>
-              <td align="center">{{ $item->qty }}</td>
-              <td align="center">${{ $item->price }}</td>
-              <td align="center">${{ $item->price * $item->qty }} </td>
-            </tr>
-            <br>
-            @endforeach
-            
-          </tbody>
-        </table>
-        <br>
-        <table width="100%" style=" padding:0 10px 0 10px;">
-          <tr>
-              <td align="right" >
-                  <h2><span style="color: green;">Sous-Total : </span>${{ $order->amount }}</h2>
-                  <h2><span style="color: green;">Total : </span> ${{ $order->amount }}</h2>
-                  {{-- <h2><span style="color: green;">Full Payment PAID</h2> --}}
-              </td>
-          </tr>
-        </table>
-        
-        <div class="authority float-right mt-5">
-            <p>-----------------------------------</p>
-            <h5>Signature du client:</h5>
-          </div>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <div class="thanks mt-3">
-          <h1>Merci, pour votre achat ..!!</h1>
-            </div>
-    @endif
+  
 </body>
 </html>

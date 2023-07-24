@@ -30,7 +30,7 @@ public function sliderStore(Request $request){
         'slider_img'  => 'required' ,
         'title'       => 'required' ,
         'description' => 'required' ,
-        'created_at'  ,
+
     ]);
     $image = $request->file('slider_img');
     $name_image = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
@@ -41,7 +41,7 @@ public function sliderStore(Request $request){
         'slider_img'  => $save_url,
         'title'       => $request->title ,
         'description' => $request->description ,
-        'created_at' => now(),
+       
     ]);
     $notification = array(
         'message' => 'Slider Inserted Successfully ',
@@ -72,7 +72,7 @@ public function sliderUpdate(Request $request){
         'slider_img'  => $save_url,
         'title'       => $request->title ,
         'description' => $request->description ,
-        'updated_at' => now(),
+       
     ]);
     $notification = array(
         'message' => 'Slider Updated Successfully ',

@@ -16,19 +16,10 @@
 
 
         <div class="form-group">
-            <h5> Publisher Name English <span class="text-danger">*</span></h5>
+            <h5> Publisher Name  <span class="text-danger">*</span></h5>
             <div class="controls">
                 <input type="text" name="name_en" class="form-control">
                     @error('name_en')
-                    <span class="text-danger">{{ $message}} </span>
-                    @enderror
-            </div>
-        </div>
-        <div class="form-group">
-            <h5> Publisher Name French <span class="text-danger">*</span></h5>
-            <div class="controls">
-                <input type="text" name="name_fr" class="form-control">
-                    @error('name_fr')
                     <span class="text-danger">{{ $message}} </span>
                     @enderror
             </div>
