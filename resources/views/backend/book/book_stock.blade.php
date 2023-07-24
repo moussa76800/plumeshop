@@ -41,7 +41,7 @@
 	 <tr>
 		<td> <img src="{{ asset($item->product_thambnail) }}" style="width: 60px; height: 50px;">  </td>
 		<td>{{ $item->name_en }}</td>
-		 <td>{{ $item->prix }} @if (session()->get('language') == 'english')$ @else € @endif</td>
+		 <td>{{ $item->price }} @if (session()->get('language') == 'english')$ @else € @endif</td>
 		 <td>{{ $item->product_qty }}@if (session()->get('language') == 'english')piece(s) @else Piéce(s) @endif </td>
 
 		 <td> 
@@ -50,8 +50,8 @@
 
 		 	@else
 		 	@php
-		 	$amount = $item->prix - $item->discount_price;
-		 	$discount =($amount/$item->prix) * 100;
+		 	$amount = $item->price - $item->discount_price;
+		 	$discount =($amount/$item->price) * 100;
 		 	@endphp
    <span class="badge badge-pill badge-danger">{{ round($discount)  }} %</span>
 

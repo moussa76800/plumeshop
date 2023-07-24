@@ -25,15 +25,7 @@
                   <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-striped">
                       <thead>
-                        @if (session()->get('language') == 'french')
-                          <tr>
-                              <th>Numéro</th>
-                              <th>Nom</th>
-                              <th>Réduction</th>
-                              <th>Status</th>
-                              <th>Action</th>
-                          </tr>
-                          @else 
+                       
                           <tr>
                             <th>Number</th>
                             <th>Name</th>
@@ -41,14 +33,13 @@
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
-                         @endif 
                       </thead>
                       <tbody>
                         @foreach ($coupons  as $item)
                                                     
                           <tr>
                               <td>{{$increment}}</td>
-                              <td>@if (session()->get('language') == 'french'){{ $item->name_fr}} @else {{ $item->name_en}}@endif </td>
+                              <td>{{ $item->name}}  </td>
                               <td>{{ $item->coupon_discount}} %</td>
                               <td>{{ $item->validity}}</td>
                               <td>

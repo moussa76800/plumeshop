@@ -12,13 +12,12 @@ class Book extends Model
 
     protected $guarded=[];
 
+    public $timestamps = false;
+
     
     public function categoryBook() {
         return $this->belongsTo(Category::class,'categoryBook_id','id');
      }
-     public function subCategory() {
-      return $this->belongsTo(SubCategory::class,'subCategory_id','id');
-   }
 
      public function publisher() {
         return $this->belongsTo(Publisher::class,'publisher_id','id');
@@ -33,8 +32,8 @@ class Book extends Model
       return $this->hasMany(MultiImg::class,'book_id', 'id');
    }
 
-
-     public function orderItems(){
+     public function orderItem()
+     {
       return $this->hasOne(OrderItem::class,'book_id', 'id');
      }
 
@@ -43,6 +42,12 @@ class Book extends Model
    {
       return $this->belongsTo(User::class);
    }
+
+   
+public function subCategory()
+    {
+        return $this->belongsTo(SubCategory::class);
+    }
 
 
 

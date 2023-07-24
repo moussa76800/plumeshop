@@ -1,7 +1,7 @@
 
 
 @php
-$categories = App\Models\Category::orderBy('name_en','ASC')->get();
+$categories = App\Models\Category::orderBy('name','ASC')->get();
 @endphp
 
 <div class="side-menu animate-dropdown outer-bottom-xs">
@@ -10,20 +10,20 @@ $categories = App\Models\Category::orderBy('name_en','ASC')->get();
       <ul class="nav">
 
         @foreach( $categories as $category)
-        <li class="dropdown menu-item"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="" aria-hidden="true"></i>@if (session()->get('language') == 'french'){{ $category->name_fr }} @else {{ $category->name_en }} @endif</a>
+        <li class="dropdown menu-item"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="" aria-hidden="true"></i>{{ $category->name}}</a>
           <ul class="dropdown-menu mega-menu">
             <li class="yamm-content">
               <div class="row">
 
                 @php
-                $subCategories = App\Models\SubCategory::where('category_id' ,$category->id)->orderBy('name_en' , 'ASC')->get();
+                $subCategories = App\Models\SubCategory::where('category_id' ,$category->id)->orderBy('name' , 'ASC')->get();
             @endphp
 
             @foreach( $subCategories as $sub)
 
                 <div class="col-sm-12 col-md-3">
                                                                          
-                     <a href="{{ url('subCategory/book/'.$sub->id.'/'.$sub->name_en ) }}">  @if (session()->get('language') == 'french'){{ $sub->name_fr }} @else {{ $sub->name_en }} @endif</a>
+                     <a href="{{ url('subCategory/book/'.$sub->id.'/'.$sub->name ) }}">  {{ $sub->name }} </a>
                     
                 </div>
                 @endforeach

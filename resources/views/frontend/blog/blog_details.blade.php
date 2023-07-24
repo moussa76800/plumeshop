@@ -2,7 +2,7 @@
 @section('content')
  
 @section('title')
-@if(session()->get('language') == 'french') {{ $postDetail->post_title_fr }} @else {{ $postDetail->post_title_en }} @endif
+ {{ $postDetail->post_title }} 
 @endsection
 
 <style>
@@ -25,11 +25,11 @@
 				<li><a href="{{ '/' }} "style="color: red" ;>@if (session()->get('language') == 'french')Accueil @else Home @endif/</a></li>
 				<li class='active'style="color:  #00008B;">Blog /</li>
 			@foreach(  $postDetail as $item)
-			<li class='active' style="color:  #00008B ;" >@if (session()->get('language') == 'french'){{ $item->category->name_fr }} @else  {{ $item->category->name_en }} @endif /</li>
+			<li class='active' style="color:  #00008B ;" >{{ $item->category->name }}  /</li>
 			@endforeach
 	
 			@foreach($postDetail as $item)
-			<li class='active' style="color:  #00008B;">@if(session()->get('language') == 'french'){{ $item->post_title_en }} @else {{ $item->post_title_en }} @endif</li>
+			<li class='active' style="color:  #00008B;">{{ $item->post_title }} </li>
 			@endforeach
 
 				
@@ -47,7 +47,7 @@
 	<img class="img-responsive" src="{{ asset($postDetail->post_image) }}" alt="">
 	
 
-	<h1>@if(session()->get('language') == 'french') {{ $postDetail->post_title_fr }} @else {{ $postDetail->post_title_en }} @endif</h1>
+	<h1> {{ $postDetail->post_title }} </h1>
 
 	@if(session()->get('language') == 'english')
 	<span class="date-time"> {{ Carbon\Carbon::parse($postDetail->created_at)->diffForHumans()  }}</span>
@@ -61,7 +61,7 @@
  
             
 
-	<p> @if(session()->get('language') == 'french') {!!  $postDetail->post_details_fr  !!} @else {!!  $postDetail->post_details_en  !!} @endif
+	<p>  {!!  $postDetail->post_details  !!} 
 	</p>
 
 
@@ -153,7 +153,7 @@ height: 270px;">
             <div class="cat">
 @forelse($blogcategory as $category)
 	    	 <ul class="list-group">
-  <a href="{{  route('blog.category.post',$category->id) }}"><li class="list-group-item">@if(session()->get('language') == 'french') {{ $category->name_fr }} @else {{ $category->name_en }} @endif</li></a>
+  <a href="{{  route('blog.category.post',$category->id) }}"><li class="list-group-item"> {{ $category->name }}</li></a>
       </ul>
 
       
@@ -172,7 +172,7 @@ height: 270px;">
 
 						 
 	 <!-- ========= === PRODUCT TAGS =========== === -->
-<div class="sidebar-widget product-tag wow fadeInUp">
+{{-- <div class="sidebar-widget product-tag wow fadeInUp">
 	<h3 class="section-title">Product tags</h3>
 	<div class="sidebar-widget-body outer-top-xs">
 		<div class="tag-list">					
@@ -187,7 +187,7 @@ height: 270px;">
 			<a class="item" title="Rose" href="category.html">Rose</a>
 		</div><!-- /.tag-list -->
 	</div><!-- /.sidebar-widget-body -->
-</div><!-- /.sidebar-widget -->
+</div><!-- /.sidebar-widget --> --}}
 <!-- ============================================== PRODUCT TAGS : END ============================================== -->					</div>
 				</div>
 			</div>

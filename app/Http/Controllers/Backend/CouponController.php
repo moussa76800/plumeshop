@@ -23,16 +23,14 @@ class CouponController extends Controller
 
     public function couponStore(Request $request){
       $request->validate([
-        'name_en'=>'required' ,
-        'name_fr'=>'required' ,
+        'name_en'=>'required',
         'coupon_discount'=>'required' ,
         'validity'=>'required' ,
         'created_at' ,
       ]); 
       
       Coupon::insert([
-        'name_en'=>$request->name_en, 
-        'name_fr'=> $request->name_fr, 
+        'name'=>$request->name_en,  
         'coupon_discount'=> $request->coupon_discount, 
         'validity'=> $request->validity, 
         'created_at'=> Carbon::now(), 
@@ -63,8 +61,7 @@ class CouponController extends Controller
                 public function couponUpdate(Request $request){
                   $coupon_id = $request->id;
                 Coupon::findOrFail($coupon_id)->update([
-                    'name_en'=>$request->name_en, 
-                    'name_fr'=> $request->name_fr, 
+                    'name_en'=>$request->name_en,  
                     'coupon_discount'=> $request->coupon_discount, 
                     'validity'=> $request->validity, 
                     'updated_at'=> Carbon::now(),   

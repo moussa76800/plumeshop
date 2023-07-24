@@ -185,7 +185,7 @@
                         <div class="row product-micro-row">
                           <div class="col col-xs-5">
                             <div class="product-image">
-                              <div class="image"><a href="@if(session()->get('language') == 'french') {{ url('book/detail/'.$book->id.'/'.$book->name_fr ) }}"  @else {{ url('book/detail/'.$book->id.'/'.$book->name_en ) }}" @endif><img src="{{ asset( $book->product_thambnail) }}" alt=""> </a> </div>
+                              <div class="image"><a href=" {{ url('book/detail/'.$book->id.'/'.$book->title ) }}" ><img src="{{ asset( $book->image) }}" alt=""> </a> </div>
                               <!-- /.image --> 
                         
                             </div>
@@ -194,11 +194,11 @@
                           <!-- /.col -->
                           <div class="col col-xs-7">
                             <div class="product-info">
-                              <h3 class="name"> <a href="{{ url('book/detail/'.$book->id.'/'.$book->name_en ) }}">
-                                @if(session()->get('language') == 'french') {{ $book->name_fr }} @else {{ $book->name_en }} @endif
+                              <h3 class="name"> <a href="{{ url('book/detail/'.$book->id.'/'.$book->title ) }}">
+                                {{ $book->title }}
                                             </a></h3>
                               <div class="rating rateit-small"></div>
-                              <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->prix }} @else $ {{ $book->prix }} @endif  </span> </div>
+                              <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->price}} @else $ {{ $book->price }} @endif  </span> </div>
                               <!-- /.product-price --> 
                               
                             </div>
@@ -557,7 +557,7 @@
         <!-- ============================================== CONTENT ============================================== -->
         <div class="col-xs-12 col-sm-12 col-md-9 homebanner-holder"> 
           <!-- ========================================== SECTION – HERO ========================================= -->
-          
+
          
           <div id="hero">
             <div id="owl-main" class="owl-carousel owl-inner-nav owl-ui-sm">
@@ -658,13 +658,14 @@
           <!-- /.info-boxes --> 
           <!-- ============================================== INFO BOXES : END ============================================== --> 
           <!-- ============================================== SCROLL TABS ============================================== -->
+          
           <div id="product-tabs-slider" class="scroll-tabs outer-top-vs wow fadeInUp">
             <div class="more-info-tab clearfix ">
               <h3 class="new-product-title pull-left"> @if (session()->get('language') == 'french') Nouveaux @else New Books @endif</h3>
-              <ul class="nav nav-tabs nav-tab-line pull-right" id="new-products-1">
+              <ul class="nav nav-tabs nav-tab-line pull-right" id="">
                 <li class="active"><a data-transition-type="backSlide" href="#all" data-toggle="tab">@if (session()->get('language') == 'french')Tout @else All @endif</a></li>
                 @foreach($categories as $category)
-                <li><a data-transition-type="backSlide" href="#category{{$category->id}}" data-toggle="tab">@if (session()->get('language') == 'french'){{ $category->name_fr }}@else {{ $category->name_en }} @endif</a></li>
+                <li><a data-transition-type="backSlide" href="#category{{$category->id}}" data-toggle="tab">{{ $category->name}}</a></li>
                 @endforeach
                 {{-- <li><a data-transition-type="backSlide" href="#laptop" data-toggle="tab">Electronics</a></li>
                 <li><a data-transition-type="backSlide" href="#apple" data-toggle="tab">Shoes</a></li> --}}
@@ -681,22 +682,22 @@
                       <div class="products">
                         <div class="product">
                           <div class="product-image">
-                            <div class="image"> <a href=" @if(session()->get('language') == 'french') {{ url('book/detail/'.$book->id.'/'.$book->name_fr ) }}" @else {{ url('book/detail/'.$book->id.'/'.$book->name_en ) }}" @endif><img src="{{  asset($book->product_thambnail) }}"></a></div>
+                            <div class="image">  {{ url('book/detail/'.$book->id.'/'.$book->title ) }}"><img src="{{  asset($book->image) }}"></a></div>
                             <!-- /.image -->
                             
                       @php
-                        $amount = $book->prix - $book->discount_price;
-                        $discount = ($amount/$book->prix) * 100;
+                        $amount = $book->price - $book->discount_price;
+                        $discount = ($amount/$book->price) * 100;
                       @endphp 
                 
                 
-                <div>
+                {{-- <div>
                   @if ($book->discount_price == NULL)
                   <div class="tag new"><span>new</span></div>
                   @else
                   <div class="tag hot"><span>{{ round($discount) }}%</span></div>
                   @endif
-                </div>
+                </div> --}}
                               
               </div>
                           <!-- /.product-image -->
@@ -704,17 +705,17 @@
                           
                           
                           <div class="product-info text-left">
-                            <h3 class="name"><a href="{{ url('book/detail/'.$book->id.'/'.$book->name_en ) }}">
-                              @if(session()->get('language') == 'french') {{ $book->name_fr }} @else {{ $book->name_en }} @endif
+                            <h3 class="name"><a href="{{ url('book/detail/'.$book->id.'/'.$book->title) }}">
+                               {{ $book->title }}
                                           </a></h3>
                             <div class="rating rateit-small"></div>
                             <div class="description"></div>
 
                             @if ($book->discount_price == NULL)
-                        <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->prix }} @else $ {{ $book->prix }} @endif </span> </div>
+                        <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->price }} @else $ {{ $book->price }} @endif </span> </div>
                                 @else
-                        <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->prix - $book->discount_price }} </span> <span class="price-before-discount">  €  {{ $book->prix }}</span> @else
-                          $ {{$book->prix - $book->discount_price  }} </span> <span class="price-before-discount">  $  {{ $book->prix }} @endif </div>
+                        <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $amount }} </span> <span class="price-before-discount">  €  {{ $book->price }}</span> @else
+                          $ {{$amount  }} </span> <span class="price-before-discount">  $  {{ $book->price }} @endif </div>
                       @endif
                             <!-- /.product-price --> 
                             
@@ -756,9 +757,16 @@
                   <div class="product-slider">
                     <div class="owl-carousel home-owl-carousel custom-carousel owl-theme" data-item="4">
                   
-                      @php
+                      {{-- @php
                       $catwiseBook = App\Models\Book::where('categoryBook_id',$category->id)->orderBy('id','DESC')->get(); 
-                    @endphp
+                    @endphp --}}
+                    @php
+                    $catwiseBook = App\Models\Book::where('categoryBook_id', $category->id)
+                                                ->where('status', 1)
+                                                ->whereNull('discount_price')
+                                                ->orderBy('id', 'DESC')
+                                                ->get();
+                @endphp
                         
                       
                         @forelse ($catwiseBook as $book)
@@ -768,36 +776,36 @@
                         <div class="products">
                           <div class="product">
                             <div class="product-image">
-                              <div class="image"><a href=" @if(session()->get('language') == 'french') {{ url('book/detail/'.$book->id.'/'.$book->name_fr ) }}" @else {{ url('book/detail/'.$book->id.'/'.$book->name_en ) }}" @endif><img src="{{  asset($book->product_thambnail) }}"></a></div>
+                              <div class="image"><a href=" {{ url('book/detail/'.$book->id.'/'.$book->title) }}" ><img src="{{  asset($book->image) }}"></a></div>
                               <!-- /.image -->
                               
 
                       @php
-                            $amount = $book->prix - $book->discount_price;
-                            $discount = ($amount/$book->prix) * 100;
+                            $amount = $book->price - $book->discount_price;
+                            $discount = ($amount/$book->price) * 100;
                       @endphp 
                       
                       
-                      <div>
+                      {{-- <div>
                         @if ($book->discount_price == NULL)
                         <div class="tag new"><span>new</span></div>
                         @else
                         <div class="tag hot"><span>{{ round($discount) }}%</span></div>
                         @endif
-                      </div>
+                      </div> --}}
                                     
                     </div>
                             <!-- /.product-image -->
                             
                             <div class="product-info text-left">
-                              <h3 class="name"><a href="detail.html">{{ $book->name_en }}</a></h3>
+                              <h3 class="name"><a href="detail.html">{{ $book->title }}</a></h3>
                               <div class="rating rateit-small"></div>
                               <div class="description"></div>
                               @if ($book->discount_price == NULL)
-                                  <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->prix }}@else ${{ $book->prix }} @endif </span> </div>
+                                  <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->price }}@else ${{ $book->price }} @endif </span> </div>
                                       @else
-                              <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->prix - $book->discount_price}} </span> <span class="price-before-discount">  €  {{ $book->prix }}</span> @else
-                                $ {{$book->prix - $book->discount_price  }} </span> <span class="price-before-discount">  $  {{ $book->prix }} @endif </div>
+                              <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $amount}} </span> <span class="price-before-discount">  €  {{ $book->price }}</span> @else
+                                $ {{$amount  }} </span> <span class="price-before-discount">  $  {{ $book->price }} @endif </div>
                             @endif
                               <!-- /.product-price --> 
                               
@@ -838,17 +846,13 @@
                 <!-- /.tab-pane -->
               @endforeach
             
-           
              
-
-              
-              
-             
-              
             </div>
             <!-- /.tab-content --> 
           </div>
           <!-- /.scroll-tabs --> 
+            
+            
           <!-- ============================================== SCROLL TABS : END ============================================== --> 
           <!-- ============================================== WIDE PRODUCTS ============================================== -->
           {{-- <div class="wide-banners wow fadeInUp outer-bottom-xs">
@@ -869,83 +873,7 @@
           <!-- ============================================== WIDE PRODUCTS : END ============================================== --> 
 
           <!-- ============================================== FEATURED PRODUCTS ============================================== -->
-           {{-- <section class="section featured-product wow fadeInUp">
-            <h3 class="section-title">@if (session()->get('language') == 'french') Prochainement @else Featured Books @endif </h3>
-            <div class="owl-carousel home-owl-carousel custom-carousel owl-theme outer-top-xs">
-
-              @foreach ( $featured as $book)
-                  
-              <div class="item item-carousel">
-                <div class="products">
-                  <div class="product">
-                    <div class="product-image">
-                      <div class="image"> <a href=" @if(session()->get('language') == 'french') {{ url('book/detail/'.$book->id.'/'.$book->name_fr ) }}" @else {{ url('book/detail/'.$book->id.'/'.$book->name_en ) }}" @endif><img src="{{  asset($book->product_thambnail) }}"></a></div>
-                      <!-- /.image -->
-                      
-                @php
-                  $amount = $book->prix - $book->discount_price;
-                  $discount = ($amount/$book->prix) * 100;
-                @endphp 
           
-          
-          <div>
-            @if ($book->discount_price == NULL)
-            <div class="tag new"><span>new</span></div>
-            @else
-            <div class="tag hot"><span>{{ round($discount) }}%</span></div>
-            @endif
-          </div>
-                        
-        </div>
-                    <!-- /.product-image -->
-
-                    
-                    
-                    <div class="product-info text-left">
-                      <h3 class="name"><a href="{{ url('book/detail/'.$book->id.'/'.$book->name_en ) }}">
-                        @if(session()->get('language') == 'french') {{ $book->name_fr }} @else {{ $book->name_en }} @endif
-                                    </a></h3>
-                      <div class="rating rateit-small"></div>
-                      <div class="description"></div>
-
-                      @if ($book->discount_price == NULL)
-                  <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->prix }} @else $ {{ $book->prix }} @endif </span> </div>
-                          @else
-                  <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $amount }} </span> <span class="price-before-discount">  €  {{ $book->prix }}</span> @else
-                    $ {{$amount  }} </span> <span class="price-before-discount">  $  {{ $book->prix }} @endif </div>
-                @endif
-                      <!-- /.product-price --> 
-                      
-                    </div>
-                    <!-- /.product-info -->
-                    <div class="cart clearfix animate-effect">
-                      <div class="action">
-                        <ul class="list-unstyled">
-                          <li class="add-cart-button btn-group">
-                            <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal" id="{{ $book->id }}" onclick="bookView(this.id)"><i class="fa fa-shopping-cart"></i> </button>
-                            <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
-                          </li>
-                           <li>
-                            <button class="btn btn-primary icon" type="button" title="Wislist" id="{{ $book->id }}" onclick="addToWishList(this.id)"><i class="fa fa-heart"></i> </button>
-                          </li>
-                          <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a>
-                           </li>
-                        </ul>
-                      </div>
-                      <!-- /.action --> 
-                    </div>
-                    <!-- /.cart --> 
-                  </div>
-                  <!-- /.product --> 
-               </div>
-                <!-- /.products --> 
-              </div>
-              <!-- /.item -->
-              @endforeach
-           </div>
-            <!-- /.home-owl-carousel --> 
-          </section> 
-          <!-- /.section -->   --}}
 
           <div id="product-tabs-slider" class="scroll-tabs outer-top-vs wow fadeInUp">
             <div class="more-info-tab clearfix ">
@@ -953,7 +881,7 @@
               <ul class="nav nav-tabs nav-tab-line pull-right" id="">
                 <li class="active"><a data-transition-type="backSlide" href="#allFeatured" data-toggle="tab">@if (session()->get('language') == 'french')Tout @else All @endif</a></li>
                 @foreach($categories as $category)
-                <li><a data-transition-type="backSlide" href="#categoryFeatured{{$category->id}}" data-toggle="tab">@if (session()->get('language') == 'french'){{ $category->name_fr }}@else {{ $category->name_en }} @endif</a></li>
+                <li><a data-transition-type="backSlide" href="#categoryFeatured{{$category->id}}" data-toggle="tab">{{ $category->name }}</a></li>
                 @endforeach
                 {{-- <li><a data-transition-type="backSlide" href="#laptop" data-toggle="tab">Electronics</a></li>
                 <li><a data-transition-type="backSlide" href="#apple" data-toggle="tab">Shoes</a></li> --}}
@@ -970,40 +898,40 @@
                       <div class="products">
                         <div class="product">
                           <div class="product-image">
-                            <div class="image"> <a href=" @if(session()->get('language') == 'french') {{ url('book/detail/'.$book->id.'/'.$book->name_fr ) }}" @else {{ url('book/detail/'.$book->id.'/'.$book->name_en ) }}" @endif><img src="{{  asset($book->product_thambnail) }}"></a></div>
+                            <div class="image"> <a href="  {{ url('book/detail/'.$book->id.'/'.$book->title ) }}"><img src="{{  asset($book->image) }}"></a></div>
                             <!-- /.image -->
                             
                       @php
-                        $amount = $book->prix - $book->discount_price;
-                        $discount = ($amount/$book->prix) * 100;
+                        $amount = $book->price - $book->discount_price;
+                        $discount = ($amount/$book->price) * 100;
                       @endphp 
                 
                 
-                <div>
+                {{-- <div>
                   @if ($book->discount_price == NULL)
                   <div class="tag new"><span>new</span></div>
                   @else
                   <div class="tag hot"><span>{{ round($discount) }}%</span></div>
                   @endif
-                </div>
+                </div>--}}
                               
-              </div>
+              </div> 
                           <!-- /.product-image -->
 
                           
                           
                           <div class="product-info text-left">
-                            <h3 class="name"><a href="{{ url('book/detail/'.$book->id.'/'.$book->name_en ) }}">
-                              @if(session()->get('language') == 'french') {{ $book->name_fr }} @else {{ $book->name_en }} @endif
+                            <h3 class="name"><a href="{{ url('book/detail/'.$book->id.'/'.$book->title ) }}">
+                              {{ $book->title }} 
                                           </a></h3>
                             <div class="rating rateit-small"></div>
                             <div class="description"></div>
 
                             @if ($book->discount_price == NULL)
-                        <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->prix }} @else $ {{ $book->prix }} @endif </span> </div>
+                        <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->price }} @else $ {{ $book->price }} @endif </span> </div>
                                 @else
-                        <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->prix - $book->discount_price }} </span> <span class="price-before-discount">  €  {{ $book->prix }}</span> @else
-                          $ {{$book->prix - $book->discount_price  }} </span> <span class="price-before-discount">  $  {{ $book->prix }} @endif </div>
+                        <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->price - $book->discount_price }} </span> <span class="price-before-discount">  €  {{ $book->prix }}</span> @else
+                          $ {{$book->price - $book->discount_price  }} </span> <span class="price-before-discount">  $  {{ $book->price}} @endif </div>
                       @endif
                             <!-- /.product-price --> 
                             
@@ -1017,7 +945,7 @@
                                   <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
                                 </li>
                                  <li>
-                                  <button class="btn btn-primary icon" type="button" title="Wislist" id="{{ $book->id }}" onclick="addToWishList(this.id)"><i class="fa fa-heart"></i> </button>
+                                  <button class="btn btn-primary icon" type="button" title="Wislist" id="{{ $book->id }}" onclick="addToWishList(this.id)"><i class="fa fa-heart"></i> </button></li>
                                 <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> </li>
                               </ul>
                             </div>
@@ -1030,14 +958,14 @@
                       <!-- /.products --> 
                     </div>
                     <!-- /.item -->
-                    @endforeach
+                     @endforeach
                  </div>
                   <!-- /.home-owl-carousel --> 
                 </div>
                 <!-- /.product-slider --> 
               </div>
               <!-- /.tab-pane -->
-            
+           
 
             
              @foreach($categories as $category)
@@ -1047,8 +975,12 @@
                     <div class="owl-carousel home-owl-carousel custom-carousel owl-theme" data-item="4">
                   
                       @php
-                      $catwiseBook = App\Models\Book::where('categoryBook_id',$category->id)->orderBy('id','DESC')->get(); 
-                    @endphp
+                    $catwiseBook = App\Models\Book::where('categoryBook_id', $category->id)
+                                                ->where('status', 1)
+                                                ->Where('featured', 1)
+                                                ->orderBy('id', 'DESC')
+                                                ->get();
+                     @endphp
                         
                       
                         @forelse ($catwiseBook as $book)
@@ -1058,36 +990,36 @@
                         <div class="products">
                           <div class="product">
                             <div class="product-image">
-                              <div class="image"><a href=" @if(session()->get('language') == 'french') {{ url('book/detail/'.$book->id.'/'.$book->name_fr ) }}" @else {{ url('book/detail/'.$book->id.'/'.$book->name_en ) }}" @endif><img src="{{  asset($book->product_thambnail) }}"></a></div>
+                              <div class="image"><a href="  {{ url('book/detail/'.$book->id.'/'.$book->title ) }}" ><img src="{{  asset($book->image) }}"></a></div>
                               <!-- /.image -->
                               
 
                       @php
-                            $amount = $book->prix - $book->discount_price;
-                            $discount = ($amount/$book->prix) * 100;
+                            $amount = $book->price - $book->discount_price;
+                            $discount = ($amount/$book->price) * 100;
                       @endphp 
                       
                       
-                      <div>
+                     {{-- <div>
                         @if ($book->discount_price == NULL)
-                        <div class="tag new"><span>new</span></div>
+                         <div class="tag new"><span>new</span></div>
                         @else
                         <div class="tag hot"><span>{{ round($discount) }}%</span></div>
                         @endif
-                      </div>
+                      </div>--}}
                                     
-                    </div>
+                    </div> 
                             <!-- /.product-image -->
                             
                             <div class="product-info text-left">
-                              <h3 class="name"><a href="detail.html">{{ $book->name_en }}</a></h3>
+                              <h3 class="name"><a href="detail.html">{{ $book->title }}</a></h3>
                               <div class="rating rateit-small"></div>
                               <div class="description"></div>
                               @if ($book->discount_price == NULL)
-                                  <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->prix }}@else ${{ $book->prix }} @endif </span> </div>
+                                  <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->price }}@else ${{ $book->price }} @endif </span> </div>
                                       @else
-                              <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->prix - $book->discount_price}} </span> <span class="price-before-discount">  €  {{ $book->prix }}</span> @else
-                                $ {{$book->prix - $book->discount_price  }} </span> <span class="price-before-discount">  $  {{ $book->prix }} @endif </div>
+                              <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $book->price - $book->discount_price}} </span> <span class="price-before-discount">  €  {{ $book->price }}</span> @else
+                                $ {{$book->price - $book->discount_price  }} </span> <span class="price-before-discount">  $  {{ $book->price }} @endif </div>
                             @endif
                               <!-- /.product-price --> 
                               
@@ -1116,7 +1048,7 @@
                       <!-- /.item -->
 
                       @empty
-                      <h5 class="text-danger">@if (session()->get('language') == 'french') Pas de Livre Trouvé dans cette catégorie !! @else No product Found in this Categrory @endif !!</h5>
+                      <h5 class="text-danger">@if (session()->get('language') == 'french') Pas de Livre Trouvé dans cette catégorie !! @else No product Found in this Category @endif !!</h5>
                             
                       @endforelse
 
@@ -1128,13 +1060,7 @@
                 <!-- /.tab-pane -->
               @endforeach
             
-           
              
-
-              
-              
-             
-              
             </div>
             <!-- /.tab-content --> 
           </div>

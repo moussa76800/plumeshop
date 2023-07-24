@@ -12,7 +12,7 @@ class CategoryController extends Controller
 {
    public function CategoryView() {
 
-    $category = Category::latest()->get();
+    $category = Category::get();
     return view('backend.category.category_view' , compact('category'));
    }
 
@@ -25,19 +25,16 @@ class CategoryController extends Controller
 
       $request-> validate([
       'name_en' => 'required' ,
-      'name_fr' => 'required' ,
-      'image'   => 'required' ,
       ]);
 
-      $image = $request->file('image');
-      $name_image = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-      Image::make($image)->resize(300,300)->save('upload/category/'.$name_image);
-      $save_url = 'upload/category/'.$name_image;
+      // $image = $request->file('image');
+      // $name_image = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+      // Image::make($image)->resize(300,300)->save('upload/category/'.$name_image);
+      // $save_url = 'upload/category/'.$name_image;
 
       Category::insert([
-         'name_en' => strtolower((str_replace(' ','-',$request->name_en))),
-         'name_fr' => str_replace(' ','-',$request->name_fr),
-         'image' => $save_url,
+         'name' => strtolower((str_replace(' ','-',$request->name_en))),
+         // 'image' => $save_url,
       ]);
 
       $notification = array(
@@ -60,19 +57,18 @@ class CategoryController extends Controller
 
     
       $category_id = $request->id;
-      $old_img = $request->old_image;
+      // $old_img = $request->old_image;
 
-      if ($request->file('image') ) {
+      // if ($request->file('image') ) {
          // unlink($old_img);
-         $image = $request->file('image');
-         $name_image = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-         Image::make($image)->resize(300,300)->save('upload/category/'.$name_image);
-         $save_url = 'upload/category/'.$name_image;
+         // $image = $request->file('image');
+         // $name_image = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+         // Image::make($image)->resize(300,300)->save('upload/category/'.$name_image);
+         // $save_url = 'upload/category/'.$name_image;
    
          Category::findOrFail($category_id)->update([
-            'name_en' => strtolower((str_replace(' ','-',$request->name_en))),
-            'name_fr' => str_replace(' ','-',$request->name_fr),
-            'image' => $save_url,
+            'name' => strtolower((str_replace(' ','-',$request->name_en))),
+            // 'image' => $save_url,
          ]);
    
          $notification = array(
@@ -82,26 +78,6 @@ class CategoryController extends Controller
    
          return redirect()->back()->with($notification);
       
-      }else {
-
-         $image = $request->file('image');
-         $name_image = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-         Image::make($image)->resize(300,300)->save('upload/category/'.$name_image);
-         $save_url = 'upload/category/'.$name_image;
-   
-         Category::findOrFail($category_id)->update([
-            'name_en' => strtolower((str_replace(' ','-',$request->name_en))),
-            'name_fr' => str_replace(' ','-',$request->name_fr),
-            
-         ]);
-   
-         $notification = array(
-            'message' => 'Category Updated Successfully ',
-            'alert-type' => 'success'
-         );
-         return redirect()->back()->with($notification);
-   
-      }
    }
       public function CategoryDelete($id){
 

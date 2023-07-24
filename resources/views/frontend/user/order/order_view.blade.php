@@ -51,49 +51,46 @@
                 </td>
 
                 <td class="col-md-3">
-                  <label for=""> ${{ $order->amount }}</label>
-                </td>
-
-
-                 <td class="col-md-3">
-                  <label for=""> {{ $order->payment_method }}</label>
-                </td>
+									<label>${{ $order->shippingMethod->amount ?? '' }}</label>
+								</td>
+								<td class="col-md-3">
+									<label>{{ $order->shippingMethod->payment_method ?? '' }}</label>
+								</td>
 
                 <td class="col-md-2">
                   <label for=""> {{ $order->invoice_no }}</label>
                 </td>
 
-         <td class="col-md-2">
-          <label for=""> 
-
-    @if($order->status == 'pending')        
-        <span class="badge badge-pill badge-warning" style="background: #800080;">@if (session()->get('language') == 'french')En Attente @else Pending @endif </span>
-        @elseif($order->status == 'confirmed')
-         <span class="badge badge-pill badge-warning" style="background: #0000FF;">@if (session()->get('language') == 'french')Confirmation @else Confirm @endif </span>
-
-          @elseif($order->status == 'processing')
-         <span class="badge badge-pill badge-warning" style="background: #FFA500;">@if (session()->get('language') == 'french')Traîtement @else Processing @endif </span>
-
-          @elseif($order->status == 'picked')
-         <span class="badge badge-pill badge-warning" style="background: #808000;">@if (session()->get('language') == 'french')Préparation @else Picked @endif </span>
-
-          @elseif($order->status == 'shipped')
-         <span class="badge badge-pill badge-warning" style="background: #808080;">@if (session()->get('language') == 'french')Expédition @else Shipped @endif </span>
-
-          @elseif($order->status == 'delivered')
-         <span class="badge badge-pill badge-warning" style="background: #008000;">@if (session()->get('language') == 'french')Délivrer @else Delivered @endif </span>
-
-          @if($order->return_order == 1) 
-           <span class="badge badge-pill badge-warning" style="background:red;">@if (session()->get('language') == 'french')Retour demandé @else Return Requested @endif </span>
-
-          @endif
-
-         @else
-  <span class="badge badge-pill badge-warning" style="background: #FF0000;">@if (session()->get('language') == 'french')Annuler @else Cancel @endif </span>
-
-      @endif
-            </label>
-        </td>
+                
+                <td class="col-md-2">
+                  <label for=""> 
+                      <span class="badge badge-pill badge-warning">
+                          <!-- Utilisez la variable $orderStatus pour afficher le texte correspondant à l'état -->
+                          @if ($aa = $order->orderStatus)
+                              @if (!is_null($aa->pending_date))
+                                  <span class="badge badge-pill badge-warning" style="background: #800080;">En Attente</span>
+                              @elseif (!is_null($aa->processing_date))
+                                  <span class="badge badge-pill badge-warning" style="background: #FFA500;">Traîtement</span>
+                              @elseif (!is_null($aa->shipped_date))
+                                  <span class="badge badge-pill badge-warning" style="background: #808080;">Expédition</span>
+                              @elseif (!is_null($aa->delivered_date))
+                                  <span class="badge badge-pill badge-warning" style="background: #418DB9;">Délivrer</span>
+                              @elseif (!is_null($aa->cancel_date))
+                                  <span class="badge badge-pill badge-warning" style="background: red;">Annuler</span>
+                              @elseif ($aa->return_date == 1)
+                                  <span class="badge badge-pill badge-warning" style="background: #008000;">Retour demandé</span>
+                              @elseif (!is_null($aa->return_reason))
+                                  <span class="badge badge-pill badge-warning" style="background: #418DB9;">Retour Raison</span>
+                              @else
+                                  <span class="badge badge-pill badge-warning" style="background: #418DB9;">Statut inconnu</span>
+                              @endif
+                          @else
+                              <span class="badge badge-pill badge-warning" style="background: #418DB9;">Aucun statut</span>
+                          @endif
+                      </span>
+                  </label>
+              </td>
+              
 
          <td class="col-md-1">
           <a href="{{ url('user/order_detail/'.$order->id ) }}" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i>@if (session()->get('language') == 'french') Voir @else  View @endif</a>

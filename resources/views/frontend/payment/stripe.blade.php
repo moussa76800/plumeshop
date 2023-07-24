@@ -144,10 +144,10 @@
                     <input type="hidden" name="name" value="{{ $data['shipping_name'] }}">
                     <input type="hidden" name="email" value="{{ $data['shipping_email'] }}">
                     <input type="hidden" name="phone" value="{{ $data['shipping_phone'] }}">
-                    <input type="hidden" name="post_code" value="{{ $data['post_code'] }}">
-                    <input type="hidden" name="common_id" value="{{ $data['common_id'] }}">
+                    {{-- <input type="hidden" name="post_code" value="{{ $data['post_code'] }}"> --}}
+                    {{-- <input type="hidden" name="common_id" value="{{ $data['common_id'] }}">
                     <input type="hidden" name="town_id" value="{{ $data['town_id'] }}">
-                    <input type="hidden" name="country_id" value="{{ $data['country_id'] }}">
+                    <input type="hidden" name="country_id" value="{{ $data['country_id'] }}"> --}}
                     <input type="hidden" name="notes" value="{{ $data['notes'] }}"> 
                 </label>
                  

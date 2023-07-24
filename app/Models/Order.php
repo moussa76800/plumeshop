@@ -12,16 +12,24 @@ class Order extends Model
     
     protected $guarded = [];
 
-    public function common(){
-    	return $this->belongsTo(ShipCommon::class,'common_id','id');
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
     }
 
-      public function town(){
-    	return $this->belongsTo(ShipTown::class,'town_id','id');
+    public function shippingMethod()
+    {
+        return $this->hasOne(ShippingMethod::class, 'order_id');
     }
 
-      public function country(){
-    	return $this->belongsTo(ShipCountry::class,'country_id','id');
+    public function orderStatus()
+    {
+        return $this->hasOne(OrderStatus::class, 'order_id');
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class, 'order_id');
     }
 
       public function user(){

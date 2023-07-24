@@ -23,7 +23,7 @@
                 <select name="category_id" id="select" required="" class="form-control">
                     <option value="" selected="" disabled="">Select the Category</option>
                         @foreach($categorie as $category)                
-                    <option value="{{$category->id }}"{{ $category->id == $subCategory->category_id ? 'selected': '' }} >{{ $category->name_en }}</option>
+                    <option value="{{$category->id }}"{{ $category->id == $subCategory->category_id ? 'selected': '' }} >{{ $category->name }}</option>
                     @endforeach
                 </select>
                 @error('category_id')
@@ -34,24 +34,14 @@
 
         
         <div class="form-group">
-            <h5> Category Name English <span class="text-danger">*</span></h5>
+            <h5> Category Name  <span class="text-danger">*</span></h5>
             <div class="controls">
-                <input type="text" name="name_en" class="form-control" value="{{ $subCategory->name_en }}">
-                    @error('name_en')
+                <input type="text" name="name" class="form-control" value="{{ $subCategory->name }}">
+                    @error('name')
                     <span class="text-danger">{{ $message}} </span>
                     @enderror
             </div>
         </div>
-        <div class="form-group">
-            <h5> Category Name French <span class="text-danger">*</span></h5>
-            <div class="controls">
-                <input type="text" name="name_fr" class="form-control" value="{{ $subCategory->name_fr }}">
-                    @error('name_fr')
-                    <span class="text-danger">{{ $message}} </span>
-                    @enderror
-            </div>
-        </div>
-       
        
 
         <div class="text-xs-right">

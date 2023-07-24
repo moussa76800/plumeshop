@@ -12,7 +12,7 @@ class AuthorController extends Controller
     
     public function authorView() {
 
-        $authors = Author::latest()->get();
+        $authors = Author::get();
         return view('backend.author.author_view' , compact('authors'));
        }
     
@@ -25,17 +25,11 @@ class AuthorController extends Controller
     
           $request-> validate([
           'name_en' => 'required' ,
-          'name_fr' => 'required' ,
-          'firstname_en' => 'required',
-          'firstname_fr' => 'required',
           
           ]);
     
           Author::insert([
-             'name_en' => strtolower((str_replace(' ','-',$request->name_en))),
-             'name_fr' => str_replace(' ','-',$request->name_fr),
-             'firstname_en' => $request->firstname_en,
-             'firstname_fr' => $request->firstname_fr,
+             'name' => strtolower((str_replace(' ','-',$request->name_en))),
           ]);
     
           $notification = array(
@@ -60,10 +54,7 @@ class AuthorController extends Controller
           $author_id = $request->id;
 
              Author::findOrFail($author_id)->update([
-            'name_en' => strtolower((str_replace(' ','-',$request->name_en))),
-            'name_fr' => str_replace(' ','-',$request->name_fr),
-            'firstname_en' => $request->firstname_en,
-            'firstname_fr' => $request->firstname_fr,
+            'name' => strtolower((str_replace(' ','-',$request->name_en))),
             
          ]);
            

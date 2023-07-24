@@ -8,10 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ShipCountry extends Model
 {
     use HasFactory;
-
-    
-    
-    public function towns(){
-        return $this->hasMany(ShipTown::class,'country_id');
+    public $timestamps = false;
+ 
+    public function address(){
+        return $this->hasMany(Address::class,'country_id');
      }
 }

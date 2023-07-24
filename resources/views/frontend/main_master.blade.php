@@ -179,11 +179,11 @@ function bookView(id){
         dataType:'json',
         success:function(data){
              //console.log(data)
-             @if(session()->get('language') == 'french')$('#pname').text(data.book.name_fr) @else $('#pname').text(data.book.name_en) @endif;
-            $('#pprice').text(data.book.prix);
+            $('#pname').text(data.book.title);
+            $('#pprice').text(data.book.price);
             $('#pcode').text(data.book.product_code);
-            @if(session()->get('language') == 'french')$('#pcategory').text(data.book.category_book.name_fr) @else $('#pcategory').text(data.book.category_book.name_en) @endif ;
-            $('#pimage').attr('src','/'+ data.book.product_thambnail);
+            $('#pcategory').text(data.book.category_book.name) ;
+            $('#pimage').attr('src','/'+ data.book.image);
             $('#book_id').val(id);
             $('#qty').val(1);
 
@@ -191,10 +191,10 @@ function bookView(id){
             if (data.book.discount_price == null) {
                 $('#pprice').text('');
                  $('#oldprice').text('');
-                $('#pprice').text(data.book.prix);
+                $('#pprice').text(data.book.price);
             }else{
-                $('#pprice').text(data.book.prix - data.book.discount_price);
-                $('#oldprice').text(data.book.prix);
+                $('#pprice').text(data.book.price - data.book.discount_price);
+                $('#oldprice').text(data.book.price);
             } // end producut price 
 
             // Start Stock opiton
@@ -225,7 +225,7 @@ function bookView(id){
 
    function addToCart(){
 
-        var book_name =  @if(session()->get('language') == 'french') $('#pname').text() @else (session()->get('language') == 'english') $('#pname').text() @endif ;
+        var book_name =  $('#pname').text() ;
         var id = $('#book_id').val();
         var quantity = $('#qty').val();
         $.ajax({
@@ -401,15 +401,15 @@ function addToWishList(book_id){
             var rows = "";
                 $.each(response, function(key,value){
                     rows += `<tr>
-                    <td class="col-md-2"><img src="/${value.book.product_thambnail} " alt="image"></td>
+                    <td class="col-md-2"><img src="/${value.book.image} " alt="image"></td>
                     <td class="col-md-7">
-                        <div class="product-name"><a href="#">${value.book.name_en}</a></div>
+                        <div class="product-name"><a href="#">${value.book.title}</a></div>
                          
                         <div class="price">
                         ${value.book.discount_price == null
-                            ? `${value.book.prix}`
+                            ? `${value.book.price}`
                             :
-                            `${value.book.discount_price} <span>${value.book.prix}</span>`
+                            `${value.book.discount_price} <span>${value.book.price}</span>`
                         }
 
                             
@@ -606,15 +606,15 @@ function addToWishList(book_id){
                   var rows = ""
                   $.each(response, function(key,value){
                     rows += `<tr>
-                    <td class="col-md-2"><img src="/${value.book.product_thambnail} " alt="imga"></td>
+                    <td class="col-md-2"><img src="/${value.book.image} " alt="imga"></td>
                     <td class="col-md-7">
-                        <div class="product-name"><a href="#">${ @if(session()->get('language') == 'french')value.book.name_fr @else value.book.name_en  @endif}</a></div>
+                        <div class="product-name"><a href="#">${ value.book.name }</a></div>
                          
                         <div class="price">
                         ${value.book.discount_price == null
-                            ? `${value.book.prix}`
+                            ? `${value.book.price}`
                             :
-                            `${ value.book.prix - value.book.discount_price} <span>${value.book.prix}</span>`
+                            `${ value.book.price - value.book.discount_price} <span>${value.book.price}</span>`
                         }
                             
                         </div>

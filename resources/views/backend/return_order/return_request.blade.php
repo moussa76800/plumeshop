@@ -40,9 +40,9 @@
 	 <tr>
 		<td> {{ $item->order_date }}  </td>
 		<td> {{ $item->invoice_no }}  </td>
-		<td>@if (session()->get('language') == 'french')€ {{ $item->amount }} @else ${{ $item->amount }} @endif $ {{ $item->amount }}  </td>
+		<td>@if (session()->get('language') == 'french')€ {{ $item->shippingMethod->amount }} @else ${{ $item->shippingMethod->amount }} @endif $ {{ $item->shippingMethod->amount }}  </td>
 
-		<td> {{ $item->payment_method }}  </td>
+		<td> {{ $item->shippingMethod->payment_method }}  </td>
 		<td>
 		@if($item->return_order == 1)
       <span class="badge badge-pill badge-primary">@if (session()->get('language') == 'french')En Attente @else Pending @endif </span>

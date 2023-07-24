@@ -11,7 +11,7 @@ class PublisherController extends Controller
     
     public function publisherView() {
 
-        $publishers = Publisher::latest()->get();
+        $publishers = Publisher::get();
         return view('backend.publisher.publisher_view' , compact('publishers'));
        }
     
@@ -24,13 +24,11 @@ class PublisherController extends Controller
     
           $request-> validate([
           'name_en' => 'required' ,
-          'name_fr' => 'required' ,
           
           ]);
     
           Publisher::insert([
-             'name_en' => strtolower((str_replace(' ','-',$request->name_en))),
-             'name_fr' => str_replace(' ','-',$request->name_fr),
+             'name' => strtolower((str_replace(' ','-',$request->name_en))),
              
           ]);
     
@@ -56,8 +54,7 @@ class PublisherController extends Controller
           $publisher_id = $request->id;
 
           Publisher::findOrFail($publisher_id)->update([
-            'name_en' => strtolower((str_replace(' ','-',$request->name_en))),
-            'name_fr' => str_replace(' ','-',$request->name_fr),
+            'name' => strtolower((str_replace(' ','-',$request->name_en))),
             
          ]);
            

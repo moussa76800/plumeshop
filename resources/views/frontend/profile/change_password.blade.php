@@ -47,9 +47,7 @@
         </div>      
         
     </div><!-- //End col md 6 --> 
-            
-            
-
+     
 </div> <!-- //End row -->   
 
     

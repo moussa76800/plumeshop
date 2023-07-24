@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Models\Book;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\OrderStatus;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
@@ -14,167 +15,122 @@ use Illuminate\Support\Facades\DB as FacadesDB;
 class OrderController extends Controller
 {
 
-	public function PendingOrders(){
-		$orders = Order::where('status','pending')->orderBy('id','DESC')->get();
-		return view('backend.orders.pending',compact('orders'));
-	} 
+
+public function PendingOrders()
+{
+    $orders = Order::with('shippingMethod', 'orderStatus', 'user')
+                   ->whereHas('orderStatus', function ($query) {
+                       $query->where('pending_date', 'pending');
+                   })
+                   ->orderBy('id', 'DESC')
+                   ->get();
+
+    return view('backend.orders.pending', compact('orders'));
+}
+
+
     public function PendingOrderDetail($order_id){
-		$order = Order::with('common','town','country','user')->where('id',$order_id)->first();
-    	$orderItem = OrderItem::with('book')->where('order_id',$order_id)->orderBy('id','DESC')->get();
+		$order = Order::with('user.address.country','user')->where('id',$order_id)->first();
+    $orderItem = OrderItem::with('book')->where('order_id',$order_id)->orderBy('id','DESC')->get();
           return view('backend.orders.order_pending_detail',compact('order','orderItem'));
 		} 
-    public function confirmedOrders(){
-        $orders = Order::where('status','confirmed')->orderBy('id','DESC')->get();
-        return view('backend.orders.confirmed',compact('orders'));
-    } 
     
     public function processingOrders(){
-        $orders = Order::where('status','processing')->orderBy('id','DESC')->get();
+      $orders = Order::with('shippingMethod', 'orderStatus', 'user')->whereHas('orderStatus', function ($query){$query->where('processing_date','processing');
+      })->orderBy('id', 'DESC')->get();
         return view('backend.orders.processing',compact('orders'));
     } 
-    public function pickedOrders(){
-        $orders = Order::where('status','picked')->orderBy('id','DESC')->get();
-        return view('backend.orders.picked',compact('orders'));
-    } 
+  
     public function shippedOrders(){
-        $orders = Order::where('status','shipped')->orderBy('id','DESC')->get();
+      $orders = Order::with('shippingMethod', 'orderStatus', 'user')->whereHas('orderStatus', function ($query){$query->where('shipped_date','shipped');
+      })->orderBy('id', 'DESC')->get();
         return view('backend.orders.shipped',compact('orders'));
     } 
     public function deliveredOrders(){
-        $orders = Order::where('status','delivered')->orderBy('id','DESC')->get();
+      $orders = Order::with('shippingMethod', 'orderStatus', 'user')->whereHas('orderStatus', function ($query){$query->where('delivered_date','delivered');
+      })->orderBy('id', 'DESC')->get();
         return view('backend.orders.delivered',compact('orders'));
     } 
     public function cancelOrders(){
-        $orders = Order::where('status','cancel')->orderBy('id','DESC')->get();
+      $orders = Order::with('shippingMethod', 'orderStatus', 'user')->whereHas('orderStatus', function ($query){$query->where('processing_date','processing');
+      })->orderBy('id', 'DESC')->get();;
         return view('backend.orders.cancel',compact('orders'));
     } 
     
 // Admin Update All Statut :
 
-// Pending To confirm
-public function pendingToConfirmOrder($order_id){
-   
-    Order::findOrFail($order_id)->update(['status' => 'confirmed']);
+public function pendingToProcessOrder($order_id) {
+  $orderStatus = OrderStatus::where('order_id', $order_id)->first();
 
-    if (session()->get('language') == 'french'){
-    $notification = array(
-          'message' => 'La Commande est Confirmée avec Succès',
+  if ($orderStatus) {
+      $orderStatus->pending_date = null;
+      $orderStatus->processing_date = 'processing';
+      $orderStatus->save();
+  }
+      $notification = array(
+          'message' => 'Order by Processing',
           'alert-type' => 'success'
       );
-    return redirect()->route('pending')->with($notification);
-    }
-    $notification = array(
-        'message' => 'Order Confirm Successfully',
-        'alert-type' => 'success'
-    );
-  return redirect()->route('pending')->with($notification);
-  } 
 
-  // Confirm To Processing
-  public function ConfirmToProcessingOrder($order_id){
-   
-    Order::findOrFail($order_id)->update(['status' => 'processing']);
+      return redirect()->route('pending')->with($notification);
+  }
 
-    if (session()->get('language') == 'french'){
-    $notification = array(
-          'message' => 'La Commande est Traîtement ',
+// Processing To Shipped
+public function ProcessingToShippedOrder($order_id){
+  $orderStatus = OrderStatus::where('order_id', $order_id)->first();
+
+  if ($orderStatus) {
+      $orderStatus->processing_date = null;
+      $orderStatus->shipped_date= 'shipped';
+      $orderStatus->save();
+  }
+      $notification = array(
+          'message' => 'Order Shipped',
           'alert-type' => 'success'
       );
-    return redirect()->route('confirmed')->with($notification);
-    }
-    $notification = array(
-        'message' => 'Order Processing',
-        'alert-type' => 'success'
-    );
-  return redirect()->route('confirmed')->with($notification);
-  } 
 
-  // Processing To Picked
-  public function ProcessingToPickedOrder($order_id){
-   
-    Order::findOrFail($order_id)->update(['status' => 'picked']);
+      return redirect()->route('processing')->with($notification);
+  }
 
-    if (session()->get('language') == 'french'){
-    $notification = array(
-          'message' => 'La Commande est Préparée ',
+
+// Shipped To Delivered
+public function ShippedToDeliveredOrder($order_id){
+  $orderStatus = OrderStatus::where('order_id', $order_id)->first();
+
+  if ($orderStatus) {
+      $orderStatus->shipped_date = null;
+      $orderStatus->delivered_date = 'delivered';
+      $orderStatus->save();
+  }
+      $notification = array(
+          'message' => 'Order Delivered',
           'alert-type' => 'success'
       );
-    return redirect()->route('picked')->with($notification);
-    }
-    $notification = array(
-        'message' => 'Order Picked',
-        'alert-type' => 'success'
-    );
-  return redirect()->route('picked')->with($notification);
-  } 
 
-   //  Picked To Shipped
-   public function PickedToShippedOrder($order_id){
-   
-    Order::findOrFail($order_id)->update(['status' => 'shipped']);
+      return redirect()->route('shipped')->with($notification); 
+     }
 
-    if (session()->get('language') == 'french'){
-    $notification = array(
-          'message' => 'La Commande est expédiée ',
-          'alert-type' => 'success'
+// Delivered To Cancel
+public function DeliveredToCancelOrder($order_id){
+  $orderStatus = OrderStatus::where('order_id', $order_id)->first();
+
+  if ($orderStatus) {
+      $orderStatus->delivered_date = null;
+      $orderStatus->cancel_date = 'cancel';
+      $orderStatus->save();
+  }
+      $notification = array(
+          'message' => 'Order Canceled',
+          'alert-type' => 'error'
       );
-    return redirect()->route('shipped')->with($notification);
-    }
-    $notification = array(
-        'message' => 'Order Shipped',
-        'alert-type' => 'success'
-    );
-  return redirect()->route('shipped')->with($notification);
-  } 
 
-   //  Shipped To Delivered
-   public function ShippedToDeliveredOrder($order_id){
+      return redirect()->route('delivered')->with($notification);
+  }
 
-    $product = OrderItem::where('order_id',$order_id)->get();
-	     foreach ($product as $item) {
-	     	Book::where('id',$item->book_id)
-	 			->update(['product_qty' => DB::raw('product_qty-'.$item->qty)]);
-	 } 
- 
-   
-    Order::findOrFail($order_id)->update(['status' => 'delivered']);
-
-    if (session()->get('language') == 'french'){
-    $notification = array(
-          'message' => 'La Commande est Délivrée ',
-          'alert-type' => 'success'
-      );
-    return redirect()->route('delivered')->with($notification);
-    }
-    $notification = array(
-        'message' => 'Order Delivered',
-        'alert-type' => 'success'
-    );
-  return redirect()->route('delivered')->with($notification);
-  } 
-
-   //   Delivered To Cancel
-   public function DeliveredToCancelOrder($order_id){
-   
-    Order::findOrFail($order_id)->update(['status' => 'cancel']);
-
-    if (session()->get('language') == 'french'){
-    $notification = array(
-          'message' => 'La Commande est Supprimée ',
-          'alert-type' => 'success'
-      );
-    return redirect()->route('delivered')->with($notification);
-    }
-    $notification = array(
-        'message' => 'Order Canceled',
-        'alert-type' => 'success'
-    );
-  return redirect()->route('delivered')->with($notification);
-  } 
 
   public function AdminInvoiceDownload($order_id){
 
-    $order = Order::with('common','town','country','user')->where('id',$order_id)->first();
+    $order = Order::with('common','town','user.address','user')->where('id',$order_id)->first();
     $orderItem = OrderItem::with('book')->where('order_id',$order_id)->orderBy('id','DESC')->get();
      
     $pdf = PDF::loadView('backend.orders.order_invoice',compact('order','orderItem'))->setPaper('a4')->setOptions([
@@ -185,12 +141,20 @@ public function pendingToConfirmOrder($order_id){
 
   }
 
-  public function getSalesReportAjax(Request $request)
+//   public function getSalesReportAjax(Request $request)
+// {
+//   $pending = Order::where('status','pending')->get();
+
+//     return response()->json($pending);
+// }
+public function getSalesReportAjax(Request $request)
 {
-  $pending = Order::where('status','pending')->get();
+    $pending = Order::whereHas('orderStatus', function ($query) {
+                    $query->where('pending_date', 'pending');
+                })->get();
 
     return response()->json($pending);
 }
-        
+    
 
 }

@@ -19,6 +19,8 @@ use Illuminate\Http\Request;
 use App\Models\Blog\BlogPost;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Address;
+use App\Models\ShipCountry;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
@@ -29,18 +31,28 @@ class IndexController extends Controller
   
   public function index(){
     $blogpost = BlogPost::latest()->get();
-    $books = Book::where('status' , 1)->orderBy('id' ,'DESC')->limit(6)->get();
-    $categories = Category::orderBy('name_en' , 'ASC')->get();
+    // $books = Book::where('status' , 1)->orderBy('id' ,'DESC')->limit(6)->get();
+    $books = Book::where([['status', 1],['discount_price', NULL],])->orderBy('id', 'DESC')->limit(6)->get();
+    $categories = Category::orderBy('name' , 'ASC')->get();
     $sliders = Slider::where('status' , 1)->orderBy('id' ,'DESC')->limit(3)->get();
-    $featured = Book::where('featured' , 1)->orderBy('id' ,'DESC')->limit(6)->get();
+    // $featured = Book::where('featured' , 1)->orderBy('id' ,'DESC')->limit(6)->get();
+    $featured = Book::where([['status', 1],['featured', 1],]) ->orderBy('id', 'DESC')->limit(6)
+->get();
     $special_offer = Book::where('special_offer' , 1)->orderBy('id' ,'DESC')->limit(3)->get();
     
         return view('frontend.index',compact('categories','sliders', 'books', 'featured','special_offer','blogpost'));
   }
 
+public function home()
+{
+    $id = Auth::user()->id;
+    $user = User::find($id);
+    return view('dashboard', compact('user'));
+}
+
   public function UserLogout(){
     Auth::logout();
-    return Redirect()->route('login');
+    return redirect()->route('login');
 }
 
  public function UserProfile(){
@@ -49,29 +61,60 @@ class IndexController extends Controller
    return view('frontend.profile.user_profile', compact('user'));
  }
 
- public function UserProfileStore(Request $request){
+ public function UserProfileStore(Request $request)
+{
+    $user = User::find(Auth::user()->id);
 
-  $Data = User::find(Auth::user()->id);
-            $Data->name = $request->name;
-            $Data->email = $request->email;
-            $Data->phone = $request->phone;
-            
-            if($request->file('profile_photo_path')) {
-                $file = $request->file('profile_photo_path');
-                @unlink(public_path('upload/user_images/'.$Data->profile_photo_path));
-                $filename = date('YmdHi').$file->getClientOriginalName();
-                $file->move(public_path('upload/user_images'), $filename);
-                $Data['profile_photo_path']= $filename;
-            }
-            $Data->save();
+    // Mettre à jour les champs de l'utilisateur
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->phone = $request->phone;
 
-            $notification = array(
-                'message' => 'User Profile Updated Successfully' ,
-                'alert-type' => 'success'
-            );
+    // Mettre à jour les champs de l'adresse
+    $address = $user->address ?? new Address();
+    $address->street_name = $request->street;
+    $address->street_number = $request->number;
+    $address->city = $request->city;
+    $address->save();
 
-                return redirect()->route('dashboard')->with($notification);
+    // Associer l'adresse à l'utilisateur
+    $user->address_id = $address->id;
+    $user->save();
+
+    // Gérer la photo de profil (si nécessaire)
+
+    $notification = [
+        'message' => 'User Profile Updated Successfully',
+        'alert-type' => 'success'
+    ];
+
+    return redirect()->route('dashboard')->with($notification);
 }
+
+
+//  public function UserProfileStore(Request $request){
+
+//   $Data = User::find(Auth::user()->id);
+//             $Data->name = $request->name;
+//             $Data->email = $request->email;
+//             $Data->phone = $request->phone;
+            
+//             if($request->file('profile_photo_path')) {
+//                 $file = $request->file('profile_photo_path');
+//                 @unlink(public_path('upload/user_images/'.$Data->profile_photo_path));
+//                 $filename = date('YmdHi').$file->getClientOriginalName();
+//                 $file->move(public_path('upload/user_images'), $filename);
+//                 $Data['profile_photo_path']= $filename;
+//             }
+//             $Data->save();
+
+//             $notification = array(
+//                 'message' => 'User Profile Updated Successfully' ,
+//                 'alert-type' => 'success'
+//             );
+
+//                 return redirect()->route('dashboard')->with($notification);
+// }
 
   public function UserChangePassword() {
     $id = Auth::user()->id;
@@ -116,7 +159,7 @@ class IndexController extends Controller
   // SubCategory Wise Data :
   public function subCatWiseBook( $subCat_id , $slug  ){
     $books= Book::where('status',1)->where('subCategory_id',$subCat_id)-> orderBy('id' , 'DESC')->paginate(3);
-    $categories = Category::orderBy('name_en','ASC')->get();
+    $categories = Category::orderBy('name','ASC')->get();
     $breadSubCat = SubCategory::with(['category'])->where('id', $subCat_id)->get();
       return view('frontend.book.subCategory_view', compact('books', 'categories', 'breadSubCat'));
 }
@@ -155,32 +198,21 @@ public function search(){
    $bookSearch = [];
 
   if(request()->isMethod('get')){
-    if (session()->get('language') == 'french') { 
-      $categorySearch = Category::orderBy('name_fr', 'ASC')->get();
+     { 
+      $categorySearch = Category::orderBy('name', 'ASC')->get();
       $bookSearch = Book::leftJoin('publishers', 'books.publisher_id', '=', 'publishers.id')
         ->leftJoin('categories', 'books.categoryBook_id', '=', 'categories.id')
         ->where(function($query) use ($item) {
-          $query->where('books.name_fr', 'LIKE', "%$item%")
+          $query->where('books.title', 'LIKE', "%$item%")
             ->orWhere('books.ISBN', 'LIKE', "%$item%")
-            ->orWhere('publishers.name_fr', 'LIKE', "%$item%")
-            ->orWhere('categories.name_fr', 'LIKE', "%$item%");
+            ->orWhere('publishers.name', 'LIKE', "%$item%")
+            ->orWhere('categories.name', 'LIKE', "%$item%");
   
         })
         ->get();
        
-    } else if (session()->get('language') == 'english')  {
-      $categorySearch = Category::orderBy('name_en', 'ASC')->get();
-      $bookSearch = Book::leftJoin('publishers', 'books.publisher_id', '=', 'publishers.id')
-        ->leftJoin('categories', 'books.categoryBook_id', '=', 'categories.id')
-        ->where(function($query) use ($item) {
-          $query->where('books.name_en', 'LIKE', "%$item%")
-            ->orWhere('books.ISBN', 'LIKE', "%$item%")
-            ->orWhere('publishers.name_en', 'LIKE', "%$item%")
-            ->orWhere('categories.name_en', 'LIKE', "%$item%");
-  
-        })
-        ->get();
-    }
+    } 
+      
     
     return view('frontend.book.search_book', compact('categorySearch', 'bookSearch','item'));
   }
@@ -197,7 +229,7 @@ public function search(){
    }
  
    if (session()->get('language') == 'french') {  
-     $categorySearch = Category::orderBy('name_fr', 'ASC')->get();
+     $categorySearch = Category::orderBy('name', 'ASC')->get();
      $bookSearch = Book::leftJoin('publishers', 'books.publisher_id', '=', 'publishers.id')
        ->leftJoin('categories', 'books.categoryBook_id', '=', 'categories.id')
        ->where(function($query) use ($item) {
@@ -208,20 +240,7 @@ public function search(){
  
        })
        ->get();
-     
-      
-   } else if (session()->get('language') == 'english')  {
-     $categorySearch= Category::orderBy('name_en', 'ASC')->get();
-     $bookSearch = Book::leftJoin('publishers', 'books.publisher_id', '=', 'publishers.id')
-       ->leftJoin('categories', 'books.categoryBook_id', '=', 'categories.id')
-       ->where(function($query) use ($item) {
-         $query->where('books.name_en', 'LIKE', "%$item%")
-           ->orWhere('books.ISBN', 'LIKE', "%$item%")
-           ->orWhere('publishers.name_en', 'LIKE', "%$item%")
-           ->orWhere('categories.name_en', 'LIKE', "%$item%");
-
-      })
-      ->get();
+   
   }
        return view('frontend.book.search_book', compact('categorySearch', 'bookSearch','item')); 
   
@@ -244,15 +263,10 @@ public function searchBook(Request $request){
           return view('frontend.book.search_book_advanced');
       }
   }
-  if (session()->get('language') == 'english'){ 
-  $books = Book::where('name_en','LIKE',"%$item%")->select('name_en','product_thambnail','prix','id')->limit(5)->get();
+  
+  $books = Book::where('name_en','LIKE',"%$item%")->select('name','image','price','id')->limit(5)->get();
   return view('frontend.book.search_book_advanced',compact('books'));
 }
-$books = Book::where('name_fr','LIKE',"%$item%")->select('name_fr','product_thambnail','prix','id')->limit(5)->get();
-  return view('frontend.book.search_book_advanced',compact('books'));
-}
-
-
 
 public function donnateBook(){
   

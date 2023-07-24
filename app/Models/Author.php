@@ -11,12 +11,10 @@ class Author extends Model
     use HasFactory;
 
     protected $fillable=[
-        'name_en' ,
-        'name_fr',
-        'firstname_en' ,
-        'firstname_fr',
-
+        'name' ,
     ];
+
+    public $timestamps = false;
 
 
     /**

@@ -23,11 +23,11 @@ class Message extends Model
 
     public function otherMessages()
     {
-        return $this->hasOne(OtherMessage::class);
+        return $this->hasOne(OthersMessages::class);
     }
 
     public function blogMessages()
     {
-        return $this->hasMany(BlogMessage::class);
+        return $this->hasOne(BlogMessage::class);
     }
 }

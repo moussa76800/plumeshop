@@ -70,17 +70,16 @@
     <tr>
         <td>
           <p class="font" style="margin-left: 20px;">
-           <strong>Name:</strong> {{ $order->name }}<br>
-           <strong>Email:</strong> {{ $order->email }} <br>
-           <strong>Phone:</strong> {{ $order->phone }} <br>
+           <strong>Name:</strong> {{ $order->user->name }}<br>
+           <strong>Email:</strong> {{ $order->user->email }} <br>
+           <strong>Phone:</strong> {{ $order->user->phone }} <br>
            @php
-            $common = $order->common->name;
-            $town = $order->town->name;
-            $state = $order->country->name;
+            $adress = $order->user->adress->street_name ,$order->user->adress->street_number , $order->user->adress->city ;
+            $state = $order->user->adress->country->name;
            @endphp
             
-           <strong>Address:</strong> {{ $common }}, {{ $town }} ({{ $state }}) <br>
-           <strong>Post Code:</strong> {{ $order->post_code }}
+           <strong>Address:</strong> {{ $adress}}, ({{ $state }}) <br>
+           
          </p>
         </td>
         <td>
@@ -110,9 +109,9 @@
      @foreach($orderItem as $item)
       <tr class="font">
         <td align="center">
-            <img src="{{ public_path($item->book->product_thambnail)  }}" height="60px;" width="60px;" alt="">
+            <img src="{{ public_path($item->book->image)  }}" height="60px;" width="60px;" alt="">
         </td>
-        <td align="center"> {{ $item->book->name_en }}</td>
+        <td align="center"> {{ $item->book->name }}</td>
         <td align="center">{{ $item->book->product_code }}</td>
         <td align="center">{{ $item->qty }}</td>
         <td align="center">${{ $item->price }}</td>
@@ -174,17 +173,15 @@
           <tr>
               <td>
                 <p class="font" style="margin-left: 20px;">
-                 <strong>Nom:</strong> {{ $order->name }}<br>
-                 <strong>Email:</strong> {{ $order->email }} <br>
-                 <strong>Phone:</strong> {{ $order->phone }} <br>
+                 <strong>Nom:</strong> {{ $order->user->name }}<br>
+                 <strong>Email:</strong> {{ $order->user->email }} <br>
+                 <strong>Phone:</strong> {{ $order->user->phone }} <br>
                  @php
-                  $common = $order->common->name;
-                  $town = $order->town->name;
-                  $state = $order->country->name;
-                 @endphp
+            $adress = $order->user->adress->street_name ,$order->user->adress->street_number , $order->user->adress->city ;
+            $state = $order->user->adress->country->name;
+           @endphp
                   
-                 <strong>Addresse:</strong> {{ $common }}, {{ $town }} ({{ $state }}) <br>
-                 <strong>Code Postal:</strong> {{ $order->post_code }}
+                  <strong>Address:</strong> {{ $adress}}, ({{ $state }}) <br>
                </p>
               </td>
               <td>
@@ -214,9 +211,9 @@
            @foreach($orderItem as $item)
             <tr class="font">
               <td align="center">
-                  <img src="{{ public_path($item->book->product_thambnail)  }}" height="60px;" width="60px;" alt="">
+                  <img src="{{ public_path($item->book->image)  }}" height="60px;" width="60px;" alt="">
               </td>
-              <td align="center"> {{ $item->book->name_en }}</td>
+              <td align="center"> {{ $item->book->name }}</td>
               <td align="center">{{ $item->book->product_code }}</td>
               <td align="center">{{ $item->qty }}</td>
               <td align="center">${{ $item->price }}</td>

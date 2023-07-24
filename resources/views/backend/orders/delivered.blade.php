@@ -38,22 +38,61 @@
 							</tr>
 						</thead>
 						<tbody>
-	 @foreach($orders as $item)
-	 <tr>
-		<td> {{ $item->order_date }}  </td>
-		<td> {{ $item->invoice_no }}  </td>
-		<td> ${{ $item->amount }}  </td>
-
-		<td> {{ $item->payment_method }}  </td>
-		<td> <span class="badge badge-pill badge-primary">{{ $item->status }} </span>  </td>
-       
-		<td width="25%">
-           <a href="{{ route('pending.detail',$item->id) }}" class="btn btn-info" title="View Data"><i class="fa fa-eye"></i> </a>
-		   <a target="_blank" href="{{ route('invoice.download',$item->id) }}" class="btn btn-danger" title="Invoice Download"><i class="fa fa-download"></i></a>
-		</td>
-							 
-	 </tr>
-	  @endforeach
+							@foreach($orders as $item)
+							<tr>
+							   <td> {{ $item->order_date }}  </td>
+							   <td> {{ $item->invoice_no }}  </td>
+							   <td> {{ $item->shippingMethod->payment_method }}  </td>
+							   <td>
+							   <span class="badge badge-pill badge-primary">
+									   @if ($item->orderStatus)
+										   @php
+											   $orderStatus = $item->orderStatus;
+											   $status = '';
+											   switch (true) {
+												   case !is_null($orderStatus->pending_date):
+													   $status = 'En Attente';
+													   break;
+												   case !is_null($orderStatus->processing_date):
+													   $status = 'Traîtement';
+													   break;
+												   case !is_null($orderStatus->shipped_date):
+													   $status = 'Expédition';
+													   break;
+												   case !is_null($orderStatus->delivered_date):
+													   $status = 'Délivrer';
+													   break;
+												   case !is_null($orderStatus->cancel_date):
+													   $status = 'Annuler';
+													   break;
+												   case !is_null($orderStatus->return_date):
+													   $status = 'Retour demandé';
+													   break;
+												   case !is_null($orderStatus->return_reason):
+													   $status = 'Retour Raison';
+													   break;
+												   default:
+													   $status = 'Statut inconnu';
+													   break;
+											   }
+										   @endphp
+										   <span class="badge badge-pill badge-warning" style="background: #418DB9;">{{ $status }}</span>
+									   @else
+										   <span class="badge badge-pill badge-warning" style="background: #418DB9;">Aucun statut</span>
+									   @endif
+								   </span>
+							   </td>
+							   
+							   
+							  
+							   <td width="25%">
+								  <a href="{{ route('pending.detail',$item->id) }}" class="btn btn-info" title="View Data"><i class="fa fa-eye"></i> </a>
+								  <a target="_blank" href="{{ route('invoice.download',$item->id) }}" class="btn btn-danger" title="Invoice Download">
+								   <i class="fa fa-download"></i></a>
+							   </td>
+													
+							</tr>
+							 @endforeach
 						</tbody>
 						 
 					  </table>

@@ -7,19 +7,33 @@
 
                     @include('frontend.common.user.user_sidebar')        
 
-                    <div class="col-md-2">
-                    </div> <!-- //End col md 2 -->   
 
-                <div class="col-md-6">
-                            <div class="card">
-                    <h3 class="text-center"><span>@if(session()->get('language') == 'french') Bienvenue dans ton Dashboard, </span><strong class="text-danger">{{ Auth::user()->name}}</strong></h3>
-                    @else Welcome To Dashboard,  </span><strong>{{ Auth::user()->name}}</strong>@endif</h3>
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            
+                                <h3 class="text-center"><span class="text-danger">USER'S INFORMATION</h3>
+                                <hr>
+                            
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-14">
+                                        <p><strong>Nom :</strong> {{ Auth::user()->name }}</p>
+                                        <p><strong>Email :</strong> {{ Auth::user()->email }}</p>
+                                        <p><strong>Téléphone :</strong> {{ Auth::user()->phone }}</p>                              
+                                       <p><strong>Adresse :</strong></p><p>{{ Auth::user()->address->street_number }}, {{ Auth::user()->address->street_name }}</p><p>{{ Auth::user()->address->city }}</p>
+                                       
+                                   
+                                </div>
                             </div>
-                </div> <!-- //End col md 6 -->   
-        </div> <!-- //End row -->   
-    </div>
-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
 @endsection
+
+
     

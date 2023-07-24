@@ -49,11 +49,11 @@ public function cartIncremente($rowId){
 	if (Session::has('coupon')) {
 
 		$coupon_name = Session::get('coupon')['coupon_name'];
-		$coupon = Coupon::where('name_fr',$coupon_name)->first();
+		$coupon = Coupon::where('name',$coupon_name)->first();
 
 	  
 		Session::put('coupon',[
-			'coupon_name' => $coupon->name_fr ,
+			'coupon_name' => $coupon->name,
 			'coupon_discount' => $coupon->coupon_discount ,
 			'discountAmount' => round(Cart::total() * $coupon->coupon_discount)/100 ,
 			'totalAmount' => round(Cart::total() - Cart::total() * $coupon->coupon_discount/100) 
@@ -69,10 +69,10 @@ public function cartIncremente($rowId){
 		if (Session::has('coupon')) {
 
 			$coupon_name = Session::get('coupon')['coupon_name'];
-			$coupon = Coupon::where('name_fr',$coupon_name)->first();
+			$coupon = Coupon::where('name',$coupon_name)->first();
 	
 		    Session::put('coupon',[
-				'coupon_name' => $coupon->name_fr ,
+				'coupon_name' => $coupon->name ,
 				'coupon_discount' => $coupon->coupon_discount ,
 				'discount_amount' => round((Cart::total() * $coupon->coupon_discount)/100) ,
 				'total_amount' => round(Cart::total() - (Cart::total() * $coupon->coupon_discount/100)) 

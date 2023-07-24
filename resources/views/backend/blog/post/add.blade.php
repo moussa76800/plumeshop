@@ -36,7 +36,7 @@
 
 			<div class="col-md-6">
                         <div class="form-group">
-                    <h5>@if (session()->get('language') == 'english') Title English @else Titre en Anglais @endif  <span class="text-danger">*</span></h5>
+                    <h5> Title <span class="text-danger">*</span></h5>
                     <div class="controls">
                         <input type="text" name="post_title_en" class="form-control" required="">
             @error('post_title_en') 
@@ -47,29 +47,18 @@
             </div> <!-- end col md 6 -->
 
 
-			<div class="col-md-6">
-                        <div class="form-group">
-                    <h5>@if (session()->get('language') == 'english') Title in French  @else Titre en Français @endif  <span class="text-danger">*</span></h5>
-                    <div class="controls">
-                        <input type="text" name="post_title_fr" class="form-control" required="">
-            @error('post_title_fr') 
-            <span class="text-danger">{{ $message }}</span>
-            @enderror
-	 		 </div>
-		</div>
-            </div> <!-- end col md 6 -->
 					</div> <!-- end row  -->
 
 
 <div class="row"> 
 			<div class="col-md-6">
 	 <div class="form-group">
-	<h5>@if (session()->get('language') == 'english') Select a Category @else Selectionnez une Categorie @endif <span class="text-danger">*</span></h5>
+	<h5> Select a Category  <span class="text-danger">*</span></h5>
 	<div class="controls">
 		<select name="category_id" class="form-control" required="" >
-			<option value="" selected="" disabled="">@if (session()->get('language') == 'english') Select a Category @else Selectionnez une Categorie @endif </option>
+			<option value="" selected="" disabled=""> Select a Category  </option>
 		 @foreach($blogCategory as $category)
-         @if (session()->get('language') == 'english') <option value="{{ $category->id }}">{{ $category->name_en }}</option> @else <option value="{{ $category->id }}">{{ $category->name_fr }}</option>	 @endif 
+         <option value="{{ $category->id }}">{{ $category->name }}</option>  
 			@endforeach
 		</select>
 		@error('category_id') 
@@ -78,7 +67,8 @@
 	 </div>
 		 </div>
             </div> <!-- end col md 6 -->
-
+</div> <!-- end row  -->
+<div class="row"> 
 			<div class="col-md-6">
 	    <div class="form-group">
 			<h5> Image  <span class="text-danger">*</span></h5>
@@ -91,38 +81,28 @@
 	 		 </div>
 		</div>
 			</div> <!-- end col md 6 -->
-</div> <!-- end row  -->
+</div>
+
  
 <div class="row"> <!-- start row  -->
 			<div class="col-md-6">
 
 	    <div class="form-group">
-			<h5>@if (session()->get('language') == 'english')Add Content in English @else Ajouter du Contenu en Anglais @endif  <span class="text-danger">*</span></h5>
+			<h5>Add Content in English  <span class="text-danger">*</span></h5>
 			<div class="controls">
 	<textarea id="editor1" name="post_details_en" rows="10" cols="80" required="">
-		@if (session()->get('language') == 'english') Content Details in English @else Détails du Contenu en Anglais @endif
+		 Content Details in English 
 						</textarea>  
 	 		 </div>
 		</div>
 				
 			</div> <!-- end col md 6 -->
-
-			<div class="col-md-6">
-
-	     <div class="form-group">
-			<h5>@if (session()->get('language') == 'english')Add  Content in French @else Ajouter un Contenu en Français @endif <span class="text-danger">*</span></h5>
-			<div class="controls">
-	<textarea id="editor2" name="post_details_fr" rows="10" cols="80" required="">
-		@if (session()->get('language') == 'english') Content Details in French @else Détails du Contenu en Français @endif
-						</textarea>       
-	 		 </div>
-		</div>
-            </div> <!-- end col md 6 -->		 
+	 
                 </div> <!-- end  row  -->
 	 <hr>
 
 	 	<div class="text-xs-right">
-<input type="submit" class="btn btn-rounded btn-primary mb-5" value="@if (session()->get('language') == 'english') Add Content @else Ajouter  @endif">
+<input type="submit" class="btn btn-rounded btn-primary mb-5" value=" Add Content ">
 						</div>
 					</form>
  </div>

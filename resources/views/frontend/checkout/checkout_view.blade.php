@@ -40,7 +40,7 @@
 
 				<!-- guest-login -->			
 			 <div class="col-md-6 col-sm-6 already-registered-login">
-		 <h4 class="checkout-subtitle"><b>>@if (session()->get('language') == 'french')adresse d'expédition @else Shipping Address @endif</b></h4>
+		 <h4 class="checkout-subtitle"><b>@if (session()->get('language') == 'french')adresse d'expédition @else Shipping Address @endif</b></h4>
 					 
 	<form class="register-form" action="{{ route('checkout.store') }}" method="POST">
 		@csrf
@@ -58,18 +58,13 @@
 	  </div>  <!-- // end form group  -->
 
 
-<div class="form-group">
-	    <label class="info-title" for="exampleInputEmail1"><b>@if (session()->get('language') == 'french')Telephone @else Phone</b>@endif  <span>*</span></label>
-	    <input type="number" name="shipping_phone" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="Phone" value="{{ Auth::user()->phone }}" required="">
-	  </div>  <!-- // end form group  -->
-
 
 	  <div class="form-group">
-	    <label class="info-title" for="exampleInputEmail1"><b>@if (session()->get('language') == 'french')Code @else Post Code </b>@endif <span>*</span></label>
-	    <input type="text" name="post_code" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="Post Code" required="">
+		<label class="info-title" for="exampleInputEmail1"><b>@if (session()->get('language') == 'french')Telephone @else Phone</b>@endif  <span>*</span></label>
+		<input type="text" name="shipping_phone" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="Phone" value="{{ Auth::user()->phone }}" required="">
 	  </div>  <!-- // end form group  -->
 
-	 
+
 	 
 				</div>	
 				<!-- guest-login -->
@@ -83,55 +78,21 @@
 					 
 
 					<div class="form-group">
-						<h5><b>@if (session()->get('language') == 'french') Pays @else State</b> @endif <span class="text-danger">*</span></h5>
-						<div class="controls">
-							<select name="country_id" class="form-control" required="" >
-								<option value="" selected="" disabled="">@if (session()->get('language') == 'french')Sélectionnez le pays @else Select State @endif</option>
-								@foreach($country as $item)
-								<option value="{{ $item->id }}">{{ $item->name }}</option>	
-											@endforeach
-							</select>
-							@error('country_id') 
-						 <span class="text-danger">{{ $message }}</span>
-						 @enderror 
-						 </div>
-							 </div> <!-- // end form group -->
+						<label class="info-title" for="exampleInputEmail1"><b>State</b>  <span>*</span></label>
+						<input type="text" name="country" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="State" value="{{ Auth::user()->address->country->name }}" required="">
+					  </div>  <!-- // end form group  -->
 
-							 <div class="form-group">
-								<h5><b>@if (session()->get('language') == 'french') Ville @else Town </b> @endif <span class="text-danger">*</span></h5>
-								<div class="controls">
-									<select name="town_id" class="form-control" required="" >
-										<option value="" selected="" disabled="">@if (session()->get('language') == 'french')Sélectionnez la ville @else Select Town @endif</option>
-										@foreach($town as $item)
-										<option value="{{ $item->id }}">{{ $item->name }}</option>	
-													@endforeach
-									</select>
-									@error('town_id') 
-								 <span class="text-danger">{{ $message }}</span>
-								 @enderror 
-								 </div>
+					  
+					  <div class="form-group">
+						<label class="info-title" for="exampleInputEmail1"><b>@if (session()->get('language') == 'french') Ville @else City</b>@endif  <span>*</span></label>
+						<input type="text" name="city" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="city"  value=" {{Auth::user()->address->city }}" required="">
+					  </div>  <!-- // end form group  -->
 
-									 </div> <!-- // end form group -->
-						<div class="form-group">
-							<h5><b>@if (session()->get('language') == 'french') Commune @else Common </b>@endif <span class="text-danger">*</span></h5>
-							<div class="controls">
-								<select name="common_id" class="form-control" required="" >
-									<option value="" selected="" disabled="">@if (session()->get('language') == 'french')Sélectionnez la commune @else Select Common @endif</option>
-									@foreach($common as $item)
-						<option value="{{ $item->id }}">{{ $item->name }}</option>	
-									@endforeach
-								</select>
-								@error('common_id') 
-							<span class="text-danger">{{ $message }}</span>
-							@enderror 
-							</div>
-								</div> <!-- // end form group -->
+					<div class="form-group">
+					<label class="info-title" for="exampleInputEmail1"><b>@if (session()->get('language') == 'french') Adresse @else Address</b>@endif  <span>*</span></label>
+					<input type="text" name="address" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="address"  value="{{ Auth::user()->address->street_name }} {{ Auth::user()->address->street_number}}, {{Auth::user()->address->city }}" required="">
+					</div>  <!-- // end form group  -->
 
-
-		
-
-
-		
 				 
 					 
     <div class="form-group">
@@ -161,7 +122,7 @@
 
 				<div class="col-md-4">
 					<!-- checkout-progress-sidebar -->
-<div class="checkout-progress-sidebar ">c	<div class="panel-group">
+<div class="checkout-progress-sidebar "><div class="panel-group">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 		    	<h4 class="unicase-checkout-title">@if (session()->get('language') == 'french')Progression de la vérification @else Your Checkout Progress @endif</h4>
@@ -278,7 +239,7 @@
 
 
  
-<script type="text/javascript">
+{{-- <script type="text/javascript">
  $(document).ready(function() {
         $('select[name="town_id"]').on('change', function(){
             var town_id = $(this).val();
@@ -302,7 +263,7 @@
 	});
 
 	
-   </script>
+   </script> --}}
 
 
 @endsection

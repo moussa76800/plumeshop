@@ -136,18 +136,6 @@
 {{-- @else
 @endif --}}
 
-{{-- <li class="treeview {{ ($prefix=='/bookAuthor') ? 'active' : '' }}">
-  <a href="#">
-  <i data-feather="message-circle"></i>
-  <span>Pivot Book/Author</span>
-  <span class="pull-right-container">
-    <i class="fa fa-angle-right pull-right"></i>
-  </span>
-</a>
-<ul class="treeview-menu">
-  <li class="{{($route == 'all.bookAuthor') ? 'active' :'' }}"><a href="{{ route('all.bookAuthor') }}"><i class="ti-more"></i>Pivot Book/Authors Manages</a></li>
-     </ul>
-</li>  --}}
 
 {{-- @if($slider == true) --}}
 <li class="treeview {{ ($prefix=='/slider') ? 'active' : '' }}">
@@ -184,7 +172,7 @@
 @endif --}}
 
 {{-- @if($shipping == true) --}}
-<li class="treeview {{ ($prefix=='/shipping') ? 'active' : '' }}">
+ <li class="treeview {{ ($prefix=='/shipping') ? 'active' : '' }}">
   <a href="#">
   <i data-feather="message-circle"></i>
   <span> @if (session()->get('language') == 'english')Shipping @else Expédition @endif </span>
@@ -193,14 +181,10 @@
   </span>
 </a>
 <ul class="treeview-menu">
-  <li class="{{($route == 'shippingCommon') ? 'active' :'' }}"><a href="{{ route('shippingCommon') }}"><i class="ti-more"></i>
-     @if (session()->get('language') == 'english')Commons Manages @else Gestion des Communes @endif </a></li>
-  <li class="{{($route == 'shippingTown') ? 'active' :'' }}"><a href="{{ route('shippingTown') }}"><i class="ti-more"></i>
-    @if (session()->get('language') == 'english')Town Manages @else Gestion des Villes @endif</a></li>
-  <li class="{{($route == 'shippingCountry') ? 'active' :'' }}"><a href="{{ route('shippingCountry') }}"><i class="ti-more"></i> 
-    @if (session()->get('language') == 'english')States Manages @else Gestion des Pays @endif </a></li>
+  <li class="{{($route == 'shippingCountry') ? 'active' :'' }}"><a href="{{ route('shippingCountry') }}"><i class="ti-more"></i>
+     @if (session()->get('language') == 'english')Manages of State @else Gestion des pays @endif </a></li>
      </ul>
-</li> 
+</li>  
 {{-- @else
 @endif --}}
 
@@ -295,13 +279,13 @@
           <ul class="treeview-menu">
             <li class="{{($route == 'pending') ? 'active' :'' }}"><a href="{{ route('pending') }}"><i class="ti-more"></i>
               @if (session()->get('language') == 'english')Pending Orders @else   Commande en Attente @endif </a></li> 
-                 <li class="{{($route == 'confirmed') ? 'active' :'' }}"><a href="{{ route('confirmed') }}"><i class="ti-more"></i>
-              @if (session()->get('language') == 'english')Confirmed Orders @else Commande Confirmée  @endif </a></li> 
+                 {{-- <li class="{{($route == 'confirmed') ? 'active' :'' }}"><a href="{{ route('confirmed') }}"><i class="ti-more"></i>
+              @if (session()->get('language') == 'english')Confirmed Orders @else Commande Confirmée  @endif </a></li>  --}}
                  <li class="{{($route == 'processing') ? 'active' :'' }}"><a href="{{ route('processing') }}"><i class="ti-more"></i>
               @if (session()->get('language') == 'english')Processus Orders @else Commande en Taitement  @endif </a></li> 
-                 <li class="{{($route == 'picked') ? 'active' :'' }}"><a href="{{ route('picked') }}"><i class="ti-more"></i>
-              @if (session()->get('language') == 'english')Picked Orders @else  Commande Preparée @endif </a></li> 
-                 <li class="{{($route == 'shipped') ? 'active' :'' }}"><a href="{{ route('shipped') }}"><i class="ti-more"></i>
+                 {{-- <li class="{{($route == 'picked') ? 'active' :'' }}"><a href="{{ route('picked') }}"><i class="ti-more"></i> --}}
+              {{-- @if (session()->get('language') == 'english')Picked Orders @else  Commande Preparée @endif </a></li> --}}
+                 <li class="{{($route == 'shipped') ? 'active' :'' }}"><a href="{{ route('shipped') }}"><i class="ti-more"></i> 
               @if (session()->get('language') == 'english')Shipped Orders @else Commande Expédiée  @endif </a></li> 
                  <li class="{{($route == 'delivered') ? 'active' :'' }}"><a href="{{ route('delivered') }}"><i class="ti-more"></i>
               @if (session()->get('language') == 'english')Delivered Orders @else Commande Délivrée  @endif </a></li> 

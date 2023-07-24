@@ -14,7 +14,7 @@
 		<div class="breadcrumb-inner">
 			<ul class="list-inline list-unstyled">
 				<li><a href="home.html">@if (session()->get('language') == 'french')Accueil @else Home @endif</a></li>
-				<li class='active'>@if (session()->get('language') == 'french')Paiment en Cash @else Cash's Payment @endif</li>
+				<li class='active'>@if (session()->get('language') == 'french')Paiement en Cash @else Cash's Payment @endif</li>
 			</ul>
 		</div><!-- /.breadcrumb-inner -->
 	</div><!-- /.container -->
@@ -73,7 +73,7 @@
 	<div class="panel-group">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-		    	<h4 class="unicase-checkout-title">@if(session()->get('language') == 'french')Sélectionner votre méthode de Paiment : @else Select Payment Method : @endif</h4>
+		    	<h4 class="unicase-checkout-title">@if(session()->get('language') == 'french')Sélectionner votre méthode de Paiement : @else Select Payment Method : @endif</h4>
 		    </div>
 
 <form action="{{ route('cash.order') }}" method="post" id="payment-form">
@@ -88,9 +88,9 @@
       <input type="hidden" name="email" value="{{ $data['shipping_email'] }}">
       <input type="hidden" name="phone" value="{{ $data['shipping_phone'] }}">
       <input type="hidden" name="post_code" value="{{ $data['post_code'] }}">
-      <input type="hidden" name="common_id" value="{{ $data['common_id'] }}">
-      <input type="hidden" name="town_id" value="{{ $data['town_id'] }}">
-      <input type="hidden" name="country_id" value="{{ $data['country_id'] }}">
+      <input type="hidden" name="address" value="{{ $data['address'] }}">
+      <input type="hidden" name="city" value="{{ $data['city'] }}">
+      <input type="hidden" name="country" value="{{ $data['country'] }}">
       <input type="hidden" name="notes" value="{{ $data['notes'] }}"> 
 
             </label>
