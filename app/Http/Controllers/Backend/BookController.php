@@ -21,6 +21,8 @@ use PhpParser\Node\Expr\BinaryOp\Mul;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\Console\Output\OutputInterface;
+use Illuminate\Support\Facades\Log;
+
 
 class BookController extends Controller
 {
@@ -182,13 +184,22 @@ class BookController extends Controller
                 // Si certaines informations essentielles sont manquantes ou invalides, redirigez avec un message d'erreur
                 return redirect()->back()->with('error', 'Les informations du livre sont incomplètes ou invalides.');
             }
+            //Log::info('Ceci est l isbn : ' . $isbn);
 
             // Vérifiez si le livre existe déjà dans la base de données en utilisant l'ISBN
             $existingBook = Book::where('isbn', $isbn)->first();
 
             if ($existingBook) {
+                $existingBook->update([
+                    'product_qty' => $existingBook['product_qty'] + $request->product_qty,
+                ]);
                 // Le livre existe déjà dans la base de données, redirigez avec un message d'erreur
-                return redirect()->back()->with('error', 'Ce livre existe déjà dans la base de données.');
+                $notification = [
+                    'message' => 'Ce livre existe déjà, la quantité à été ajoutée.',
+                    'alert-type' => 'success',
+                ];
+                return redirect()->back()->with($notification);
+                
             }
 
             // Chercher l'éditeur dans la base de données en utilisant le nom du publisher de l'API
