@@ -183,7 +183,7 @@ function bookView(id){
             $('#pprice').text(data.book.price);
             $('#pcode').text(data.book.product_code);
             $('#pcategory').text(data.book.category_book.name) ;
-            $('#pimage').attr('src','/'+ data.book.image);
+            $('#pimage').attr('src',data.book.image);
             $('#book_id').val(id);
             $('#qty').val(1);
 
