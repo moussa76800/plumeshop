@@ -85,8 +85,10 @@
             <tr>
               <th> Order : </th>
                <th>   
+                 @php $orderStatus= $order->orderStatus; @endphp
                 <span class="badge badge-pill badge-warning" style="background: #418DB9;">
                 <!-- Utilisez la variable $orderStatus pour afficher le texte correspondant à l'état -->
+               
                       @if ($orderStatus)
                       @if (!is_null($orderStatus->pending_date))
                           <span class="badge badge-pill badge-warning" style="background: #418DB9;">En Attente</span>
@@ -149,7 +151,7 @@
                 
               </tr>
 
-
+              @php $orderItem = $order->orderItems @endphp
               @foreach($orderItem as $item)
        <tr>
                 <td class="col-md-1">
@@ -172,32 +174,32 @@
                 </td>
 
                 <td class="col-md-2">
-                  <label for=""> ${{ $item->price }}  </label>
+                  <label for=""> $ {{ $item->price }}  </label>
                 </td>
 
                 <td class="col-md-2">
-                  <label for="">  $ {{ $item->price * $item->qty}} </label>
+                  <label for="">  $ {{ intval($item->price) * $item->qty}} </label>
                 </td>
 
 
-{{-- @php 
-$file = App\Models\Product::where('id',$item->product_id)->first();
-@endphp
+                @php 
+                $file = App\Models\Book::where('id',$item->book_id)->first();
+                @endphp
 
-             <td class="col-md-1">
-              @if($order->status == 'pending')  
-              <strong>
- <span class="badge badge-pill badge-success" style="background: #418DB9;"> No File</span>  </strong> 
-                
-              @elseif($order->status == 'confirm')  
+                            <td class="col-md-1">
+                              @if($order->orderStatus->pending_date == 'pending')  
+                              <strong>
+                <span class="badge badge-pill badge-success" style="background: #418DB9;"> No File</span>  </strong> 
+                                
+                              @elseif($order->orderStatus->delivered_date == 'delivered')  
 
-<a target="_blank" href="{{ asset('upload/pdf/'.$file->digital_file) }}">  
-  <strong>
- <span class="badge badge-pill badge-success" style="background: #FF0000;"> Download Ready</span>  </strong> </a> 
-              @endif 
+                <a target="_blank" href="{{ asset('upload/pdf/'.$file->digital_file) }}">  
+                  <strong>
+                <span class="badge badge-pill badge-success" style="background: #FF0000;"> Download Ready</span>  </strong> </a> 
+                              @endif 
 
 
-                </td>--}}
+                </td>
 
 
               </tr>
@@ -214,46 +216,48 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
         
       </div> <!-- // END ORDER ITEM ROW -->
 
-       @if($order->orderStatus !== "delivered")
+      <div class="order-item-row">
+        <!-- Votre contenu de la ligne de commande ici -->
+    
+        @if($order->orderStatus->delivered_date !== "delivered")
       
-      @else
-
-      @php
-    $order = App\Models\Order::where('id', $order->id)
-        ->whereHas('orderStatus', function ($query) {
-            $query->where('return_reason', '=', NULL);
-        })
-        ->first();
-      @endphp
-
-
-      {{-- @php 
-      $order = App\Models\Order::where('id',$order->id)->where('return_reason','=',NULL)->first();
-      @endphp --}}
-
-
-      @if($order)
-      <form action="{{ route('return.order',$order->id) }}" method="post">
-        @csrf 
-
-  <div class="form-group">
-    <label for="label"> Order Return Reason:</label>
-    <textarea name="return_reason" id="" class="form-control" cols="30" rows="05">Return Reason</textarea>    
-  </div>
-
-  <button type="submit" class="btn btn-danger">Order Return</button>
-
-</form>
-   @else
-
-   <span class="badge badge-pill badge-warning" style="background: red">You Have send return request for this product</span>
-   <p>For the following reason : {{ $order->order_status->return_reason}} .
-   @endif
-
+        @else
   
-<br><br>
-
-		</div> <!-- // end row -->
+        @php
+        $orderWithNullReturnReason = App\Models\Order::where('id', $order->id)
+            ->whereDoesntHave('orderStatus', function ($query) {
+                $query->whereNotNull('return_reason');
+            })
+            ->first();
+    @endphp
+  
+  
+        @if( $orderWithNullReturnReason)
+        <form action="{{ route('return.order',$order->id) }}" method="post">
+          @csrf
+  
+    <div class="form-group">
+      <label for="label"> Order Return Reason:</label>
+      <textarea name="return_reason" id="" class="form-control" cols="30" rows="05">Return Reason</textarea>    
+    </div>
+  
+    <button type="submit" class="btn btn-danger">Order Return</button>
+  
+  </form>
+     @else
+  
+     <span class="badge badge-pill badge-warning" style="background: red">You Have send return request for this product</span>
+     
+     @endif 
+  
+  
+  
+    @endif
+        
+    
+        <br><br>
+    </div> <!-- // FIN DE LA LIGNE DE COMMANDE -->
+    
 		
 	</div>
 	
@@ -494,6 +498,6 @@ $file = App\Models\Product::where('id',$item->product_id)->first();
 	</div>
 	
 </div>--}}
-@endif
+
 
 @endsection

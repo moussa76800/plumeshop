@@ -22,9 +22,13 @@
                                         <p><strong>Nom :</strong> {{ Auth::user()->name }}</p>
                                         <p><strong>Email :</strong> {{ Auth::user()->email }}</p>
                                         <p><strong>Téléphone :</strong> {{ Auth::user()->phone }}</p>                              
-                                       <p><strong>Adresse :</strong></p><p>{{ Auth::user()->address->street_number }}, {{ Auth::user()->address->street_name }}</p><p>{{ Auth::user()->address->city }}</p>
-                                       
-                                   
+                                        @if($user->address)
+                                        <p><strong>Adresse :</strong></p>
+                                        <p>{{ $user->address->street_number }}, {{ $user->address->street_name }}</p>
+                                        <p>{{ $user->address->city }}</p>
+                                    @else
+                                        <p><strong>Adresse :</strong> Pas d'adresse enregistrée.</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>

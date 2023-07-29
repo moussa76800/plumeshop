@@ -77,15 +77,14 @@ public function ReturnOrderList()
 }
 
 
-public function CancelOrders()
-{
-    $orders = Order::with('orderStatus')->whereHas('orderStatus', function ($query) {
-        $query->whereNull('cancel_date');
-    })->where('user_id', Auth::id())->orderBy('id', 'DESC')->get();
+    public function CancelOrders()
+    {
+        $orders = Order::with('orderStatus')->whereHas('orderStatus', function ($query) {
+            $query->whereNull('cancel_date');
+        })->where('user_id', Auth::id())->orderBy('id', 'DESC')->get();
 
-    return view('frontend.user.order.cancel_order_view', compact('orders'));
-}
-
+        return view('frontend.user.order.cancel_order_view', compact('orders'));
+    }
 
     // ORDER TRACKING
 

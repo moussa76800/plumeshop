@@ -87,7 +87,6 @@
       <input type="hidden" name="name" value="{{ $data['shipping_name'] }}">
       <input type="hidden" name="email" value="{{ $data['shipping_email'] }}">
       <input type="hidden" name="phone" value="{{ $data['shipping_phone'] }}">
-      <input type="hidden" name="post_code" value="{{ $data['post_code'] }}">
       <input type="hidden" name="address" value="{{ $data['address'] }}">
       <input type="hidden" name="city" value="{{ $data['city'] }}">
       <input type="hidden" name="country" value="{{ $data['country'] }}">

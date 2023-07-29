@@ -66,6 +66,7 @@
       <span class="badge badge-pill badge-warning" style="background: #FF0000;">Cancel  </span>
     
           @endif
+		</td>
     
         <td width="25%">
     <a href="{{ route('pending.detail',$item->id) }}" class="btn btn-info" title="Voir Details"><i class="fa fa-eye"></i> </a>

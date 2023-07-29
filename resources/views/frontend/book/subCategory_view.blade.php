@@ -13,11 +13,11 @@
         <ul class="list-inline ">
           <li><a href="{{ '/' }} "style="color: red" ;>@if (session()->get('language') == 'french')Accueil @else Home @endif/</a></li>
           @foreach($breadSubCat as $item)
-          <li class='active' style="color:  #00008B ;" >@if (session()->get('language') == 'french'){{ $item->category->name_fr }} @else  {{ $item->category->name_en }} @endif /</li>
+          <li class='active' style="color:  #00008B ;" >{{ $item->category->name }} /</li>
           @endforeach
   
           @foreach($breadSubCat as $item)
-          <li class='active' style="color:  #00008B;">@if (session()->get('language') == 'french'){{ $item->name_fr }} @else {{ $item->name_en }} @endif</li>
+          <li class='active' style="color:  #00008B;">{{ $item->name }}</li>
           @endforeach
         </ul>
       </div>
@@ -294,39 +294,45 @@
       <div class="products">
         <div class="product">
           <div class="product-image">
-            <div class="image"> <a href="{{ url('book/detail/'.$product->id.'/'.$product->name_en ) }}"><img  src="{{ asset($product->product_thambnail) }}" alt=""></a> </div>
+            <div class="image"> <a href="{{ url('book/detail/'.$product->id.'/'.$product->title ) }}"><img  src="{{ asset($product->image) }}" alt=""></a> </div>
             <!-- /.image -->
   
-            @php
-                $amount = $product->prix - $product->discount_price;
-                $discount = ($amount/$product->prix) * 100;
-            @endphp    
-            
-            <div>
-              @if ($product->discount_price == NULL)
-              <div class="tag new"><span>new</span></div>
-              @else
-              <div class="tag hot"><span>{{ round($discount) }}%</span></div>
-              @endif
-            </div>
+            @foreach($books as $book)
+  <div>
+    @if ($book->featured == 1)
+      
+    @elseif ($book->discount_price != NULL)
+      @php
+        $amount = $book->price - $book->discount_price;
+        $discount = ($amount / $book->price) * 100;
+      @endphp
+      <div class="tag hot"><span>{{ round($discount) }}%</span></div>
+    @elseif ($book->newBook == 1)
+      <div class="tag new"><span>New</span></div>
+    @else
+      <div class="tag"><span>No Tag</span></div>
+    @endif
+  </div>
+@endforeach
+
   
   
           </div>
           <!-- /.product-image -->
           
           <div class="product-info text-left">
-            <h3 class="name"><a href="{{ url('book/detail/'.$product->id.'/'.$product->name_en ) }}">
-                @if(session()->get('language') == 'french') {{ $product->name_fr }} @else {{ $product->name_en }} @endif</a></h3>
+            <h3 class="name"><a href="{{ url('book/detail/'.$product->id.'/'.$product->title ) }}">
+               {{ $product->title }} </a></h3>
             <div class="rating rateit-small"></div>
             <div class="description"></div>
   
   
  
             @if ($product->discount_price == NULL)
-            <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $product->prix }} @else $ {{ $product->prix }} @endif </span> </div>
+            <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $product->price }} @else $ {{ $product->price }} @endif </span> </div>
                     @else
-            <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $product->prix - $product->discount_price }} </span> <span class="price-before-discount">  €  {{ $product->prix }}</span> @else
-              $ {{$product->prix - $product->discount_price  }} </span> <span class="price-before-discount">  $  {{ $product->prix }} @endif </div>
+            <div class="product-price"> <span class="price">@if (session()->get('language') == 'french') € {{ $product->price - $product->discount_price }} </span> <span class="price-before-discount">  €  {{ $product->price }}</span> @else
+              $ {{$product->price- $product->discount_price  }} </span> <span class="price-before-discount">  $  {{ $product->price }} @endif </div>
           @endif
   
   
@@ -392,27 +398,27 @@
         <div class="row product-list-row">
           <div class="col col-sm-4 col-lg-4">
             <div class="product-image">
-              <div class="image"> <img src="{{ asset($product->product_thambnail) }}" alt=""> </div>
+              <div class="image"> <img src="{{ asset($product->image) }}" alt=""> </div>
             </div>
             <!-- /.product-image --> 
           </div>
           <!-- /.col -->
           <div class="col col-sm-8 col-lg-8">
             <div class="product-info">
-              <h3 class="name"><a href="{{ url('book/detail/'.$product->id.'/'.$product->name_en ) }}">
-                  @if(session()->get('language') == 'french') {{ $product->name_fr }} @else {{ $product->name_en }} @endif</a></h3>
+              <h3 class="name"><a href="{{ url('book/detail/'.$product->id.'/'.$product->title ) }}">
+                  {{ $product->title }} </a></h3>
               <div class="rating rateit-small"></div>
   
   
               @if ($product->discount_price == NULL)
-              <div class="product-price"> <span class="price"> ${{ $product->prix }} </span>  </div>
+              <div class="product-price"> <span class="price"> ${{ $product->price}} </span>  </div>
               @else
-  <div class="product-price"> <span class="price"> ${{ $product->discount_price }} </span> <span class="price-before-discount">$ {{ $product->prix }}</span> </div>
+  <div class="product-price"> <span class="price"> ${{ $product->discount_price }} </span> <span class="price-before-discount">$ {{ $product->price }}</span> </div>
               @endif
               
               <!-- /.product-price -->
               <div class="description m-t-10">
-                  @if(session()->get('language') == 'french') {{ $product->short_descp_fr }} @else {{ $product->short_descp_en }} @endif</div>
+                   {{ $product->long_descp }} </div>
               <div class="cart clearfix animate-effect">
                 <div class="action">
                   <ul class="list-unstyled">
@@ -435,20 +441,24 @@
         </div>
   
   
-  
-           @php
-          $amount = $product->prix - $product->discount_price;
-          $discount = ($amount/$product->prix) * 100;
-          @endphp    
-  
-                        <!-- /.product-list-row -->
-                        <div>
-              @if ($product->discount_price == NULL)
-              <div class="tag new"><span>new</span></div>
-              @else
-              <div class="tag hot"><span>{{ round($discount) }}%</span></div>
-              @endif
-            </div>
+        @foreach($books as $book)
+        <div>
+          @if ($book->featured == 1)
+            
+          @elseif ($book->discount_price != NULL)
+            @php
+              $amount = $book->price - $book->discount_price;
+              $discount = ($amount / $book->price) * 100;
+            @endphp
+            <div class="tag hot"><span>{{ round($discount) }}%</span></div>
+          @elseif ($book->newBook == 1)
+            <div class="tag new"><span>New</span></div>
+          @else
+            <div class="tag"><span>No Tag</span></div>
+          @endif
+        </div>
+      @endforeach
+      
   
   
   

@@ -15,7 +15,7 @@ class wishlistController extends Controller
 {
     public function wishList()
     {
-         $wishlist = Wishlist::with('book')->where('user_id', Auth::id())->latest()->get();
+         $wishlist = Wishlist::with('book')->where('user_id', Auth::id())->get();
         return view('frontend.wishList.view_wishList',compact('wishlist'));
         // return view('frontend.wishList.view_wishList');
     }
@@ -24,7 +24,7 @@ class wishlistController extends Controller
 
     public function wishListRead()
 {
-    $wishlist = Wishlist::with('book')->where('user_id', Auth::id())->latest()->get();
+    $wishlist = Wishlist::with('book')->where('user_id', Auth::id())->get();
     return response()->json($wishlist);
 }
        
@@ -34,12 +34,11 @@ public function wishListDelete($id) {
 
     if (!$wishlist) {
         // La liste de souhaits est vide
-        if (session()->get('language') == 'french') {
-            return response()->json(['error' => 'Votre liste de souhaits est vide.']);
-        } else {
+        { 
             return response()->json(['error' => 'Your wishlist is empty.']);
         }
     }
+    
     
     $wishlist->delete();
 
@@ -61,6 +60,12 @@ public function wishListDelete($id) {
     } else {
         return response()->json(['success' => 'Successfully removed product from wishlist']);
     }
+}
+
+public function removeAllWishList()
+{
+    Wishlist::where('user_id', Auth::id())->delete();
+    return response()->json(['success' => 'All items successfully removed from wishlist.']);
 }
 
 

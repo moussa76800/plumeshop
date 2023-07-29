@@ -113,13 +113,14 @@ Route::prefix('book')->group(function() {
         Artisan::call('books:add'); // Exécutez la commande artisanale pour ajouter automatiquement les livres
         return "Les livres ont été ajoutés automatiquement.";
     });
+    // Route::post('/add-single-book', [BookController::class,'addSingleBook'])->name('add_single_book');
     Route::get('/add', [BookController::class, 'bookAdd'])->name('add.book');
     Route::post('/search', [BookController::class, 'bookSearch']);
     Route::post('/store', [BookController::class, 'bookStore'])->name('book.store');
     Route::get('/edit/{id}', [BookController::class, 'bookEdit'])->name('edit.book');
     Route::post('/update', [BookController::class, 'bookUpdate'])->name('book.update');
+    Route::get('/detail/{id}',[BookController::class, 'bookDetails'])->name('book.detail');
     Route::get('/subcategory/ajax/{category_id}', [BookController::class, 'GetBook']);
-    //  Route::get('/book/active' , [BookController::class,'bookEdit'])->name('edit.book');
     Route::post('/thambnail/update/{id}', [BookController::class, 'ThambnailImageUpdate'])->name('update-bookThambnail');
     // Route::post('/image/update', [BookController::class, 'MultiImageUpdate'])->name('update-bookMultiImage');
     // Route::get('/multiimg/delete/{id}', [BookController::class, 'MultiImageDelete'])->name('book.multiImg.delete');
@@ -301,6 +302,8 @@ Route::get('/book/view/modal/{id}' , [IndexController::class,'bookViewModalAJAX'
 // Book Add to Cart with AJAX All Routes :
 Route::post('/book/cart/{id}' , [CartController::class,'bookAddCartAJAX']);
 
+Route::get('/book/cart/getQty/{book_id}' , [CartController::class,'getCartQuantity']);
+
 // Book Add to Mini-Cart with AJAX All Routes :
 Route::get('/book/mini/cart/' , [CartController::class,'bookAddMiniCartAJAX']);
 
@@ -308,6 +311,12 @@ Route::get('/book/mini/cart/' , [CartController::class,'bookAddMiniCartAJAX']);
 Route::get('/minicart/removeBook/{rowId}' , [CartController::class,'deleteBookMiniCartAJAX']);
 
 Route::post('/addToWishList/{book_id}' , [CartController::class,'AddToWishList']);   // CREATE Book to WishList with AJAX.
+
+// Coupon All Routes :
+Route::post('/couponApply' , [CartController::class,'couponApply']);
+Route::get('/couponCalculation',[CartController::class, 'calculationTotal']);
+Route::get('/couponRemove',[CartController::class, 'couponRemove']);
+
 
 Route::get('/plumeshop/about_us', [IndexController::class,'aboutSlider'])->name('slide_plumeshop');
 
@@ -321,6 +330,8 @@ Route::group(['prefix'=>'user','middleware' =>['user' , 'auth'],'namespace'=>'Us
 Route::get('/wishList' , [wishlistController::class,'wishList'])->name('wishList');
 Route::get('/getWishList' , [wishlistController::class,'wishListRead']);  //  READ Book data
 Route::get('/removeWishList/{id}' , [wishlistController::class,'wishListDelete']);
+Route::get('/removeAllWishList', [wishlistController::class,'removeAllWishList']);
+
 
 //stripe ALL Routes :
 Route::post('/stripe/order',[StripeController::class, 'stripeOrder'])->name('stripe.order');
@@ -341,11 +352,6 @@ Route::get('/checkout',[CartController::class, 'checkoutCreate'])->name('checkou
 // Route::get('/common/ajax/{town_id}',[CheckoutController::class, 'commonGetAjax']);
 Route::post('/checkout/store',[CheckoutController::class, 'checkoutStore'])->name('checkout.store');
 
-
-// Coupon All Routes :
-Route::post('/couponApply' , [CartController::class,'couponApply']);
-Route::get('/couponCalculation',[CartController::class, 'calculationTotal']);
-Route::get('/couponRemove',[CartController::class, 'couponRemove']);
 
 // Blog All Routes :
  Route::get('/blog' , [HomeBlogController::class,'viewHomeBlog'])->name('view.HomeBlog');

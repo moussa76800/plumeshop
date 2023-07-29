@@ -42,6 +42,7 @@
 							<tr>
 							   <td> {{ $item->order_date }}  </td>
 							   <td> {{ $item->invoice_no }}  </td>
+							   <td> {{ $item->shippingMethod->amount }}  </td>
 							   <td> {{ $item->shippingMethod->payment_method }}  </td>
 							   <td>
 							   <span class="badge badge-pill badge-primary">

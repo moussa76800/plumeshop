@@ -5,6 +5,8 @@
         "danielsanmedium.dscodegpt",
         "ms-mssql.sql-database-projects-vscode",
         "ms-mssql.mssql",
-        "formulahendry.vscode-mysql"
+        "formulahendry.vscode-mysql",
+        "esbenp.prettier-vscode",
+        "ecmel.vscode-html-css"
     ]
 }

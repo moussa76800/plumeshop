@@ -74,37 +74,30 @@
 
 
 				<!-- already-registered-login -->
-				<div class="col-md-6 col-sm-6 already-registered-login">
-					 
+<!-- already-registered-login -->
+<div class="col-md-6 col-sm-6 already-registered-login">
+    <div class="form-group">
+        <label class="info-title" for="exampleInputEmail1"><b>State</b>  <span>*</span></label>
+        <input type="text" name="country" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="State" value="{{ optional(Auth::user()->address)->country ? Auth::user()->address->country->name : '' }}" required="">
+    </div>  <!-- // end form group  -->
 
-					<div class="form-group">
-						<label class="info-title" for="exampleInputEmail1"><b>State</b>  <span>*</span></label>
-						<input type="text" name="country" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="State" value="{{ Auth::user()->address->country->name }}" required="">
-					  </div>  <!-- // end form group  -->
+    <div class="form-group">
+        <label class="info-title" for="exampleInputEmail1"><b>@if (session()->get('language') == 'french') Ville @else City</b>@endif  <span>*</span></label>
+        <input type="text" name="city" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="city"  value=" {{ optional(Auth::user()->address)->city }}" required="">
+    </div>  <!-- // end form group  -->
 
-					  
-					  <div class="form-group">
-						<label class="info-title" for="exampleInputEmail1"><b>@if (session()->get('language') == 'french') Ville @else City</b>@endif  <span>*</span></label>
-						<input type="text" name="city" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="city"  value=" {{Auth::user()->address->city }}" required="">
-					  </div>  <!-- // end form group  -->
+    <div class="form-group">
+        <label class="info-title" for="exampleInputEmail1"><b>@if (session()->get('language') == 'french') Adresse @else Address</b>@endif  <span>*</span></label>
+        <input type="text" name="address" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="address"  value="{{ optional(Auth::user()->address)->street_name }} {{ optional(Auth::user()->address)->street_number }}, {{ optional(Auth::user()->address)->city }}" required="">
+    </div>  <!-- // end form group  -->
 
-					<div class="form-group">
-					<label class="info-title" for="exampleInputEmail1"><b>@if (session()->get('language') == 'french') Adresse @else Address</b>@endif  <span>*</span></label>
-					<input type="text" name="address" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="address"  value="{{ Auth::user()->address->street_name }} {{ Auth::user()->address->street_number}}, {{Auth::user()->address->city }}" required="">
-					</div>  <!-- // end form group  -->
 
-				 
+
 					 
     <div class="form-group">
 	 <label class="info-title" for="exampleInputEmail1">Notes <span>*</span></label>
 	     <textarea class="form-control" cols="30" rows="5" placeholder="Notes" name="notes"></textarea>
 	  </div>  <!-- // end form group  -->
-
-
-
-					
-
-
 
 					
 				</div>	

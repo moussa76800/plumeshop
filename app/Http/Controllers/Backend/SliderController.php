@@ -15,10 +15,10 @@ class SliderController extends Controller
     
 
 
-public function sliderView() {
-    $sliders = Slider::orderBy('id','ASC')->get();
-    return view('backend.slider.slider_view',compact('sliders'));
-}
+    public function sliderView() {
+        $sliders = Slider::where('status', 1)->orderBy('id','ASC')->get();
+        return view('backend.slider.slider_view', compact('sliders'));
+    }
 
 public function sliderAdd(){
    

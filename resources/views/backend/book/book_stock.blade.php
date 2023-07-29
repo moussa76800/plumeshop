@@ -39,8 +39,8 @@
 						<tbody>
 	 @foreach($book as $item)
 	 <tr>
-		<td> <img src="{{ asset($item->product_thambnail) }}" style="width: 60px; height: 50px;">  </td>
-		<td>{{ $item->name_en }}</td>
+		<td> <img src="{{ asset($item->image) }}" style="width: 60px; height: 50px;">  </td>
+		<td>{{ $item->title }}</td>
 		 <td>{{ $item->price }} @if (session()->get('language') == 'english')$ @else € @endif</td>
 		 <td>{{ $item->product_qty }}@if (session()->get('language') == 'english')piece(s) @else Piéce(s) @endif </td>
 

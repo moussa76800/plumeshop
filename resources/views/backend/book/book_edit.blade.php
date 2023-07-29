@@ -108,6 +108,10 @@
                                 <div class="form-group">
                                     <div class="controls">
                                         <fieldset>
+                                            <input type="checkbox" id="checkbox_1" name="newBook" value="1" {{ $book->newBook == 1 ? 'checked' : '' }}>
+                                            <label for="checkbox_1">New Book</label>
+                                        </fieldset>
+                                        <fieldset>
                                             <input type="checkbox" id="checkbox_2" name="featured" value="1" {{ $book->featured == 1 ? 'checked' : '' }}>
                                             <label for="checkbox_2">Featured</label>
                                         </fieldset>
@@ -151,7 +155,7 @@
                 <div class="box-header">
                     <h4 class="box-title">Book Thambnail Image <strong>Update</strong></h4>
                 </div>
-                {{ dd($book->image) }
+               
                 <form method="post" action="{{ route('update-bookThambnail', ['id' => $book->id]) }}" enctype="multipart/form-data">
 
                     @csrf

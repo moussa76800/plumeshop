@@ -31,23 +31,22 @@ class IndexController extends Controller
   
   public function index(){
     $blogpost = BlogPost::latest()->get();
-    // $books = Book::where('status' , 1)->orderBy('id' ,'DESC')->limit(6)->get();
-    $books = Book::where([['status', 1],['discount_price', NULL],])->orderBy('id', 'DESC')->limit(6)->get();
+    $books = Book::where('status' , 1)->orderBy('id' ,'DESC')->limit(6)->get();
+    // $books = Book::where([['status', 1],['discount_price', NULL],])->orderBy('id', 'DESC')->limit(8)->get();
     $categories = Category::orderBy('name' , 'ASC')->get();
     $sliders = Slider::where('status' , 1)->orderBy('id' ,'DESC')->limit(3)->get();
     // $featured = Book::where('featured' , 1)->orderBy('id' ,'DESC')->limit(6)->get();
-    $featured = Book::where([['status', 1],['featured', 1],]) ->orderBy('id', 'DESC')->limit(6)
-->get();
+    $featured = Book::where([['status', 1],['featured', 1],]) ->orderBy('title', 'ASC')->limit(14)->get();
+    $newBook =  Book::where([['status', 1],['newBook', 1],]) ->orderBy('title', 'ASC')->limit(14)->get();
     $special_offer = Book::where('special_offer' , 1)->orderBy('id' ,'DESC')->limit(3)->get();
     
-        return view('frontend.index',compact('categories','sliders', 'books', 'featured','special_offer','blogpost'));
+        return view('frontend.index',compact('categories','sliders', 'books', 'featured','special_offer','blogpost', 'newBook'));
   }
 
 public function home()
 {
-    $id = Auth::user()->id;
-    $user = User::find($id);
-    return view('dashboard', compact('user'));
+  $user = User::with('address')->find(Auth::user()->id);
+  return view('dashboard', compact('user'));
 }
 
   public function UserLogout(){
@@ -146,12 +145,12 @@ public function home()
 
   public function bookDetail( $id, $slug ) {
     $book = Book::findOrFail($id);
-    $multiImgs = MultiImg::where('booK_id' , $id )->get();
+    // $multiImgs = MultiImg::where('booK_id' , $id )->get();
     $cat_id = $book->categoryBook_id;
     $relatedBook = Book::where('categoryBook_id' , $cat_id)->where('id', '!=',$id)->orderBy('id' , 'DESC')->get();
     $review = Review::where('book_id',$book->id)->latest()->limit(5)->get();
     
-     return view('frontend.book.book_detail', compact('book' , 'multiImgs', 'relatedBook', 'review'));
+     return view('frontend.book.book_detail', compact('book' , 'relatedBook', 'review'));
 
 
   }

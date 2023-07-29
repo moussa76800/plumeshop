@@ -214,15 +214,16 @@
                 </td>
 
                 <td width="10%">
-                  <label for=""> {{ $item->book->qty }}</label>
+                  <label for=""> {{ $item->qty }}</label>
                 </td>
 
+                
          <td width="10%">
-                  <label for=""> ${{ $item->book->price }}  $ {{ $item->book->price * $item->book->qty}} </label>
+                  <label for=""> ${{ $item->book->price }}   </label>
                 </td>
 
                 <td width="10%">
-                    <label for="">$ {{ $item->book->price * $item->book->qty}}  </label>
+                    <label for="">$ {{intval ($item->book->price) * $item->qty}}  </label>
                   </td>
                 
                 

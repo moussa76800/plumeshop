@@ -59,12 +59,12 @@
                                      </div>
                                      </div>
                                      </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                             <h5>SubCategory Select <span class="text-danger">*</span></h5>
                             <div class="controls">
                                 <select name="subCategory_id" class="form-control" required="" >
                                     <option value="" selected="" disabled="">Select SubCategory</option>
-                                    @foreach($subcategory as $sub)
+                                    @foreach($subCategory as $sub)
                                     <option value="{{ $sub->id }}">{{ $sub->name }}</option>	
                                                @endforeach
                                 </select>
@@ -72,7 +72,22 @@
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror 
                                 </div>
-                                    </div> 
+                                    </div>  --}}
+                                    <div class="form-group">
+                                        <h5>SubCategory Select <span class="text-danger">*</span></h5>
+                                        <div class="controls">
+                                            <select name="subCategory_id" class="form-control" required>
+                                                <option value="" selected disabled>Select SubCategory</option>
+                                                @foreach($subCategory as $sub)
+                                                    <option value="{{ $sub->id }}">{{ $sub->name }}</option>	
+                                                @endforeach
+                                            </select>
+                                            @error('subCategory_id') 
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror 
+                                        </div>
+                                    </div>
+                                    
                             
 
               
@@ -86,6 +101,10 @@
                         
                             <div class="controls">
                                 <fieldset>
+                                    <input type="checkbox" id="checkbox_1" name= "newBook" value="1">
+                                    <label for="checkbox_1">New Book</label>
+                                </fieldset>
+                                <fieldset>
                                     <input type="checkbox" id="checkbox_2"  name = "featured"  value="1">
                                     <label for="checkbox_2">Featured</label>
                                 </fieldset>
@@ -93,6 +112,7 @@
                                     <input type="checkbox" id="checkbox_3" name= "special_offer" value="1">
                                     <label for="checkbox_3">Special Offer</label>
                                 </fieldset>
+                                
                             </div>
                         </div>
                     </div>
@@ -111,28 +131,28 @@
       
 
 
-<script type="text/javascript">
- $(document).ready(function(){
-    $('select[name="category_id"]').on('change', function(){
-        var category_id = $(this).val();
-        if(category_id) {
-            $.ajax({
-                url :"{{ url('/subcategory/ajax') }}/"+ category_id,
-                type:"GET",
-                dataType:"json",
-                success:function(data) {
-                    var d= $('select[name="subcategory_id"]').empty();
-                    $.each(data, function(key, value){
-                        $('select[name="subcategory_id"]').append('<option value="'+value.id +'">' +value.name+ '</option>');
-                    });
-                },
-            });
-        }else {
-            alert('danger');
-        }
+{{-- <script type="text/javascript">
+    $(document).ready(function(){
+       $('select[name="category_id"]').on('change', function(){
+           var category_id = $(this).val();
+           if(category_id) {
+               $.ajax({
+                   url :"{{ url('/subcategory/ajax') }}/"+ category_id,
+                   type:"GET",
+                   dataType:"json",
+                   success:function(data) {
+                       var d= $('select[name="subCategory_id"]').empty();
+                       $.each(data, function(key, value){
+                           $('select[name="subCategory_id"]').append('<option value="'+value.id +'">' +value.name+ '</option>');
+                       });
+                   },
+               });
+           }else {
+               alert('danger');
+           }
+       });
     });
- });
-</script>
+   </script> --}}
 
 
 

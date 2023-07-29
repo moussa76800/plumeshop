@@ -11,7 +11,7 @@ $setting = App\Models\SiteSetting::find(1);
         <div class="header-top-inner">
           <div class="cnt-account">
             <ul class="list-unstyled">
-              <li><a href="#"><i class="icon fa fa-user"></i>
+              <li><a href="{{ route('dashboard') }}"><i class="icon fa fa-user"></i>
                 @if (session()->get('language') == 'french')Mon compte 
                 @else My Account @endif</a></li>
               <li><a href="{{ route('wishList') }}"><i class="icon fa fa-heart"></i>
@@ -143,7 +143,7 @@ $setting = App\Models\SiteSetting::find(1);
                     <div class="clearfix cart-total">
                     <div class="pull-right"> @if (session()->get('language') == 'french') <span class="text">Sous-Total :</span>@else <span class="text">Sub Total :</span> @endif<span class='price' id="cartSubTotal"></span> </div>
                     <div class="clearfix"></div>
-                    <a href="checkout.html" class="btn btn-upper btn-primary btn-block m-t-20"> @if (session()->get('language') == 'french')Verification @else Checkout @endif</a> </div>
+                    <a href="{{ route('checkout') }}" class="btn btn-upper btn-primary btn-block m-t-20"> @if (session()->get('language') == 'french')Verification @else Checkout @endif</a> </div>
                   <!-- /.cart-total--> 
                   
                 </li>
@@ -176,7 +176,7 @@ $setting = App\Models\SiteSetting::find(1);
               <div class="nav-outer">
                 <ul class="nav navbar-nav">
                   <li class="active dropdown yamm-fw"><a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french')Accueil @else Home @endif</a></li>
-                  <li class="active dropdown yamm-fw"><a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french')A-propos @else About @endif</a></li>
+                  <li class="active dropdown yamm-fw"><a href="{{ route('slide_plumeshop') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french')A-propos @else About @endif</a></li>
                   <li class="active dropdown yamm-fw"><a href="{{ route('donate_book') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french')Donnez vos livres @else Donate your Books @endif</a></li>
                   <li class="active dropdown yamm-fw"><a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french')Boutique @else Shop @endif</a></li>
                   {{-- @php

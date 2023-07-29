@@ -59,10 +59,10 @@
                                     <tr>
                                         <td>
                                             <div class="form-group">
-                                                <input type="text" class="form-control unicase-form-control text-input" placeholder="@if (session()->get('language') == 'french')Indiquer votre coupon.. @else Your Coupon.. @endif" id="coupon_name">
+                                                <input type="text" class="form-control unicase-form-control text-input" placeholder=" Add your coupon... " id="coupon_name">
                                             </div>
                                             <div class="clearfix pull-right">
-                                                <button type="submit" class="btn-upper btn btn-primary" onclick="applyCoupon()">@if (session()->get('language') == 'french')Appliquer le Coupon @else APPLY COUPON @endif</button>
+                                                <button type="submit" class="btn-upper btn btn-primary" onclick="applyCoupon()">To Validate  </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -80,9 +80,25 @@
                                     <tr>
                                         <td>
                                             <div class="cart-checkout-btn pull-right">
-                                                <A href="{{ route('checkout')}}" type="submit" class="btn btn-primary checkout-btn">@if (session()->get('language') == 'french')Vérification @else PROCCED TO CHECKOUT @endif</a>
-                                               
-                                            </div>
+                                                @auth
+                                                  <a href="{{ route('checkout')}}" type="submit" class="btn btn-primary checkout-btn">
+                                                    @if (session()->get('language') == 'french')
+                                                      Vérification
+                                                    @else
+                                                      PROCEED TO CHECKOUT
+                                                    @endif
+                                                  </a>
+                                                @else
+                                                  <a href="{{ route('login')}}" class="btn btn-primary checkout-btn">
+                                                    @if (session()->get('language') == 'french')
+                                                      Connectez-vous pour continuer
+                                                    @else
+                                                      LOGIN TO CONTINUE
+                                                    @endif
+                                                  </a>
+                                                @endauth
+                                              </div>
+                                              
                                         </td>
                                     </tr>
                             </tbody><!-- /tbody -->

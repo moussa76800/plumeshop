@@ -11,7 +11,7 @@
         <div class="row">
          
        
-          <div class="col-10">
+          <div class="col-14">
 
            <div class="box">
               <div class="box-header with-border">

@@ -43,46 +43,47 @@ class ReviewController extends Controller
 //     return redirect()->back()->with($notification);
 // } 
 
-    public function reviewStore(Request $request)
-    {
-        $book = $request->book_id;
+public function reviewStore(Request $request)
+{
+    $book = $request->book_id;
 
-        $request->validate([
-            'summary' => 'required',
-            'comment' => 'required',
-        ]);
+    $request->validate([
+        'summary' => 'required',
+        'comment' => 'required',
+    ]);
 
-        $message = Message::create([
-            'subject' => $request->summary,
-            'content' => $request->comment,
-            'created_at' => Carbon::now(),
-            
-        ]);
+    $message = Message::create([
+        'subject' => $request->summary,
+        'content' => $request->comment,
+        'user_id' => Auth::id(),
+        'created_at' => Carbon::now(),
+    ]);
 
-        $review = Review::create([
-            'book_id' => $book,
-            'user_id' => Auth::id(),
-            'message_id' => $message->id,
-            'rating' => $request->quality,
-            'status'=> 0,
-            'created_at' => Carbon::now(),
-    
-        ]);
+    $review = Review::create([
+        'book_id' => $book,
+        'rating' => $request->quality,
+        'status' => 0,
+        'created_at' => Carbon::now(),
+    ]);
 
-        if (session()->get('language') == 'english') {
-            $notification = array(
-                'message' => 'Review Will Approve By Admin',
-                'alert-type' => 'success'
-            );
-        } else {
-            $notification = array(
-                'message' => "L'examen sera approuvé par l'administrateur",
-                'alert-type' => 'success'
-            );
-        }
+    // Associer la review au message
+    $message->review()->associate($review);
+    $message->save();
 
-        return redirect()->back()->with($notification);
+    if (session()->get('language') == 'english') {
+        $notification = array(
+            'message' => 'Review Will Approve By Admin',
+            'alert-type' => 'success'
+        );
+    } else {
+        $notification = array(
+            'message' => "L'examen sera approuvé par l'administrateur",
+            'alert-type' => 'success'
+        );
     }
+
+    return redirect()->back()->with($notification);
+}
 
 
     public function pendingReview(){

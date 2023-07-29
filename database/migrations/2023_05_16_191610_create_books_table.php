@@ -27,6 +27,7 @@ class CreateBooksTable extends Migration
             $table->integer('discount_price')->nullable();
             $table->integer('special_offer')->nullable();
             $table->integer('featured')->nullable();
+            $table->integer('newBook')->nullable();
             $table->string('long_descp');
             $table->integer('status')->default(0);
             $table->unsignedBigInteger('categoryBook_id');
@@ -47,10 +48,12 @@ class CreateBooksTable extends Migration
      */
     public function down()
     {
-       // Schema::dropIfExists('books');
-       Schema::table('books', function (Blueprint $table) {
-        $table->dropForeign(['subCategory_id']);
-        $table->dropColumn('subCategory_id');
-    });
+
+        
+     Schema::dropIfExists('books');
+    //    Schema::table('books', function (Blueprint $table) {
+    //     $table->dropForeign(['subCategory_id']);
+    //     $table->dropColumn('subCategory_id');
+    // });
     }
 }

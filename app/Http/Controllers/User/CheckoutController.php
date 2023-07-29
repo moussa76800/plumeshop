@@ -11,10 +11,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CheckoutController extends Controller
 {
-    //     public function commonGetAjax($town_id){
-    //         $common = ShipCommon::where('town_id',$town_id)->orderBy('name','ASC')->get();
-    //             return json_encode($common);
-    // }  
+    
 
         public function checkoutStore(Request $request){
            // dd($request->all());
@@ -28,7 +25,7 @@ class CheckoutController extends Controller
            $data['city'] = $request->city;
            $data['country'] = $request->country;
            $data['notes'] = $request->notes;
-           $cartTotal = Cart::total();
+           $cartTotal = intval(Cart::total());
            $carts = Cart::content();
    
    

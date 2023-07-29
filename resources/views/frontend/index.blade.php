@@ -187,7 +187,21 @@
                             <div class="product-image">
                               <div class="image"><a href=" {{ url('book/detail/'.$book->id.'/'.$book->title ) }}" ><img src="{{ asset( $book->image) }}" alt=""> </a> </div>
                               <!-- /.image --> 
-                        
+                               
+                            <div>
+                              @if ($book->special_offer == 1) 
+                                @if ($book->discount_price != NULL) 
+                                  @php
+                                    $amount = $book->price - $book->discount_price;
+                                    $discount = ($amount / $book->price) * 100;
+                                  @endphp
+                                  <div class="tag hot"><span>{{ round($discount) }}%</span></div>
+                                @else 
+                                
+                                @endif
+                              @endif
+                            </div>
+                                      
                             </div>
                             <!-- /.product-image --> 
                           </div>
@@ -595,7 +609,7 @@
                   <div class="caption bg-color vertical-center text-left">
                     <div class="big-text fadeInDown-1"style="color: white; font-size: 5rem; font-weight: bold;">{{ $slider->title }} </div>
                     <div class="excerpt fadeInDown-2 hidden-xs" style="color:white; font-size: 3rem; "> <span><b>{{ $slider->description }}.</b></span> </div>
-                    <div class="button-holder fadeInDown-3"> <a href="{{url('/subCategory/book/12/comics')}}" class="btn-lg btn btn-uppercase btn-primary shop-now-button">En Savoir Plus</a> </div>
+                    <div class="button-holder fadeInDown-3"> <a href="{{url('/subCategory/book/3/comics')}}" class="btn-lg btn btn-uppercase btn-primary shop-now-button">En Savoir Plus</a> </div>
                   </div>
                   <!-- /.caption --> 
                 </div>
@@ -677,27 +691,29 @@
                 <div class="product-slider">
                   <div class="owl-carousel home-owl-carousel custom-carousel owl-theme" data-item="4">
 
-                    @foreach ($books as $book)
+                    @foreach ($newBook as $book)
                       <div class="item item-carousel">
                       <div class="products">
                         <div class="product">
                           <div class="product-image">
-                            <div class="image">  {{ url('book/detail/'.$book->id.'/'.$book->title ) }}"><img src="{{  asset($book->image) }}"></a></div>
+                            <div class="image"><a href=" {{ url('book/detail/'.$book->id.'/'.$book->title) }}" ><img src="{{  asset($book->image) }}"></a></div>
                             <!-- /.image -->
                             
-                      @php
-                        $amount = $book->price - $book->discount_price;
-                        $discount = ($amount/$book->price) * 100;
-                      @endphp 
-                
-                
-                {{-- <div>
-                  @if ($book->discount_price == NULL)
-                  <div class="tag new"><span>new</span></div>
-                  @else
-                  <div class="tag hot"><span>{{ round($discount) }}%</span></div>
-                  @endif
-                </div> --}}
+                            <div>
+                              @if ($book->newBook == 1) 
+                                @if ($book->discount_price != NULL) 
+                                  @php
+                                    $amount = $book->price - $book->discount_price;
+                                    $discount = ($amount / $book->price) * 100;
+                                  @endphp
+                                  <div class="tag hot"><span>{{ round($discount) }}%</span></div>
+                                @else 
+                                
+                                @endif
+                              @endif
+                            </div>
+                            
+                            
                               
               </div>
                           <!-- /.product-image -->
@@ -763,7 +779,7 @@
                     @php
                     $catwiseBook = App\Models\Book::where('categoryBook_id', $category->id)
                                                 ->where('status', 1)
-                                                ->whereNull('discount_price')
+                                                // ->whereNull('discount_price')
                                                 ->orderBy('id', 'DESC')
                                                 ->get();
                 @endphp
@@ -779,20 +795,21 @@
                               <div class="image"><a href=" {{ url('book/detail/'.$book->id.'/'.$book->title) }}" ><img src="{{  asset($book->image) }}"></a></div>
                               <!-- /.image -->
                               
-
-                      @php
-                            $amount = $book->price - $book->discount_price;
-                            $discount = ($amount/$book->price) * 100;
-                      @endphp 
-                      
-                      
-                      {{-- <div>
-                        @if ($book->discount_price == NULL)
-                        <div class="tag new"><span>new</span></div>
-                        @else
-                        <div class="tag hot"><span>{{ round($discount) }}%</span></div>
-                        @endif
-                      </div> --}}
+                               
+                              <div>
+                                @if ($book->newBook == 1) 
+                                  @if ($book->discount_price != NULL) 
+                                    @php
+                                      $amount = $book->price - $book->discount_price;
+                                      $discount = ($amount / $book->price) * 100;
+                                    @endphp
+                                    <div class="tag hot"><span>{{ round($discount) }}%</span></div>
+                                  @else 
+                                  
+                                  @endif
+                                @endif
+                              </div>
+                              
                                     
                     </div>
                             <!-- /.product-image -->
@@ -820,7 +837,7 @@
                                   </li>
                                    <li>
                                     <button class="btn btn-primary icon" type="button" title="Wishlist" id="{{ $book->id }}" onclick="addToWishList(this.id)"><i class="fa fa-heart"></i> </button>
-                                  <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> </li>
+                                 
                                 </ul>
                               </div>
                               <!-- /.action --> 
@@ -901,21 +918,22 @@
                             <div class="image"> <a href="  {{ url('book/detail/'.$book->id.'/'.$book->title ) }}"><img src="{{  asset($book->image) }}"></a></div>
                             <!-- /.image -->
                             
-                      @php
-                        $amount = $book->price - $book->discount_price;
-                        $discount = ($amount/$book->price) * 100;
-                      @endphp 
-                
-                
-                {{-- <div>
-                  @if ($book->discount_price == NULL)
-                  <div class="tag new"><span>new</span></div>
-                  @else
-                  <div class="tag hot"><span>{{ round($discount) }}%</span></div>
-                  @endif
-                </div>--}}
-                              
-              </div> 
+                            <div>
+                              @if ($book->featured == 1) 
+                                @if($book->discount_price != NULL) 
+                                  @php
+                                    $amount = $book->price - $book->discount_price;
+                                    $discount = ($amount / $book->price) * 100;
+                                  @endphp
+                                  <div class="tag hot"><span>{{ round($discount) }}%</span></div>
+                                @else 
+                                  <div class="tag featured blue"><span></span></div>
+                                @endif
+                              @endif
+                            </div>
+                            
+                                          
+                          </div> 
                           <!-- /.product-image -->
 
                           
@@ -946,7 +964,7 @@
                                 </li>
                                  <li>
                                   <button class="btn btn-primary icon" type="button" title="Wislist" id="{{ $book->id }}" onclick="addToWishList(this.id)"><i class="fa fa-heart"></i> </button></li>
-                                <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> </li>
+                                {{-- <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> </li> --}}
                               </ul>
                             </div>
                             <!-- /.action --> 
@@ -993,20 +1011,29 @@
                               <div class="image"><a href="  {{ url('book/detail/'.$book->id.'/'.$book->title ) }}" ><img src="{{  asset($book->image) }}"></a></div>
                               <!-- /.image -->
                               
+{{--  
+                              @php
+                              $amount = $book->price - $book->discount_price;
+                              $discount = ($amount/$book->price) * 100;
+                              @endphp  --}}
 
-                      @php
-                            $amount = $book->price - $book->discount_price;
-                            $discount = ($amount/$book->price) * 100;
-                      @endphp 
                       
                       
-                     {{-- <div>
-                        @if ($book->discount_price == NULL)
-                         <div class="tag new"><span>new</span></div>
-                        @else
-                        <div class="tag hot"><span>{{ round($discount) }}%</span></div>
-                        @endif
-                      </div>--}}
+                              <div>
+                                @if ($book->featured == 1) 
+                                  @if($book->discount_price != NULL) 
+                                    @php
+                                      $amount = $book->price - $book->discount_price;
+                                      $discount = ($amount / $book->price) * 100;
+                                    @endphp
+                                    <div class="tag hot"><span>{{ round($discount) }}%</span></div>
+                                  @else 
+                                    <div class="tag featured blue"><span></span></div>
+                                  @endif
+                                @endif
+                              </div>
+                              
+
                                     
                     </div> 
                             <!-- /.product-image -->
@@ -1033,8 +1060,8 @@
                                     <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
                                   </li>
                                    <li>
-                                    <button class="btn btn-primary icon" type="button" title="Wislist" id="{{ $book->id }}" onclick="addToWishList(this.id)"><i class="fa fa-heart"></i> </button>
-                                  <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> </li>
+                                    <button class="btn btn-primary icon" type="button" title="Wislist" id="{{ $book->id }}" onclick="addToWishList(this.id)"><i class="fa fa-heart"></i> </button></li>
+                                  {{-- <li class="lnk"> <a data-toggle="tooltip" class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a>  --}}
                                 </ul>
                               </div>
                               <!-- /.action --> 

@@ -18,13 +18,23 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CashController extends Controller
 {
-    public function CashOrder(Request $request)
+    public function cashOrder(Request $request)
     {
         if (Session::has('coupon')) {
             $total_amount = Session::get('coupon')['total_amount'];
         } else {
             $total_amount = round(Cart::total());
         }
+
+        // Vérifier si le montant total est zéro ou null
+    if ($total_amount === 0 || $total_amount === null) {
+        $notification = [
+            'message' => 'Le montant total est invalide. Veuillez ajouter des articles à votre panier.',
+            'alert-type' => 'error'
+        ];
+
+        return redirect()->back()->with($notification);
+    }
 
         $user = User::find(Auth::id());
 
@@ -46,7 +56,8 @@ class CashController extends Controller
         $order->shippingMethod()->save($shippingMethod);
 
         $orderStatus = new OrderStatus([    
-            'pending_date' => now(),
+            'pending_date'=>'pending',
+            'created_at'=>now(),
         ]);
         $order->orderStatus()->save($orderStatus);
 
@@ -77,7 +88,6 @@ class CashController extends Controller
 
         Mail::to($user->email)->send(new OrderMail($data));
 
-        if (session()->get('language') == 'french') {
             $notification = [
                 'message' => 'Votre Achat a bien été enregistré',
                 'alert-type' => 'success'
@@ -86,4 +96,4 @@ class CashController extends Controller
             return redirect()->route('dashboard')->with($notification);
         }
     }
-}
+

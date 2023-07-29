@@ -26,11 +26,19 @@ class StripeController extends Controller
         }else{
             $total_amount = round(Cart::total());
         }
+
+        // Vérifier si le montant total est zéro ou null
+    if ($total_amount === 0 || $total_amount === null) {
+        $notification = [
+            'message' => 'Le montant total est invalide. Veuillez ajouter des articles à votre panier.',
+            'alert-type' => 'error'
+        ];
+
+        return redirect()->back()->with($notification);
+    }
         
-        // Set your secret key. Remember to switch to your live secret key in production.
-        // See your keys here: https://dashboard.stripe.com/apikeys
-        \Stripe\Stripe::setApiKey(''
-        );
+        
+        \Stripe\Stripe::setApiKey('');
 
         // Token is created using Checkout or Elements!
         // Get the payment token ID submitted by the form:

@@ -52,7 +52,7 @@ public function PendingOrders()
         return view('backend.orders.delivered',compact('orders'));
     } 
     public function cancelOrders(){
-      $orders = Order::with('shippingMethod', 'orderStatus', 'user')->whereHas('orderStatus', function ($query){$query->where('processing_date','processing');
+      $orders = Order::with('shippingMethod', 'orderStatus', 'user')->whereHas('orderStatus', function ($query){$query->where('cancel_date','cancel');
       })->orderBy('id', 'DESC')->get();;
         return view('backend.orders.cancel',compact('orders'));
     } 
@@ -128,18 +128,22 @@ public function DeliveredToCancelOrder($order_id){
   }
 
 
-  public function AdminInvoiceDownload($order_id){
-
-    $order = Order::with('common','town','user.address','user')->where('id',$order_id)->first();
-    $orderItem = OrderItem::with('book')->where('order_id',$order_id)->orderBy('id','DESC')->get();
+  public function AdminInvoiceDownload($order_id)
+{
+    $order = Order::with('user.address.country', 'user.address', 'user')->where('id', $order_id)->first();
+    $orderItem = OrderItem::with('book')->where('order_id', $order_id)->orderBy('id', 'DESC')->get();
      
-    $pdf = PDF::loadView('backend.orders.order_invoice',compact('order','orderItem'))->setPaper('a4')->setOptions([
-            'tempDir' => public_path(),
-            'chroot' => public_path(),
+    // Concaténation de l'adresse de l'utilisateur
+    $address = $order->user->address->street_name . ', ' . $order->user->address->street_number . ', ' . $order->user->address->city;
+    
+    $pdf = PDF::loadView('backend.orders.order_invoice', compact('order', 'orderItem', 'address'))->setPaper('a4')->setOptions([
+        'tempDir' => public_path(),
+        'chroot' => public_path(),
     ]);
-    return $pdf->download('invoice.pdf');
 
-  }
+    return $pdf->download('invoice.pdf');
+}
+
 
 //   public function getSalesReportAjax(Request $request)
 // {

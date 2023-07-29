@@ -294,7 +294,7 @@
 <div class="col-xs-12 col-sm-6 col-md-5 gallery-holder">
 <div class="product-item-holder size-big single-product-gallery small-gallery">
 
-<div id="owl-single-product">
+{{-- <div id="owl-single-product">
 @foreach ($multiImgs as $multiImg)
 
 
@@ -306,20 +306,18 @@
 @endforeach
 
 
-</div><!-- /.single-product-slider -->
+</div><!-- /.single-product-slider --> --}}
 
 
 <div class="single-product-gallery-thumbs gallery-thumbs">
 
 <div id="owl-single-product-thumbnails">
-@foreach ($multiImgs as $mutliImg)
-
 <div class="item">
-<a class="horizontal-thumb active" data-target="#owl-single-product" data-slide="1" href="#slide{{ $multiImg->id }}">
-<img class="img-responsive" width="85" alt="" src="{{asset($multiImg->photo_name) }}" data-echo="{{asset($multiImg->photo_name) }}" />
+<a class="horizontal-thumb active" data-target="#owl-single-product" data-slide="1" href="#slide">
+<img class="img" width="200" alt="" src="{{asset($book->image) }}" data-echo="{{asset($book->image) }}" />
 </a>
 </div>
-@endforeach
+
 {{-- 
 <div class="item">
 <a class="horizontal-thumb" data-target="#owl-single-product" data-slide="2" href="#slide2">
@@ -394,18 +392,23 @@
 </div><!-- /.rating-reviews -->
 
 <div class="stock-container info-container m-t-10">
-<div class="row">
-	<div class="col-sm-2">
-		<div class="stock-box">
-			<span class="label">Availability :</span>
-		</div>	
-	</div>
-	<div class="col-sm-9">
-		<div class="stock-box">
-			<span class="value">In Stock</span>
-		</div>	
-	</div>
-</div><!-- /.row -->	
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="stock-box">
+                <span class="label">Availability:</span>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <div class="stock-box">
+                @if ($book->product_qty > 0)
+                    <span class="value text-success">In Stock</span> 
+					(<span>{{$book->product_qty}}</span> pieces)
+                @else
+                    <span class="value text-danger">Out of Stock</span>
+                @endif
+            </div>
+        </div>
+    </div><!-- /.row -->	
 </div><!-- /.stock-container -->
 
 <div class="description-container m-t-20">
@@ -432,19 +435,6 @@
 		</div>
 	</div>
 
-	<div class="col-sm-6">
-		<div class="favorite-button m-t-10">
-			<a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Wishlist" href="#">
-				<i class="fa fa-heart"></i>
-			</a>
-			<a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Add to Compare" href="#">
-				<i class="fa fa-signal"></i>
-			</a>
-			<a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="E-mail" href="#">
-				<i class="fa fa-envelope"></i>
-			</a>
-		</div>
-	</div>
 
 </div><!-- /.row -->
 </div><!-- /.price-container -->
@@ -459,19 +449,28 @@
 	<div class="col-sm-2">
 		<div class="cart-quantity">
 			<div class="quant-input">
-				<div class="arrows">
+				{{-- <div class="arrows">
 					<div class="arrow plus gradient"><span class="ir"><i class="icon fa fa-sort-asc"></i></span></div>
 					<div class="arrow minus gradient"><span class="ir"><i class="icon fa fa-sort-desc"></i></span></div>
-				</div>
-				<input type="text"  id="qty" value="1" min="1"">
+				</div> --}}
+				<input type="text" id="qty" value="1" min="1" max="{{ $book->product_qty }}">
 			</div>
 		</div>
 	</div>
-
 	<input type="hidden"  id="book_id" value="{{ $book->id }}" min="1">
 	<div class="col-sm-7">
-		<button type="submit" onclick="addToCart()" class="btn btn-primary"><i class="fa fa-shopping-cart inner-right-vs"></i> ADD TO CART</button>
+		<div class="input-group-append">
+			<button type="button"  onclick="addToCart()"class="btn btn-primary">
+				<i class="fa fa-shopping-cart inner-right-vs"></i> ADD TO CART
+			</button>
+			<button class="btn btn-danger icon" type="button" title="Wishlist" id="{{ $book->id }}" onclick="addToWishList(this.id)">
+				<i class="fa fa-heart"></i> Wishlist
+			</button>
+		</div>
 	</div>
+	
+	
+	
 
 	
 </div><!-- /.row -->
@@ -742,16 +741,15 @@
 	</li>
 	
 	<li class="lnk wishlist">
-		<a class="add-to-cart" href="detail.html" title="Wishlist">
-				<i class="icon fa fa-heart"></i>
+		<button class="btn btn-primary icon" type="button" title="wishlist" id="{{ $book->id }}" onclick="addToWishList(this.id)"><i class="fa fa-heart"></i> </button>
 		</a>
 	</li>
 
-	<li class="lnk">
+	{{-- <li class="lnk">
 		<a class="add-to-cart" href="detail.html" title="Compare">
 			<i class="fa fa-signal"></i>
 		</a>
-	</li>
+	</li> --}}
 </ul>
 </div><!-- /.action -->
 </div><!-- /.cart -->

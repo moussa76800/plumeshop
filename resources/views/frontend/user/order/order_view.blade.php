@@ -64,30 +64,24 @@
                 
                 <td class="col-md-2">
                   <label for=""> 
-                      <span class="badge badge-pill badge-warning">
                           <!-- Utilisez la variable $orderStatus pour afficher le texte correspondant à l'état -->
                           @if ($aa = $order->orderStatus)
                               @if (!is_null($aa->pending_date))
-                                  <span class="badge badge-pill badge-warning" style="background: #800080;">En Attente</span>
+                                  <span class="badge badge-pill badge-warning" style="background: #800080;">Pending</span>
                               @elseif (!is_null($aa->processing_date))
-                                  <span class="badge badge-pill badge-warning" style="background: #FFA500;">Traîtement</span>
+                                  <span class="badge badge-pill badge-warning" style="background: #FFA500;">Processing</span>
                               @elseif (!is_null($aa->shipped_date))
-                                  <span class="badge badge-pill badge-warning" style="background: #808080;">Expédition</span>
+                                  <span class="badge badge-pill badge-warning" style="background: #808080;">Shipped</span>
                               @elseif (!is_null($aa->delivered_date))
-                                  <span class="badge badge-pill badge-warning" style="background: #418DB9;">Délivrer</span>
-                              @elseif (!is_null($aa->cancel_date))
-                                  <span class="badge badge-pill badge-warning" style="background: red;">Annuler</span>
-                              @elseif ($aa->return_date == 1)
-                                  <span class="badge badge-pill badge-warning" style="background: #008000;">Retour demandé</span>
-                              @elseif (!is_null($aa->return_reason))
-                                  <span class="badge badge-pill badge-warning" style="background: #418DB9;">Retour Raison</span>
-                              @else
-                                  <span class="badge badge-pill badge-warning" style="background: #418DB9;">Statut inconnu</span>
-                              @endif
-                          @else
-                              <span class="badge badge-pill badge-warning" style="background: #418DB9;">Aucun statut</span>
-                          @endif
-                      </span>
+                                  <span class="badge badge-pill badge-warning" style="background: #418DB9;">Delivered</span>
+<br>
+                                  @if($aa->return_order == 1) 
+                                <span class="badge badge-pill badge-warning" style="background:red;">Return Requested </span>
+                                  @endif
+                              @else 
+                              <span class="badge badge-pill badge-warning" style="background: #FF0000;"> Cancel </span>          
+                             @endif
+                             @endif
                   </label>
               </td>
               
