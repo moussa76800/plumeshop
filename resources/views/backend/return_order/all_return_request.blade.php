@@ -45,9 +45,9 @@
 
 		<td> {{ $item->shippingMethod->payment_method }}  </td>
 		<td>
-		@if($item->return_order == 1)
+		@if($item->orderStatus->return_order == 1)
         <span class="badge badge-pill badge-primary">@if (session()->get('language') == 'french')En Attente @else Pending @endif </span>
-       @elseif($item->return_order == 2)
+       @elseif($item->orderStatus->return_order == 2)
        <span class="badge badge-pill badge-success">@if (session()->get('language') == 'french')Succès @else Success @endif </span>
 		@endif
 

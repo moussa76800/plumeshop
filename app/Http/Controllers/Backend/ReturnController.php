@@ -10,39 +10,40 @@ use App\Http\Controllers\Controller;
 class ReturnController extends Controller
 {
     public function returnRequest(){
-        $orders = Order::with('orderStatus')->where('return_order', 1)
-        ->orderBy('id', 'DESC')
-        ->get();        
+        // Récupérer les commandes avec leur statut associé où return_order est égal à 1
+    $orders = Order::whereHas('orderStatus', function ($query) {
+        $query->where('return_order', 1);
+    })
+    ->with('orderStatus') // Charger la relation orderStatus
+    ->get();  
        return view('backend.return_order.return_request',compact('orders')); 
     }
 
     public function requestApprove($order_id){
-        DB::table('orders')
-    ->join('order_status', 'orders.id', '=', 'order_status.order_id')
-    ->where('orders.id', $order_id)
-    ->update(['order_status.return_reason' => 2]);
-        // Order::where('id',$order_id)->update(['return_order' => 2]);
+        // Mettre à jour la commande avec le statut de retour approuvé (return_order = 2)
+    Order::where('id', $order_id)->update(['return_order' => 2]);
 
-        if (session()->get('language') == 'french'){
-    	$notification = array(
-            'message' => 'Le retour a bien été approuvé',
-            'alert-type' => 'success'
-        );
-        return redirect()->back()->with($notification);
-    }
-    $notification = array(
-        'message' => 'The return has been approved',
+    // Message de notification en fonction de la langue
+    $message = (session()->get('language') == 'french') 
+        ? 'Le retour a bien été approuvé'
+        : 'The return has been approved';
+
+    $notification = [
+        'message' => $message,
         'alert-type' => 'success'
-    );
+    ];
+
     return redirect()->back()->with($notification);
 }
 
-    public function requestViewAll(){
-    //    $allRequests =  Order::where('return_order',2)->orderBy('id','DESC')->get();
-    $allRequests = Order::join('order_status', 'orders.id', '=', 'order_status.order_id')
-                        ->where('order_status.return_order', 2)
-                        ->orderBy('orders.id', 'DESC')
-                        ->get();
-       return view('backend.return_order.all_return_request',compact('allRequests'));  
-    }
+public function requestViewAll()
+{
+    $allRequests = Order::whereHas('orderStatus', function ($query) {
+        $query->where('return_order', 2);
+    })
+    ->with('orderStatus') // Charger la relation orderStatus
+    ->get();  
+
+    return view('backend.return_order.all_return_request', compact('allRequests'));
+}
 }

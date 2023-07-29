@@ -728,25 +728,24 @@ function addToWishList(book_id){
       success: function(data) {
         if (data.total) {
           $('#couponCalField').html(`
-                <div style="display: flex; justify-content: space-between; font-size: 18px;">
-        <div style="font-weight: bold;">Subtotal:</div>
-        <div>$ ${data.subtotal}</div>
+          <div style="display: flex; justify-content: space-between; font-size: 18px;">
+        <div style="font-weight: bold;">Subtotal TTC:</div>
+        <div>$ ${data.total}</div>
         </div>
-                <<div style="display: flex; justify-content: space-between; font-size: 18px;">
-        <div style="font-weight: bold;">Total:</div>
-        <div>$ ${data.subtotal}</div>
-        </div>>
-              
-          `);
+          <div style="display: flex; justify-content: space-between; font-size: 18px;">
+            <div style="font-weight: bold;">Total:</div>
+            <div>$ ${data.total}</div>
+          </div>
+        `);
         } else {
           $('#couponCalField').html(`
                 <div style="display: flex; justify-content: space-between; font-size: 18px;">
-        <div style="font-weight: bold;">Subtotal:</div>
+        <div style="font-weight: bold;">Subtotal TTC:</div>
         <div>$ ${data.subtotal}</div>
         </div>
         <div style="display: flex; justify-content: space-between; font-size: 18px;">
         <div style="font-weight: bold;">Coupon:</div>
-        <div>${data.couponName}<button type="submit" onclick="couponRemove()"><i class="fa fa-times"></i></button></div>
+        <div>${data.couponName}  <button type="submit" onclick="couponRemove()"><i class="fa fa-times"></i></button></div>
         </div>
         <div style="display: flex; justify-content: space-between; font-size: 18px;">
         <div style="font-weight: bold;">Discount Amount:</div>
