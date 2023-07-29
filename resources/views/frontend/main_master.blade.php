@@ -568,7 +568,7 @@ function addToWishList(book_id){
                   $.each(response.carts, function(key,value){
                     rows += `<tr>
                   
-                    <td><img src="/${value.options.image} " alt="imga" style="width:70px; height:70px;"></td>
+                    <td><img src="${value.options.image} " alt="imga" style="width:70px; height:70px;"></td>
                     <td>
                         <div class="product-name"><a href="#">${ @if(session()->get('language') == 'french')value.name @else value.name @endif}</a></div>
                          
