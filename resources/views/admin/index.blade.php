@@ -122,7 +122,7 @@ $orders = App\Models\Order::whereHas('orderStatus', function ($query) {$query->w
 <th style="min-width: 100px"><span class="text-fade">Invoice</span></th>
 <th style="min-width: 100px"><span class="text-fade">Amount</span></th>
 <th style="min-width: 150px"><span class="text-fade">Payment</span></th>
-<th style="min-width: 130px"><span class="text-fade">Status</span></th>
+<th style="min-width: 100px"><span class="text-fade">Status</span></th>
 <th style="min-width: 120px"><span class="text-fade">Process</span> </th>
 </tr>
             </thead>
@@ -157,7 +157,7 @@ $orders = App\Models\Order::whereHas('orderStatus', function ($query) {$query->w
             </span>
         </td>
         <td>
-            <span class="badge badge-primary-light badge-lg"><td>
+            <span class="badge badge-primary-light badge-lg">
                 <span class="badge badge-primary-light badge-lg">
                     @if($item->orderStatus->pending_date)        
             <span class="badge badge-pill badge-warning" style="background: #800080;">Pending  </span>

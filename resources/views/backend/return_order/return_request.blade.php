@@ -30,6 +30,7 @@
 								<th>@if (session()->get('language') == 'french') Facture @else Invoice @endif  </th>
 								<th>@if (session()->get('language') == 'french') Montant @else Amount @endif </th>
 								<th>@if (session()->get('language') == 'french') Paimement @else Payment @endif </th>
+								<th>@if (session()->get('language') == 'french') Paimement @else Reason @endif </th>
 								<th>@if (session()->get('language') == 'french') Statut @else Status @endif </th>
 								<th>Action</th>
 								 
@@ -41,10 +42,9 @@
 		<td> {{ $item->order_date }}  </td>
 		<td> {{ $item->invoice_no }}  </td>
 		<td>@if (session()->get('language') == 'french')€ {{ $item->shippingMethod->amount }} @else ${{ $item->shippingMethod->amount }} @endif $ {{ $item->shippingMethod->amount }}  </td>
-
 		<td> {{ $item->shippingMethod->payment_method }}  </td>
+		<td> {{ $item->orderStatus->return_reason }}  </td>
 		<td>
-
 		@if($item->orderStatus->return_order == 1)
       <span class="badge badge-pill badge-primary">@if (session()->get('language') == 'french')En Attente @else Pending @endif </span>
        @elseif($item->orderStatus->return_order == 2)
