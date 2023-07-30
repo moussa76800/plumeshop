@@ -246,21 +246,38 @@
 @endif
 
 @if($review == true) --}}
-<li class="treeview {{ ($prefix=='/review') ? 'active' : '' }}">
+<li class="treeview {{ ($prefix=='/messages') ? 'active' : '' }}">
   <a href="#">
-  <i data-feather="message-circle"></i>
-  <span> @if (session()->get('language') == 'english')Manage Review @else Gestion des Avis @endif </span>
-  <span class="pull-right-container">
-    <i class="fa fa-angle-right pull-right"></i>
-  </span>
-</a>
-<ul class="treeview-menu">
-  <li class="{{($route == 'pending_review') ? 'active' :'' }}"><a href="{{ route('pending_review') }}"><i class="ti-more"></i>
-     @if (session()->get('language') == 'english')Pending Review @else Avis en Attente @endif </a></li>
-      <li class="{{($route == 'publish_review') ? 'active' :'' }}"><a href="{{ route('publish_review') }}"><i class="ti-more"></i>
-      @if (session()->get('language') == 'english')Publish Review @else Avis Publié  @endif </a></li> 
-     </ul>
-</li>  
+    <i data-feather="message-circle"></i>
+    <span> @if (session()->get('language') == 'english')Manage All Messages @else Gestion des Messages @endif </span>
+    <span class="pull-right-container">
+      <i class="fa fa-angle-right pull-right"></i>
+    </span>
+  </a>
+  <ul class="treeview-menu">
+    <li class="{{($route == 'pending_review') ? 'active' :'' }}"><a href="{{ route('pending_review') }}"><i class="ti-more"></i>
+      @if (session()->get('language') == 'english')Pending Review @else Avis en Attente @endif </a></li>
+    <li class="{{($route == 'publish_review') ? 'active' :'' }}"><a href="{{ route('publish_review') }}"><i class="ti-more"></i>
+      @if (session()->get('language') == 'english')Publish Review @else Avis Publié  @endif </a></li>
+  </ul>
+</li>
+
+<li class="treeview {{ ($prefix=='/blogmessages') ? 'active' : '' }}">
+  <a href="#">
+    <i data-feather="message-circle"></i>
+    <span> Manage Blog Messages  </span>
+    <span class="pull-right-container">
+      <i class="fa fa-angle-right pull-right"></i>
+    </span>
+  </a>
+  <ul class="treeview-menu">
+    <li class="{{($route == 'pending_blogMessage') ? 'active' :'' }}"><a href="{{ route('pending_blogMessage') }}"><i class="ti-more"></i>
+     Pending Blog's Messages  </a></li>
+    <li class="{{($route == 'publish_blogMessage') ? 'active' :'' }}"><a href="{{ route('publish_blogMessage') }}"><i class="ti-more"></i>
+     Publish Blog's Messages </a></li>
+  </ul>
+</li>
+
 {{-- @else
 @endif   --}}
 

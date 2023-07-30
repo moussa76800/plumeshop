@@ -24,8 +24,8 @@ class HomeBlogController extends Controller
     public function HomeBlogCatPost($category_id){
 
     	$blogcategory = BlogPostCategory::all();
-    	$blogpost = BlogPost::where('category_id',$category_id)->orderBy('id','DESC')->get();
-    	return view('frontend.blog.blog_cat_list',compact('blogpost','blogcategory'));
+    	$blogposte = BlogPost::where('category_id',$category_id)->orderBy('id','DESC')->get();
+    	return view('frontend.blog.blog_cat_list',compact('blogposte','blogcategory'));
 
     }
 }

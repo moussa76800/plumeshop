@@ -199,7 +199,6 @@ class BookController extends Controller
                     'alert-type' => 'success',
                 ];
                 return redirect()->back()->with($notification);
-                
             }
 
             // Chercher l'éditeur dans la base de données en utilisant le nom du publisher de l'API
@@ -638,4 +637,11 @@ class BookController extends Controller
 
         return redirect()->back()->with($notification);
     }
+
+    // product Stock 
+    // public function ProductStock(){
+
+    //     $stock = Book::latest()->get();
+    //     return view('backend.book.book_stock',compact('stock'));
+    //   }
 }

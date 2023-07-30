@@ -239,12 +239,19 @@ Route::prefix('return')->group(function() {
     Route::get('/request/view/all' , [ReturnController::class,'requestViewAll'])->name('all_request');
 });
 
-// Manage Review User  All Routes :
-Route::prefix('review')->group(function() {
-    Route::get('/pending' , [ReviewController::class,'pendingReview'])->name('pending_review');
-    Route::get('/approve/{order_id}' , [ReviewController::class,'reviewApprove'])->name('review_approve');
-    Route::get('/publish' , [ReviewController::class,'publishReview'])->name('publish_review');
-    Route::get('/delete/{id}' , [ReviewController::class,'deleteReview'])->name('delete_review');
+// Manage All Messages  User  All Routes :
+Route::prefix('messages')->group(function() {
+    // Review
+    Route::get('/review/pending' , [ReviewController::class,'pendingReview'])->name('pending_review');
+    Route::get('/review/approve/{order_id}' , [ReviewController::class,'reviewApprove'])->name('review_approve');
+    Route::get('/review/publish' , [ReviewController::class,'publishReview'])->name('publish_review');
+    Route::get('/review/delete/{id}' , [ReviewController::class,'deleteReview'])->name('delete_review');
+    // Blog
+    Route::get('/blog/pending' , [BlogController::class,'pendingBlogMessage'])->name('pending_blogMessage');
+    Route::get('/blog/approve/{order_id}' , [BlogController::class,'blogMessageApprove'])->name('blogMessage_approve');
+    Route::get('/blog/publish' , [BlogController::class,'publishblogMessage'])->name('publish_blogMessage');
+    Route::get('/blog/delete/{id}' , [BlogController::class,'deleteBlogMessage'])->name('delete_blogMessage');
+
 });
 
 // Manage Stock User  All Routes :
@@ -317,6 +324,11 @@ Route::post('/couponApply' , [CartController::class,'couponApply']);
 Route::get('/couponCalculation',[CartController::class, 'calculationTotal']);
 Route::get('/couponRemove',[CartController::class, 'couponRemove']);
 
+// Blog All Routes :
+Route::get('/blog' , [HomeBlogController::class,'viewHomeBlog'])->name('view.HomeBlog');
+Route::get('/blog/post/detail/{id}' , [HomeBlogController::class,'HomeBlogDetail'])->name('post.details');
+Route::get('/blog/category/post/{category_id}' , [HomeBlogController::class,'HomeBlogCatPost'])->name('blog.category.post');
+
 
 Route::get('/plumeshop/about_us', [IndexController::class,'aboutSlider'])->name('slide_plumeshop');
 
@@ -352,11 +364,6 @@ Route::get('/checkout',[CartController::class, 'checkoutCreate'])->name('checkou
 // Route::get('/common/ajax/{town_id}',[CheckoutController::class, 'commonGetAjax']);
 Route::post('/checkout/store',[CheckoutController::class, 'checkoutStore'])->name('checkout.store');
 
-
-// Blog All Routes :
- Route::get('/blog' , [HomeBlogController::class,'viewHomeBlog'])->name('view.HomeBlog');
- Route::get('/blog/post/detail/{id}' , [HomeBlogController::class,'HomeBlogDetail'])->name('post.details');
- Route::get('/blog/category/post/{category_id}' , [HomeBlogController::class,'HomeBlogCatPost'])->name('blog.category.post');
 
  // Review's Book All Routes :
  Route::post('/review/store' , [ReviewController::class,'reviewStore'])->name('review_store');

@@ -15,6 +15,7 @@ class CreateBlogMessagesTable extends Migration
     {
         Schema::create('blog_messages', function (Blueprint $table) {
             $table->id();
+            $table->string('status')->default(0);
         });
     }
 

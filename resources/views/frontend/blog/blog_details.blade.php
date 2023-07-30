@@ -17,26 +17,25 @@
     </style>
  
 
- <div class="">
-	<div class="container">
-		<div class="breadcrumb-inner">
-			
-			<ul class="list-inline ">
-				<li><a href="{{ '/' }} "style="color: red" ;>@if (session()->get('language') == 'french')Accueil @else Home @endif/</a></li>
-				<li class='active'style="color:  #00008B;">Blog /</li>
-			@foreach(  $postDetail as $item)
-			<li class='active' style="color:  #00008B ;" >{{ $item->category->name }}  /</li>
-			@endforeach
-	
-			@foreach($postDetail as $item)
-			<li class='active' style="color:  #00008B;">{{ $item->post_title }} </li>
-			@endforeach
+ <<section class="page-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb">
+                    <li><a href="{{ url('/') }}" style="color: red;">@if (session()->get('language') == 'french')Accueil @else Home @endif</a></li>
+                    <li><i class="fa fa-angle-right"></i></li>
+                    <li><a href="{{ url('/blog') }}" style="color: #00008B;">Blog</a></li>
+                    <li><i class="fa fa-angle-right"></i></li>
+                    <li style="color: #00008B;">{{ $postDetail->category->name }}</li>
+                    <li><i class="fa fa-angle-right"></i></li>
+                    <li class="active">{{ $postDetail->post_title }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
 
-				
-			</ul>
-		</div><!-- /.breadcrumb-inner -->
-	</div><!-- /.container -->
-</div><!-- /.breadcrumb -->
+
 <br>
 <div class="body-content">
 	<div class="container">
@@ -90,7 +89,7 @@
 			<form class="register-form" role="form">
 				<div class="form-group">
 			    <label class="info-title" for="exampleInputName"> @if(session()->get('language') == 'french')Votre Nom @else Your Name @endif <span>*</span></label>
-			    <input type="email" class="form-control unicase-form-control text-input" id="exampleInputName" placeholder="">
+			    <input type="text" class="form-control unicase-form-control text-input" id="exampleInputName" placeholder="">
 			  </div>
 			</form>
 		</div>
@@ -106,7 +105,7 @@
 			<form class="register-form" role="form">
 				<div class="form-group">
 			    <label class="info-title" for="exampleInputTitle">@if(session()->get('language') == 'french')Titre @else Title @endif <span>*</span></label>
-			    <input type="email" class="form-control unicase-form-control text-input" id="exampleInputTitle" placeholder="">
+			    <input type="text" class="form-control unicase-form-control text-input" id="exampleInputTitle" placeholder="">
 			  </div>
 			</form>
 		</div>

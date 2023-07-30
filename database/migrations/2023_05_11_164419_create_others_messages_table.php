@@ -15,6 +15,7 @@ class CreateOthersMessagesTable extends Migration
     {
         Schema::create('others_messages', function (Blueprint $table) {
             $table->id();
+            $table->string('status')->default(0);
         });
     }
 
