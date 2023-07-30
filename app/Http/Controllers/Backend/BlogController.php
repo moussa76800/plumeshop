@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\Message;
+use App\Models\BlogMessage;
 use Illuminate\Http\Request;
 use App\Models\Blog\BlogPost;
+
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\Blog\BlogPostCategory;
 use Intervention\Image\Facades\Image;
 
@@ -236,7 +239,90 @@ class BlogController extends Controller
           return redirect()->back()->with($notification);
        }
 
-            }
+       //////////////////////////////////////////////////  Manage Blog's Messages //////////////////////////////////////////////////////////
+    
+       public function pendingBlogMessage(){
+            $messages =  BlogMessage::with('message')->where('status', 0)->orderBy('id', 'DESC')->get();
+            return view('backend.blog.message.pending_blog', compact('messages'));
+        }
+        
+    
+    public function blogMessageApprove($id){
+        BlogMessage::where('id',$id)->update(['status' => 1]);
+            $notification = array(
+                'message' => 'Blog Message Approved Successfully',
+                'alert-type' => 'success'
+            );
+    
+            return redirect()->back()->with($notification);
+    }
+    
+    public function publishBlogMessage(){
+        $messagePublish = BlogMessage::with('message')->where('status',1)->orderBy('id','DESC')->get();
+        $notification = array(
+            'message' => 'Blog Message publied Successfully',
+            'alert-type' => 'success'
+        );
+            return view('backend.blog.message.publish_blog',compact('messagePublish'))->with($notification);
+    }
+    
+    public function deleteBlogMessage($id){
+        BlogMessage::findOrFail($id)->delete();
+    
+        $notification = array(
+            'message' => 'Blog Message Delete Successfully',
+            'alert-type' => 'success'
+        );
+    
+        return redirect()->back()->with($notification);
+    }
+
+    public function blogMessageStore(Request $request)
+{
+    $book = $request->book_id;
+
+    $request->validate([
+        'summary' => 'required',
+        'comment' => 'required',
+    ]);
+
+    $message = Message::create([
+        'subject' => $request->summary,
+        'content' => $request->comment,
+        'user_id' => Auth::id(),
+        'created_at' => Carbon::now(),
+    ]);
+
+    $blogMessage = BlogMessage::create([
+        'book_id' => $book,
+        'rating' => $request->quality,
+        'status' => 0,
+        'created_at' => Carbon::now(),
+    ]);
+
+    // Associer la review au message
+    $message->review()->associate($blogMessage);
+    $message->save();
+
+    if (session()->get('language') == 'english') {
+        $notification = array(
+            'message' => 'Review Will Approve By Admin',
+            'alert-type' => 'success'
+        );
+    } else {
+        $notification = array(
+            'message' => "L'examen sera approuvé par l'administrateur",
+            'alert-type' => 'success'
+        );
+    }
+
+    return redirect()->back()->with($notification);
+}
+    }
+    
+    
+       
+
      
 
         
