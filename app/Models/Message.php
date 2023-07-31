@@ -26,7 +26,8 @@ class Message extends Model
         return $this->hasOne(OthersMessages::class);
     }
 
-    public function blogMessages()
+    // Relation avec BlogMessage
+    public function blogMessage()
     {
         return $this->hasOne(BlogMessage::class);
     }

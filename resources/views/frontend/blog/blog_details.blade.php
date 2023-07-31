@@ -63,10 +63,6 @@
 	<p>  {!!  $postDetail->post_details  !!} 
 	</p>
 
-
-
-	 
-		 
 		 
        <!-- Go to www.addthis.com/dashboard to customize your tools -->
       <div class="addthis_inline_share_toolbox_8tvu"></div>
@@ -75,54 +71,37 @@
 </div>
 
 
+<div class="blog-write-comment outer-bottom-xs outer-top-xs">
+    <form role="form" class="cnt-form" method="post" action="{{ route('blogMessage_store') }}">
+        @csrf
+        <input type="hidden" name="post_id" value="{{ $postDetail->id }}">
 
+        <div class="row">
+            <div class="col-md-12">
+                <h4>@if(session()->get('language') == 'french')Laissez un commentaire @else Leave A Comment @endif</h4>
+            </div>
 
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="info-title" for="exampleInputTitle">@if(session()->get('language') == 'french')Titre @else Title @endif <span>*</span></label>
+                    <input type="text" class="form-control unicase-form-control text-input" id="exampleInputTitle" name="content" placeholder="The Sujet" required>
+                </div>
+            </div>
+            
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="info-title" for="exampleInputComments">@if(session()->get('language') == 'french')Votre Commentaires @else Your Comments @endif <span>*</span></label>
+                    <textarea class="form-control unicase-form-control" id="exampleInputComments" name="comment" placeholder="Your Comments" required></textarea>
+                </div>
+            </div>
 
-
-
-			<div class="blog-write-comment outer-bottom-xs outer-top-xs">
-	<div class="row">
-		<div class="col-md-12">
-			<h4> @if(session()->get('language') == 'french')Laissez un commentaire @else Leave A Comment @endif</h4>
-		</div>
-		<div class="col-md-4">
-			<form class="register-form" role="form">
-				<div class="form-group">
-			    <label class="info-title" for="exampleInputName"> @if(session()->get('language') == 'french')Votre Nom @else Your Name @endif <span>*</span></label>
-			    <input type="text" class="form-control unicase-form-control text-input" id="exampleInputName" placeholder="">
-			  </div>
-			</form>
-		</div>
-		<div class="col-md-4">
-			<form class="register-form" role="form">
-				<div class="form-group">
-			    <label class="info-title" for="exampleInputEmail1"> @if(session()->get('language') == 'french')Adresse Email @else Email Address @endif <span>*</span></label>
-			    <input type="email" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="">
-			  </div>
-			</form>
-		</div>
-		<div class="col-md-4">
-			<form class="register-form" role="form">
-				<div class="form-group">
-			    <label class="info-title" for="exampleInputTitle">@if(session()->get('language') == 'french')Titre @else Title @endif <span>*</span></label>
-			    <input type="text" class="form-control unicase-form-control text-input" id="exampleInputTitle" placeholder="">
-			  </div>
-			</form>
-		</div>
-		<div class="col-md-12">
-			<form class="register-form" role="form">
-				<div class="form-group">
-			    <label class="info-title" for="exampleInputComments">@if(session()->get('language') == 'french')Votre Commentaires @else Your Comments @endif <span>*</span></label>
-			    <textarea class="form-control unicase-form-control" id="exampleInputComments" ></textarea>
-			  </div>
-			</form>
-		</div>
-		<div class="col-md-12 outer-bottom-small m-t-20">
-			<button type="submit" class="btn-upper btn btn-primary checkout-page-button">@if(session()->get('language') == 'french')Envoyer un commentaire @else Submit Comment @endif </button>
-		</div>
-	</div>
+            <div class="col-md-12 outer-bottom-small m-t-20">
+                <button type="submit" class="btn-upper btn btn-primary checkout-page-button">@if(session()->get('language') == 'french')Envoyer un commentaire @else Submit Comment @endif</button>
+            </div>
+        </div>
+    </form>
 </div>
-				</div>
+
 				<div class="col-md-3 sidebar">
                 
                 

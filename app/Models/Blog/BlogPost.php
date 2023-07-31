@@ -18,7 +18,7 @@ public function category()
 }
 
 
-     public function postMessages(){
+     public function messages(){
        return $this->hasMany(BlogMessage::class);   
      }
     

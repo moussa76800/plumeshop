@@ -367,6 +367,9 @@ Route::post('/checkout/store',[CheckoutController::class, 'checkoutStore'])->nam
 
  // Review's Book All Routes :
  Route::post('/review/store' , [ReviewController::class,'reviewStore'])->name('review_store');
+
+ // Blog's Meesages All Routes :
+ Route::post('/blog/store' , [HomeBlogController::class,'blogMessageStore'])->name('blogMessage_store');
  
  // Tracking Order All Routes :
  Route::post('/order/tracking' , [AllUserController::class,'orderTracking'])->name('order_tracking');

@@ -17,15 +17,17 @@ class CreateMessagesTable extends Migration
             $table->id();
             $table->string('subject');
             $table->string('content');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');  
-            // $table->unsignedBigInteger('reviews_id');
-            //  $table->foreign('reviews_id')->references('id')->on('reviews')->onDelete('cascade');  
-            // $table->unsignedBigInteger('othersMess_id');
-            // $table->foreign('othersMess_id')->references('id')->on('others_messages')->onDelete('cascade');  
-            // $table->unsignedBigInteger('blogMess_id');
-            // $table->foreign('blogMess_id')->references('id')->on('blog_messages')->onDelete('cascade');  
+            $table->unsignedBigInteger('user_id'); 
+            $table->unsignedBigInteger('review_id')->nullable();
+            $table->unsignedBigInteger('otherMessage_id')->nullable();
+            $table->unsignedBigInteger('blogMessage_id')->nullable(); 
             $table->timestamps();
+
+            // Définition des clés étrangères
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); 
+            $table->foreign('review_id')->references('id')->on('reviews')->onDelete('cascade');
+            $table->foreign('otherMessage_id')->references('id')->on('others_messages')->onDelete('cascade');
+            $table->foreign('blogMessage_id')->references('id')->on('blog_messages')->onDelete('cascade');
         });
     }
 

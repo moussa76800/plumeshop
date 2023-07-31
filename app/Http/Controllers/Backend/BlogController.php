@@ -277,48 +277,8 @@ class BlogController extends Controller
         return redirect()->back()->with($notification);
     }
 
-    public function blogMessageStore(Request $request)
-{
-    $book = $request->book_id;
-
-    $request->validate([
-        'summary' => 'required',
-        'comment' => 'required',
-    ]);
-
-    $message = Message::create([
-        'subject' => $request->summary,
-        'content' => $request->comment,
-        'user_id' => Auth::id(),
-        'created_at' => Carbon::now(),
-    ]);
-
-    $blogMessage = BlogMessage::create([
-        'book_id' => $book,
-        'rating' => $request->quality,
-        'status' => 0,
-        'created_at' => Carbon::now(),
-    ]);
-
-    // Associer la review au message
-    $message->review()->associate($blogMessage);
-    $message->save();
-
-    if (session()->get('language') == 'english') {
-        $notification = array(
-            'message' => 'Review Will Approve By Admin',
-            'alert-type' => 'success'
-        );
-    } else {
-        $notification = array(
-            'message' => "L'examen sera approuvé par l'administrateur",
-            'alert-type' => 'success'
-        );
-    }
-
-    return redirect()->back()->with($notification);
-}
-    }
+   
+  }   
     
     
        

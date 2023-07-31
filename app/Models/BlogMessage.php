@@ -10,13 +10,14 @@ use Illuminate\Database\Eloquent\Model;
     use HasFactory;
 
     protected $guarded = [];
+    public $timestamps = false;
 
     public function user(){
             return $this->belongsTo(User::class,'user_id','id');
         }
 
     public function message(){
-        return $this->belongsTo(Message::class);
+        return $this->hasOne(Message::class);
     }
 
     public function post(){
