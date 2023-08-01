@@ -27,6 +27,7 @@
                         
 						<thead>
 							<tr>
+								{{-- <th>Title Post  </th> --}}
 								<th>Summary  </th>
 								<th>Comment </th>
 								<th>User </th>
@@ -37,25 +38,26 @@
 						</thead>
                 
 						<tbody>
-	 @foreach($messages as $item)
-	 <tr>
-		<td> {{ $item->message->subject }}  </td>
-		<td> {{ $item->message->content }}  </td>
-		<td>  {{ $item->message->user->name }}  </td>
-		<td>
-		@if($item->status == 0)
-      <span class="badge badge-pill badge-primary">@if (session()->get('language') == 'english')Pending  @else En Suspens @endif</span>
-       @elseif($item->status == 1)
-       <span class="badge badge-pill badge-success">@if (session()->get('language') == 'english')Publish  @else Publié @endif </span>
-		@endif
-
-		  </td>
-
-		<td width="25%">
-  <a href="{{ route('blogMessage_approve',$item->id) }}" class="btn btn-danger">@if (session()->get('language') == 'english')Approve  @else Approuvé @endif </a>
-		</td>
-	 </tr>
-	  @endforeach
+							@foreach($messages as $item)
+							<tr>
+								{{-- <td> {{ $item->post->post_title }}  </td> --}}
+							   <td> {{ $item->subject }}  </td>
+							   <td> {{ $item->content }}  </td>
+							   <td>  {{ $item->user->name }}  </td>
+							   <td>
+							   @if($item->status == 0)
+							 <span class="badge badge-pill badge-primary">@if (session()->get('language') == 'english')Pending  @else En Suspens @endif</span>
+							  @elseif($item->status == 1)
+							  <span class="badge badge-pill badge-success">@if (session()->get('language') == 'english')Publish  @else Publié @endif </span>
+							   @endif
+					   
+								 </td>
+					   
+							   <td width="25%">
+						 <a href="{{ route('blog_approve',$item->id) }}" class="btn btn-danger">@if (session()->get('language') == 'english')Approve  @else Approuvé @endif </a>
+							   </td>
+							</tr>
+							 @endforeach
 						</tbody>
 						 
 					  </table>

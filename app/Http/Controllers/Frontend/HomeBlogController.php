@@ -13,48 +13,79 @@ use App\Models\Blog\BlogPostCategory;
 
 class HomeBlogController extends Controller
 {
-    public function viewHomeBlog()
-    {
+    public function viewHomeBlog(){
         $blogcategory = BlogPostCategory::all();
-        $blogpost = BlogPost::with('category')->latest()->get();
-        return view('frontend.blog.blog_list', compact('blogpost', 'blogcategory'));
-    }
+    	$blogpost = BlogPost::with('category')->latest()->get();
+    	return view('frontend.blog.blog_list',compact('blogpost','blogcategory'));
+    } 
 
-    public function HomeBlogDetail($id)
-    {
+    public function HomeBlogDetail($id){
         $blogcategory = BlogPostCategory::all();
         $postDetail = BlogPost::findOrFail($id);
-        return view('frontend.blog.blog_details', compact('postDetail', 'blogcategory'));
+        return view('frontend.blog.blog_details',compact('postDetail','blogcategory'));
     }
 
-    public function HomeBlogCatPost($category_id)
-    {
+    public function HomeBlogCatPost($category_id){
 
-        $blogcategory = BlogPostCategory::all();
-        $blogposte = BlogPost::where('category_id', $category_id)->orderBy('id', 'DESC')->get();
-        return view('frontend.blog.blog_cat_list', compact('blogposte', 'blogcategory'));
+    	$blogcategory = BlogPostCategory::all();
+    	$blogposte = BlogPost::where('category_id',$category_id)->orderBy('id','DESC')->get();
+    	return view('frontend.blog.blog_cat_list',compact('blogposte','blogcategory'));
     }
 
+//     public function blogMessageStore(Request $request)
+// {
+//     $post = $request->post_id;
+
+//     $request->validate([
+//         'content' => 'required',
+//         'comment' => 'required',
+//     ]);
+
+//     $message = Message::create([
+//         'blogMessage_id' => $post,
+//         'subject' => $request->content,
+//         'content' => $request->comment,
+//         'user_id' => Auth::id(),
+//         'created_at' => Carbon::now(),
+//     ]);
+
+//     $blogMessage = BlogMessage::create([
+//         'status' => 0,
+//     ]);
+
+//     // Définir la relation du message vers le modèle BlogMessage nouvellement créé
+//     $message->message()->associate($blogMessage);
+//     $message->save();
+
+//     $notification = array(
+//         'message' => 'The Blog\'s Message Will Approve By Admin',
+//         'alert-type' => 'success'
+//     );
+//     return redirect()->back()->with($notification);
+// }
 
 public function blogMessageStore(Request $request)
 {
+    $post = $request->post_id;
+
     $request->validate([
         'content' => 'required',
         'comment' => 'required',
     ]);
 
-    // Créer le message
+    // Créer le message avec les données fournies par le formulaire
     $message = Message::create([
+        'blog_id' => $post,
         'subject' => $request->content,
         'content' => $request->comment,
         'user_id' => Auth::id(),
+        'status' => 0,
         'created_at' => Carbon::now(),
     ]);
 
-    // Créer le blogMessage lié
-    $message->blogMessage()->create([
-        'status' => 0,
-    ]);
+   // Lier le modèle Message au modèle BlogPost en utilisant la clé étrangère
+   $blogPost = BlogPost::find($post);
+   $blogPost->messages()->save($message);
 
     $notification = array(
         'message' => 'The Blog\'s Message Will Approve By Admin',
@@ -64,31 +95,5 @@ public function blogMessageStore(Request $request)
 }
 
 
-    // public function blogMessageStore(Request $request)
-    // {
-    //     $request->validate([
-    //         'content' => 'required',
-    //         'comment' => 'required',
-    //     ]);
-
-    //     // Récupérer le post à partir de l'ID envoyé depuis le formulaire
-    //     $post = BlogPost::find($request->post_id);
-
-    //     // Vérifier si le post existe
-    //     if (!$post) {
-    //         return redirect()->back()->with('error', 'Post not found.');
-    //     }
-
-    //     // Créer le message et l'associer au post
-    //     $message = $post->messages()->create([
-    //         'subject' => $request->content,
-    //         'content' => $request->comment,
-    //         'user_id' => Auth::id(),
-    //         'created_at' => Carbon::now(),
-    //     ]);
-
-    //     // Votre logique de validation et envoi de notification ici si nécessaire
-
-    //     return redirect()->back()->with('success', 'Message sent successfully.');
-    // }
 }
+

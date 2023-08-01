@@ -248,7 +248,7 @@ Route::prefix('messages')->group(function() {
     Route::get('/review/delete/{id}' , [ReviewController::class,'deleteReview'])->name('delete_review');
     // Blog
     Route::get('/blog/pending' , [BlogController::class,'pendingBlogMessage'])->name('pending_blogMessage');
-    Route::get('/blog/approve/{order_id}' , [BlogController::class,'blogMessageApprove'])->name('blogMessage_approve');
+    Route::get('/blog/approve/{order_id}' , [BlogController::class,'blogMessageApprove'])->name('blog_approve');
     Route::get('/blog/publish' , [BlogController::class,'publishblogMessage'])->name('publish_blogMessage');
     Route::get('/blog/delete/{id}' , [BlogController::class,'deleteBlogMessage'])->name('delete_blogMessage');
 

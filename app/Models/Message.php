@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Blog\BlogPost;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,14 +22,9 @@ class Message extends Model
         return $this->hasOne(Review::class);
     }
 
-    public function otherMessages()
-    {
-        return $this->hasOne(OthersMessages::class);
-    }
+    public function post()
+{
+    return $this->belongsTo(BlogPost::class,'post_id','id');
+}    
 
-    // Relation avec BlogMessage
-    public function blogMessage()
-    {
-        return $this->hasOne(BlogMessage::class);
-    }
 }

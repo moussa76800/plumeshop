@@ -56,13 +56,13 @@ public function reviewStore(Request $request)
         'subject' => $request->summary,
         'content' => $request->comment,
         'user_id' => Auth::id(),
+        'status' => 0,
         'created_at' => Carbon::now(),
     ]);
 
     $review = Review::create([
         'book_id' => $book,
         'rating' => $request->quality,
-        'status' => 0,
         'created_at' => Carbon::now(),
     ]);
 
