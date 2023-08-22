@@ -20,7 +20,12 @@ class CreateAddressesTable extends Migration
             $table->string('city');
             $table->unsignedBigInteger('country_id');
             $table->foreign('country_id')->references('id')->on('ship_countries')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
+            
+           
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+          
         });
     }
 

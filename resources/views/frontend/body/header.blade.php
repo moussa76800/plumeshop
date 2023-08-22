@@ -168,73 +168,50 @@ $setting = App\Models\SiteSetting::find(1);
       <div class="container">
         <div class="yamm navbar navbar-default" role="navigation">
           <div class="navbar-header">
-         <button data-target="#mc-horizontal-menu-collapse" data-toggle="collapse" class="navbar-toggle collapsed" type="button"> 
-         <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+            <button data-target="#mc-horizontal-menu-collapse" data-toggle="collapse" class="navbar-toggle collapsed" type="button"> 
+              <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> 
+            </button>
           </div>
-          <div class="nav-bg-class">
-            <div class="navbar-collapse collapse" id="mc-horizontal-menu-collapse">
-              <div class="nav-outer">
-                <ul class="nav navbar-nav">
-                  <li class="active dropdown yamm-fw"><a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french')Accueil @else Home @endif</a></li>
-                  <li class="active dropdown yamm-fw"><a href="{{ route('slide_plumeshop') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french')A-propos @else About @endif</a></li>
-                  <li class="active dropdown yamm-fw"><a href="{{ route('donate_book') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french')Donnez vos livres @else Donate your Books @endif</a></li>
-                  <li class="active dropdown yamm-fw"><a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french')Boutique @else Shop @endif</a></li>
-                  {{-- @php
-                      $categories = App\Models\Category::orderBy('name_en' , 'ASC')->get();
-                  @endphp
-
-                  @foreach ($categories as $category)
-                      
-              
-                  <li class="dropdown yamm mega-menu"> <a href="" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">@if (session()->get('language') == 'french'){{ $category->name_fr }} @else {{ $category->name_en }} @endif</a>
-                    <ul class="dropdown-menu container">
-                      <li>
-                        <div class="yamm-content ">
-                          <div class="row">
-                            @php
-                            $subCategories = App\Models\SubCategory::where('category_id' ,$category->id)->orderBy('name_en' , 'ASC')->get();
-                        @endphp
-                         <div class="col-xs-8 col-sm-6 col-md-4 col-menu banner-image"> <img class="img-responsive"  src="{{ asset($category->image) }}"alt="" width="100" height="100"> </div>
-                                @foreach ($subCategories as $sub)                  
-                              <div class="col-xs-6 col-sm-6 col-md-2 col-menu">
-                              {{-- <h2 class="title"></h2> 
-                                  
-                                      <a href="{{ url('subCategory/book/'.$sub->id.'/'.$sub->name_en ) }}" style="color: #333; font-weight: bold;">@if (session()->get('language') == 'french'){{ $sub->name_fr }} @else {{ $sub->name_en }} @endif</a>
-                              
-                            </div> 
-                            @endforeach
-                            <!-- /.col --> 
-                            
-                           
-                            
-                           
-                            <!-- /.yamm-content --> 
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
+          <div class="navbar-collapse collapse text-center" id="mc-horizontal-menu-collapse">
+            <div class="nav-outer">
+              <ul class="nav navbar-nav">
+                
+                  <li class="active dropdown yamm-fw">
+                    <a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
+                      @if (session()->get('language') == 'french')Accueil @else Home @endif
+                    </a>
                   </li>
-                  @endforeach--}}
-                 
-                  <li class="dropdown  navbar-right special-menu"> <a href="{{route('donate_book')}}">@if (session()->get('language') == 'french')Donnez vos Livres @else Donate your Books @endif</a> </li>
-                  <li class="dropdown  navbar-right special-menu"> <a href="{{route('view.HomeBlog')}}">Blog</a> </li>
+                  <li class="active dropdown yamm-fw">
+                    <a href="{{ route('slide_plumeshop') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
+                      @if (session()->get('language') == 'french')A-propos @else About @endif
+                    </a>
+                  </li>
+                  <li class="active dropdown yamm-fw">
+                    <a href="{{ route('donate_book') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
+                      @if (session()->get('language') == 'french')Donnez vos livres @else Donate your Books @endif
+                    </a>
+                  </li>
+                  <li class="active dropdown yamm-fw">
+                    <a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
+                      @if (session()->get('language') == 'french')Boutique @else Shop @endif
+                    </a>
+                  </li>
+                  <!-- ... Autres éléments de navigation ... -->
                 </ul>
-                <!-- /.navbar-nav -->
                 <div class="clearfix"></div>
               </div>
-              <!-- /.nav-outer --> 
+              <!-- /.nav-outer -->
             </div>
             <!-- /.navbar-collapse --> 
-            
           </div>
           <!-- /.nav-bg-class --> 
         </div>
         <!-- /.navbar-default --> 
       </div>
       <!-- /.container-class --> 
-      
     </div>
-    <!-- /.header-nav --> 
+    <!-- /.header-nav -->
+    
     <!-- ============================================== NAVBAR : END ============================================== --> 
     
 <!-- Order Traking Modal -->

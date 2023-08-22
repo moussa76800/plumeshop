@@ -90,10 +90,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
-    public function emotion()
-    {
-        return $this->belongsTo(Emotion::class);
-    }
+    
 
     
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMultiImgsTable extends Migration
+class CreateBlogMessagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateMultiImgsTable extends Migration
      */
     public function up()
     {
-        Schema::create('multi_imgs', function (Blueprint $table) {
+        Schema::create('blog_messages', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('book_id');
-            $table->string('photo_name');
-            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
         });
     }
 
@@ -28,6 +25,6 @@ class CreateMultiImgsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('multi_imgs');
+        Schema::dropIfExists('blog_messages');
     }
 }

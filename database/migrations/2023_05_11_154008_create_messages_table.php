@@ -27,7 +27,7 @@ class CreateMessagesTable extends Migration
             // Définition des clés étrangères
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); 
             $table->foreign('review_id')->references('id')->on('reviews')->onDelete('cascade');
-            $table->foreign('other_id')->references('id')->on('Messages')->onDelete('cascade');
+            $table->foreign('other_id')->references('id')->on('messages')->onDelete('cascade');
             $table->foreign('blog_id')->references('id')->on('blog_posts')->onDelete('cascade');
         });
     }

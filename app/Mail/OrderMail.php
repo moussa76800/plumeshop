@@ -31,6 +31,6 @@ class OrderMail extends Mailable
     public function build()
     {
         $order = $this->data;
-        return $this->from('suuport@plumeshop.be')->view('mail.order_mail',compact('order'))->subject('Email From PlumeShop'."'s". ' Library');
+        return $this->from('support@plumeshop.be')->view('mail.order_mail',compact('order'))->subject('Email From PlumeShop'."'s". ' Library');
     }
 }

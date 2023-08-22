@@ -24,12 +24,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->text('profile_photo_path')->nullable();
-            $table->unsignedBigInteger('address_id')->nullable();
-            $table->unsignedBigInteger('emotion_id')->nullable();
             $table->timestamps();
-            
-            $table->foreign('emotion_id')->references('id')->on('emotions')->onDelete('set null');
-            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
         });
     }
 

@@ -27,10 +27,6 @@ class Book extends Model
       return $this->belongsToMany(Author::class,'book_author');
    }
 
-      public function multiImages()
-   {
-      return $this->hasMany(MultiImg::class,'book_id', 'id');
-   }
 
      public function orderItem()
      {
@@ -46,7 +42,7 @@ class Book extends Model
    
 public function subCategory()
     {
-        return $this->belongsTo(SubCategory::class);
+        return $this->belongsTo(SubCategory::class,'subCategory_id');
     }
 
 

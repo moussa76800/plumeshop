@@ -95,7 +95,7 @@ width: 100% !important;
 
 </td>
 </tr>
-</table>S
+</table>
 </td>
 </tr>
 </table>
