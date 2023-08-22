@@ -617,19 +617,6 @@ class BookController extends Controller
         // Supprimer le livre de la base de données
         Book::findOrFail($id)->delete();
 
-        // Récupérer toutes les images liées au livre
-        $images = MultiImg::where('book_id', $id)->get();
-
-        // Parcourir les images et les supprimer du serveur
-        foreach ($images as $img) {
-            if (!empty($img->photo_name) && file_exists(public_path($img->photo_name))) {
-                unlink(public_path($img->photo_name));
-            }
-        }
-
-        // Supprimer toutes les images liées au livre de la base de données
-        MultiImg::where('book_id', $id)->delete();
-
         $notification = array(
             'message' => 'Product Deleted Successfully',
             'alert-type' => 'success'
