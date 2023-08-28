@@ -30,7 +30,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'phone' ,
+        'phone',
         'password',
         'last_seen',
     ];
@@ -66,7 +66,8 @@ class User extends Authenticatable
     ];
 
     // User Active Show
-    public function UserOnline(){
+    public function UserOnline()
+    {
         return Cache::has('user-is-online' . $this->id);
     }
 
@@ -83,18 +84,11 @@ class User extends Authenticatable
 
     public function address()
     {
-        return $this->hasOne(Address::class, 'id', 'address_id');
+        return $this->hasOne(Address::class,'user_id');
     }
 
     public function orders()
     {
         return $this->hasMany(Order::class);
     }
-    
-
-    
-
-    
-    
-    
 }

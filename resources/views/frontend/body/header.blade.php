@@ -11,9 +11,6 @@ $setting = App\Models\SiteSetting::find(1);
         <div class="header-top-inner">
           <div class="cnt-account">
             <ul class="list-unstyled">
-              <li><a href="{{ route('dashboard') }}"><i class="icon fa fa-user"></i>
-                @if (session()->get('language') == 'french')Mon compte 
-                @else My Account @endif</a></li>
               <li><a href="{{ route('wishList') }}"><i class="icon fa fa-heart"></i>
                 @if (session()->get('language') == 'french')Liste de souhaits 
                 @else Wishlist @endif</a></li>
@@ -29,7 +26,7 @@ $setting = App\Models\SiteSetting::find(1);
                   @else Order Tracking @endif</a></li>
                 <li>  
               @auth
-                <a href="{{ route('login') }}"><i class="icon fa fa-user"></i> @if (session()->get('language') == 'french')Profil de l'utilisateur @else User Profile @endif</a>
+                <a href="{{ route('dashboard') }}"><i class="icon fa fa-user"></i> @if (session()->get('language') == 'french')Mon compte @else My account @endif</a>
                   @else
                 <a href="{{ route('login') }}"><i class="icon fa fa-lock"></i> @if (session()->get('language') == 'french')S'identifie/S'enregistrer @else Login/Register @endif</a>
               @endauth
@@ -44,13 +41,7 @@ $setting = App\Models\SiteSetting::find(1);
           
           <div class="cnt-block">
             <ul class="list-unstyled list-inline">
-              <li class="dropdown dropdown-small"> <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown"><span class="value">USD </span><b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">USD</a></li>
-                  <li><a href="#">INR</a></li>
-                  <li><a href="#">GBP</a></li>
-                </ul>
-              </li>
+              
               <li class="dropdown dropdown-small"> <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown"><span class="value">
                 @if (session()->get('language') == 'french') Langue 
                 @else Language 
@@ -168,49 +159,47 @@ $setting = App\Models\SiteSetting::find(1);
       <div class="container">
         <div class="yamm navbar navbar-default" role="navigation">
           <div class="navbar-header">
-            <button data-target="#mc-horizontal-menu-collapse" data-toggle="collapse" class="navbar-toggle collapsed" type="button"> 
-              <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> 
-            </button>
+         <button data-target="#mc-horizontal-menu-collapse" data-toggle="collapse" class="navbar-toggle collapsed" type="button"> 
+         <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
           </div>
-          <div class="navbar-collapse collapse text-center" id="mc-horizontal-menu-collapse">
-            <div class="nav-outer">
-              <ul class="nav navbar-nav">
-                
-                  <li class="active dropdown yamm-fw">
-                    <a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
-                      @if (session()->get('language') == 'french')Accueil @else Home @endif
-                    </a>
-                  </li>
-                  <li class="active dropdown yamm-fw">
-                    <a href="{{ route('slide_plumeshop') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
-                      @if (session()->get('language') == 'french')A-propos @else About @endif
-                    </a>
-                  </li>
-                  <li class="active dropdown yamm-fw">
-                    <a href="{{ route('donate_book') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
-                      @if (session()->get('language') == 'french')Donnez vos livres @else Donate your Books @endif
-                    </a>
-                  </li>
-                  <li class="active dropdown yamm-fw">
-                    <a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
-                      @if (session()->get('language') == 'french')Boutique @else Shop @endif
-                    </a>
-                  </li>
-                  <!-- ... Autres éléments de navigation ... -->
-                </ul>
-                <div class="clearfix"></div>
-              </div>
-              <!-- /.nav-outer -->
-            </div>
-            <!-- /.navbar-collapse --> 
-          </div>
-          <!-- /.nav-bg-class --> 
+          <div class="nav-bg-class">
+            <div class="navbar-collapse collapse" id="mc-horizontal-menu-collapse">
+              <div class="nav-outer">
+                <ul class="nav navbar-nav">
+            <li class="dropdown yamm-fw">
+              <a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
+                Accueil
+              </a>
+            </li>
+            <li class="dropdown yamm-fw">
+              <a href="{{ url('/a_propos') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
+                A-propos 
+              </a>
+            </li>
+            <li class="dropdown yamm-fw">
+              <a href="{{ url('/donnate/book') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
+                Donnez vos livres 
+              </a>
+            </li>
+            <li class="dropdown yamm-fw">
+              <a href="{{ url('/boutique') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
+                Boutique 
+              </a>
+            </li>
+            <!-- ... Autres éléments de navigation ... -->
+          </ul>
+          <div class="clearfix"></div>
         </div>
-        <!-- /.navbar-default --> 
+        <!-- /.nav-outer -->
       </div>
-      <!-- /.container-class --> 
+      <!-- /.navbar-collapse --> 
     </div>
-    <!-- /.header-nav -->
+    <!-- /.yamm -->
+  </div>
+  <!-- /.container -->
+</div>
+<!-- /.header-nav -->
+
     
     <!-- ============================================== NAVBAR : END ============================================== --> 
     

@@ -40,7 +40,8 @@
 
 				<!-- guest-login -->			
 			 <div class="col-md-6 col-sm-6 already-registered-login">
-		 <h4 class="checkout-subtitle"><b>@if (session()->get('language') == 'french')adresse d'expédition @else Shipping Address @endif</b></h4>
+		 <h4 class="checkout-subtitle"><b>adresse d'expédition</b></h4>
+		 <hr>
 					 
 	<form class="register-form" action="{{ route('checkout.store') }}" method="POST">
 		@csrf
@@ -76,10 +77,22 @@
 				<!-- already-registered-login -->
 <!-- already-registered-login -->
 <div class="col-md-6 col-sm-6 already-registered-login">
-    <div class="form-group">
-        <label class="info-title" for="exampleInputEmail1"><b>State</b>  <span>*</span></label>
-        <input type="text" name="country" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="State" value="{{ optional(Auth::user()->address)->country ? Auth::user()->address->country->name : '' }}" required="">
-    </div>  <!-- // end form group  -->
+	@php
+	$countries = App\Models\ShipCountry::all();
+	 @endphp
+	<div class="form-group">
+		<label class="info-title" for="country_id">Country <span>*</span></label>
+		<select id="country_id" name="country_id" class="form-control">
+			@foreach ($countries as $country)
+				<option value="{{ $country->id }}">{{ $country->name }}</option>
+			@endforeach
+		</select>
+		@error('country_id')
+			<span class="invalid-feedback" role="alert">
+				<strong>{{ $message }}</strong>
+			</span>   
+		@enderror
+	</div>
 
     <div class="form-group">
         <label class="info-title" for="exampleInputEmail1"><b>@if (session()->get('language') == 'french') Ville @else City</b>@endif  <span>*</span></label>
@@ -88,7 +101,7 @@
 
     <div class="form-group">
         <label class="info-title" for="exampleInputEmail1"><b>@if (session()->get('language') == 'french') Adresse @else Address</b>@endif  <span>*</span></label>
-        <input type="text" name="address" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="address"  value="{{ optional(Auth::user()->address)->street_name }} {{ optional(Auth::user()->address)->street_number }}, {{ optional(Auth::user()->address)->city }}" required="">
+        <input type="text" name="address" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="address"  value="{{ optional(Auth::user()->address)->street_name }} {{ optional(Auth::user()->address)->street_number }}" required="">
     </div>  <!-- // end form group  -->
 
 
@@ -217,46 +230,12 @@
 			</div><!-- /.row -->
 		</div><!-- /.checkout-box -->
 		<!-- === ===== BRANDS CAROUSEL ==== ======== -->
- 
-
-
-
-
-
 
 
 <!-- ===== == BRANDS CAROUSEL : END === === -->	
 </div><!-- /.container -->
 </div><!-- /.body-content -->
 
-
-
- 
-{{-- <script type="text/javascript">
- $(document).ready(function() {
-        $('select[name="town_id"]').on('change', function(){
-            var town_id = $(this).val();
-            if(town_id) {
-                $.ajax({
-                    url: "{{  url('/common/ajax') }}/"+town_id,
-                    type:"GET",
-                    dataType:"json",
-                    success:function(data) {
-                    	$('select[name="common_id"]').empty(); 
-                       var d =$('select[name="common_id"]').empty();
-                          $.each(data, function(key, value){
-                              $('select[name="common_id"]').append('<option value="'+ value.id +'">' + value.name + '</option>');
-                          });
-                    },
-                });
-            } else {
-                alert('danger');
-            }
-        });
-	});
-
-	
-   </script> --}}
 
 
 @endsection

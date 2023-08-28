@@ -38,7 +38,7 @@ class StripeController extends Controller
     }
         
         
-        \Stripe\Stripe::setApiKey('');
+        \Stripe\Stripe::setApiKey('sk_test_51LakgQG89EAKe7W6X7f1N6PnxCsW1IsSCtvRgXBZKTiPeJw7IwwoDPw58eGa7RLb9J5WXiRUAOV4oQvN8vpSDIK600DJofsYYU');
 
         // Token is created using Checkout or Elements!
         // Get the payment token ID submitted by the form:

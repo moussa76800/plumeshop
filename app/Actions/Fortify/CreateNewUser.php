@@ -2,7 +2,6 @@
 
 namespace App\Actions\Fortify;
 
-use App\Models\Address;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -28,38 +27,18 @@ class CreateNewUser implements CreatesNewUsers
             'phone' => ['required', 'string', 'max:255'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
-            'street' => ['required'],
-            'number' => ['required'],
-            'city' => ['required'],
-            'country_id' => ['required', 'exists:ship_countries,id'],
         ])->validate();
-    
-        $address = new Address();
-        $address->street_name = $input['street'];
-        $address->street_number = $input['number'];
-        $address->city = $input['city'];
-        $address->country_id = $input['country_id'];
-        $address->save();
-    
-        $user = User::create([
+
+       return User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'phone' => $input['phone'],
             'password' => Hash::make($input['password']),
         ]);
-    
-        $user->address_id = $address->id;
-        // $user->address()->associate($address);
-        $user->save();
-    
         $notification = array(
             'message' =>  "The new User has been registered successfully",
             'alert-type' => 'success'
         );
-    
-       return redirect()->route('dashboard')->with($notification);
+        return redirect()->route('dashboard')->with($notification);
     }
 }
-
-    
-

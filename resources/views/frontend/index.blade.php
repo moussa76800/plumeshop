@@ -106,61 +106,36 @@
         <div class="col-xs-12 col-sm-12 col-md-9 homebanner-holder"> 
           <!-- ========================================== SECTION – HERO ========================================= -->
 
-         
-          <div id="hero">
+        <div id="hero">
             <div id="owl-main" class="owl-carousel owl-inner-nav owl-ui-sm">
                 @foreach($sliders as $slider)
-                    @if($slider->title =="Plumeshop,la vraie librairie.")
-                        <div class="item" style="background-image: url({{$slider->slider_img}});">
-                            <div class="container-fluid">
-                                <div class="caption bg-color vertical-center text-left" >
-                                    <div class="big-text fadeInDown-1" style="color: white; font-size: 5rem; font-weight: bold;">{{ $slider->title }}</div>
-                                    <div class="excerpt fadeInDown-2 hidden-xs" style="color: white; font-size: 3rem;"> <span><b>{{ $slider->description }}.</b></span> </div>
-                                    <div class="button-holder fadeInDown-3">
-                                        <a href="{{ route('slide_plumeshop') }}" class="btn-lg btn btn-uppercase btn-primary shop-now-button">En Savoir Plus</a>
-                                    </div>
-                                </div>
-                                <!-- /.caption --> 
-                            </div>
-                            <!-- /.container-fluid --> 
-                        </div>
-                        <!-- /.item -->
-                    @elseif($slider->title =="Blog")
-                        <div class="item" style="background-image: url({{$slider->slider_img}});">
-                            <div class="container-fluid">
-                                <div class="caption bg-color vertical-center text-left">
-                                    <div class="big-text fadeInDown-1" style="color: white; font-size: 5rem; font-weight: bold;">{{ $slider->title }}</div>
-                                    <div class="excerpt fadeInDown-2 hidden-xs" style="color: white; font-size: 3rem;"> <span><b>{{ $slider->description }}.</b></span> </div>
-                                    <div class="button-holder fadeInDown-2">
-                                        <a href="{{ url('/blog') }}" class="btn-lg btn btn-uppercase btn-primary shop-now-button">En Savoir Plus</a>
-                                    </div>
-                                </div>
-                                <!-- /.caption --> 
-                            </div>
-                            <!-- /.container-fluid --> 
-                        </div>
-                        <!-- /.item --> 
-                    @else
-                        {{-- style="text-align: center; color:white;" --}}
-                        <div class="item" style="background-image: url({{$slider->slider_img}});">
-                            <div class="container-fluid">
-                                <div class="caption bg-color vertical-center text-left">
-                                    <div class="big-text fadeInDown-1" style="color: white; font-size: 5rem; font-weight: bold;">{{ $slider->title }}</div>
-                                    <div class="excerpt fadeInDown-2 hidden-xs" style="color: white; font-size: 3rem;"> <span><b>{{ $slider->description }}.</b></span> </div>
-                                    <div class="button-holder fadeInDown-3">
-                                        <a href="{{ url('/subCategory/book/3/comics') }}" class="btn-lg btn btn-uppercase btn-primary shop-now-button">En Savoir Plus</a>
-                                    </div>
-                                </div>
-                                <!-- /.caption --> 
-                            </div>
-                            <!-- /.container-fluid --> 
-                        </div>
-                        <!-- /.item --> 
-                    @endif
+                <div class="item" style="background-image: url({{$slider->slider_img}});">
+                  <div class="container-fluid">
+                      <div class="caption bg-color vertical-center text-left">
+                          <div class="big-text fadeInDown-1" style="color: white; font-size: 5rem; font-weight: bold;">{{ $slider->title }}</div>
+                          <div class="excerpt fadeInDown-2 hidden-xs" style="color: white; font-size: 3rem;"> <span><b>{{ $slider->description }}.</b></span> </div>
+                          <div class="button-holder fadeInDown-3">
+                              @if($slider->title =="Plumeshop, la vraie librairie.")
+                                  <a href="{{ url('/a_propos') }}" class="btn-lg btn btn-uppercase btn-primary shop-now-button">En Savoir Plus</a>
+                              @elseif($slider->title =="Pour tous les âges")
+                              <a href="{{ url('/subCategory/book/3/comics') }}" class="btn-lg btn btn-uppercase btn-primary shop-now-button">En Savoir Plus</a>
+                              @else
+                                  <a href="{{ url('/blog') }}" class="btn-lg btn btn-uppercase btn-primary shop-now-button">En Savoir Plus</a>
+                                 
+                              @endif
+                          </div>
+                      </div>
+                      <!-- /.caption --> 
+                  </div>
+                  <!-- /.container-fluid --> 
+              </div>
+              <!-- /.item --> 
+              
                 @endforeach
             </div>
             <!-- /.owl-carousel --> 
         </div>
+        
         
           
           <!-- ========================================= SECTION – HERO : END ========================================= --> 

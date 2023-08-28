@@ -41,6 +41,7 @@ public function sliderStore(Request $request){
         'slider_img'  => $save_url,
         'title'       => $request->title ,
         'description' => $request->description ,
+        'updated_at'  => now(),
        
     ]);
     $notification = array(
@@ -58,7 +59,7 @@ public function sliderEdit($id) {
 public function sliderUpdate(Request $request){
 
     $slider_id = $request->id;
-    $old_img = $request->old_image;
+    // $old_img = $request->old_image;
 
     if ($request->file('slider_img')) {
         if($request->file('slider_img') > 0){ 
@@ -72,6 +73,7 @@ public function sliderUpdate(Request $request){
         'slider_img'  => $save_url,
         'title'       => $request->title ,
         'description' => $request->description ,
+        'updated_at'  => now(),
        
     ]);
     $notification = array(

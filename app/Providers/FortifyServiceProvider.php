@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Fortify;
 use App\Actions\Fortify\CreateNewUser;
+
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Cache\RateLimiting\Limit;
 use App\Http\Controllers\AdminController;

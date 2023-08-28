@@ -10,20 +10,18 @@ class Publisher extends Model
     use HasFactory;
 
     protected $fillable = [
-        
-        'name' ,
-        
+
+        'name',
+
     ];
-
     public $timestamps = false;
-
 
     /**
      * @return void
      */
-  
-    public function books(){
-        return $this->hasMany(Book::class, 'publisher_id');
-     }
 
+    public function books()
+    {
+        return $this->hasMany(Book::class, 'publisher_id');
+    }
 }

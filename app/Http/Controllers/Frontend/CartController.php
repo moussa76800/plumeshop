@@ -19,39 +19,36 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 class CartController extends Controller
 {
 
-    
+
     public function bookAddCartAJAX(Request $request, $id)
     {
-        
         if (Session::has('coupon')) {
-        Session::forget('coupon');
-     }
+            Session::forget('coupon');
+        }
 
         // Vérifier si le livre existe dans la base de données
         $book = Book::find($id);
 
         if (!$book) {
-            return response()->json(['error' => 'Book not found.']);
+            return response()->json(['error' => "Le livre n'a pas été trouvé."]);
         }
 
         // Vérifier si le stock du livre est épuisé
         if ($book->product_qty <= 0) {
-            return response()->json(['error' => 'The book is out of stock.']);
+            return response()->json(['error' => 'Le livre est épuisé !!!']);
         }
 
         // Vérifier si la quantité saisie est valide
-        $requestedQuantity = $request->quantity;
+        // $requestedQuantity = $request->quantity;
 
-        if (!is_numeric($requestedQuantity) || $requestedQuantity <= 0) {
-            return response()->json(['error' => 'Please enter a valid quantity.']);
-        }
+        // if (!is_numeric($requestedQuantity) || $requestedQuantity <= 0) {
+        //     return response()->json(['error' => 'Entrez une quantité valide !!!']);
+        // }
 
-        // Calculer la quantité réelle disponible en stock
-        $cartQuantity = $this->getCartQuantity($id);
-        $availableQuantity = $book->product_qty - $cartQuantity;
 
-        if ($requestedQuantity > $availableQuantity) {
-            return response()->json(['error' => 'The requested quantity exceeds the available stock quantity.']);
+        // Vérifier si le livre est déjà dans le panier
+        if ($this->isBookInCart($id)) {
+            return response()->json(['error' => 'Le livre est déja présent dans votre panier.']);
         }
 
         // Sélectionner le prix correct en fonction de la remise
@@ -61,8 +58,7 @@ class CartController extends Controller
         Cart::add([
             'id' => $id,
             'name' => $book->title,
-            // 'name' => $request->book_name,
-            'qty' => $requestedQuantity,
+            'qty' => 1,
             'price' => $price,
             'weight' => 1,
             'options' => [
@@ -70,8 +66,22 @@ class CartController extends Controller
             ],
         ]);
 
-        return response()->json(['success' => 'Successfully Added to Your Cart']);
+        return response()->json(['success' => 'Le livre a bien été ajouté à votre panier']);
     }
+
+    public function isBookInCart($book_id)
+    {
+        $cartItems = Cart::content();
+
+        foreach ($cartItems as $item) {
+            if ($item->id == $book_id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     public function getCartQuantity($book_id)
     {
@@ -86,46 +96,6 @@ class CartController extends Controller
 
         return $cartQuantity;
     }
-
-
-
-    // public function bookAddCartAJAX(Request $request, $id)
-    // {
-
-    //     if (Session::has('coupon')) {
-    //         Session::forget('coupon');
-    //     }
-
-    //     $book = Book::findOrFail($id);
-
-    //     if ($book->discount_price == NULL) {
-    //         Cart::add([
-    //             'id' => $id,
-    //             'name' => $request->book_name,
-    //             'qty' => $request->quantity,
-    //             'price' => $book->price,
-    //             'weight' => 1,
-    //             'options' => [
-    //                 'image' => $book->image,
-    //             ],
-    //         ]);
-
-    //         return response()->json(['success' => 'Successfully Added on Your Cart']);
-    //     } else {
-
-    //         Cart::add([
-    //             'id' => $id,
-    //             'name' => $request->book_name,
-    //             'qty' => $request->quantity,
-    //             'price' => $book->discount_price,
-    //             'weight' => 1,
-    //             'options' => [
-    //                 'image' => $book->image,
-    //             ],
-    //         ]);
-    //         return response()->json(['success' => 'Successfully Added on Your Cart']);
-    //     }
-    // } // end mehtod 
 
     public  function bookAddMiniCartAJAX()
     {
@@ -198,42 +168,6 @@ class CartController extends Controller
     }
 
 
-    // public function addToWishList(Request $request, $book_id)
-    // {
-    //     if (Auth::check()) {
-    //         $book = Book::find($book_id);
-
-    //         // Vérifier si le livre existe
-    //         if (!$book) {
-    //             return response()->json(['error' => 'Le livre n\'existe pas.']);
-    //         }
-
-    //         // Vérifier si le stock du livre est épuisé
-    //         if ($book->product_qty <= 0) {
-    //             $errorMessage = (session()->get('language') == 'french') ? 'Le livre est en rupture de stock.' : 'The book is out of stock.';
-    //             return response()->json(['error' => $errorMessage]);
-    //         }
-
-    //         // Vérifier si le livre est déjà dans la wishlist de l'utilisateur
-    //         $wishlistCount = Wishlist::where('user_id', Auth::id())->where('book_id', $book_id)->count();
-    //         if ($wishlistCount > 0) {
-    //             $errorMessage = 'The book is already in your wishlist.';
-    //             return response()->json(['error' => $errorMessage]);
-    //         }
-
-    //         // Ajouter le livre à la wishlist de l'utilisateur
-    //         Wishlist::create([
-    //             'user_id' => Auth::id(),
-    //             'book_id' => $book_id,
-    //         ]);
-
-    //         $successMessage = 'Successfully Added On Your Wishlist';
-    //         return response()->json(['success' => $successMessage]);
-    //     } else {
-    //         $errorMessage = 'Please register or log in first.';
-    //         return response()->json(['error' => $errorMessage]);
-    //     }
-    // }
 
 
     public function checkoutCreate()
@@ -284,37 +218,40 @@ class CartController extends Controller
     }
 
     public function couponApply(Request $request)
-{
-    $coupon_name = $request->coupon_name; // Récupère le nom du coupon à partir de la requête
-    
-    // Vérifier si le nom du coupon est vide
-    if (empty($coupon_name)) {
-        return response()->json(['error' => 'Coupon name is empty']);
+
+    {
+        $coupon_name = $request->coupon_name; // Récupère le nom du coupon à partir de la requête
+
+        // Vérifier si le nom du coupon est vide
+        if (empty($coupon_name)) {
+            return response()->json(['error' => 'Coupon name is empty']);
+        }
+
+        $coupon = Coupon::where('coupon_name', $coupon_name)
+            ->where('validity', '>=', Carbon::now()->format('Y-m-d'))
+            ->first();
+
+        if (auth()->check()) {
+            if ($coupon) {
+                $discount_amount = intval(Cart::total() * $coupon->coupon_discount / 100);
+                Session::put('coupon', [
+                    'coupon_name' => $coupon->coupon_name,
+                    'coupon_discount' => $coupon->coupon_discount,
+                    'discount_amount' => $discount_amount,
+                    'total_amount' => round(Cart::total() - Cart::total() * $coupon->coupon_discount / 100)
+                ]);
+
+                return response()->json([
+                    'validity' => true,
+                    'success' => 'Coupon Applied Successfully'
+                ]);
+            } else {
+                return response()->json(['error' => 'Invalid Coupon']);
+            }
+        } else {
+            return response()->json(['error' => 'Please login or register to apply a coupon.']);
+        }
     }
-    
-    $coupon = Coupon::where('coupon_name', $coupon_name)
-        ->where('validity', '>=', Carbon::now()->format('Y-m-d'))
-        ->first();
-
-    if ($coupon) {
-        $discount_amount = intval(Cart::total() * $coupon->coupon_discount / 100);
-        Session::put('coupon', [
-            'coupon_name' => $coupon->coupon_name,
-            'coupon_discount' => $coupon->coupon_discount,
-            'discount_amount' => $discount_amount,
-            'total_amount' => round(Cart::total() - Cart::total() * $coupon->coupon_discount / 100)
-        ]);
-
-        return response()->json([
-            'validity' => true,
-            'success' => 'Coupon Applied Successfully'
-        ]);
-    } else {
-        return response()->json(['error' => 'Invalid Coupon']);
-    }
-}
-
-
 
     public function calculationTotal()
     {

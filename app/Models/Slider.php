@@ -10,6 +10,8 @@ class Slider extends Model
     use HasFactory;
 
     protected $guarded = [];
+    public $timestamps = true;
 
-    public $timestamps = false;
+    
+    
 }

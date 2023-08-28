@@ -99,9 +99,16 @@ $seo = App\Models\Seo::find(1);
         case 'error':
         toastr.error(" {{ Session::get('message') }} ");
           break;
+          
     }
    @endif
 </script>
+
+<style>
+  #qty {
+    display: none;
+}
+</style>
 
 <!-- ==============================================   START TO Add to Cart Book Modal ============================================== -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -124,35 +131,34 @@ $seo = App\Models\Seo::find(1);
 
          <div class="col-md-4">
             <ul class="list-group">
-                <li class="list-group-item">@if(session()->get('language') == 'french') Prix du Livre <strong class="text-danger"> € <span id="pprice"></span></strong>
+                <li class="list-group-item">Prix du Livre <strong class="text-danger"> € <span id="pprice"></span></strong>
                   <del id="oldprice"> € </del>
-                @else Product Price : <strong class="text-danger"> $ <span id="pprice"></span></strong>
-                   <del id="oldprice"> $ </del> @endif
+        
                 </li>
-                <li class="list-group-item">@if(session()->get('language') == 'french')Code Article : <strong id="pcode"></strong>
-                @else  Product Code : <strong id="pcode"></strong> @endif
+                <li class="list-group-item">Code Article : <strong id="pcode"></strong>
+               
               </li>
-                <li class="list-group-item">@if(session()->get('language') == 'french') Categorie : <strong id="pcategory"></strong>
-                   @else Category : <strong id="pcategory"></strong> @endif</li>
-                <li class="list-group-item">Stock: <span class="badge badge-pill badge-success" id="aviable" style="background: green; color: white;"></span> 
-              <span class="badge badge-pill badge-danger" id="stockout" style="background: red; color: white;"></span> 
+                <li class="list-group-item"> Categorie : <strong id="pcategory"></strong>
+                  
+                <li class="list-group-item">Stock: <span class="badge badge-pill badge-success" id="Disponible" style="background: green; color: white;"></span> 
+              <span class="badge badge-pill badge-danger" id="Epuisé" style="background: red; color: white;"></span> 
               </li>
             </ul>
         </div><!-- // end col md -->
 
         <div class="col-md-4">
 
-          <div class="form-group">
-            <label for="qty">@if(session()->get('language') == 'french')Quantité @else Quantity @endif</label>
-            <input type="number" class="form-control" id="qty" value="1" min="1" >
-          </div> <!-- // end form group -->
+           <div class="form-group d-none">
+            <input type="number" class="form-control" id="qty" value="1" min="1">
+          </div> 
+
           <BR>
             <br>
             <BR>
               <br>
 <div>
         <input type="hidden" id="book_id">
-        <button type="submit" class="btn btn-primary mb-2" onclick="addToCart()" >@if(session()->get('language') == 'french')Ajouter au Panier @else Add to Cart @endif</button>
+        <button type="submit" class="btn btn-primary mb-2" onclick="addToCart()" >Ajouter au Panier </button>
 </div>
            </div><!-- // end col md -->
               </div> <!-- // end row -->
@@ -198,15 +204,14 @@ function bookView(id){
             } // end producut price 
 
             // Start Stock opiton
-            if (data.book.product_qty > 0) {
-                $('#aviable').text('');
-                $('#stockout').text('');
-                @if(session()->get('language') == 'french') $('#aviable').text('Disponible') @else $('#aviable').text('Aviable') @endif;
-            }else{
-                $('#aviable').text('');
-                $('#stockout').text('');
-                @if(session()->get('language') == 'french') $('#stockout').text('Epuisée') @else $('#stockout').text('Stockout')@endif;
+                if (data.book.product_qty > 0) {
+                $('#Disponible').text('Disponible : ' +  data.book.product_qty);
+                $('#Epuisé').text('');
+            } else {
+                $('#Disponible').text('');
+                $('#Epuisé').text('Epuisée');
             }
+
         }
    })
    } 
@@ -228,12 +233,13 @@ function bookView(id){
 
         var book_name =  $('#pname').text() ;
         var id = $('#book_id').val();
-        var quantity = $('#qty').val();
+        var quantity = $('#qty').val();// Récupérer la quantité du champ
         $.ajax({
             type: "POST",
             dataType: 'json',
             data:{
-                 quantity:quantity, book_name:book_name
+                 quantity:quantity, //Utiliser la quantité récupérée
+                  book_name:book_name
             },
             url: "/book/cart/"+id,
             success:function(data){

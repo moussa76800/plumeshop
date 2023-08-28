@@ -11,14 +11,13 @@ class OrderItem extends Model
 
     protected $guarded = [];
 
-    public function book(){
-        return $this->belongsTo(Book::class,'book_id');
+    public function book()
+    {
+        return $this->belongsTo(Book::class, 'book_id');
     }
 
-
-        public function order()
+    public function order()
     {
         return $this->belongsTo(Order::class, 'order_id');
     }
-
 }

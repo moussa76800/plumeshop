@@ -23,8 +23,7 @@ class Message extends Model
     }
 
     public function post()
-{
-    return $this->belongsTo(BlogPost::class,'post_id','id');
-}    
-
+    {
+        return $this->belongsTo(BlogPost::class, 'post_id', 'id');
+    }
 }

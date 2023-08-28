@@ -70,19 +70,10 @@
 			</div>
 			<!-- /.col -->
 
- 
-
- 
-
-
 		  </div>
 		  <!-- /.row -->
 		</section>
 		<!-- /.content -->
 	  
-	  </div>
-  
-
-
-
+	  
 @endsection

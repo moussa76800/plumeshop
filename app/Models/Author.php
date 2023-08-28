@@ -10,20 +10,19 @@ class Author extends Model
 {
     use HasFactory;
 
-    protected $fillable=[
-        'name' ,
+    protected $fillable = [
+        'name',
     ];
 
     public $timestamps = false;
-
-
+    
     /**
      * Authors's Books
      * @return void
      */
 
-     public Function Books() {
-        return $this->belongsToMany(Book::class,'book_author');
-       
-     }
+    public function Books()
+    {
+        return $this->belongsToMany(Book::class, 'book_author');
+    }
 }

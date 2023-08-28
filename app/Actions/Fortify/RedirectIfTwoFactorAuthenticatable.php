@@ -50,8 +50,10 @@ class RedirectIfTwoFactorAuthenticatable
     {
         $user = $this->validateCredentials($request);
 
-        if (optional($user)->two_factor_secret &&
-            in_array(TwoFactorAuthenticatable::class, class_uses_recursive($user))) {
+        if (
+            optional($user)->two_factor_secret &&
+            in_array(TwoFactorAuthenticatable::class, class_uses_recursive($user))
+        ) {
             return $this->twoFactorChallengeResponse($request, $user);
         }
 
@@ -68,7 +70,7 @@ class RedirectIfTwoFactorAuthenticatable
     {
         if (Fortify::$authenticateUsingCallback) {
             return tap(call_user_func(Fortify::$authenticateUsingCallback, $request), function ($user) use ($request) {
-                if (! $user) {
+                if (!$user) {
                     $this->fireFailedEvent($request);
 
                     $this->throwFailedAuthenticationException($request);
@@ -79,7 +81,7 @@ class RedirectIfTwoFactorAuthenticatable
         $model = $this->guard->getProvider()->getModel();
 
         return tap($model::where(Fortify::username(), $request->{Fortify::username()})->first(), function ($user) use ($request) {
-            if (! $user || ! Hash::check($request->password, $user->password)) {
+            if (!$user || !Hash::check($request->password, $user->password)) {
                 $this->fireFailedEvent($request, $user);
 
                 $this->throwFailedAuthenticationException($request);
@@ -134,7 +136,7 @@ class RedirectIfTwoFactorAuthenticatable
         ]);
 
         return $request->wantsJson()
-                    ? response()->json(['two_factor' => true])
-                    : redirect()->route('two-factor.login');
+            ? response()->json(['two_factor' => true])
+            : redirect()->route('two-factor.login');
     }
 }

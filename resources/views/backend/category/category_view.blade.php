@@ -2,7 +2,6 @@
 @section('admin')
     
 
-  
 
       <!-- Main content -->
       

@@ -2,8 +2,6 @@
 @section('admin')
     
 
-  
-
       <!-- Main content -->
       
       <section class="content">

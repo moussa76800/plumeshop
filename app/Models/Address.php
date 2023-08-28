@@ -9,20 +9,19 @@ class Address extends Model
 {
     use HasFactory;
 
-    protected $guarded=[];
+    protected $guarded = [];
 
     public function user()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class,);
     }
     public function country()
-{
-    return $this->belongsTo(ShipCountry::class, 'country_id');
-}
+    {
+        return $this->belongsTo(ShipCountry::class, 'country_id');
+    }
 
     public function order()
     {
         return $this->hasOne(Order::class);
     }
-
 }
