@@ -89,7 +89,7 @@
       <input type="hidden" name="phone" value="{{ $data['shipping_phone'] }}">
       <input type="hidden" name="address" value="{{ $data['address'] }}">
       <input type="hidden" name="city" value="{{ $data['city'] }}">
-      <input type="hidden" name="country" value="{{ $data['country'] }}">
+      <input type="hidden" name="country_id" value="{{ $data['country_id'] }}">
       <input type="hidden" name="notes" value="{{ $data['notes'] }}"> 
 
             </label>

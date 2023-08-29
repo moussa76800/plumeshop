@@ -20,6 +20,19 @@ class CartController extends Controller
 {
 
 
+    public function isBookInCart($bookId)
+    {
+        $cartItems = Cart::content();
+
+        foreach ($cartItems as $item) {
+            if ($item->id == $bookId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function bookAddCartAJAX(Request $request, $id)
     {
         if (Session::has('coupon')) {
@@ -38,17 +51,9 @@ class CartController extends Controller
             return response()->json(['error' => 'Le livre est épuisé !!!']);
         }
 
-        // Vérifier si la quantité saisie est valide
-        // $requestedQuantity = $request->quantity;
-
-        // if (!is_numeric($requestedQuantity) || $requestedQuantity <= 0) {
-        //     return response()->json(['error' => 'Entrez une quantité valide !!!']);
-        // }
-
-
         // Vérifier si le livre est déjà dans le panier
         if ($this->isBookInCart($id)) {
-            return response()->json(['error' => 'Le livre est déja présent dans votre panier.']);
+            return response()->json(['error' => 'Le livre est déjà présent dans le panier.']);
         }
 
         // Sélectionner le prix correct en fonction de la remise
@@ -66,36 +71,17 @@ class CartController extends Controller
             ],
         ]);
 
+        // Vérifier si le livre est dans la liste de souhaits et le supprimer si nécessaire
+        $wishlistCount = Wishlist::where('user_id', Auth::id())->where('book_id', $id)->count();
+        if ($wishlistCount > 0) {
+            Wishlist::where('user_id', Auth::id())->where('book_id', $id)->delete();
+        }
+
         return response()->json(['success' => 'Le livre a bien été ajouté à votre panier']);
     }
 
-    public function isBookInCart($book_id)
-    {
-        $cartItems = Cart::content();
-
-        foreach ($cartItems as $item) {
-            if ($item->id == $book_id) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
 
-    public function getCartQuantity($book_id)
-    {
-        $cartItems = Cart::content();
-        $cartQuantity = 0;
-
-        foreach ($cartItems as $item) {
-            if ($item->id == $book_id) {
-                $cartQuantity += $item->qty;
-            }
-        }
-
-        return $cartQuantity;
-    }
 
     public  function bookAddMiniCartAJAX()
     {
@@ -132,14 +118,7 @@ class CartController extends Controller
 
             // Vérifier si le stock du livre est épuisé
             if ($book->product_qty <= 0) {
-                $errorMessage = (session()->get('language') == 'french') ? 'Le livre est en rupture de stock.' : 'The book is out of stock.';
-                return response()->json(['error' => $errorMessage]);
-            }
-
-            // Vérifier si le livre est déjà dans la wishlist de l'utilisateur
-            $wishlistCount = Wishlist::where('user_id', Auth::id())->where('book_id', $book_id)->count();
-            if ($wishlistCount > 0) {
-                $errorMessage = 'The book is already in your wishlist.';
+                $errorMessage = 'Le livre est en rupture de stock.';
                 return response()->json(['error' => $errorMessage]);
             }
 
@@ -149,7 +128,17 @@ class CartController extends Controller
             });
 
             if ($cartItem->isNotEmpty()) {
-                $errorMessage = 'The book is already in your cart.';
+                // Si le livre est déjà dans le panier, supprimez-le de la wishlist
+                Wishlist::where('user_id', Auth::id())->where('book_id', $book_id)->delete();
+
+                $successMessage = 'Le livre a été retiré de votre liste de souhaits car il est déjà dans votre panier.';
+                return response()->json(['success' => $successMessage]);
+            }
+
+            // Vérifier si le livre est déjà dans la wishlist de l'utilisateur
+            $wishlistCount = Wishlist::where('user_id', Auth::id())->where('book_id', $book_id)->count();
+            if ($wishlistCount > 0) {
+                $errorMessage = 'Le livre est déjà dans votre liste de souhaits.';
                 return response()->json(['error' => $errorMessage]);
             }
 
@@ -159,15 +148,13 @@ class CartController extends Controller
                 'book_id' => $book_id,
             ]);
 
-            $successMessage = 'Successfully Added On Your Wishlist';
+            $successMessage = 'Le livre a bien été ajouté à votre liste de souhaits.';
             return response()->json(['success' => $successMessage]);
         } else {
-            $errorMessage = 'Please register or log in first.';
+            $errorMessage = 'Veuillez vous inscrire ou vous connecter d\'abord.';
             return response()->json(['error' => $errorMessage]);
         }
     }
-
-
 
 
     public function checkoutCreate()

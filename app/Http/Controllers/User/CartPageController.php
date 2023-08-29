@@ -55,11 +55,11 @@ class CartPageController extends Controller
 		$book = Book::find($cartItem->id);
 
 		if (!$book) {
-			return response()->json(['error' => 'Le livre associé à cet article n\'existe pas.']);
+			return response()->json(['error' => "Le livre associé à cet article n\'existe pas."]);
 		}
 
 		// Vérifier si la quantité actuelle dans le panier atteint déjà la quantité en stock
-		if ($cartItem->qty >= $book->product_qty) {
+		if ($cartItem->qty > $book->product_qty) {
 			return response()->json(['error' => 'La quantité actuelle dans le panier atteint déjà la quantité en stock.']);
 		}
 

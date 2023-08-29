@@ -256,18 +256,19 @@ function bookView(id){
                       showConfirmButton: false,
                       timer: 3000
                     })
-                if ($.isEmptyObject(data.error)) {
+                    if ($.isEmptyObject(data.error)) {
                     Toast.fire({
                         type: 'success',
+                        icon: 'success',
                         title: data.success
                     })
                 }else{
                     Toast.fire({
                         type: 'error',
+                        icon: 'error',
                         title: data.error
                     })
                 }
-                // End Message 
                   
             }
               })
@@ -342,14 +343,16 @@ function miniCart() {
                       showConfirmButton: false,
                       timer: 3000
                     })
-                if ($.isEmptyObject(data.error)) {
+                    if ($.isEmptyObject(data.error)) {
                     Toast.fire({
                         type: 'success',
+                        icon: 'success',
                         title: data.success
                     })
                 }else{
                     Toast.fire({
                         type: 'error',
+                        icon: 'error',
                         title: data.error
                     })
                 }
@@ -483,41 +486,6 @@ function addToWishList(book_id){
     }
 }
 </script>
-
-{{-- <script type="text/javascript">
-
-  function wishListRemove(id){
-    $.ajax({
-        type: 'GET',
-        url: '/user/removeWishList/'+id,
-        dataType:'json',
-        success:function(data){
-        wishList();
-         // Start Message 
-            const Toast = Swal.mixin({
-                  toast: true,
-                  position: 'top-end',
-                  showConfirmButton: false,
-                  timer: 3000
-                })
-            if ($.isEmptyObject(data.error)) {
-                Toast.fire({
-                    type: 'success',
-                    icon: 'success',
-                    title: data.success
-                })
-            }else{
-                Toast.fire({
-                    type: 'error',
-                    icon: 'error',
-                    title: data.error
-                })
-            }
-            // End Message 
-        }
-    });
-}
-</script>  --}}
 <!--  ==============================================     START DELETE  User's Book to WishList   ====================================================== -->
 
 <!--  ==============================================     START DELETE All Books to WishList   ====================================================== -->
@@ -661,9 +629,10 @@ function addToWishList(book_id){
             couponCalculation()
                 cart();
                 miniCart();        
-          }
-      });
-  }
+              },
+   
+  });
+}
   </script>
   <!--  ==============================================      END Cart Increment  ====================================================== -->
 

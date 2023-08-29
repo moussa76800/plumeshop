@@ -1,152 +1,167 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Invoice</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f2f2f2;
+    }
 
-<style type="text/css">
-    * {
-        font-family: Verdana, Arial, sans-serif;
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-    table{
-        font-size: x-small;
-    }
-    tfoot tr td{
-        font-weight: bold;
-        font-size: x-small;
-    }
-    .gray {
-        background-color: lightgray
-    }
-    .font{
-      font-size: 15px;
-    }
-    .authority {
-        /*text-align: center;*/
-        float: right
-    }
-    .authority h5 {
-        margin-top: -10px;
-        color: green;
-        /*text-align: center;*/
-        margin-left: 35px;
-    }
-    .thanks h1 {
-        text-align:center;
-        font-size: 16px;
-        font-weight: bold;
-        font-family: serif;
-        
-    }
-</style>
 
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header h2 {
+      color: #336699;
+      font-size: 28px;
+    }
+
+    .contact-info {
+      background-color: #f7f7f7;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .info-table {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .info-table td {
+      padding: 10px;
+    }
+
+    .info-table p {
+      margin: 0;
+    }
+
+    .info-table h3 {
+      color: #336699;
+      font-size: 20px;
+      margin-top: 0;
+    }
+
+    .products-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    .products-table th, .products-table td {
+      border: 1px solid #dddddd;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .products-table th {
+      background-color: #336699;
+      color: #ffffff;
+    }
+
+    .subtotal {
+      text-align: right;
+      color: #336699;
+    }
+  </style>
 </head>
-{{-- @if (session()->get('language') == 'english') --}}
 <body>
-
-  <table width="100%" style="background: #F7F7F7; padding:0 20px 0 20px;">
-    <tr>
-        <td valign="top">
-          <!-- {{-- <img src="" alt="" width="150"/> --}} -->
-          <h2 style="color: green; font-size: 26px;"><strong>PlumeShop</strong></h2>
-        </td>
-        <td align="right">
-            <pre class="font" >
-               Plumeshop Head Office
-               Email:support@PlumeShop.be <br>
-               Mobile: 1245454545 <br>
-               Bruxelles 1000, <br>
-              
-            </pre>
-        </td>
-    </tr>
-
-  </table>
-
-
-  <table width="100%" style="background:white; padding:2px;""></table>
-  <table width="100%" style="background: #F7F7F7; padding:0 5 0 5px;" class="font">
-    <tr>
-        <td>
-           @php
-    $address = $order->user->address->street_name . ', ' . $order->user->address->street_number;
-    $city = $order->user->address->city;
-    $state = $order->user->address->country->name;
-          @endphp
-
-          <p class="font" style="margin-left: 20px;">
-            <strong>Name:</strong> {{ $order->user->name }}<br>
-            <strong>Email:</strong> {{ $order->user->email }} <br>
-            <strong>Phone:</strong> {{ $order->user->phone }} <br>
-            <strong>Address:</strong> {!! $address !!}<br>
-            <strong>City:</strong> {!! $city !!}<br>
-            <strong>State:</strong> {!! $state !!}
-        </p>
-
-        </td>
-        <td>
-          <p class="font">
-            <h3><span style="color: green;">Invoice:</span> #{{ $order->invoice_no}}</h3>
-            Order Date: {{ $order->order_date }} <br>
-             Delivery Date: {{ $order->orderStatus->delivered_date }} <br>
-            Payment Type : {{ $order->shippingMethod->payment_method }} </span>
-         </p>
-        </td>
-    </tr>
-  </table>
-  <br/>
-<h3>Products</h3>
-  <table width="100%">
-    <thead style="background-color: green; color:#FFFFFF;">
-      <tr class="font">
-        <th>Image</th>
-        <th>Product Name</th>
-        <th>Code</th>
-        <th>Quantity</th>
-        <th>Unit Price </th>
-        <th>Total </th>
-      </tr>
-    </thead>
-    <tbody>
-     @foreach($orderItem as $item)
-      <tr class="font">
-        <td align="center">
-            <img src="{{ public_path($item->book->image)  }}" height="60px;" width="60px;" alt="">
-        </td>
-        <td align="center"> {{ $item->book->title }}</td>
-        <td align="center">{{ $item->book->product_code }}</td>
-        <td align="center">{{ $item->qty }}</td>
-        <td align="center">${{ $item->price }}</td>
-        <td align="center">${{ $item->price * $item->qty }} </td>
-      </tr>
-      @endforeach
-      
-    </tbody>
-  </table>
-  <br>
-  <table width="100%" style=" padding:0 10px 0 10px;">
-    <tr>
-        <td align="right" >
-            <h2><span style="color: green;">Subtotal : </span>${{ $order->shippingMethod->amount }}</h2>
-            <h2><span style="color: green;">Total : </span> ${{ $order->shippingMethod->amount }}</h2>
-            {{-- <h2><span style="color: green;">Full Payment PAID</h2> --}}
-        </td>
-    </tr>
-  </table>
-  
-  <div class="authority float-right mt-5">
-      <p>-----------------------------------</p>
-      <h5>Client's signature :</h5>
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="thanks mt-3">
-    <h1>Thanks For Buying Products..!!</h1>
+  <div class="container">
+    <div class="header">
+      <h2><strong>PlumeShop</strong></h2>
+      <div class="contact-info">
+        <pre>
+          Plumeshop Head Office
+          Email: support@PlumeShop.be
+          Mobile: 1245454545
+          Bruxelles 1000
+        </pre>
       </div>
+    </div>
 
+    <table class="info-table">
+      <tr>
+        @php
+        $address = $order->user->address->street_name . ', ' . $order->user->address->street_number;
+        $city = $order->user->address->city;
+        $state = $order->user->address->country->name;
+              @endphp
+        <td>
+          <p><strong>Name:</strong> {{ $order->user->name }}</p>
+          <p><strong>Email:</strong> {{ $order->user->email }}</p>
+          <p><strong>Phone:</strong> {{ $order->user->phone }}</p>
+          <p><strong>Address:</strong> {!! $address !!}</p>
+          <p><strong>City:</strong> {!! $city !!}</p>
+          <p><strong>State:</strong> {!! $state !!}</p>
+        </td>
+        <td>
+          <p>
+            <h3>Invoice: #{{ $order->invoice_no }}</h3>
+            <strong>Order Date:</strong> {{ $order->order_date }}<br>
+            <strong>Delivery Date:</strong> {{ $order->orderStatus->delivered_date }}<br>
+            <strong>Payment Type:</strong> {{ $order->shippingMethod->payment_method }}
+          </p>
+        </td>
+      </tr>
+    </table>
+
+    <h3>Products</h3>
+    <table class="products-table">
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Product Name</th>
+          <th>Code</th>
+          <th>Quantity</th>
+          <th>Unit Price</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach($orderItem as $item)
+          <tr>
+            <td align="center">
+              <img src="{{ public_path($item->book->image) }}" height="60px" width="60px" alt="Product Image">
+            </td>
+            <td align="center">{{ $item->book->title }}</td>
+            <td align="center">{{ $item->book->product_code }}</td>
+            <td align="center">{{ $item->qty }}</td>
+            <td align="center">${{ $item->price }}</td>
+            <td align="center">${{  $order->shippingMethod->amount }}</td>
+          </tr>
+        @endforeach
+      </tbody>
+    </table>
+
+    <div class="subtotal">
+      <h2><span style="color: green;">Subtotal:</span> ${{ $order->shippingMethod->amount }}</h2>
+      <h2><span style="color: green;">Total:</span> ${{ $order->shippingMethod->amount }}</h2>
+    </div>
+  </div>
+
+  <div class="authority float-right mt-5">
+    <hr style="border: 1px solid #ddd; width: 100%; margin-top: 10px;">
+    <h5 style="text-align: center; margin-top: 5px;">Client's signature:</h5>
+  </div>
+ 
+  <div class="thanks mt-3" style="text-align: center;">
+    <h1 style="color: #336699;">Thanks For Buying Products..!!</h1>
+  </div>
+  
   
 </body>
 </html>
