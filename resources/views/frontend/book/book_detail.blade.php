@@ -404,16 +404,13 @@
 <div class="action">
 <ul class="list-unstyled">
 	<li class="add-cart-button btn-group">
-		<button class="btn btn-primary icon" data-toggle="dropdown" type="button">
-			<i class="fa fa-shopping-cart"></i>													
-		</button>
+		<button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal" id="{{ $book->id }}" onclick="bookView(this.id)"><i class="fa fa-shopping-cart"></i> </button>
 		<button class="btn btn-primary cart-btn" type="button">Add to cart</button>
-								
-	</li>
+	  </li>
 	
 	<li class="lnk wishlist">
 		<button class="btn btn-primary icon" type="button" title="wishlist" id="{{ $book->id }}" onclick="addToWishList(this.id)"><i class="fa fa-heart"></i> </button>
-		</a>
+		
 	</li>
 
 	{{-- <li class="lnk">

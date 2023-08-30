@@ -1,14 +1,9 @@
- <ul>
+<ul>
 	@foreach($books as $item)
-    @if (session()->get('language') == 'french')
-    <li> <img src="{{ asset($item->product_thambnail) }} " style="width: 30px; height: 30px;"> {{ $item->name_fr }}
+    
+	<li> <img src="{{ asset($item->image) }} " style="width: 30px; height: 30px;"> {{ $item->title }}
         <hr>
  </li>
- @else
-	<li> <img src="{{ asset($item->product_thambnail) }} " style="width: 30px; height: 30px;"> {{ $item->name_en }}
-        <hr>
- </li>
- @endif
     
 	@endforeach
 </ul> 
@@ -58,35 +53,34 @@
         color: #dedddd
     }
     </style>
-    
-    @if(!$books->isEmpty())
+    @if($books->isEmpty())
     <div class="alert alert-danger text-center" role="alert">
-        @if (session()->get('language') == 'english') <strong>Product Not Found</strong> @else <strong>Article pas trouvé !</strong> @endif
+        @if (session()->get('language') == 'english')
+        <strong>Product Not Found</strong>
+        @else
+        <strong>Article pas trouvé !</strong>
+        @endif
     </div>
-
-    
     @else
-     
-    
     <div class="container mt-5">
         <div class="row d-flex justify-content-center ">
             <div class="col-md-6">
                 <div class="card">
-                    
-    
-                @foreach($books as $item)
-       <a href="{{ url('book/detail/'.$item->id.'/'.$item->title ) }}">
-                    <div class="list border-bottom">  <img src="{{ asset($item->image) }}" style="width: 30px; height: 30px;"> 
-                        
-       <div class="d-flex flex-column ml-3" style="margin-left: 10px;"> <span>{{ $item->title }} </span> <small> ${{ $item->price }}</small> </div>
-                    </div>
+                    @foreach($books as $item)
+                    <a href="{{ url('book/detail/'.$item->id.'/'.$item->title ) }}">
+                        <div class="list border-bottom">
+                            <img src="{{ asset($item->image) }}" style="width: 30px; height: 30px;">
+                            <div class="d-flex flex-column ml-3" style="margin-left: 10px;">
+                                <span>{{ $item->title }}</span>
+                                <small> ${{ $item->price }}</small>
+                            </div>
+                        </div>
                     </a>
-
                     @endforeach
-                    
                 </div>
             </div>
         </div>
     </div>
-    
     @endif
+    
+    @endsection

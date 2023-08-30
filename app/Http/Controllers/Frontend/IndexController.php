@@ -7,20 +7,23 @@ use App\Models\Seo;
 use App\Models\Book;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Author;
 use App\Models\Review;
 use App\Models\Slider;
+use App\Models\Address;
 use App\Models\Category;
 use App\Models\MultiImg;
 use App\Models\OrderItem;
+use App\Models\Publisher;
+use App\Models\ShipCountry;
 use App\Models\SiteSetting;
 use App\Models\SubCategory;
+use Illuminate\Support\Str;
 use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use App\Models\Blog\BlogPost;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Address;
-use App\Models\ShipCountry;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
@@ -178,96 +181,73 @@ class IndexController extends Controller
   }
 
   // Method Search Book
+
   public function search()
   {
     $item = request()->search;
 
     if (empty($item)) {
-      if (session()->get('language') == 'french') {
-        $notification = array(
-          'message' => 'Le champ de recherche ne peut pas être vide.',
-          'alert-type' => 'warning'
-        );
-        return redirect('/')->with($notification);
-      }
       $notification = array(
-        'message' => 'The search field cannot be empty.',
+        'message' => 'Le champ de recherche ne peut pas être vide.',
         'alert-type' => 'warning'
       );
       return redirect('/')->with($notification);
     }
 
-
     request()->validate(["search" => "required"]);
 
-    $categorySearch = [];
-    $bookSearch = [];
+    $categorySearch = Category::orderBy('name', 'ASC')->get();
 
-    if (request()->isMethod('get')) { {
-        $categorySearch = Category::orderBy('name', 'ASC')->get();
-        $bookSearch = Book::leftJoin('publishers', 'books.publisher_id', '=', 'publishers.id')
-          ->leftJoin('categories', 'books.categoryBook_id', '=', 'categories.id')
-          ->where(function ($query) use ($item) {
-            $query->where('books.title', 'LIKE', "%$item%")
-              ->orWhere('books.ISBN', 'LIKE', "%$item%")
-              ->orWhere('publishers.name', 'LIKE', "%$item%")
-              ->orWhere('categories.name', 'LIKE', "%$item%");
-          })
-          ->get();
-      }
+    $bookSearch = Book::leftJoin('publishers', 'books.publisher_id', '=', 'publishers.id')
+      ->leftJoin('categories', 'books.categoryBook_id', '=', 'categories.id')
+      ->leftJoin('book_author', 'books.id', '=', 'book_author.book_id') // Utilisation de la table pivot pour les auteurs
+      ->leftJoin('authors', 'book_author.author_id', '=', 'authors.id')
+      ->where(function ($query) use ($item) {
+        $query->where('books.title', 'LIKE', "%$item%")
+          ->orWhere('books.ISBN', 'LIKE', "%$item%")
+          ->orWhere('publishers.name', 'LIKE', "%$item%")
+          ->orWhere('categories.name', 'LIKE', "%$item%")
+          ->orWhere('authors.name', 'LIKE', "%$item%");
+      })
+      ->select('books.title', 'books.image', 'books.price', 'books.id', 'publishers.name as publisher_name', 'categories.name as category_name', 'authors.name as author_name')
+      ->get();
 
 
-      return view('frontend.book.search_book', compact('categorySearch', 'bookSearch', 'item'));
-    }
-
-    // Si la méthode est POST, on valide le champ "search"
-    request()->validate(["search" => "required"]);
-
-    if (empty($item)) {
-      $notification = array(
-        'message' => 'The search field cannot be empty.',
-        'alert-type' => 'danger'
-      );
-      return redirect('/')->with($notification);
-    }
-
-    if (session()->get('language') == 'french') {
-      $categorySearch = Category::orderBy('name', 'ASC')->get();
-      $bookSearch = Book::leftJoin('publishers', 'books.publisher_id', '=', 'publishers.id')
-        ->leftJoin('categories', 'books.categoryBook_id', '=', 'categories.id')
-        ->where(function ($query) use ($item) {
-          $query->where('books.name_fr', 'LIKE', "%$item%")
-            ->orWhere('books.ISBN', 'LIKE', "%$item%")
-            ->orWhere('publishers.name_fr', 'LIKE', "%$item%")
-            ->orWhere('categories.name_fr', 'LIKE', "%$item%");
-        })
-        ->get();
-    }
     return view('frontend.book.search_book', compact('categorySearch', 'bookSearch', 'item'));
   }
 
 
+
+
+
   //Method Advanced Search Book
-  public function searchBook(Request $request)
+  public function SearchProduct(Request $request)
   {
     $request->validate(["search" => "required"]);
+
     $item = $request->search;
 
-    if (empty($item)) {
-      $notification = array(
-        'message' => 'The search field cannot be empty.',
-        'alert-type' => 'danger'
-      );
-      if ($request->isMethod('post')) {
-        return redirect(url('search_product'))->with($notification);
-      } else {
-        return view('frontend.book.search_book_advanced');
-      }
-    }
+    $books = Book::where('title', 'LIKE', "%$item%")
+      ->orWhereHas('authors', function ($query) use ($item) {
+        $query->where('name', 'LIKE', "%$item%");
+      })
+      ->orWhereHas('publisher', function ($query) use ($item) {
+        $query->where('name', 'LIKE', "%$item%");
+      })
+      ->orWhereHas('subCategory', function ($query) use ($item) {
+        $query->where('name', 'LIKE', "%$item%");
+      })
+      ->orWhereHas('categoryBook', function ($query) use ($item) {
+        $query->where('name', 'LIKE', "%$item%");
+      })
+      ->select('title', 'image', 'price', 'id')
+      ->limit(5)
+      ->get();
 
-    $books = Book::where('name_en', 'LIKE', "%$item%")->select('name', 'image', 'price', 'id')->limit(5)->get();
-    return view('frontend.book.search_book_advanced', compact('books'));
+    return view('frontend.book.search_book', compact('books'));
   }
+
+
 
   public function donnateBook()
   {

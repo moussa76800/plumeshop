@@ -190,11 +190,10 @@
             <div class="action">
               <ul class="list-unstyled">
                 <li class="add-cart-button btn-group">
-                  <button class="btn btn-primary icon" data-toggle="dropdown" type="button"> <i class="fa fa-shopping-cart"></i> </button>
+                  <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal" id="{{ $book->id }}" onclick="bookView(this.id)"><i class="fa fa-shopping-cart"></i> </button>
                   <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
                 </li>
-                <li class="lnk wishlist"> <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
-                <li class="lnk"> <a class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal"></i> </a> </li>
+                  <button class="btn btn-primary icon" type="button" title="wishlist" id="{{ $book->id }}" onclick="addToWishList(this.id)"><i class="fa fa-heart"></i> </button>
               </ul>
             </div>
             <!-- /.action --> 
@@ -263,20 +262,19 @@
               <!-- /.product-price -->
               <div class="description m-t-10">
                    {{ $product->long_descp }} </div>
-              <div class="cart clearfix animate-effect">
-                <div class="action">
-                  <ul class="list-unstyled">
-                    <li class="add-cart-button btn-group">
-                      <button class="btn btn-primary icon" data-toggle="dropdown" type="button"> <i class="fa fa-shopping-cart"></i> </button>
-                      <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
-                    </li>
-                    <li class="lnk wishlist"> <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
-                    <li class="lnk"> <a class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal"></i> </a> </li>
-                  </ul>
-                </div>
-                <!-- /.action --> 
-              </div>
-              <!-- /.cart --> 
+                   <div class="cart clearfix animate-effect">
+                    <div class="action">
+                      <ul class="list-unstyled">
+                        <li class="add-cart-button btn-group">
+                          <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal" id="{{ $book->id }}" onclick="bookView(this.id)"><i class="fa fa-shopping-cart"></i> </button>
+        
+                        </li>
+                          <button class="btn btn-primary icon" type="button" title="wishlist" id="{{ $book->id }}" onclick="addToWishList(this.id)"><i class="fa fa-heart"></i> </button>
+                      </ul>
+                    </div>
+                    <!-- /.action --> 
+                  </div>
+                  <!-- /.cart --> 
               
             </div>
             <!-- /.product-info --> 
