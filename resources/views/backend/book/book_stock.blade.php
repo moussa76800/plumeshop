@@ -18,7 +18,7 @@
 
 			 <div class="box">
 				<div class="box-header with-border">
-				  <h3 class="box-title">@if (session()->get('language') == 'english')Product Stock List @else Liste du Stock des Livres @endif <span class="badge badge-pill badge-danger"> {{ count($book) }} </span></h3>
+				  <h3 class="box-title">@if (session()->get('language') == 'english')Product Stock List @else Liste du Stock des Livres @endif <span class="badge badge-pill badge-danger"> {{ count($stock) }} </span></h3>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
@@ -37,7 +37,7 @@
 							</tr>
 						</thead>
 						<tbody>
-	 @foreach($book as $item)
+	 @foreach($stock as $item)
 	 <tr>
 		<td> <img src="{{ asset($item->image) }}" style="width: 60px; height: 50px;">  </td>
 		<td>{{ $item->title }}</td>
@@ -46,19 +46,16 @@
 
 		 <td> 
 		 	@if($item->discount_price == NULL)
-		 	<span class="badge badge-pill badge-danger">@if (session()->get('language') == 'english')No Discount @else Pas de Réduction @endif</span>
+		 	<span class="badge badge-pill badge-warning">@if (session()->get('language') == 'english')No Discount @else Pas de Réduction @endif</span>
 
 		 	@else
 		 	@php
 		 	$amount = $item->price - $item->discount_price;
 		 	$discount =($amount/$item->price) * 100;
 		 	@endphp
-   <span class="badge badge-pill badge-danger">{{ round($discount)  }} %</span>
+   <span class="badge badge-pill badge-info">{{ round($discount)  }} %</span>
 
 		 	@endif
-
-
-
 		 </td>
 
 		 <td>

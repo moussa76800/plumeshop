@@ -116,51 +116,37 @@ Rechercher un Livre
                 <!-- /.filter-tabs --> 
               </div>
               <!-- /.col -->
-              <div class="col col-sm-12 col-md-6">
-                <div class="col col-sm-3 col-md-6 no-padding">
-                  <div class="lbl-cnt"> <span class="lbl">Trier</span>
-                    <div class="fld inline">
-                      <div class="dropdown dropdown-small dropdown-med dropdown-white inline">
-                        <button data-toggle="dropdown" type="button" class="btn dropdown-toggle"> Position <span class="caret"></span> </button>
-                        <ul role="menu" class="dropdown-menu">
-                          <li role="presentation"><a href="#">Product Name:A to Z</a></li>
-                          <li role="presentation"><a href="#">Product Name Z to A</a></li>
-                          <li role="presentation"><a href="#">Price:Lowest first</a></li>
-                          <li role="presentation"><a href="#">Price:Highest first</a></li>
-                          
-                        </ul>
-                      </div>
-                    </div>
-                    <!-- /.fld --> 
-                  </div>
-                  <!-- /.lbl-cnt --> 
-                </div>
-                <!-- /.col -->
-                <div class="col col-sm-3 col-md-6 no-padding">
-                  <div class="lbl-cnt"> <span class="lbl">Show</span>
-                    <div class="fld inline">
-                      <div class="dropdown dropdown-small dropdown-med dropdown-white inline">
-                        <button data-toggle="dropdown" type="button" class="btn dropdown-toggle"> 1 <span class="caret"></span> </button>
-                        <ul role="menu" class="dropdown-menu">
-                          <li role="presentation"><a href="#">1</a></li>
-                          <li role="presentation"><a href="#">2</a></li>
-                          <li role="presentation"><a href="#">3</a></li>
-                          <li role="presentation"><a href="#">4</a></li>
-                          <li role="presentation"><a href="#">5</a></li>
-                          <li role="presentation"><a href="#">6</a></li>
-                          <li role="presentation"><a href="#">7</a></li>
-                          <li role="presentation"><a href="#">8</a></li>
-                          <li role="presentation"><a href="#">9</a></li>
-                          <li role="presentation"><a href="#">10</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                    <!-- /.fld --> 
-                  </div>
-                  <!-- /.lbl-cnt --> 
-                </div>
-                <!-- /.col --> 
-              </div>
+              <!-- Form for filtering -->
+<form action="{{ route('book.search') }}" method="get">
+  <input type="hidden" name="search" value="{{ $item }}">
+  <select name="filter">
+      <option value="">Filtrer par</option>
+      <option value="author">Auteur</option>
+      <option value="publisher">Éditeur</option>
+  </select>
+  <button type="submit">Filtrer</button>
+
+  &nbsp;&nbsp;&nbsp;&nbsp; 
+
+<!-- Form for sorting -->
+  <select name="sort">
+      <option value="">Trier par</option>
+      <option value="title_asc">Titre (A-Z)</option>
+      <option value="title_desc">Titre (Z-A)</option>
+      <option value="price_asc">Prix croissant</option>
+      <option value="price_desc">Prix décroissant</option>
+  </select>
+  <button type="submit">Appliquer</button>
+</form>
+
+<!-- Display search results here -->
+@foreach ($bookSearch as $product)
+  <!-- Display product details -->
+@endforeach
+
+<!-- Display pagination -->
+{{ $bookSearch->appends(['search' => $item])->links() }}
+              
               <!-- /.col -->
               <div class="col col-sm-6 col-md-4 text-right">
                 
@@ -231,11 +217,12 @@ Rechercher un Livre
             <div class="action">
               <ul class="list-unstyled">
                 <li class="add-cart-button btn-group">
-                  <button class="btn btn-primary icon" data-toggle="dropdown" type="button"> <i class="fa fa-shopping-cart"></i> </button>
-                  <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
+                  <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal" id="{{ $product->id }}" onclick="bookView(this.id)"><i class="fa fa-shopping-cart"></i> </button>
+
                 </li>
-                <li class="lnk wishlist"> <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
-                <li class="lnk"> <a class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal"></i> </a> </li>
+                 <li>
+                  <button class="btn btn-primary icon" type="button" title="Wislist" id="{{ $product->id }}" onclick="addToWishList(this.id)"><i class="fa fa-heart"></i> </button></li>
+                
               </ul>
             </div>
             <!-- /.action --> 
@@ -302,20 +289,20 @@ Rechercher un Livre
               <!-- /.product-price -->
               <div class="description m-t-10">
                   {{ $product->long_descp }} </div>
-              <div class="cart clearfix animate-effect">
-                <div class="action">
-                  <ul class="list-unstyled">
-                    <li class="add-cart-button btn-group">
-                      <button class="btn btn-primary icon" data-toggle="dropdown" type="button"> <i class="fa fa-shopping-cart"></i> </button>
-                      <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
-                    </li>
-                    <li class="lnk wishlist"> <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
-                    <li class="lnk"> <a class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal"></i> </a> </li>
-                  </ul>
-                </div>
-                <!-- /.action --> 
-              </div>
-              <!-- /.cart --> 
+                  <div class="cart clearfix animate-effect">
+                    <div class="action">
+                      <ul class="list-unstyled">
+                        <li class="add-cart-button btn-group">
+                          <button class="btn btn-primary icon" type="button" title="Add Cart" data-toggle="modal" data-target="#exampleModal" id="{{ $product->id }}" onclick="bookView(this.id)"><i class="fa fa-shopping-cart"></i> </button>
+                        </li>
+                         <li>
+                          <button class="btn btn-primary icon" type="button" title="Wislist" id="{{ $product->id }}" onclick="addToWishList(this.id)"><i class="fa fa-heart"></i> </button></li>
+                        
+                      </ul>
+                    </div>
+                    <!-- /.action --> 
+                  </div>
+                  <!-- /.cart --> 
               
             </div>
             <!-- /.product-info --> 

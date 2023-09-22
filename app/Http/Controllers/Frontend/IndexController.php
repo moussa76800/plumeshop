@@ -180,44 +180,99 @@ class IndexController extends Controller
     ));
   }
 
-  // Method Search Book
 
-  public function search()
-  {
-    $item = request()->search;
+    public function search(Request $request)
+    {
+        $item = $request->input('search');
 
-    if (empty($item)) {
-      $notification = array(
-        'message' => 'Le champ de recherche ne peut pas être vide.',
-        'alert-type' => 'warning'
-      );
-      return redirect('/')->with($notification);
+        if (empty($item)) {
+            $notification = array(
+                'message' => 'Le champ de recherche ne peut pas être vide.',
+                'alert-type' => 'warning'
+            );
+            return redirect('/')->with($notification);
+        }
+
+        $query = Book::leftJoin('publishers', 'books.publisher_id', '=', 'publishers.id')
+            ->leftJoin('categories', 'books.categoryBook_id', '=', 'categories.id')
+            ->leftJoin('book_author', 'books.id', '=', 'book_author.book_id')
+            ->leftJoin('authors', 'book_author.author_id', '=', 'authors.id')
+            ->where(function ($query) use ($item) {
+                $query->where('books.title', 'LIKE', "%$item%")
+                    ->orWhere('books.ISBN', 'LIKE', "%$item%")
+                    ->orWhere('publishers.name', 'LIKE', "%$item%")
+                    ->orWhere('categories.name', 'LIKE', "%$item%")
+                    ->orWhere('authors.name', 'LIKE', "%$item%");
+            });
+
+        // Filtrage par auteur ou éditeur
+        $filter = $request->input('filter');
+        if ($filter === 'author') {
+            $query->whereHas('authors', function ($q) use ($item) {
+                $q->where('name', 'LIKE', "%$item%");
+            });
+        } elseif ($filter === 'publisher') {
+            $query->whereHas('publisher', function ($q) use ($item) {
+                $q->where('name', 'LIKE', "%$item%");
+            });
+        }
+
+        // Tri des résultats
+        $sort = $request->input('sort');
+        if ($sort === 'title_asc') {
+            $query->orderBy('books.title', 'asc');
+        } elseif ($sort === 'title_desc') {
+            $query->orderBy('books.title', 'desc');
+        } elseif ($sort === 'price_asc') {
+            $query->orderBy('books.price', 'asc');
+        } elseif ($sort === 'price_desc') {
+            $query->orderBy('books.price', 'desc');
+        }
+
+        $bookSearch = $query->select('books.title', 'books.image', 'books.price', 'books.id', 'publishers.name as publisher_name', 'categories.name as category_name', 'authors.name as author_name')
+            ->distinct()
+            ->paginate(10);
+
+        $categorySearch = Category::orderBy('name', 'ASC')->get();
+
+        return view('frontend.book.search_book', compact('categorySearch', 'bookSearch', 'item'));
     }
 
-    request()->validate(["search" => "required"]);
 
-    $categorySearch = Category::orderBy('name', 'ASC')->get();
+//   public function search()
+// {
+//     $item = request()->search;
 
-    $bookSearch = Book::leftJoin('publishers', 'books.publisher_id', '=', 'publishers.id')
-      ->leftJoin('categories', 'books.categoryBook_id', '=', 'categories.id')
-      ->leftJoin('book_author', 'books.id', '=', 'book_author.book_id') // Utilisation de la table pivot pour les auteurs
-      ->leftJoin('authors', 'book_author.author_id', '=', 'authors.id')
-      ->where(function ($query) use ($item) {
-        $query->where('books.title', 'LIKE', "%$item%")
-          ->orWhere('books.ISBN', 'LIKE', "%$item%")
-          ->orWhere('publishers.name', 'LIKE', "%$item%")
-          ->orWhere('categories.name', 'LIKE', "%$item%")
-          ->orWhere('authors.name', 'LIKE', "%$item%");
-      })
-      ->select('books.title', 'books.image', 'books.price', 'books.id', 'publishers.name as publisher_name', 'categories.name as category_name', 'authors.name as author_name')
-      ->get();
+//     if (empty($item)) {
+//         $notification = array(
+//             'message' => 'Le champ de recherche ne peut pas être vide.',
+//             'alert-type' => 'warning'
+//         );
+//         return redirect('/')->with($notification);
+//     }
 
+//     request()->validate(["search" => "required"]);
 
-    return view('frontend.book.search_book', compact('categorySearch', 'bookSearch', 'item'));
-  }
+//     $categorySearch = Category::orderBy('name', 'ASC')->get();
+    
 
+//     $bookSearch = Book::leftJoin('publishers', 'books.publisher_id', '=', 'publishers.id')
+//         ->leftJoin('categories', 'books.categoryBook_id', '=', 'categories.id')
+//         ->leftJoin('book_author', 'books.id', '=', 'book_author.book_id') // Utilisation de la table pivot pour les auteurs
+//         ->leftJoin('authors', 'book_author.author_id', '=', 'authors.id')
+//         ->where(function ($query) use ($item) {
+//             $query->where('books.title', 'LIKE', "%$item%")
+//                 ->orWhere('books.ISBN', 'LIKE', "%$item%")
+//                 ->orWhere('publishers.name', 'LIKE', "%$item%")
+//                 ->orWhere('categories.name', 'LIKE', "%$item%")
+//                 ->orWhere('authors.name', 'LIKE', "%$item%");
+//         })
+//         ->select('books.title', 'books.image', 'books.price', 'books.id', 'publishers.name as publisher_name', 'categories.name as category_name', 'authors.name as author_name')
+//         ->distinct() // Ajoutez cette clause pour éviter les doublons
+//         ->get();
 
-
+//     return view('frontend.book.search_book', compact('categorySearch', 'bookSearch', 'item'));
+// }
 
 
   //Method Advanced Search Book

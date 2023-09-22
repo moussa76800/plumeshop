@@ -122,11 +122,10 @@ Route::prefix('book')->group(function () {
     Route::get('/detail/{id}', [BookController::class, 'bookDetails'])->name('book.detail');
     Route::get('/subcategory/ajax/{category_id}', [BookController::class, 'GetBook']);
     Route::post('/thambnail/update/{id}', [BookController::class, 'ThambnailImageUpdate'])->name('update-bookThambnail');
-    // Route::post('/image/update', [BookController::class, 'MultiImageUpdate'])->name('update-bookMultiImage');
-    // Route::get('/multiimg/delete/{id}', [BookController::class, 'MultiImageDelete'])->name('book.multiImg.delete');
     Route::get('/book/inactive/{id}', [BookController::class, 'bookInactiveNow'])->name('bookInactiveNow');
     Route::get('/book/active/{id}', [BookController::class, 'bookActiveNow'])->name('bookActiveNow');
     Route::get('/delete/{id}', [BookController::class, 'bookDelete'])->name('delete.book');
+
 });
 
 
@@ -255,7 +254,7 @@ Route::prefix('messages')->group(function () {
 
 // Manage Stock User  All Routes :
 Route::prefix('stock')->group(function () {
-    Route::get('/stock', [BookController::class, 'stockProduct'])->name('stock');
+    Route::get('/stock', [BookController::class, 'productStock'])->name('stock');
 });
 
 // Manage Admins Users All Routes :
@@ -268,10 +267,14 @@ Route::prefix('adminuserrole')->group(function () {
     Route::get('/delete/{id}', [AdminUserController::class, 'deleteAdminRole'])->name('delete_admins');
 });
 
+
 // Book Search All Routes :
 Route::match(['get', 'post'], '/search/book', [IndexController::class, 'search'])->name('search_book');
 Route::post('/search_product', [IndexController::class, 'searchBook']);
 
+
+// All USERS Routes :
+Route::get('/delete/{id}', [AllUserController::class, 'deleteUsers'])->name('delete_users');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////  FRONT_END  //////////////////////////////////////////////////////////////////////////////////////////
@@ -291,6 +294,8 @@ Route::get('/user/profile', [IndexController::class, 'UserProfile'])->name('user
 Route::post('/user/profile/store', [IndexController::class, 'UserProfileStore'])->name('user.profile.store');
 Route::get('/user/change/password', [IndexController::class, 'UserChangePassword'])->name('change.password');
 Route::post('/user/password/update', [IndexController::class, 'UserUpdatePassword'])->name('user.password.update');
+Route::post('/search/book', [IndexController::class, 'search'])->name('book.search');
+Route::get('/search/book/tri', [IndexController::class, 'search'])->name('search');
 
 
 // Multi Language All Routes :

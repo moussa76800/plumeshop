@@ -10,11 +10,32 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 
 class AllUserController extends Controller
 {
+
+    public function deleteUsers($id){
+        $userImg = User::findOrFail($id);
+        $img = public_path($userImg->profile_photo_path); // Utilisez public_path pour obtenir le chemin absolu
+    
+        if (is_file($img)) { // Vérifiez si le chemin pointe vers un fichier
+            unlink($img); // Supprime le fichier uniquement s'il existe
+        }
+    
+        User::findOrFail($id)->delete();
+        $notification = array(
+            'message' => "L'Utilisateur a été supprimé avec succès !!",
+            'alert-type' => 'success'
+        );
+    
+        return redirect()->back()->with($notification);
+    }
+    
+
+
     public Function myOrder(){
         $orders = Order::where('user_id',Auth::id())->orderBy('id','DESC')->get();
     	return view('frontend.user.order.order_view',compact('orders'));

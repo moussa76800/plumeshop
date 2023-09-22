@@ -23,7 +23,30 @@ class Admin extends Authenticatable
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'profile_photo_path',
+        'category',
+        'subcategory',
+        'product',
+        'publisher',
+        'auteur',
+        'slider',
+        'coupons',
+        'shipping',
+        'blog',
+        'setting',
+        'returnorder',
+        'reviews',
+        'order',
+        'blog',
+        'reports',
+        'allusers',
+        'adminuserrole',
+    ];
+    
 
 
     /**

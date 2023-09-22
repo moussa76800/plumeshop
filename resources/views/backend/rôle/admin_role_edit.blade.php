@@ -49,28 +49,6 @@
 				
 			</div>	<!-- end row 	 -->	
 
-
-
-
-	<div class="row">
-				<div class="col-md-6">
-
-	 <div class="form-group">
-		<h5>@if (session()->get('language') == 'english')Admin User Phone @else Tel @endif  <span class="text-danger">*</span></h5>
-		<div class="controls">
-	 <input type="text" name="phone" class="form-control" value="{{ $adminuser->phone }}" ></div>
-	</div>
-					
-				</div> <!-- end cold md 6 -->
-				
-			</div>	<!-- end row 	 -->	
-
-
-
-
-
-
-
 	 <div class="row">
 
 				<div class="col-md-6">

@@ -50,7 +50,7 @@
 			@else
 			@endif
 
-            @if($item->category == 1)
+            @if($item->subcategory == 1)
 			<span class="badge btn-primary">@if (session()->get('language') == 'english')Sub-Category @else Sous-Catégorie @endif</span>
 			@else
 			@endif
@@ -60,12 +60,12 @@
 			@else
 			@endif
 
-            @if($item->category == 1)
+            @if($item->publisher == 1)
 			<span class="badge btn-primary">@if (session()->get('language') == 'english')Publisher @else Editeur @endif</span>
 			@else
 			@endif
 
-            @if($item->category == 1)
+            @if($item->auteur == 1)
 			<span class="badge btn-primary">@if (session()->get('language') == 'english')Author @else Author @endif</span>
 			@else
 			@endif
@@ -107,13 +107,13 @@
 			@endif
 
 
-			@if($item->review == 1)
+			@if($item->reviews == 1)
 			<span class="badge btn-primary">@if (session()->get('language') == 'english')Review @else Commentaire @endif</span>
 			@else
 			@endif
 
 
-			@if($item->orders == 1)
+			@if($item->order == 1)
 			<span class="badge btn-primary">@if (session()->get('language') == 'english')Order @else Commande @endif</span>
 			@else
 			@endif
@@ -128,7 +128,7 @@
 			@else
 			@endif
 
-			@if($item->alluser == 1)
+			@if($item->allusers == 1)
 			<span class="badge btn-primary">@if (session()->get('language') == 'english')Alluser @else Utilisateurs @endif</span>
 			@else
 			@endif
