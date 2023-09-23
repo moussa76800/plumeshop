@@ -40,17 +40,16 @@ $setting = App\Models\SiteSetting::find(1);
           
           <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="module-heading">
-              <h4 class="module-title">Customer Service</h4>
+              <h4 class="module-title">A propos</h4>
             </div>
             <!-- /.module-heading -->
             
             <div class="module-body">
               <ul class='list-unstyled'>
-                <li class="first"><a href="#" title="Contact us">My Account</a></li>
-                <li><a href="#" title="About us">Order History</a></li>
-                <li><a href="#" title="faq">FAQ</a></li>
-                <li><a href="#" title="Popular Searches">Specials</a></li>
-                <li class="last"><a href="#" title="Where is my order?">Help Center</a></li>
+                <li class="first"><a href="{{ url('/aPropos') }}" title="Qui sommes-nous ?">Qui sommes-nous ?</a></li>
+                <li><a href="{{url('/donnate/book#about-uss')}}" title="Nos engagements">Nos engagements</a></li>
+                <li><a href="{{ url('/blog') }}" title="Le blog">Le blog</a></li>
+                <li><a href="#" title="Nos partenaires">Nos partenaires</a></li>
               </ul>
             </div>
             <!-- /.module-body --> 
@@ -59,17 +58,16 @@ $setting = App\Models\SiteSetting::find(1);
           
           <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="module-heading">
-              <h4 class="module-title">Corporation</h4>
+              <h4 class="module-title">FAQ</h4>
             </div>
             <!-- /.module-heading -->
             
             <div class="module-body">
               <ul class='list-unstyled'>
-                <li class="first"><a title="Your Account" href="{{url('/donnate/book#about-uss')}}">About us</a></li>
-                <li><a title="Information" href="#">Customer Service</a></li>
-                <li><a title="Addresses" href="#">Company</a></li>
-                <li><a title="Addresses" href="#">Investor Relations</a></li>
-                <li class="last"><a title="Orders History" href="#">Advanced Search</a></li>
+                <li class="first"><a title="Your Account" href="{{url('/FAQ/Assistance')}}">Aide et assitance</a></li>
+                <li><a title="Information" href="{{url('/FAQ/EtatDesLivres')}}">Etats des livres</a></li>
+                <li><a title="Addresses" href="{{url('/FAQ/Livraison')}}">Livraison</a></li>
+                <li><a title="Addresses" href="{{url('/FAQ/Paiement')}}">Paiement</a></li>
               </ul>
             </div>
             <!-- /.module-body --> 
@@ -78,17 +76,16 @@ $setting = App\Models\SiteSetting::find(1);
           
           <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="module-heading">
-              <h4 class="module-title">ADMINISTRATEUR</h4>
+              <h4 class="module-title">Cadre juridique</h4>
             </div>
             <!-- /.module-heading -->
             
             <div class="module-body">
               <ul class='list-unstyled'>
-                <li class="first"><a href="#" title="About us">Shopping Guide</a></li>
-                <li><a href="{{url('blog') }}" title="Blog">Blog</a></li>
-                <li><a href="#" title="Company">Company</a></li>
-                <li><a href="#" title="Investor Relations">Investor Relations</a></li>
-                <li class=" last"><a href="" title="Suppliers">Contact Us</a></li>
+                <li class="first"><a href="{{url('/juridique/protectionDonnées') }}" title="Protection des données">Protection des données</a></li>
+                <li><a href="{{url('/juridique/mentionsLegales') }}" title="Mentions Légales">Mentions Légales</a></li>
+                <li><a href="{{url('/juridique/CGV') }}" title="CGV">CGV</a></li>
+                <li><a href="{{url('/juridique/gestionsCookies') }}" title="Gestions des Cookies">Gestions des Cookies</a></li>
               </ul>
             </div>
             <!-- /.module-body --> 
@@ -103,9 +100,7 @@ $setting = App\Models\SiteSetting::find(1);
             <li class="fb pull-left"><a target="_blank" rel="nofollow" href="{{ ($setting->facebook) }}" title="Facebook"></a></li>
             <li class="tw pull-left"><a target="_blank" rel="nofollow" href="{{ ($setting->twitter) }}" title="Twitter"></a></li>
             <li class="googleplus pull-left"><a target="_blank" rel="nofollow" href="#" title="GooglePlus"></a></li>
-            <li class="rss pull-left"><a target="_blank" rel="nofollow" href="#" title="RSS"></a></li>
-            <li class="pintrest pull-left"><a target="_blank" rel="nofollow" href="#" title="PInterest"></a></li>
-            <li class="linkedin pull-left"><a target="_blank" rel="nofollow" href="{{ ($setting->linkedin )}}" title="Linkedin"></a></li>
+              <li class="linkedin pull-left"><a target="_blank" rel="nofollow" href="{{ ($setting->linkedin )}}" title="Linkedin"></a></li>
             <li class="youtube pull-left"><a target="_blank" rel="nofollow" href="{{ ($setting->facebook) }}" title="Youtube"></a></li>
           </ul>
         </div>

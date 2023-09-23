@@ -406,4 +406,43 @@ class IndexController extends Controller
 
     return view('frontend.slider.slider_1', compact('booksSoldByYear', 'booksSoldByMonth', 'num_partners'));
   }
+
+   public function Assistance(){
+    return view('frontend.FAQ.assistance');
+   } 
+
+   public function EtatLivres(){
+    return view('frontend.FAQ.EtatLivres');
+   } 
+
+   public function Livraison(){
+    return view('frontend.FAQ.livraison');
+   } 
+
+   public function Paiement(){
+    return view('frontend.FAQ.paiement');
+   }
+
+   public function ProtectionDonnées(){
+    return view('frontend.juridique.protectionDonnées');
+   } 
+
+   public function MentionsLegales(){
+    return view('frontend.juridique.mentionsLegales');
+   } 
+
+   public function CGV(){
+    return view('frontend.juridique.cgv');
+   } 
+
+   public function GestionsCookies(){
+    return view('frontend.juridique.gestionsCookies');
+   }
+
+ 
+
+
+
+
+
 }

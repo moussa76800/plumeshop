@@ -89,17 +89,7 @@ $setting = App\Models\SiteSetting::find(1);
               <form method="post" action="{{ route('search_book') }}">
                 @csrf
                 <div class="control-group">
-                  {{-- <ul class="categories-filter animate-dropdown">
-                    <li class="dropdown"> <a class="dropdown-toggle"  data-toggle="dropdown" href="category.html">Categories <b class="caret"></b></a>
-                      <ul class="dropdown-menu" role="menu" >
-                        <li class="menu-header">Computer</li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">- Clothing</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">- Electronics</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">- Shoes</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">- Watches</a></li>
-                      </ul>
-                    </li>
-                  </ul> --}}
+                  
                   <input class="search-field"  id="search" name="search"  
                   @if (session()->get('language') == 'french')placeholder="Rechercher..." @else placeholder="Rechercher ..." @endif />
                   <button class="search-button" type="submit"></button>  </div>
@@ -167,22 +157,22 @@ $setting = App\Models\SiteSetting::find(1);
                 <div class="nav-outer">
                     <ul class="nav navbar-nav">
                         <li class="dropdown yamm-fw">
-                            <a href="{{ url('/') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="{{ url('/') }}" >
                                 Accueil
                             </a>
                         </li>
                         <li class="dropdown yamm-fw">
-                            <a href="{{ url('/a_propos') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="{{ url('/aPropos') }}">
                                 A-propos
                             </a>
                         </li>
                         <li class="dropdown yamm-fw">
-                            <a href="{{ url('/donnate/book') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="{{ url('/donnate/book') }}" >
                                 Donnez vos livres
                             </a>
                         </li>
                         <li class="dropdown yamm-fw">
-                            <a href="{{ url('/boutique') }}" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="{{ url('/boutique') }}">
                                 Boutique
                             </a>
                         </li>

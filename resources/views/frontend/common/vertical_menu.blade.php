@@ -23,7 +23,8 @@ $categories = App\Models\Category::orderBy('name','ASC')->get();
 
                 <div class="col-sm-12 col-md-3">
                                                                          
-                     <a href="{{ url('subCategory/book/'.$sub->id.'/'.$sub->name ) }}">  {{ $sub->name }} </a>
+                  <a href="{{ url('subCategory/book/'.$sub->category->id.'/'.$sub->name) }}"> {{ $sub->name }}
+                  </a>
                     
                 </div>
                 @endforeach

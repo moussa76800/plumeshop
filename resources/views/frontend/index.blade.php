@@ -16,17 +16,85 @@
           <div id="menu-lateral">
         </div>
        
-        <style>
-        function toggleMenu() {
-  var menu = document.getElementById("menu-lateral");
-  if (menu.style.display === "none") {
-    menu.style.display = "block";
-  } else {
-    menu.style.display = "none";
-  }
-}
- </style>
         
+        <style>
+          /* Style pour la pop-up */
+          .popup {
+              display: none;
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              background-color: #f0f0f0; /* Couleur de fond légèrement grise */
+              box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4); /* Ombre plus prononcée */
+              padding: 20px;
+              max-width: 400px;
+              width: 90%; /* Légèrement réduit pour plus de style */
+              text-align: center;
+              z-index: 1000;
+              border-radius: 10px; /* Coins arrondis */
+          }
+      
+          /* Style pour le contenu de la pop-up */
+          .popup-content {
+              text-align: center;
+              color: #333; /* Couleur du texte plus foncée */
+          }
+      
+          /* Style pour le titre de la pop-up */
+          .popup h2 {
+              font-size: 24px; /* Taille de police plus grande pour le titre */
+              margin-bottom: 20px; /* Espace entre le titre et les options */
+          }
+      
+          /* Style pour les boutons radio */
+          .popup label {
+              display: block;
+              margin: 10px 0;
+              font-size: 18px; /* Taille de police légèrement plus grande pour les options */
+          }
+      
+          /* Style pour le bouton de validation */
+          .popup button {
+              background-color: #007BFF;
+              color: #fff;
+              border: none;
+              padding: 12px 24px;
+              cursor: pointer;
+              font-size: 18px; /* Taille de police légèrement plus grande pour le bouton */
+              border-radius: 5px; /* Coins arrondis pour le bouton */
+              transition: background-color 0.3s ease; /* Animation de changement de couleur au survol */
+          }
+      
+          /* Style pour le bouton de validation au survol */
+          .popup button:hover {
+              background-color: #0056b3; /* Couleur légèrement plus foncée au survol */
+          }
+      </style>
+      
+
+      
+      <!-- Pop-up -->
+<div id="popup" class="popup">
+  <div class="popup-content">
+      <h2>Quelle est votre humeur aujourd'hui ?</h2>
+      <label>
+          <input type="radio" name="humeur" value="heureux"> Heureux
+      </label>
+      <label>
+          <input type="radio" name="humeur" value="triste"> Triste
+      </label>
+      <label>
+          <input type="radio" name="humeur" value="en colère"> En colère
+      </label>
+      <label>
+          <input type="radio" name="humeur" value="calme"> Calme
+      </label>
+      <button onclick="selectionnerHumeur()">Valider</button>
+      <button onclick="fermerPopup()">Annuler</button> <!-- Bouton d'annulation -->
+  </div>
+</div>
+
            
           
           <!-- ============================================== SPECIAL OFFER ============================================== -->
@@ -608,8 +676,57 @@
   </div>
 
 
-
+  <script>
+    // Récupérer la pop-up et les boutons radio
+  const popup = document.getElementById("popup");
+  const humeurButtons = document.getElementsByName("humeur");
+  
+  // Fonction pour afficher la pop-up
+  function afficherPopup() {
+      popup.style.display = "block";
+  }
+  // Fonction pour fermer la pop-up sans sélection
+function fermerPopup() {
+    popup.style.display = "none";
+}
+  
+  
+  // Fonction pour sélectionner l'humeur et masquer la pop-up
+  function selectionnerHumeur() {
+      let selectedHumeur = "";
+      for (const button of humeurButtons) {
+          if (button.checked) {
+              selectedHumeur = button.value;
+              break;
+          }
+      }
+      
+      // Rediriger l'utilisateur vers la sous-catégorie en fonction de sa sélection
+      switch (selectedHumeur) {
+          case "heureux":
+              window.location.href = "http://127.0.0.1:8000/subCategory/book/3/comics"; // Remplacez "/sous-categorie-heureux" par l'URL de votre sous-catégorie correspondante.
+              break;
+          case "triste":
+              window.location.href = "http://127.0.0.1:8000/subCategory/book/6/french's-literature";
+              break;
+          case "en colère":
+              window.location.href = "http://127.0.0.1:8000/subCategory/book/5/fantastic";
+              break;
+          case "calme":
+              window.location.href = "http://127.0.0.1:8000/subCategory/book/8/french-cooking";
+              break;
+          default:
+              // Gérer le cas où aucune humeur n'est sélectionnée
+              break;
+      }
+  }
+  
+  // Afficher la pop-up lorsque la page se charge
+  window.onload = afficherPopup;
+  
+    </script>
 
 
 @endsection
+
 

@@ -334,13 +334,21 @@ Route::get('/blog', [HomeBlogController::class, 'viewHomeBlog'])->name('view.Hom
 Route::get('/blog/post/detail/{id}', [HomeBlogController::class, 'HomeBlogDetail'])->name('post.details');
 Route::get('/blog/category/post/{category_id}', [HomeBlogController::class, 'HomeBlogCatPost'])->name('blog.category.post');
 
+// A Propos All Routes :
+Route::get('/aPropos', [IndexController::class, 'aboutSlider']);
+Route::get('/donnate/book', [IndexController::class, 'donnateBook']);
 
-Route::get('/a_propos', [IndexController::class, 'aboutSlider']);
-// Book Donnate Your Book All Routes :
-Route::GET('/donnate/book', [IndexController::class, 'donnateBook']);
+// Juridiques All Routes :
+Route::get('/juridique/protectionDonnées', [IndexController::class, 'ProtectionDonnées']);
+Route::get('/juridique/mentionsLegales', [IndexController::class, 'MentionsLegales']);
+Route::get('/juridique/CGV', [IndexController::class, 'CGV']);
+Route::get('/juridique/gestionsCookies', [IndexController::class, 'GestionsCookies']);
 
-
-
+// FAQ All Routes :
+Route::get('/FAQ/Assistance', [IndexController::class, 'Assistance']);
+Route::get('/FAQ/EtatDesLivres', [IndexController::class, 'EtatLivres']);
+Route::get('/FAQ/Livraison', [IndexController::class, 'Livraison']);
+Route::get('/FAQ/Paiement', [IndexController::class, 'Paiement']);
 
 ////////////////////////////////////        User Must Login         /////////////////////////////////////////////
 
