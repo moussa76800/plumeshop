@@ -4,6 +4,7 @@ namespace App\Models\Blog;
 
 use App\Models\BlogMessage;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,4 +23,8 @@ class BlogPost extends Model
     {
         return $this->hasMany(Message::class, 'blog_id', 'id');
     }
+
+    public function user(){ 
+       return $this->belongsTo(User::class);
+}
 }

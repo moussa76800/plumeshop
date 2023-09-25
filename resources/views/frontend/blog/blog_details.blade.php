@@ -57,23 +57,68 @@
     <span class="date-time"> {{ Carbon\Carbon::parse($postDetail->created_at)->diffForHumans()  }}</span>
 	@endif
 	
- 
-            
-
-	<p>  {!!  $postDetail->post_details  !!} 
-	</p>
-
-		 
-       <!-- Go to www.addthis.com/dashboard to customize your tools -->
-      <div class="addthis_inline_share_toolbox_8tvu"></div>
-            
-	 
-</div>
+         
+    <p>{{ $postDetail->post_details }}</p>        
+                     
+@php
+    $post = App\Models\Blog\BlogPost::with(['user', 'messages'])
+        ->where('id', $postDetail->id) // Utilisez 'id' au lieu de 'post_id'
+        ->latest()
+        ->limit(5)
+        ->get();
+@endphp
 
 
-<div class="blog-write-comment outer-bottom-xs outer-top-xs">
+<div class="">
     <form role="form" class="cnt-form" method="post" action="{{ route('blogMessage_store') }}">
         @csrf
+        <div class="blog">
+            @php $messages = 0; @endphp
+            @foreach ($post as $item)
+                @if ($item->messages)
+                    @foreach ($item->messages as $message)
+                        @if ($messages < 4)
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @if (!empty($message->user))
+                                        <img style="border-radius: 50%" src="{{ (!empty($message->user->profile_photo_path)) ?  url('upload/user_images/'.$message->user->profile_photo_path) : url('upload/no_image.png') }}" width="40px;" height="40px;">
+                                        <b>{{ $message->user->name }}</b>
+                                        <br>
+                                    @else
+                                        <!-- Gérer le cas où $message->user n'existe pas ou n'a pas de photo -->
+                                        <img src="{{ url('upload/no_image.png') }}" width="40px;" height="40px;">
+                                        <b>Utilisateur non trouvé</b>
+                                    @endif
+                                </div>
+                                <br>
+                                <div class="col-md-3">
+                                </div>
+                            </div> <!-- EndRow -->
+                            <div class="review-title">
+                                <br>
+                                <span class="date"><i class="fa fa-calendar" ></i><span>
+                                    @if (session()->get('language') == 'english') 
+                                        {{ Carbon\Carbon::parse($message->created_at)->diffForHumans() }}
+                                    @else
+                                        @php
+                                            Carbon\Carbon::setLocale('fr');
+                                        @endphp
+                                        {{ Carbon\Carbon::parse($message->created_at)->diffForHumans() }}
+                                    @endif
+                                </span></span><br><br>
+                                <span class="font-weight-bold text-primary">Subject : </span> {{ $message->subject }}
+                            </div>
+                            <div class="text"><span class="font-weight-bold text-primary">Content : </span> {{ $message->content }}</div>
+                            @php $messages++; @endphp
+                        @endif
+                    @endforeach
+                @endif
+            @endforeach
+        </div>
+    </form>
+</div><!-- /.reviews -->
+                </div>
+<br>
         <input type="hidden" name="post_id" value="{{ $postDetail->id }}">
 
         <div class="row">

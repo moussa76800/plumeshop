@@ -4,6 +4,13 @@
 @if (session()->get('language') == 'french'){{ $book->name_fr }} - Détail du Livre @else {{ $book->title }} - Book Detail @endif
 @endsection
 
+<style>
+	.checked {
+		color : orange;
+	}
+</style>	
+
+
 <div class="breadcrumb">
 <div class="container">
 <div class="breadcrumb-inner">
@@ -20,14 +27,6 @@
 <div class='row single-product'>
 <div class='col-md-3 sidebar'>
 <div class="sidebar-module-container">
-
-
-
-
-
-
-
-<
 
 
 </div>
@@ -217,18 +216,60 @@
 								<div class="row">
 									<div class="col-md-3">
 										@if (!empty($item->message->user))
-											<img style="border-radius: 50%" src="{{ (!empty($item->user->profile_photo_path)) ?  url('upload/user_images/'.$item->message->user->profile_photo_path) : url('upload/no_image.png') }}" width="40px;" height="40px;">
+											<img style="border-radius: 50%" src="{{ (!empty($item->message->user->profile_photo_path)) ?  url('upload/user_images/'.$item->message->user->profile_photo_path) : url('upload/no_image.png') }}" width="40px;" height="40px;">
 											<b>{{ $item->message->user->name }}</b>
+											<BR>
+
+											@if($item->rating == 0)
+
+											@elseif($item->rating == 1)
+										   <span class="fa fa-star checked"></span>
+										   <span class="fa fa-star"></span>
+										   <span class="fa fa-star"></span>
+										   <span class="fa fa-star"></span>
+										   <span class="fa fa-star"></span>
+											@elseif($item->rating == 2)
+										   <span class="fa fa-star checked"></span>
+										   <span class="fa fa-star checked"></span>
+										   <span class="fa fa-star"></span>
+										   <span class="fa fa-star"></span>
+										   <span class="fa fa-star"></span>
+										   
+											@elseif($item->rating == 3)
+										   <span class="fa fa-star checked"></span>
+										   <span class="fa fa-star checked"></span>
+										   <span class="fa fa-star checked"></span>
+										   <span class="fa fa-star"></span>
+										   <span class="fa fa-star"></span>
+										   
+											@elseif($item->rating == 4)
+										   <span class="fa fa-star checked"></span>
+										   <span class="fa fa-star checked"></span>
+										   <span class="fa fa-star checked"></span>
+										   <span class="fa fa-star checked"></span>
+										   <span class="fa fa-star"></span>
+											@elseif($item->rating == 5)
+										   <span class="fa fa-star checked"></span>
+										   <span class="fa fa-star checked"></span>
+										   <span class="fa fa-star checked"></span>
+										   <span class="fa fa-star checked"></span>
+										   <span class="fa fa-star checked"></span>
+										   
+										   @endif
+
+
 										@else
 											<!-- Gérer le cas où $item->users n'existe pas ou n'a pas de photo -->
 											<img src="{{ url('upload/no_image.png') }}" width="40px;" height="40px;">
 											<b>Utilisateur non trouvé</b>
 										@endif
 									</div>
+									<br>
 									<div class="col-md-3">
 									</div>
 								</div> <!-- EndRow -->
 								<div class="review-title">
+									<br>
 									<span class="summary">{{ $item->message->subject }}</span>
 									<span class="date"><i class="fa fa-calendar"></i><span>
 									@if (session()->get('language') == 'english') 
@@ -241,6 +282,7 @@
 									@endif
 									</span></span>
 								</div>
+								
 								<div class="text">{{ $item->message->content }}</div>
 							</div>
 						@endif

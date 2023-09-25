@@ -24,7 +24,8 @@ class HomeBlogController extends Controller
     {
         $blogcategory = BlogPostCategory::all();
         $postDetail = BlogPost::findOrFail($id);
-        return view('frontend.blog.blog_details', compact('postDetail', 'blogcategory'));
+        $messages = $postDetail->messages;
+        return view('frontend.blog.blog_details', compact('postDetail', 'blogcategory','messages'));
     }
 
     public function HomeBlogCatPost($category_id)
