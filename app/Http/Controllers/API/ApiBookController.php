@@ -14,7 +14,7 @@ class ApiBookController extends Controller
     public function getBooksBySubCategory($subCategoryId)
     {
         // Vérifier si la sous-catégorie existe
-        $subCategory = SubCategory::findOrFail($subCategoryId);
+        SubCategory::findOrFail($subCategoryId);
 
         // Récupérer les 30 premiers livres de la sous-catégorie
         $books = Book::where('subCategory_id', $subCategoryId)

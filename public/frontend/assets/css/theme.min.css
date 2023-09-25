@@ -1,0 +1,30 @@
+/* Styles pour le menu */
+<style>
+/* Styles pour le menu */
+.navbar {
+    background-color: #333; /* Couleur de fond du menu */
+    color: #fff; /* Couleur du texte du menu */
+}
+
+.navbar a {
+    color: #fff; /* Couleur du texte des liens du menu */
+}
+
+/* Styles pour les options de couleur de thème */
+.theme-selector label {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    display: block;
+}
+
+.theme-selector label:hover {
+    background-color: #f1c40f; /* Jaune au survol */
+    color: #fff;
+}
+
+/* Styles pour les options de couleur de thème sélectionnées */
+.theme-selector label.selected {
+    background-color: #f1c40f; /* Jaune */
+    color: #fff;
+}

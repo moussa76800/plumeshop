@@ -180,7 +180,7 @@
 <ul id="product-tabs" class="nav nav-tabs nav-tab-cell">
 <li class="active"><a data-toggle="tab" href="#description">DESCRIPTION</a></li>
 <li><a data-toggle="tab" href="#review">REVIEW</a></li>
-<li><a data-toggle="tab" href="#tags">TAGS</a></li>
+
 </ul><!-- /.nav-tabs #product-tabs -->
 </div>
 <div class="col-sm-9">
@@ -199,81 +199,66 @@
 		<div class="product-reviews">
 			<h4 class="title">@if (session()->get('language') == 'english')Customer Reviews @else Avis des clients @endif</h4>
 			
+			@php
+			$reviews = App\Models\Review::with(['user', 'message', 'book'])
+				->where('book_id', $book->id)
+				->latest()
+				->limit(5)
+				->get();
+			@endphp
 			
-			
-					<div class="reviews">
-						@foreach ($review as $item)
-						@if($item->status == 0)
-
+			<div class="reviews">
+				@foreach ($reviews as $item)
+					@if ($item->message)
+						@if ($item->message->status == 0)
+							<!-- Gérer le cas où $item->message existe, mais son statut est à 0 -->
 						@else
-						<div class="review">
-
-							<div class="row">
-								<div class="col-md-3">
-								<img style="border-radius: 50%" src="{{ (!empty($item->user->profile_photo_path)) ?  url('upload/user_images/'.$item->user->profile_photo_path):url('upload/no_image.png') }}" 
-								width="40px;" height="40px;"><b> {{ $item->user->name }}</b>
-								</div>
-								<div class="col-md-3">
-								</div>
-							</div> <!-- EndRow -->
-								<div class="review-title">
-									<span class="summary">{{ $item->message->summary }}</span>
-										
-									<span class="date"><i class="fa fa-calendar"></i><span>
-										@if(session()->get('language') == 'english') 
-									{{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }} 
+							<div class="review">
+								<div class="row">
+									<div class="col-md-3">
+										@if (!empty($item->message->user))
+											<img style="border-radius: 50%" src="{{ (!empty($item->user->profile_photo_path)) ?  url('upload/user_images/'.$item->message->user->profile_photo_path) : url('upload/no_image.png') }}" width="40px;" height="40px;">
+											<b>{{ $item->message->user->name }}</b>
 										@else
-										@php
-									Carbon\Carbon::setLocale('fr');
-									@endphp
-		
-									{{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }} @endif</span></span>
+											<!-- Gérer le cas où $item->users n'existe pas ou n'a pas de photo -->
+											<img src="{{ url('upload/no_image.png') }}" width="40px;" height="40px;">
+											<b>Utilisateur non trouvé</b>
+										@endif
 									</div>
-								
-									
-										<div class="text">{{ $item->message->content}}</div>
-						</div>
+									<div class="col-md-3">
+									</div>
+								</div> <!-- EndRow -->
+								<div class="review-title">
+									<span class="summary">{{ $item->message->subject }}</span>
+									<span class="date"><i class="fa fa-calendar"></i><span>
+									@if (session()->get('language') == 'english') 
+										{{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }}
+									@else
+										@php
+											Carbon\Carbon::setLocale('fr');
+										@endphp
+										{{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }}
+									@endif
+									</span></span>
+								</div>
+								<div class="text">{{ $item->message->content }}</div>
+							</div>
 						@endif
-						@endforeach
-					</div><!-- /.reviews -->
+					@else
+						<!-- Gérer le cas où $item->message n'existe pas -->
+					@endif
+				@endforeach
+			</div><!-- /.reviews -->
+			
+
+
+
 			
 		</div><!-- /.product-reviews -->	
 		
 
 		
-		<div class="product-add-review">
-			<h4 class="title">Write your own review</h4>
-			<div class="review-table">
-				<div class="review-table">
-					<div class="table-responsive">
-						<table class="table">	
-							<thead>
-								<tr>
-									<th class="cell-label">&nbsp;</th>
-									<th>1 star</th>
-									<th>2 stars</th>
-									<th>3 stars</th>
-									<th>4 stars</th>
-									<th>5 stars</th>
-								</tr>
-							</thead>	
-							<tbody>
-								<tr>
-									<td class="cell-label">Quality</td>
-									<td><input type="radio" name="quality" class="radio" value="1"></td>
-									<td><input type="radio" name="quality" class="radio" value="2"></td>
-									<td><input type="radio" name="quality" class="radio" value="3"></td>
-									<td><input type="radio" name="quality" class="radio" value="4"></td>
-									<td><input type="radio" name="quality" class="radio" value="5"></td>
-								</tr>
-								
-							</tbody>
-						</table><!-- /.table .table-bordered -->
-					</div><!-- /.table-responsive -->
-				</div><!-- /.review-table -->	
-			</div><!-- /.review-table -->
-			
-			<div class="review-form">
+		
 				
 					@guest
 						@if (session()->get('language') == 'english')
@@ -287,6 +272,40 @@
 						
 						@csrf
 						<input type="hidden" name="book_id" value="{{$book->id}}">
+						<div class="product-add-review">
+							<h4 class="title">Write your own review</h4>
+							<div class="review-table">
+								<div class="review-table">
+									<div class="table-responsive">
+										<table class="table">	
+											<thead>
+												<tr>
+													<th class="cell-label">&nbsp;</th>
+													<th>1 star</th>
+													<th>2 stars</th>
+													<th>3 stars</th>
+													<th>4 stars</th>
+													<th>5 stars</th>
+												</tr>
+											</thead>	
+											<tbody>
+												<tr>
+													<td class="cell-label">Quality</td>
+													<td><input type="radio" name="quality" class="radio" value="1"></td>
+													<td><input type="radio" name="quality" class="radio" value="2"></td>
+													<td><input type="radio" name="quality" class="radio" value="3"></td>
+													<td><input type="radio" name="quality" class="radio" value="4"></td>
+													<td><input type="radio" name="quality" class="radio" value="5"></td>
+												</tr>
+												
+											</tbody>
+										</table><!-- /.table .table-bordered -->
+									</div><!-- /.table-responsive -->
+								</div><!-- /.review-table -->	
+							</div><!-- /.review-table -->
+							
+							<div class="review-form">
+
 						<div class="row">
 							<div class="col-sm-6">
 								
@@ -320,33 +339,7 @@
 	</div><!-- /.product-tab -->
 </div><!-- /.tab-pane -->
 
-<div id="tags" class="tab-pane">
-	<div class="product-tag">
-		
-		<h4 class="title">Product Tags</h4>
-		<form role="form" class="form-inline form-cnt">
-			<div class="form-container">
-	
-				<div class="form-group">
-					<label for="exampleInputTag">Add Your Tags: </label>
-					<input type="email" id="exampleInputTag" class="form-control txt">
-					
 
-				</div>
-
-				<button class="btn btn-upper btn-primary" type="submit">ADD TAGS</button>
-			</div><!-- /.form-container -->
-		</form><!-- /.form-cnt -->
-
-		<form role="form" class="form-inline form-cnt">
-			<div class="form-group">
-				<label>&nbsp;</label>
-				<span class="text col-md-offset-3">Use spaces to separate tags. Use single quotes (') for phrases.</span>
-			</div>
-		</form><!-- /.form-cnt -->
-
-	</div><!-- /.product-tab -->
-</div><!-- /.tab-pane -->
 
 </div><!-- /.tab-content -->
 </div><!-- /.col -->
@@ -372,7 +365,7 @@
 			<a href="{{ url('book/detail/'.$book->id.'/'.$book->title ) }}"><img  src="{{ asset($book->image) }}" alt=""></a>
 		</div><!-- /.image -->			
 
-					<div class="tag sale"><span>sale</span></div>            		   
+					{{-- <div class="tag sale"><span>sale</span></div>            		    --}}
 	</div><!-- /.product-image -->
 
 

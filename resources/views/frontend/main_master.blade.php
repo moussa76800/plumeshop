@@ -110,6 +110,7 @@ $seo = App\Models\Seo::find(1);
 }
 </style>
 
+
 <!-- ==============================================   START TO Add to Cart Book Modal ============================================== -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">

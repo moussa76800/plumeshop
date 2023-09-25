@@ -70,12 +70,15 @@
           .popup button:hover {
               background-color: #0056b3; /* Couleur légèrement plus foncée au survol */
           }
+
+         
+
       </style>
       
-
+    
       
       <!-- Pop-up -->
-<div id="popup" class="popup">
+<<div id="popup" class="popup">
   <div class="popup-content">
       <h2>Quelle est votre humeur aujourd'hui ?</h2>
       <label>
@@ -677,54 +680,87 @@
 
 
   <script>
-    // Récupérer la pop-up et les boutons radio
-  const popup = document.getElementById("popup");
-  const humeurButtons = document.getElementsByName("humeur");
-  
-  // Fonction pour afficher la pop-up
-  function afficherPopup() {
-      popup.style.display = "block";
-  }
-  // Fonction pour fermer la pop-up sans sélection
-function fermerPopup() {
-    popup.style.display = "none";
-}
-  
-  
-  // Fonction pour sélectionner l'humeur et masquer la pop-up
-  function selectionnerHumeur() {
-      let selectedHumeur = "";
-      for (const button of humeurButtons) {
-          if (button.checked) {
-              selectedHumeur = button.value;
-              break;
+
+      // Fonction pour afficher la pop-up si le cookie n'existe pas
+      function afficherPopup() {
+          // Vérifiez si le cookie de la pop-up existe
+          if (document.cookie.indexOf("popupShown=true") === -1) {
+              const popup = document.getElementById("popup");
+              popup.style.display = "block";
           }
       }
-      
-      // Rediriger l'utilisateur vers la sous-catégorie en fonction de sa sélection
-      switch (selectedHumeur) {
-          case "heureux":
-              window.location.href = "http://127.0.0.1:8000/subCategory/book/3/comics"; // Remplacez "/sous-categorie-heureux" par l'URL de votre sous-catégorie correspondante.
-              break;
-          case "triste":
-              window.location.href = "http://127.0.0.1:8000/subCategory/book/6/french's-literature";
-              break;
-          case "en colère":
-              window.location.href = "http://127.0.0.1:8000/subCategory/book/5/fantastic";
-              break;
-          case "calme":
-              window.location.href = "http://127.0.0.1:8000/subCategory/book/8/french-cooking";
-              break;
-          default:
-              // Gérer le cas où aucune humeur n'est sélectionnée
-              break;
+
+      // Fonction pour fermer la pop-up sans sélection
+      function fermerPopup() {
+          const popup = document.getElementById("popup");
+          popup.style.display = "none";
       }
-  }
-  
-  // Afficher la pop-up lorsque la page se charge
-  window.onload = afficherPopup;
-  
-    </script>
+        
+        // Définissez un cookie pour indiquer que la pop-up a été affichée et expire après 10 minutes
+      var expirationDate = new Date();
+      expirationDate.setTime(expirationDate.getTime() + (5 * 60 * 1000)); // 10 minutes
+      document.cookie = "popupShown=true; expires=" + expirationDate.toUTCString() + "; path=/";
+        
+        // Fonction pour sélectionner l'humeur et masquer la pop-up
+      function selectionnerHumeur() {
+          let selectedHumeur = "";
+          const humeurButtons = document.getElementsByName("humeur");
+
+          for (const button of humeurButtons) {
+              if (button.checked) {
+                  selectedHumeur = button.value;
+                  break;
+              }
+          }
+            
+            // Rediriger l'utilisateur vers la sous-catégorie en fonction de sa sélection
+            switch (selectedHumeur) {
+                case "heureux":
+                    window.location.href = "http://127.0.0.1:8000/subCategory/book/3/comics"; // Remplacez "/sous-categorie-heureux" par l'URL de votre sous-catégorie correspondante.
+                    break;
+                case "triste":
+                    window.location.href = "http://127.0.0.1:8000/subCategory/book/6/french's-literature";
+                    break;
+                case "en colère":
+                    window.location.href = "http://127.0.0.1:8000/subCategory/book/5/fantastic";
+                    break;
+                case "calme":
+                    window.location.href = "http://127.0.0.1:8000/subCategory/book/8/french-cooking";
+                    break;
+                default:
+                    // Gérer le cas où aucune humeur n'est sélectionnée
+                    break;
+            }
+        }
+        
+        // Afficher la pop-up lorsque la page se charge
+        window.onload = afficherPopup;
+
+
+        // JavaScript pour gérer le changement de thème
+            const themeSelector = document.querySelector(".theme-selector");
+            const body = document.body;
+
+            themeSelector.addEventListener("change", function (event) {
+                const selectedTheme = event.target.value;
+
+                // Appliquez la classe de thème sélectionnée au corps de la page
+                body.dataset.theme = selectedTheme;
+
+                // Stockez le thème dans un cookie (facultatif)
+                document.cookie = `theme=${selectedTheme}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+            });
+
+            // Vérifiez si un thème est déjà stocké dans un cookie (facultatif)
+            const storedTheme = document.cookie.replace(/(?:(?:^|.*;\s*)theme\s*=\s*([^;]*).*$)|^.*$/, "$1");
+
+            if (storedTheme) {
+                body.dataset.theme = storedTheme;
+            }
+          </script>
+
+
+
 
 
 @endsection

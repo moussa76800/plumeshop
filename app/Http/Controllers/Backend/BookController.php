@@ -289,7 +289,7 @@ class BookController extends Controller
     {
         // Recherchez le livre dans la base de données par son ID
         $book = Book::with('categoryBook', 'subCategory')->findOrFail($id);
-
+         
         return view('backend.book.details_book', compact('book'));
     }
 

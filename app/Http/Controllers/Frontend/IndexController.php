@@ -313,20 +313,20 @@ class IndexController extends Controller
         [
           'name' => 'Noé',
           'description' => 'Noé\'s mission is to safeguard biodiversity in France and internationally. To carry out this mission, the association deploys conservation programs for endangered species and restoration of protected natural habitats.',
-          'image' => 'https://noe.org/media/logo-noe-115px.png?1606486237',
-          'url' => 'https://noe.org/'
+          'image' => 'https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg',
+          'url' => 'https://www.canva.com/fr_fr/decouvrir/50-banque-image-photo-libres-de-droits-gratuites/'
         ],
         [
           'name' => 'Environnement Brussels',
           'description' => 'Improving the quality of life in this magnificent, green, creative and multicultural region that is Brussels and facilitating its transition to a more ecological, more ethical and socially fairer society: this is the reason for being of Brussels Environment for more than 30 years!',
-          'image' => 'https://environnement.brussels/themes/custom/ocelot_baseline/components/logo/assets/logo.svg',
-          'url' => 'https://environnement.brussels/'
+          'image' => 'https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg',
+          'url' => 'https://www.canva.com/fr_fr/decouvrir/50-banque-image-photo-libres-de-droits-gratuites/'
         ],
         [
           'name' => 'Natagora',
           'description' => 'Present on all fronts to defend biodiversity, Natagora creates and manages nature reserves and develops many other actions involving all actors of society. Natagora\'s goal is to protect nature near you, in Wallonia and Brussels.',
-          'image' => 'https://www.natagora.be/themes/custom/natagora/img/donation_v2/logo1.png',
-          'url' => 'https://www.natagora.be/qui-est-natagora'
+          'image' => 'https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg',
+          'url' => 'https://www.canva.com/fr_fr/decouvrir/50-banque-image-photo-libres-de-droits-gratuites/'
         ]
       ];
     }
@@ -334,20 +334,20 @@ class IndexController extends Controller
       [
         'name' => 'Noé',
         'description' => "La mission de Noé est de sauvegarder la biodiversité en France et à l'étranger. Pour mener à bien cette mission, l'association déploie des programmes de conservation pour les espèces en danger et la restauration des habitats naturels protégés.",
-        'image' => 'https://noe.org/media/logo-noe-115px.png?1606486237',
-        'url' => 'https://noe.org/'
+        'image' => 'https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg',
+        'url' => 'https://www.canva.com/fr_fr/decouvrir/50-banque-image-photo-libres-de-droits-gratuites/'
       ],
       [
         'name' => 'Environnement Brussels',
         'description' => "Améliorer la qualité de vie dans cette magnifique région verte, créative et multiculturelle qu'est Bruxelles et faciliter sa transition vers une société plus écologique, plus éthique et socialement plus juste : telle est la raison d'être de Bruxelles Environnement depuis plus de 30 ans !",
-        'image' => 'https://environnement.brussels/themes/custom/ocelot_baseline/components/logo/assets/logo.svg',
-        'url' => 'https://environnement.brussels/'
+        'image' => 'https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg',
+        'url' => 'https://www.canva.com/fr_fr/decouvrir/50-banque-image-photo-libres-de-droits-gratuites/'
       ],
       [
         'name' => 'Natagora',
         'description' => "Présente sur tous les fronts pour défendre la biodiversité, Natagora crée et gère des réserves naturelles et développe de nombreuses autres actions impliquant tous les acteurs de la société. L'objectif de Natagora est de protéger la nature près de chez vous, en Wallonie et à Bruxelles.",
-        'image' => 'https://www.natagora.be/themes/custom/natagora/img/donation_v2/logo1.png',
-        'url' => 'https://www.natagora.be/qui-est-natagora'
+        'image' => 'https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg',
+        'url' => 'https://www.canva.com/fr_fr/decouvrir/50-banque-image-photo-libres-de-droits-gratuites/'
       ]
     ];
     return view('frontend.donnate.donnate_book', compact('partners'));
@@ -360,20 +360,20 @@ class IndexController extends Controller
       [
         'name' => 'Noé',
         'description' => 'Noé\'s mission is to safeguard biodiversity in France and internationally. To carry out this mission, the association deploys conservation programs for endangered species and restoration of protected natural habitats.',
-        'image' => 'https://noe.org/media/logo-noe-115px.png?1606486237',
-        'url' => 'https://noe.org/'
+        'image' => 'https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg',
+        'url' => 'https://www.canva.com/fr_fr/decouvrir/50-banque-image-photo-libres-de-droits-gratuites/'
       ],
       [
         'name' => 'Environnement Brussels',
         'description' => 'Improving the quality of life in this magnificent, green, creative and multicultural region that is Brussels and facilitating its transition to a more ecological, more ethical and socially fairer society: this is the reason for being of Brussels Environment for more than 30 years!',
-        'image' => 'https://environnement.brussels/themes/custom/ocelot_baseline/components/logo/assets/logo.svg',
-        'url' => 'https://environnement.brussels/'
+        'image' => 'https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg',
+        'url' => 'https://www.canva.com/fr_fr/decouvrir/50-banque-image-photo-libres-de-droits-gratuites/'
       ],
       [
         'name' => 'Natagora',
         'description' => 'Present on all fronts to defend biodiversity, Natagora creates and manages nature reserves and develops many other actions involving all actors of society. Natagora\'s goal is to protect nature near you, in Wallonia and Brussels. With a great objective: to redeploy biodiversity.',
-        'image' => 'https://www.natagora.be/themes/custom/natagora/img/donation_v2/logo1.png',
-        'url' => 'https://www.natagora.be/qui-est-natagora'
+        'image' => 'https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg',
+        'url' => 'https://www.canva.com/fr_fr/decouvrir/50-banque-image-photo-libres-de-droits-gratuites/'
       ]
     ];
 

@@ -17,9 +17,9 @@ class Message extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function reviews()
+    public function review()
     {
-        return $this->hasOne(Review::class);
+        return $this->belongsTo(Review::class, 'review_id');
     }
 
     public function post()

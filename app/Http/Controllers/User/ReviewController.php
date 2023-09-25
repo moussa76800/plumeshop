@@ -50,71 +50,81 @@ public function reviewStore(Request $request)
     $request->validate([
         'summary' => 'required',
         'comment' => 'required',
+        'quality' => 'required|integer|between:1,5', // Valide uniquement les valeurs entre 1 et 5
     ]);
 
-    $message = Message::create([
-        'subject' => $request->summary,
-        'content' => $request->comment,
-        'user_id' => Auth::id(),
-        'status' => 0,
-        'created_at' => Carbon::now(),
-    ]);
-
+    // Créer d'abord la critique
     $review = Review::create([
         'book_id' => $book,
         'rating' => $request->quality,
         'created_at' => Carbon::now(),
     ]);
 
-    // Associer la review au message
-    $message->review()->associate($review);
-    $message->save();
+    // Ensuite, créer le message et associer la critique au message
+    $message = Message::create([
+        'subject' => $request->summary,
+        'content' => $request->comment,
+        'user_id' => Auth::id(),
+        'status' => 0,
+        'review_id' => $review->id, 
+        'created_at' => Carbon::now(),
+    ]);
+    $notification = array(
+        'message' => "L'examen sera approuvé par l'administrateur",
+        'alert-type' => 'success'
+    );
 
-    if (session()->get('language') == 'english') {
+    return redirect()->back()->with($notification);
+}
+
+
+
+public function pendingReview(){
+    $reviews = Review::join('messages', 'messages.review_id', '=', 'reviews.id')
+                     ->where('messages.status', 0)
+                     ->orderBy('reviews.id', 'DESC')
+                     ->get();
+
+    return view('backend.review.pending_review', compact('reviews'));
+}
+
+
+    
+
+public function reviewApprove($id)
+{
+    // Trouvez le message par son ID
+    $message = Message::find($id);
+
+    if ($message) {
+        // Mettez à jour le statut du message
+        $message->update(['status' => 1]);
+
         $notification = array(
-            'message' => 'Review Will Approve By Admin',
+            'message' => 'Review Approved Successfully',
             'alert-type' => 'success'
         );
     } else {
+        // Gérez le cas où le message n'a pas été trouvé
         $notification = array(
-            'message' => "L'examen sera approuvé par l'administrateur",
-            'alert-type' => 'success'
+            'message' => 'Message not found',
+            'alert-type' => 'error'
         );
     }
 
     return redirect()->back()->with($notification);
 }
 
-
-    public function pendingReview(){
-        $reviews = Review::with('message')->where('status', 0)->orderBy('id', 'DESC')->get();
-        return view('backend.review.pending_review', compact('reviews'));
-    }
-    
-
-public function reviewApprove($id){
-    Review::where('id',$id)->update(['status' => 1]);
-    if (session()->get('language') == 'english'){
-    	$notification = array(
-            'message' => 'Review Approved Successfully',
-            'alert-type' => 'success'
-        );
-    }
-    $notification = array(
-        'message' => "L\'avis a été approuvé avec succès " ,
-        'alert-type' => 'success'
-    );
-
-        return redirect()->back()->with($notification);
-}
-
 public function publishReview(){
-    $reviewPublish = Review::with('message')->where('status',1)->orderBy('id','DESC')->get();
+    $reviewPublish = Review::join('messages', 'messages.review_id', '=', 'reviews.id')
+    ->where('messages.status', 1)
+    ->orderBy('reviews.id', 'DESC')
+    ->get();
     	return view('backend.review.publish_review',compact('reviewPublish'));
 }
 
 public function deleteReview($id){
-    Review::findOrFail($id)->delete();
+    Message::findOrFail($id)->delete();
 
     if (session()->get('language') == 'english'){
     $notification = array(

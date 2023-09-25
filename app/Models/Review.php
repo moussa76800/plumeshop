@@ -12,9 +12,10 @@ class Review extends Model
     protected $guarded = [];
 
     public function message()
-    {
-        return $this->belongsTo(Message::class);
-    }
+{
+    return $this->hasOne(Message::class, 'review_id');
+}
+
 
     public function user()
     {

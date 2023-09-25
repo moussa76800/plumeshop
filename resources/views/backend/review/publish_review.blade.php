@@ -55,10 +55,10 @@
 						<tbody>
 	 @foreach($reviewPublish as $item)
 	 <tr>
-		<td> {{ $item->message->subject }}  </td>
-		<td> {{ $item->message->content }}  </td>
-		<td>  {{ $item->message->user->name }}  </td>
-		<td> {{ $item->book->name_en }}  </td>
+		<td> {{ $item->subject }}  </td>
+		<td> {{ $item->content }}  </td>
+		<td>  {{ $item->user->name }}  </td>
+		<td> {{ $item->book->title }}  </td>
 		<td> {{ $item->rating }}  </td>
 		<td>
 		
