@@ -11,52 +11,55 @@ $setting = App\Models\SiteSetting::find(1);
         <div class="header-top-inner">
           <div class="cnt-account">
             <ul class="list-unstyled">
-              <li><a href="{{ route('wishList') }}"><i class="icon fa fa-heart"></i>
-                @if (session()->get('language') == 'french')Liste de souhaits 
-                @else Wishlist @endif</a></li>
-              <li><a href="{{ route('myCart') }}"><i class="icon fa fa-shopping-cart"></i>
-                @if (session()->get('language') == 'french')Mon panier
-                @else My Cart @endif</a></li>
-              <li><a href="{{ route('checkout') }}"><i class="icon fa fa-check"></i>
-                @if (session()->get('language') == 'french')Verifier 
-                @else Checkout @endif</a></li>
-              <li>
-                <li><a href="" type="button" data-toggle="modal" data-target="#ordertraking"><i class="icon fa fa-check"></i>
-                  @if (session()->get('language') == 'french')Suivi de commande 
-                  @else Order Tracking @endif</a></li>
-                <li>  
-              @auth
-                <a href="{{ route('dashboard') }}"><i class="icon fa fa-user"></i> @if (session()->get('language') == 'french')Mon compte @else My account @endif</a>
-                  @else
-                <a href="{{ route('login') }}"><i class="icon fa fa-lock"></i> @if (session()->get('language') == 'french')S'identifie/S'enregistrer @else Login/Register @endif</a>
-              @endauth
+    <li><a href="{{ route('wishList') }}"><i class="icon fa fa-heart"></i>@if (session()->get('locale') == 'fr') Liste des Souhaits @else WishList @endif</a></li>
 
+    <li><a href="{{ route('myCart') }}"><i class="icon fa fa-shopping-cart"></i>
+        @if (session()->get('locale') == 'fr') Mon panier @else My Cart @endif
+    </a></li>
 
+    <li><a href="{{ route('checkout') }}"><i class="icon fa fa-check"></i>
+        @if (session()->get('locale') == 'fr') Verifier @else Checkout @endif
+    </a></li>
 
+    <li><a href="{{ route('order_tracking') }}" type="button" data-toggle="modal" data-target="#ordertraking"><i class="icon fa fa-check"></i>
+        @if (session()->get('locale') == 'fr') Suivi de commande @else Order Tracking @endif
+    </a></li>
 
-             </li>
-            </ul>
-          </div>
-          <!-- /.cnt-account -->
-          
-          <div class="cnt-block">
-            <ul class="list-unstyled list-inline">
-              
-              <li class="dropdown dropdown-small"> <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown"><span class="value">
-                @if (session()->get('language') == 'french') Langue 
-                @else Language 
-                @endif</span><b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  @if (session()->get('language') == 'french')
-                    <li><a href="{{ route('english') }}">English</a></li>
-                  @else
-                    <li><a href="{{ route('french') }}">Francais</a></li>
-                  @endif
-                </ul>
-              </li>
-            </ul>
+    <li>
+        @auth
+            <a href="{{ route('dashboard') }}"><i class="icon fa fa-user"></i>
+                @if (session()->get('locale') == 'fr') Mon compte @else My account @endif
+            </a>
+        @else
+            <a href="{{ route('login') }}"><i class="icon fa fa-lock"></i>
+                @if (session()->get('locale') == 'fr') S'identifier/S'enregistrer @else Login/Register @endif
+            </a>
+        @endauth
+    </li>
+</ul>
+
+</div>
+<!-- /.cnt-account -->
+
+<div class="cnt-block">
+<ul class="list-unstyled list-inline">
+
+    <li class="dropdown dropdown-small">
+        <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown"><span class="value">
+            @if (session()->get('locale') == 'fr') Langue @else Language @endif
+        </span><b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            @if (session()->get('locale') == 'fr')
+            <li><a href="{{ route('english') }}">English</a></li>
+            @else
+                <li><a href="{{ route('french') }}">Français</a></li>
+            @endif
+        </ul>
+    </li>
+</ul>
+
             <!-- /.list-unstyled --> 
-          </div>
+          </div> 
           <!-- /.cnt-cart -->
           <div class="clearfix"></div>
         </div>
@@ -91,7 +94,7 @@ $setting = App\Models\SiteSetting::find(1);
                 <div class="control-group">
                   
                   <input class="search-field"  id="search" name="search"  
-                  @if (session()->get('language') == 'french')placeholder="Rechercher..." @else placeholder="Rechercher ..." @endif />
+                  @if (session()->get('locale') == 'fr')placeholder="Rechercher..." @else placeholder="To Research ..." @endif />
                   <button class="search-button" type="submit"></button>  </div>
               </form>
               <div id="searchBooks"></div>
@@ -108,7 +111,7 @@ $setting = App\Models\SiteSetting::find(1);
                 <div class="basket"> <i class="glyphicon glyphicon-shopping-cart"></i> </div>
                 <div class="basket-item-count"><span class="count" id="cartQty"></span></div>
                 <div class="total-price-basket">
-                   @if (session()->get('language') == 'french') <span class="lbl"> panier -  <span class="total-price"> <span class="sign"> €</span>
+                  @if (session()->get('locale') == 'fr')<span class="lbl"> panier -  <span class="total-price"> <span class="sign"> €</span>
                    @else cart --</span> <span class="total-price"> <span class="sign">$ @endif</span><span class="value" id="cartSubTotal"></span> </span> </div>
               </div>
               </a>
@@ -122,7 +125,7 @@ $setting = App\Models\SiteSetting::find(1);
                 <!--  END Mini-Cart With AJAX --> 
 
                     <div class="clearfix cart-total">
-                    <div class="pull-right"> @if (session()->get('language') == 'french') <span class="text">Sous-Total :</span>@else <span class="text">Sub Total :</span> @endif<span class='price' id="cartSubTotal"></span> </div>
+                    <div class="pull-right"> @if (session()->get('locale') == 'fr') <span class="text">Sous-Total :</span>@else <span class="text">Sub Total :</span> @endif<span class='price' id="cartSubTotal"></span> </div>
                     <div class="clearfix"></div>
                     <a href="{{ route('checkout') }}" class="btn btn-upper btn-primary btn-block m-t-20"> @if (session()->get('language') == 'french')Verification @else Checkout @endif</a> </div>
                   <!-- /.cart-total--> 
@@ -158,22 +161,17 @@ $setting = App\Models\SiteSetting::find(1);
                     <ul class="nav navbar-nav">
                         <li class="dropdown yamm-fw">
                             <a href="{{ url('/') }}" >
-                                Accueil
+                              @if (session()->get('locale') == 'fr')Accueil @else Home @endif
                             </a>
                         </li>
                         <li class="dropdown yamm-fw">
                             <a href="{{ url('/aPropos') }}">
-                                A-propos
+                              @if (session()->get('locale') == 'fr') A-propos @else About-Us @endif
                             </a>
                         </li>
                         <li class="dropdown yamm-fw">
                             <a href="{{ url('/donnate/book') }}" >
-                                Donnez vos livres
-                            </a>
-                        </li>
-                        <li class="dropdown yamm-fw">
-                            <a href="{{ url('/boutique') }}">
-                                Boutique
+                              @if (session()->get('locale') == 'fr') Donnez vos livres @else Donnate your Books @endif
                             </a>
                         </li>
                         <!-- ... Autres éléments de navigation ... -->
@@ -210,11 +208,11 @@ $setting = App\Models\SiteSetting::find(1);
         <form method="post" action="{{ route('order_tracking') }}">
           @csrf
          <div class="modal-body">
-          <label>@if (session()->get('language') == 'french')Code Facture @else Invoice Code @endif</label>
+          <label> @if (session()->get('locale') == 'fr')Code Facture @else Invoice Code @endif</label>
           <input type="text" name="code" required="" class="form-control" @if (session()->get('language') == 'french')placeholder="Numéro de facture de votre commande " @else placeholder="Your Order Invoice Number" @endif>           
          </div>
 
-         <button class="btn btn-danger" type="submit" style="margin-left: 17px;">@if (session()->get('language') == 'french')Suivre maintenant @else Track Now @endif </button>
+         <button class="btn btn-danger" type="submit" style="margin-left: 17px;"> @if (session()->get('locale') == 'fr')Suivre maintenant @else Track Now @endif </button>
           
         </form> 
 

@@ -177,9 +177,7 @@ Route::prefix('shipping')->group(function () {
 Route::prefix('orders')->group(function () {
     Route::get('/pending/order', [OrderController::class, 'PendingOrders'])->name('pending');
     Route::get('/pending/order/detail/{order_id}', [OrderController::class, 'PendingOrderDetail'])->name('pending.detail');
-    // Route::get('/confirmed/order' , [OrderController::class,'confirmedOrders'])->name('confirmed');
     Route::get('/processing/order', [OrderController::class, 'processingOrders'])->name('processing');
-    // Route::get('/picked/order' , [OrderController::class,'pickedOrders'])->name('picked');
     Route::get('/shipped/order', [OrderController::class, 'shippedOrders'])->name('shipped');
     Route::get('/delivered/order', [OrderController::class, 'deliveredOrders'])->name('delivered');
     Route::get('/cancel/order', [OrderController::class, 'cancelOrders'])->name('cancel');
@@ -301,6 +299,7 @@ Route::get('/search/book/tri', [IndexController::class, 'search'])->name('search
 // Multi Language All Routes :
 Route::get('/language/english', [LanguageController::class, 'languageEnglish'])->name('english');
 Route::get('/language/french', [LanguageController::class, 'languageFrench'])->name('french');
+
 
 // Book Détail All Routes :
 Route::get('/book/detail/{id}/{slug}', [IndexController::class, 'bookDetail']);
