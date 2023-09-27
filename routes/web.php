@@ -274,17 +274,16 @@ Route::post('/search_product', [IndexController::class, 'searchBook']);
 // All USERS Routes :
 Route::get('/delete/{id}', [AllUserController::class, 'deleteUsers'])->name('delete_users');
 
+Route::get('/export-books', 'ExportController@exportBooks')->name('export.books');
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////  FRONT_END  //////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// User All Routes :
-Route::middleware(['auth:sanctum,web', 'verified'])->get('/dashboard', function () {
-	$id = Auth::user()->id;
-    $user = User::find($id);
-    return view('dashboard',compact('user'));
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
 })->name('dashboard');
-
 
 Route::get('/', [IndexController::class, 'index']);
 Route::get('/user/logout', [IndexController::class, 'UserLogout'])->name('user.logout');

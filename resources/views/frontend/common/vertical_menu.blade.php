@@ -24,9 +24,10 @@ $categories = App\Models\Category::orderBy('name', 'ASC')->get();
 
                               @foreach ($subCategories as $sub)
                                   <div class="col-sm-12 col-md-3">
-                                      <a href="{{ url('subCategory/book/' . $sub->category->id . '/' . $sub->name) }}">
-                                          {{ trans("categories.Sub-categories.{$sub->name}") }}
-                                      </a>
+                                    <a href="{{ url('subCategory/book/' . $sub->id . '/' . $sub->name) }}">
+                                        {{ trans("categories.Sub-categories.{$sub->name}") }}
+                                    </a>
+                                    
                                   </div>
                               @endforeach
                           </div>
@@ -37,4 +38,3 @@ $categories = App\Models\Category::orderBy('name', 'ASC')->get();
       </ul>
   </nav>
 </div>
-

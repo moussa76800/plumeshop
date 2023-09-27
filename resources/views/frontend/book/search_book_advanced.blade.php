@@ -55,7 +55,7 @@
     </style>
     @if($books->isEmpty())
     <div class="alert alert-danger text-center" role="alert">
-        @if (session()->get('language') == 'english')
+        @if (session()->get('locale') == 'en')
         <strong>Product Not Found</strong>
         @else
         <strong>Article pas trouvé !</strong>

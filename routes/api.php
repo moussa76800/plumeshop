@@ -23,3 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get('/books-by-subcategory/{subCategoryId}', [ApiBookController::class, 'getBooksBySubCategory']);
+Route::get('/books', [ApiBookController::class, 'Books']);
+Route::get('/books/{id}', [ApiBookController::class, 'Show']);
+Route::get('/authors', [ApiBookController::class, 'Authors']);

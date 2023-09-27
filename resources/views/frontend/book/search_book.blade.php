@@ -1,22 +1,39 @@
 @extends('frontend.main_master')
 @section('content')
 @section('title')
-Rechercher un Livre 
+@if (session()->get('locale') == 'fr')Rechercher un Livre  @else To Research a Book @endif
 @endsection
 
-<div class="breadcrumb">
-    <div class="container">
-      <div class="breadcrumb-inner">
-        <ul class="list-inline list-unstyled">
-          <li><a href="#">@if (session()->get('language') == 'french')Accueil @else Home @endif </a></li>
-          <li class='active'>Handbags</li>
-        </ul>
-      </div>
-      <!-- /.breadcrumb-inner --> 
+<div class="">
+  <div class="container">
+    <div class="breadcrumb-inner">
+      <ul class="list-inline">
+        <li><a href="{{ '/' }}" style="color: red;">
+          @if (session()->get('locale') == 'fr')
+            {{ trans('Accueil') }}
+          @else
+            {{ trans('Home') }}
+          @endif
+          /
+        </a></li>
+        @if ($bookSearch->isNotEmpty())
+        <li class='active' style="color:  #00008B ;">
+          {{ trans('categories.' . $bookSearch->first()->category_name) }} /
+        </li>
+        <li class='active' style="color:  #00008B;">
+          {{ trans('categories.Sub-categories.' . $bookSearch->first()->subcategory_name) }}
+        </li>
+        @endif
+      </ul>
     </div>
-    <!-- /.container --> 
+    <!-- /.breadcrumb-inner --> 
   </div>
-  <!-- /.breadcrumb -->
+  <!-- /.container -->
+</div><!-- /.breadcrumb -->
+
+
+
+
   <div class="body-content outer-top-xs">
     <div class='container'>
       <div class='row'>
@@ -33,60 +50,6 @@ Rechercher un Livre
             <div class="sidebar-filter"> 
            
 
-              {{-- <!-- ============================================== SIDEBAR CATEGORY ============================================== -->
-              <div class="sidebar-widget wow fadeInUp">
-                <h3 class="section-title">shop by</h3>
-                <div class="widget-header">
-                  <h4 class="widget-title">Category</h4>
-                </div>
-                <div class="sidebar-widget-body">
-                  <div class="accordion">
-  
-  
-   @foreach($categories as $category)
-      <div class="accordion-group">
-      <div class="accordion-heading"> <a href="#collapse{{ $category->id }}" data-toggle="collapse" class="accordion-toggle collapsed"> 
-          @if(session()->get('language') == 'french') {{ $category->name_fr }} @else {{ $category->name_en }} @endif </a> </div>
-      <!-- /.accordion-heading -->
-      <div class="accordion-body collapse" id="collapse{{ $category->id }}" style="height: 0px;">
-        <div class="accordion-inner">
-         
-   @php
-    $subcategories = App\Models\SubCategory::where('category_id',$category->id)->orderBy('name_en','ASC')->get();
-    @endphp 
-  
-     @foreach($subcategories as $subcategory)
-          <ul>
-            <li><a href="#">
-                @if(session()->get('language') == 'french') {{ $subcategory->name_fr }} @else {{ $subcategory->name_en }} @endif</a></li>
-            
-          </ul>
-      @endforeach 
-  
-  
-        </div>
-        <!-- /.accordion-inner --> 
-      </div>
-      <!-- /.accordion-body --> 
-      </div>
-      <!-- /.accordion-group -->
-      @endforeach              
-  
-                    
-                  </div>
-                  <!-- /.accordion --> 
-                </div>
-                <!-- /.sidebar-widget-body --> 
-              </div> --}}
-              <!-- /.sidebar-widget --> 
-              <!-- ============================================== SIDEBAR CATEGORY : END ============================================== --> 
-              
-              <!-- ============================================== PRICE SILDER============================================== -->
-    
-            <!----------- Testimonials------------->
-            
-              {{-- @include('frontend.common.testimonials')
-              <!-- == ========== Testimonials: END ======== ========= --> --}
   
 {{--               
               <div class="home-banner"> <img src="{{ asset('frontend/assets/images/banners/LHS-banner.jpg') }}" alt="Image"> </div>--}}

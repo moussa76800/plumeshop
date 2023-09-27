@@ -73,6 +73,7 @@
         }
     </style>
 </head>
+@if (session()->get('locale') == 'fr')
 <body>
     <header>
         <h1>Bienvenue dans notre Centre d'Aide et d'Assistance</h1>
@@ -127,3 +128,60 @@
     </footer>
 </body>
 </html>
+
+@else
+<body>
+    <header>
+        <h1>Welcome to our Help and Assistance Center</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Frequently Asked Questions (FAQ)</h2>
+            <p>
+                You will find answers to the most frequently asked questions by our customers in our Frequently Asked Questions (FAQ). Whether you have questions about payment methods, delivery times, product returns, or other topics, our FAQ is here to guide you.
+            </p>
+        </section>
+        <section>
+            <h2>User Guides</h2>
+            <p>
+                Our detailed user guides are designed to help you make the most of our products. Whether you're looking for assembly instructions, maintenance tips, or technical feature information, our guides are a valuable resource.
+            </p>
+        </section>
+        <section>
+            <h2>Dedicated Customer Service</h2>
+            <p>
+                If you can't find the answer to your question in our FAQ or guides, our dedicated customer service team is ready to assist you. You can contact us by phone at [Phone Number] or by email at <a href="mailto:contact@plumeshop.com">contact@plumeshop.com</a>. Our competent and friendly team is here to answer all your questions and resolve any issues.
+            </p>
+        </section>
+        <section>
+            <h2>Online Assistance</h2>
+            <p>
+                For real-time assistance, our online chat is available during our business hours. You can chat live with one of our customer service agents who will guide you through your concerns.
+            </p>
+        </section>
+        <section>
+            <h2>Order Tracking</h2>
+            <p>
+                If you want to track the status of your order, simply use our online order tracking tool. Enter your order number and email address, and you will instantly receive up-to-date information on the location of your package.
+            </p>
+        </section>
+        <section>
+            <h2>Feedback and Suggestions</h2>
+            <p>
+                At Plumeshop, we value your feedback and suggestions. Your input is essential to help us improve our products and services. Please feel free to share your ideas and concerns with us.
+            </p>
+        </section>
+        <br>
+        <br>
+        <br>
+        <div class="button-container">
+            <!-- "Return to Homepage" button -->
+            <a href="{{url('/')}}" class="return-button">Return to Homepage</a>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2023 Plumeshop. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+@endif

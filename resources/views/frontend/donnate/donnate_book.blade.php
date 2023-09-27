@@ -226,7 +226,7 @@ color: #2196f3;
  </style>
 
     <br>
-    @if (session()->get('language') == 'french')
+    @if (session()->get('locale') == 'fr')
 <body>
     <div>
       <nav>

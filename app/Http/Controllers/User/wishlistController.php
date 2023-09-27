@@ -14,13 +14,15 @@ use SebastianBergmann\CodeUnitReverseLookup\Wizard;
 class wishlistController extends Controller
 {
     public function wishList()
-    {
-         $wishlist = Wishlist::with('book')->where('user_id', Auth::id())->get();
-        return view('frontend.wishList.view_wishList',compact('wishlist'));
-        // return view('frontend.wishList.view_wishList');
+{
+    if (!Auth::check()) {
+        return view('frontend.auth.login')->with('error', trans('message.login_error'));
     }
 
-    
+    $wishlist = Wishlist::with('book')->where('user_id', Auth::id())->get();
+    return view('frontend.wishList.view_wishList', compact('wishlist'));
+}
+
 
     public function wishListRead()
 {

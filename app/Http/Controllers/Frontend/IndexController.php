@@ -153,14 +153,18 @@ class IndexController extends Controller
 
   public function bookDetail($id, $slug)
   {
-    $book = Book::findOrFail($id);
-    // $multiImgs = MultiImg::where('booK_id' , $id )->get();
-    $cat_id = $book->categoryBook_id;
-    $relatedBook = Book::where('categoryBook_id', $cat_id)->where('id', '!=', $id)->orderBy('id', 'DESC')->get();
-    $review = Review::where('book_id', $book->id)->latest()->limit(5)->get();
+      $book = Book::findOrFail($id);
+      $cat_id = $book->categoryBook_id;
+      $category = Category::find($cat_id);
+      $subcategory = SubCategory::find($book->subCategory_id);
+      $relatedBook = Book::where('categoryBook_id', $cat_id)->where('id', '!=', $id)->orderBy('id', 'DESC')->get();
+      $review = Review::where('book_id', $book->id)->latest()->limit(5)->get();
+      $totalReviews = $book->reviews ? $book->reviews->count() : 0;
 
-    return view('frontend.book.book_detail', compact('book', 'relatedBook', 'review'));
+  
+      return view('frontend.book.book_detail', compact('book', 'relatedBook', 'review', 'category', 'subcategory','totalReviews'));
   }
+  
 
   // SubCategory Wise Data :
   public function subCatWiseBook($subCat_id, $slug)
@@ -234,6 +238,7 @@ class IndexController extends Controller
             ->paginate(10);
 
         $categorySearch = Category::orderBy('name', 'ASC')->get();
+        
 
         return view('frontend.book.search_book', compact('categorySearch', 'bookSearch', 'item'));
     }
@@ -278,29 +283,47 @@ class IndexController extends Controller
   //Method Advanced Search Book
   public function SearchProduct(Request $request)
   {
-    $request->validate(["search" => "required"]);
+    
+    // Récupérez le terme de recherche depuis la requête
+    $item = $request->input('search');
 
-    $item = $request->search;
+    // Vérifiez si le champ de recherche est vide
+    if (empty($item)) {
+        $notification = array(
+            'message' => 'Le champ de recherche ne peut pas être vide.',
+            'alert-type' => 'warning'
+        );
+        return redirect('/')->with($notification);
+    }
 
-    $books = Book::where('title', 'LIKE', "%$item%")
-      ->orWhereHas('authors', function ($query) use ($item) {
-        $query->where('name', 'LIKE', "%$item%");
-      })
-      ->orWhereHas('publisher', function ($query) use ($item) {
-        $query->where('name', 'LIKE', "%$item%");
-      })
-      ->orWhereHas('subCategory', function ($query) use ($item) {
-        $query->where('name', 'LIKE', "%$item%");
-      })
-      ->orWhereHas('categoryBook', function ($query) use ($item) {
-        $query->where('name', 'LIKE', "%$item%");
-      })
-      ->select('title', 'image', 'price', 'id')
-      ->limit(5)
-      ->get();
+    // Requête pour rechercher des livres en fonction du terme de recherche
+    $bookSearch = Book::leftJoin('publishers', 'books.publisher_id', '=', 'publishers.id')
+        ->leftJoin('categories', 'books.categoryBook_id', '=', 'categories.id')
+        ->leftJoin('book_author', 'books.id', '=', 'book_author.book_id')
+        ->leftJoin('authors', 'book_author.author_id', '=', 'authors.id')
+        ->leftJoin('subcategories', 'books.subcategory_id', '=', 'subcategories.id') // Jointure avec la table subcategories
+        ->where(function ($query) use ($item) {
+            $query->where('books.title', 'LIKE', "%$item%")
+                ->orWhere('books.ISBN', 'LIKE', "%$item%")
+                ->orWhere('publishers.name', 'LIKE', "%$item%")
+                ->orWhere('categories.name', 'LIKE', "%$item%")
+                ->orWhere('authors.name', 'LIKE', "%$item%")
+                ->orWhere('subcategories.name', 'LIKE', "%$item%"); // Filtrage par nom de sous-catégorie
+        })
+        ->orderBy('books.title', 'asc') // Vous pouvez changer l'ordre de tri ici
+        ->select('books.title', 'books.image', 'books.price', 'books.id', 'publishers.name as publisher_name', 'categories.name as category_name', 'authors.name as author_name', 'subcategories.name as subcategory_name') // Sélectionnez le nom de la sous-catégorie
+        ->distinct()
+        ->paginate(10); // Le nombre de résultats par page
 
-    return view('frontend.book.search_book', compact('books'));
-  }
+    // Récupérez toutes les catégories pour afficher dans la vue
+    $categorySearch = Category::orderBy('name', 'ASC')->get();
+
+    // Récupération des catégories et sous-catégories pour affichage dans la vue
+    $categories = Category::orderBy('name', 'ASC')->get();
+    $subcategories = SubCategory::orderBy('name', 'ASC')->get();
+
+    return view('frontend.book.search_book', compact('categorySearch', 'bookSearch', 'item' , 'categories', 'subcategories'));
+}
 
 
 

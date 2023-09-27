@@ -34,7 +34,7 @@
         
         $category = (auth()->guard('admin')->user()->category == 1);
         $subcategory = (auth()->guard('admin')->user()->subcategory == 1);
-        $product = (auth()->guard('admin')->user()->book == 1);
+        $product = (auth()->guard('admin')->user()->product == 1);
         $publisher = (auth()->guard('admin')->user()->publisher == 1);
         $author = (auth()->guard('admin')->user()->author == 1);
         $slider = (auth()->guard('admin')->user()->slider == 1);

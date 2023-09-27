@@ -2,28 +2,40 @@
 @section('content')
 
 @section('title')
-@if (session()->get('language') == 'french')Catégorie du Livre @else Subcategory Book @endif Subcategory Product 
+@if (session()->get('locale') == 'fr')Catégorie du Livre @else Subcategory Book @endif 
 @endsection
 
 
 
 <div class="">
-    <div class="container">
-      <div class="breadcrumb-inner">
-        <ul class="list-inline ">
-          <li><a href="{{ '/' }} "style="color: red" ;>@if (session()->get('language') == 'french')Accueil @else Home @endif/</a></li>
-          @foreach($breadSubCat as $item)
-          <li class='active' style="color:  #00008B ;" >{{ $item->category->name }} /</li>
-          @endforeach
-  
-          @foreach($breadSubCat as $item)
-          <li class='active' style="color:  #00008B;">{{ $item->name }}</li>
-          @endforeach
+  <div class="container">
+    <div class="breadcrumb-inner">
+        <ul class="list-inline">
+            <li><a href="{{ '/' }}" style="color: red;">
+                @if (session()->get('locale') == 'fr')
+                    {{ trans('Accueil') }}
+                @else
+                    {{ trans('Home') }}
+                @endif
+                /
+            </a></li>
+            @foreach($breadSubCat as $item)
+                <li class='active' style="color:  #00008B ;">
+                    {{ trans('categories.' . $item->category->name) }} /
+                </li>
+            @endforeach
+
+            @foreach($breadSubCat as $item)
+                <li class='active' style="color:  #00008B;">
+                    {{ trans('categories.Sub-categories.' . $item->name) }}
+                </li>
+            @endforeach
         </ul>
-      </div>
-      <!-- /.breadcrumb-inner --> 
     </div>
-    <!-- /.container --> 
+    <!-- /.breadcrumb-inner --> 
+</div>
+<!-- /.container -->
+
   </div>
   <!-- /.breadcrumb -->
   <div class="body-content outer-top-xs">
@@ -142,21 +154,19 @@
             <!-- /.image -->
   
             @foreach($books as $book)
-  <div>
-    @if ($book->featured == 1)
-      
-    @elseif ($book->discount_price != NULL)
-      @php
-        $amount = $book->price - $book->discount_price;
-        $discount = ($amount / $book->price) * 100;
-      @endphp
-      <div class="tag hot"><span>{{ round($discount) }}%</span></div>
-    @elseif ($book->newBook == 1)
-      <div class="tag new"><span>New</span></div>
-    @else
-      <div class="tag"><span>No Tag</span></div>
-    @endif
-  </div>
+            <div>
+              @if ($book->special_offer == 1) 
+                @if ($book->discount_price != NULL) 
+                  @php
+                    $amount = $book->price - $book->discount_price;
+                    $discount = ($amount / $book->price) * 100;
+                  @endphp
+                  <div class="tag hot"><span>{{ round($discount) }}%</span></div>
+                @else 
+                
+                @endif
+              @endif
+            </div>
 @endforeach
 
   

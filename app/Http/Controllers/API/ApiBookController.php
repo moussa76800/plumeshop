@@ -4,10 +4,11 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
 use App\Models\Book;
+use App\Models\Author;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ApiBookController extends Controller
 {
@@ -23,5 +24,28 @@ class ApiBookController extends Controller
 
         return response()->json($books);
     }
+
+    public function Books(){
+        $livres = Book::all();
+        return response()->json($livres);
+    }
+
+    public function Show($id)
+{
+    $book = Book::find($id); 
+
+    if (!$book) {
+        return response()->json(['message' => 'Livre non trouvé'], 404); 
+    }
+
+    return response()->json($book, 200); 
+}
+
+    public function Authors(){
+        $livres = Author::all();
+        return response()->json($livres);
+    }
+
+
 }
 

@@ -1,9 +1,12 @@
 @extends('frontend.main_master')
 @section('content')
 @section('title')
-@if (session()->get('language') == 'french'){{ $book->name_fr }} - Détail du Livre @else {{ $book->title }} - Book Detail @endif
+@if (session()->get('locale') == 'fr')Détail du Livre @else {{ $book->title }}  Book Detail @endif
 @endsection
 
+
+
+ </div>{{ $book->name_fr }}
 <style>
 	.checked {
 		color : orange;
@@ -11,17 +14,32 @@
 </style>	
 
 
-<div class="breadcrumb">
-<div class="container">
-<div class="breadcrumb-inner">
-<ul class="list-inline list-unstyled">
-<li><a href="#">Home</a></li>
-{{-- <li><a href="#">Clothing</a></li>
-<li class='active'>Floral Print Buttoned</li> --}}
-</ul>
-</div><!-- /.breadcrumb-inner -->
-</div><!-- /.container -->
+<div class="">
+    <div class="container">
+        <div class="breadcrumb-inner">
+            <ul class="list-inline">
+                <li><a href="{{ '/' }}" style="color: red;">
+                    @if (session()->get('locale') == 'fr')
+                        {{ trans('Accueil') }}
+                    @else
+                        {{ trans('Home') }}
+                    @endif
+                    /
+                </a></li>
+                <li class='active' style="color:  #00008B ;">
+                    {{ trans('categories.' . $category->name) }} /
+                </li>
+                <li class='active' style="color:  #00008B;">
+                    {{ trans('categories.Sub-categories.' . $subcategory->name) }}
+                </li>
+            </ul>
+        </div>
+        <!-- /.breadcrumb-inner --> 
+    </div>
+    <!-- /.container -->
 </div><!-- /.breadcrumb -->
+
+
 <div class="body-content outer-top-xs">
 <div class='container'>
 <div class='row single-product'>
@@ -66,13 +84,12 @@
 <div class="rating-reviews m-t-20">
 <div class="row">
 	<div class="col-sm-3">
-		<div class="rating rateit-small"></div>
-	</div>
-	<div class="col-sm-8">
 		<div class="reviews">
-			<a href="#" class="lnk">(13 Reviews)</a>
+			<a href="{{ url('book/' . $book->id . '/reviews') }}" class="lnk">({{ $totalReviews }} Reviews)</a>
 		</div>
 	</div>
+	
+	
 </div><!-- /.row -->		
 </div><!-- /.rating-reviews -->
 
@@ -80,16 +97,17 @@
     <div class="row">
         <div class="col-sm-2">
             <div class="stock-box">
-                <span class="label">Availability:</span>
+                <span class="label">@if (session()->get('locale') == 'fr') Disponibilité : @else  Availability : @endif</span>
             </div>
         </div>
+		
         <div class="col-sm-10">
             <div class="stock-box">
                 @if ($book->product_qty > 0)
-                    <span class="value text-success">In Stock</span> 
+                    <span class="value text-success">@if (session()->get('locale') == 'fr')  En Stock @else In Stock @endif</span> 
 					(<span>{{$book->product_qty}}</span> pieces)
                 @else
-                    <span class="value text-danger">Out of Stock</span>
+                    <span class="value text-danger"> @if (session()->get('locale') == 'fr')  Stock Epuisé @else Out of Stock @endif</span>
                 @endif
             </div>
         </div>
@@ -107,10 +125,10 @@
 	<div class="col-sm-6">
 		<div class="price-box">
 			@if ($book->discount_price == NULL)
-				<span class="price">@if (session()->get('language') == 'french') € {{ $book->price }} @else $ {{ $book->price }} @endif</span>
+				<span class="price"> @if (session()->get('locale') == 'fr') € {{ $book->price }} @else $ {{ $book->price }} @endif</span>
 			@else
 			
-				<span class="price">@if (session()->get('language') == 'french') € {{ $book->price - $book->discount_price }} @else
+				<span class="price"> @if (session()->get('locale') == 'fr') € {{ $book->price - $book->discount_price }} @else
 				$ {{$book->price - $book->discount_price  }} </span> @endif</span>
 				<span class="price-strike">@if (session()->get('language') == 'french') € {{ $book->price }} @else $ {{ $book->price }} @endif</span>
 			@endif
@@ -145,11 +163,11 @@
 	<input type="hidden"  id="book_id" value="{{ $book->id }}" min="1">
 	<div class="col-sm-7">
 		<div class="input-group-append">
-			<button type="button"  onclick="addToCart()"class="btn btn-primary">
-				<i class="fa fa-shopping-cart inner-right-vs"></i> ADD TO CART
+			<button type="button" title="" onclick="addToCart()"class="btn btn-primary">
+				<i class="fa fa-shopping-cart inner-right-vs"></i> @if (session()->get('locale') == 'fr') Ajouter au panier @else ADD TO CART   @endif
 			</button>
-			<button class="btn btn-danger icon" type="button" title="Wishlist" id="{{ $book->id }}" onclick="addToWishList(this.id)">
-				<i class="fa fa-heart"></i> Wishlist
+			<button class="btn btn-danger icon" type="button" title="@if (session()->get('locale') == 'fr')Liste des Souhaits @else Wishlist @endif" id="{{ $book->id }}" onclick="addToWishList(this.id)">
+				<i class="fa fa-heart"></i>
 			</button>
 		</div>
 	</div>
@@ -188,6 +206,7 @@
 
 <div id="description" class="tab-pane in active">
 	<div class="product-tab">
+		
 		<p class="text">{!! $book->long_descp !!}</p>
 	</div>	
 </div><!-- /.tab-pane -->
@@ -196,7 +215,7 @@
 	<div class="product-tab">
 												
 		<div class="product-reviews">
-			<h4 class="title">@if (session()->get('language') == 'english')Customer Reviews @else Avis des clients @endif</h4>
+			<h4 class="title">@if (session()->get('locale') == 'en')Customer Reviews @else Avis des clients @endif</h4>
 			
 			@php
 			$reviews = App\Models\Review::with(['user', 'message', 'book'])
@@ -272,7 +291,7 @@
 									<br>
 									<span class="summary">{{ $item->message->subject }}</span>
 									<span class="date"><i class="fa fa-calendar"></i><span>
-									@if (session()->get('language') == 'english') 
+									@if (session()->get('locale') == 'en') 
 										{{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }}
 									@else
 										@php
@@ -303,7 +322,7 @@
 		
 				
 					@guest
-						@if (session()->get('language') == 'english')
+					@if (session()->get('locale') == 'en')')
 						<p> <b> For Add Product Review. You Need to Login First,  <a href="{{ route('login') }}">Login Here</a>
 						@else <p> <b>Pour ajouter un avis de produit, tu dois d'abord te connecter,  <a href="{{ route('login') }}">Se connecter ici</a> </b> 
 						@endif	</p>
@@ -352,22 +371,22 @@
 							<div class="col-sm-6">
 								
 								<div class="form-group">
-									<label for="exampleInputSummary">@if (session()->get('language') == 'english')Summary @else Résumé @endif <span class="astk">*</span></label>
+									<label for="exampleInputSummary"> @if (session()->get('locale') == 'en')Summary @else Résumé @endif <span class="astk">*</span></label>
 									<input type="text" name="summary" class="form-control txt" id="exampleInputSummary" placeholder="">
 								</div><!-- /.form-group -->
 							</div>
 
 							<div class="col-md-6">
 								<div class="form-group">
-									<label for="exampleInputReview">@if (session()->get('language') == 'english')Review @else Avis
+									<label for="exampleInputReview">@if (session()->get('locale') == 'en')Review @else Avis
 										@endif  <span class="astk">*</span></label>
 									<textarea class="form-control txt txt-review" name="comment" id="exampleInputReview" rows="4" placeholder=""></textarea>
 								</div><!-- /.form-group -->
 							</div>
 						</div><!-- /.row -->
 						
-						<div class="action text-right">
-							<button type = "submit" class="btn btn-primary btn-upper">@if (session()->get('language') == 'english')SUBMIT REVIEW @else SOUMETTRE L'AVIS @endif</button>
+						<div class="action text-right
+							<button type = "submit" class="btn btn-primary btn-upper"> @if (session()->get('locale') == 'en')SUBMIT REVIEW @else SOUMETTRE L'AVIS @endif</button>
 						</div><!-- /.action -->
 
 					</form><!-- /.cnt-form -->
@@ -391,7 +410,7 @@
 <!-- ============================================== UPSELL PRODUCTS ============================================== -->
 
 <section class="section featured-product wow fadeInUp">
-<h3 class="section-title">@if (session()->get('language') == 'french') Livre Aditionnelle @else Releted Books @endif</h3>
+<h3 class="section-title"> @if (session()->get('locale') == 'fr') Livre Aditionnelle @else Releted Books @endif</h3>
 <div class="owl-carousel home-owl-carousel upsell-product custom-carousel owl-theme outer-top-xs">
 
 
